@@ -1,0 +1,138 @@
+# AETHRYON — local DEVELOPMENT stack (independent from any production deployment).
+#
+#   make dev-secrets && make dev-build && make dev-up
+#
+# - No reverse-proxy labels, no production domain: everything is published on 127.0.0.1 only.
+# - The media API runs with a FAKE worker by default (apps/media-api/preprod/fake_worker.py): it never contacts
+#   YouTube, TikTok, X or any other platform and returns tiny local files.
+# - Secrets are random values generated locally by scripts/dev-secrets.sh into .dev/secrets/ (git-ignored).
+# - Google, Discord, Stripe, SMTP, S3 (Backblaze B2) and Spotify integrations stay DISABLED until you provide your
+#   own credentials as files (see .env.example and docs/installation/).
+#
+# Ports (override in .env): site http://localhost:${DEV_WEB_PORT:-18110}, media API http://127.0.0.1:${DEV_API_PORT:-18111}
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: apps/web
+      args:
+        ACCOUNT_UPSTREAM: account:3000
+        REAL_IP_FROM: 127.0.0.1/32
+        ALLOW_LEGAL_PLACEHOLDERS: "1"
+    image: aethryon-web:dev
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    ports:
+      - "127.0.0.1:${DEV_WEB_PORT:-18110}:8080"
+    networks: [edge]
+    depends_on: [account]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  account:
+    build: apps/account
+    image: aethryon-account:dev
+    read_only: true
+    user: "1000:1000"
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    volumes:
+      - account-data:/data
+      - ./.dev/secrets/account:/run/secrets:ro
+    environment:
+      PUBLIC_URL: http://localhost:${DEV_WEB_PORT:-18110}
+      BETTER_AUTH_SECRET_FILE: /run/secrets/better_auth_secret
+      INTERNAL_TOKEN_FILE: /run/secrets/account_internal_token
+      # Optional integrations: each one is enabled only when its secret file exists in .dev/secrets/account/.
+      GOOGLE_CLIENT_ID_FILE: /run/secrets/google_client_id
+      GOOGLE_CLIENT_SECRET_FILE: /run/secrets/google_client_secret
+      DB_PATH: /data/account.sqlite
+      BACKUP_DIR: /data/backups
+      YTAPI_INTERNAL_URL: http://media-api-internal:8000
+      API_PUBLIC_URL: http://127.0.0.1:${DEV_API_PORT:-18111}
+      ICLOUD_SHORTCUT_URL: ${ICLOUD_SHORTCUT_URL:-}
+      SHORTCUT_VERSION: "3.0"
+      FALLBACK_DOWNLOAD: /downloads/AETHRYON.shortcut
+      DAILY_CONVERSIONS: "10"
+      MAX_ACTIVE_JOBS: "1"
+      MAX_KEYS_PER_USER: "2"
+      MAX_USERS: "50"
+      ADMIN_EMAILS: ${DEV_ADMIN_EMAILS:-admin@example.test}
+      TRUST_PROXY_IP_HEADER: x-real-ip
+      INTERNAL_ALLOW_FROM: ${DEV_INTERNAL_SUBNET:-10.251.90.0/24}
+      USER_KEYS_ACTIVE: "1"
+      # Development build of the browser extension (apps/extension/src/manifest-key.dev.json).
+      EXTENSION_IDS: dnllfjakdgmgfiompaheickmbjjlgjdc
+    networks:
+      edge: {}
+      internal:
+        aliases: [account-internal]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  media-api:
+    build:
+      context: apps/media-api
+      target: preprod   # fake worker, no network request to any platform
+    image: aethryon-media-api:dev
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /home/app:size=16m,uid=10001,gid=10001,mode=0700
+    volumes:
+      - media-tmp:/data/tmp
+      - ./.dev/secrets/media-api:/run/secrets:ro
+    environment:
+      TOKENS_FILE: /run/secrets/tokens
+      CACHE_DIR: ""
+      USER_KEYS_ENABLED: "true"
+      ACCOUNT_INTERNAL_URL: http://account-internal:3001
+      ACCOUNT_INTERNAL_TOKEN_FILE: /run/secrets/account_internal_token
+      MAX_FILESIZE_MB: "50"
+      FORWARDED_ALLOW_IPS: 127.0.0.1
+      INTERNAL_ALLOW_FROM: ${DEV_INTERNAL_SUBNET:-10.251.90.0/24}
+    ports:
+      - "127.0.0.1:${DEV_API_PORT:-18111}:8000"
+    networks:
+      edge: {}
+      internal:
+        aliases: [media-api-internal]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  # Discord bot: optional profile (`docker-compose --profile discord …`), needs YOUR OWN Discord application: put the
+  # bot token in .dev/secrets/discord-bot/discord_bot_token and the ids in .env (see apps/discord-bot/README.md).
+  # Never starts by default. Linking/conversion features stay closed unless you enable them (LINK_ENABLED…).
+  discord-bot:
+    build: apps/discord-bot
+    image: aethryon-discord-bot:dev
+    profiles: [discord]
+    read_only: true
+    tmpfs:
+      - /tmp:size=8m,mode=1777
+    environment:
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID:-}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID:-}
+      DISCORD_BOT_TOKEN_FILE: /run/secrets/discord_bot_token
+      AETHRYON_SITE_URL: ${DISCORD_SITE_URL:-https://example.com}
+      YTAPI_URL: ${DISCORD_MEDIA_API_URL:-https://example.com/media}
+      AETHRYON_API_HEALTH_URL: ${DISCORD_MEDIA_API_URL:-https://example.com/media}/health
+    volumes:
+      - ./.dev/secrets/discord-bot:/run/secrets:ro
+    networks: [edge]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+networks:
+  edge: {}
+  internal:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${DEV_INTERNAL_SUBNET:-10.251.90.0/24}
+
+volumes:
+  account-data: {}
+  media-tmp: {}
