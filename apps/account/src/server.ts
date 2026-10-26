@@ -19,6 +19,7 @@ import { BillingService } from "./facturation.ts";
 import { createStripe } from "./stripe-client.ts";
 import { CloudService } from "./cloud/service.ts";
 import { S3CloudStore, type CloudStore } from "./cloud/stockage.ts";
+import { Antibot } from "./antibot.ts";
 
 export interface Server extends Services {
   dbs: Databases;
@@ -30,7 +31,7 @@ export interface Server extends Services {
 }
 
 /** Ouvre la base, applique les migrations (Better Auth puis les nôtres) et construit les apps. */
-export async function buildServer(cfg: Config, opts: { fetchImpl?: typeof fetch; discordFetch?: typeof fetch; discordTimeoutMs?: number; mailer?: Mailer; cloudStore?: CloudStore; cloudNow?: () => number } = {}): Promise<Server> {
+export async function buildServer(cfg: Config, opts: { fetchImpl?: typeof fetch; capFetch?: typeof fetch; discordFetch?: typeof fetch; discordTimeoutMs?: number; mailer?: Mailer; cloudStore?: CloudStore; cloudNow?: () => number } = {}): Promise<Server> {
   const dbs = openDatabases(cfg.dbPath);
   // E-mails (inscription par e-mail, mot de passe oublié) : relais SMTP configuré, ou un faux pour les tests.
   const mails = new AccountMails(cfg, opts.mailer ?? (cfg.mail ? new SmtpMailer(cfg.mail) : null));
@@ -60,12 +61,14 @@ export async function buildServer(cfg: Config, opts: { fetchImpl?: typeof fetch;
   billingRef = billing;
   // AETHRYON Cloud : seulement si CLOUD=on (identifiants du fournisseur lus dans des fichiers, jamais ailleurs).
   const cloud = cfg.cloud ? new CloudService(db, cfg.cloud, opts.cloudStore ?? new S3CloudStore(cfg.cloud), opts.cloudNow) : null;
-  const services: Services = { cfg, db, auth, keys, usage, status, authorizer, ytapi, discord, library, mails, tools, billing, cloud };
+  // Protection anti-bot (ANTIBOT=off par défaut : aucune requête vers Cap, aucun défi).
+  const antibot = new Antibot(cfg, db, opts.capFetch);
+  const services: Services = { cfg, db, auth, keys, usage, status, authorizer, ytapi, discord, library, mails, tools, billing, cloud, antibot };
   const publicApp = createPublicApp(services);
   const internalApp = createInternalApp(cfg, authorizer, usage, cloud);
   const discordInternalApp = cfg.discordInternal ? createDiscordInternalApp(cfg, discord, library, tools) : null;
   return {
     ...services, dbs, publicApp, internalApp, discordInternalApp, authorizer,
-    close() { dbs.app.close(); dbs.auth.close(); },
+    close() { antibot.stop(); dbs.app.close(); dbs.auth.close(); },
   };
 }

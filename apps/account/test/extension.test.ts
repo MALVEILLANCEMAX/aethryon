@@ -660,8 +660,8 @@ test("migration 004 : up → down → up (données conservées, motif « replay 
     const tables = () => (db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE 'ytc_%' ORDER BY name").all() as { name: string }[]).map((t) => t.name);
     const indexes = () => (db.prepare("SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = 'ytc_key_meta' AND name NOT LIKE 'sqlite_%'").all() as { name: string }[]).map((t) => t.name);
     // 005 (Discord) est au-dessus : on redescend d'abord à 004 (sans clé « discord », rien n'est perdu).
-    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-    assert.deepEqual(migrateDown(db, 11), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]);
+    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    assert.deepEqual(migrateDown(db, 12), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]);
     assert.deepEqual(appliedVersions(db), [1, 2, 3, 4]);
     assert.deepEqual(cols(), ["key_id", "user_id", "revoked_at", "revoked_reason", "replaced_by", "created_at", "last_used_at", "kind", "device_label"]);
 
@@ -677,7 +677,7 @@ test("migration 004 : up → down → up (données conservées, motif « replay 
     assert.equal(rows.find((r) => r.key_id === short)!.last_used_at, "2026-10-10T10:00:00.000Z");
     assert.throws(() => db.prepare("UPDATE ytc_key_meta SET revoked_reason = 'replay' WHERE key_id = ?").run(short));
 
-    assert.deepEqual(migrateUp(db), [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     assert.deepEqual(cols(), ["key_id", "user_id", "revoked_at", "revoked_reason", "replaced_by", "created_at", "last_used_at", "kind", "device_label"]);
     assert.deepEqual(indexes(), ["ytc_key_meta_user"]);
     assert.ok(tables().includes("ytc_ext_code"));
@@ -686,7 +686,7 @@ test("migration 004 : up → down → up (données conservées, motif « replay 
     db.prepare("UPDATE ytc_key_meta SET revoked_reason = 'replay' WHERE key_id = ?").run(extId);
     assert.throws(() => db.prepare("UPDATE ytc_key_meta SET kind = 'autre' WHERE key_id = ?").run(short));
     assert.deepEqual(migrateUp(db), []);
-    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     // contrainte de clé étrangère conservée : suppression du compte → méta effacée
     assert.equal(token.length, 68);
     assert.equal((await b.json("/api/auth/delete-user", { method: "POST", body: {} })).status, 200);

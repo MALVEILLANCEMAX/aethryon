@@ -233,10 +233,10 @@ test("migration 015 : réversible, le reste intact ; effacée avec le compte", a
     const b = await newUser(h, "mig@example.test");
     await b.json("/api/music/analyser", { method: "POST", body: { url: "https://archive.org/details/gymnopedie" } });
     const users = (db.prepare('SELECT COUNT(*) AS n FROM "user"').get() as { n: number }).n;
-    assert.deepEqual(migrateDown(db, 1), [15]);
+    assert.deepEqual(migrateDown(db, 2), [16, 15]);
     assert.equal(db.prepare("SELECT name FROM sqlite_master WHERE name = 'ytc_music_historique'").get(), undefined);
     assert.equal((db.prepare('SELECT COUNT(*) AS n FROM "user"').get() as { n: number }).n, users);
-    assert.deepEqual(migrateUp(db), [15]);
+    assert.deepEqual(migrateUp(db), [15, 16]);
     await b.json("/api/music/analyser", { method: "POST", body: { url: "https://archive.org/details/gymnopedie" } });
     db.exec("PRAGMA foreign_keys = ON");
     db.prepare('DELETE FROM "user" WHERE email = ?').run("mig@example.test");

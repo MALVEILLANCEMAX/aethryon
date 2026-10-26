@@ -2,6 +2,8 @@
 // Import d'un fichier par morceaux de 5 Mio (chaque requête reste courte, reprise possible morceau par morceau) ;
 // lecture du fichier lu localement (blob:) pendant l'envoi, sans jamais le charger entier en mémoire (File.slice).
 import { api as baseApi, ApiError } from "../lib/api.ts";
+// Travaux du site (aperçu, ouverture, import, export) : vérification de sécurité si le serveur l'exige (anti-bot).
+import { verified } from "../lib/verification.ts";
 
 /**
  * Appel de /api/outils : quand l'atelier est fermé côté serveur (account sans TOOLS_ENABLED : route inconnue), une
@@ -96,11 +98,11 @@ export const listMedia = () => api<{ items: ToolsJob[]; limits: ToolsLimits }>("
 export const getJob = (id: string, waitS = 0, signal?: AbortSignal, follow = false) =>
   api<ToolsJob>(`/api/outils/medias/${encodeURIComponent(id)}${waitS ? `?attendre=${waitS}${follow ? "&suivi=1" : ""}` : ""}`, { signal });
 export const getInfo = (id: string) => api<MediaInfo>(`/api/outils/medias/${encodeURIComponent(id)}/infos`);
-export const preview = (url: string) => api<Preview>("/api/outils/apercu", { method: "POST", body: { url } });
+export const preview = (url: string) => verified((v) => api<Preview>("/api/outils/apercu", { method: "POST", body: { url }, ...v }));
 export const openSource = (body: { url: string; quality?: string; transcode?: boolean; index?: number }) =>
-  api<ToolsJob>("/api/outils/sources", { method: "POST", body });
+  verified((v) => api<ToolsJob>("/api/outils/sources", { method: "POST", body, ...v }));
 export const deriveJob = (id: string, body: Record<string, unknown>) =>
-  api<ToolsJob>(`/api/outils/medias/${encodeURIComponent(id)}/exports`, { method: "POST", body });
+  verified((v) => api<ToolsJob>(`/api/outils/medias/${encodeURIComponent(id)}/exports`, { method: "POST", body, ...v }));
 export const keepJob = (id: string) => api<{ expiresAt: string | null }>(`/api/outils/medias/${encodeURIComponent(id)}/garder`, { method: "POST" });
 export const deleteJob = (id: string) => api<{ deleted: boolean }>(`/api/outils/medias/${encodeURIComponent(id)}`, { method: "DELETE" });
 export const redeemRef = (ref: string) => api<{ id: string }>("/api/outils/references", { method: "POST", body: { ref } });
@@ -247,7 +249,7 @@ export async function sendFile(job: ToolsJob, file: File, onProgress: (p: Upload
 }
 
 export const startUpload = (file: File) =>
-  api<ToolsJob>("/api/outils/imports", { method: "POST", body: { name: file.name.slice(0, 255), size: file.size, type: file.type.slice(0, 100) } });
+  verified((v) => api<ToolsJob>("/api/outils/imports", { method: "POST", body: { name: file.name.slice(0, 255), size: file.size, type: file.type.slice(0, 100) }, ...v }));
 
 // ---- fichiers locaux en cours d'envoi : gardés le temps de la page (aperçu immédiat, reprise) -------------------
 

@@ -13,7 +13,7 @@ import { BrandLogo } from "../ui/brand/BrandLogo.tsx";
 import { OwlMark } from "../ui/brand/OwlMark.tsx";
 import { ButtonLink, Button } from "../ui/Button.tsx";
 import { Skeleton } from "../ui/bits.tsx";
-import { IconActivity, IconArrowRight, IconClose, IconGauge, IconHome, IconKey, IconLock, IconMenu, IconRefresh } from "../ui/Icon.tsx";
+import { IconActivity, IconArrowRight, IconClose, IconGauge, IconHome, IconKey, IconLock, IconMenu, IconRefresh, IconShield } from "../ui/Icon.tsx";
 import { IconChart, IconScroll, IconServer, IconSettings, IconSliders, IconUsers } from "./icons.tsx";
 import { ADMIN_API } from "./data.ts";
 import type { AdminMe } from "./types.ts";
@@ -29,6 +29,7 @@ const NAV: { to: string; label: string; icon: Icon; end?: boolean }[] = [
   { to: "/admin/analytics", label: "Statistiques", icon: IconChart },
   { to: "/admin/system", label: "Système", icon: IconServer },
   { to: "/admin/audit", label: "Audit", icon: IconScroll },
+  { to: "/admin/securite", label: "Sécurité", icon: IconShield },
   { to: "/admin/settings", label: "Paramètres", icon: IconSettings },
 ];
 

@@ -326,13 +326,13 @@ test("migration 010 : up → down → up ; clés « outils » effacées au retou
     await h.s.tools.createRef(uid, "src1", "discord");
     const kinds = () => (db.prepare("SELECT kind FROM ytc_key_meta ORDER BY kind").all() as { kind: string }[]).map((r) => r.kind);
     assert.deepEqual(kinds(), ["outils", "shortcut"]);
-    assert.deepEqual(migrateDown(db, 6), [15, 14, 13, 12, 11, 10]); // le panneau Premiere (012) et la facturation (011) sont au-dessus
+    assert.deepEqual(migrateDown(db, 7), [16, 15, 14, 13, 12, 11, 10]); // le panneau Premiere (012) et la facturation (011) sont au-dessus
     assert.deepEqual(kinds(), ["shortcut"]);
     assert.equal(db.prepare("SELECT count(*) AS n FROM apikey").get()!.n, 1, "la clé du raccourci reste, celle des outils est effacée");
     assert.equal(db.prepare("SELECT count(*) AS n FROM sqlite_master WHERE name = 'ytc_outils_ref'").get()!.n, 0);
     assert.throws(() => db.prepare("INSERT INTO ytc_key_meta (key_id, user_id, created_at, kind) VALUES ('z', ?, 'x', 'outils')").run(uid));
-    assert.deepEqual(migrateUp(db), [10, 11, 12, 13, 14, 15]);
-    assert.deepEqual(appliedVersions(db).at(-1), 15);
+    assert.deepEqual(migrateUp(db), [10, 11, 12, 13, 14, 15, 16]);
+    assert.deepEqual(appliedVersions(db).at(-1), 16);
     assert.deepEqual(kinds(), ["shortcut"]);
     assert.equal((db.prepare("SELECT key_id FROM ytc_key_meta").get() as { key_id: string }).key_id, short);
   } finally { h.close(); }

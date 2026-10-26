@@ -12,12 +12,12 @@ test("migrations réversibles : up → down → up", async () => {
   const h = await harness();
   try {
     const db = h.s.db;
-    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-    assert.deepEqual(migrateDown(db, 15), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    assert.deepEqual(migrateDown(db, 16), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     const tables = (db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'ytc_%'").all() as { name: string }[]).map((t) => t.name);
     assert.deepEqual(tables, ["ytc_migration"]);
-    assert.deepEqual(migrateUp(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     assert.deepEqual(migrateUp(db), []);
   } finally { h.close(); }
 });

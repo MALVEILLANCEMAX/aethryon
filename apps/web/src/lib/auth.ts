@@ -1,5 +1,7 @@
 // Connexion Google et par e-mail via Better Auth (appels directs, sans bibliothèque cliente), inscription par e-mail
 // (account, src/signup.ts : adresse vérifiée AVANT la création du compte) et session.
+// Inscription, connexion par mot de passe, mot de passe oublié : vérification de sécurité si le serveur l'exige.
+import { verified } from "./verification.ts";
 import { api, ApiError } from "./api.ts";
 import { PASSWORD_MAX, PASSWORD_MIN } from "./password.ts";
 
@@ -45,7 +47,7 @@ export interface SignupRequest { ok: true; expiresInMinutes: number; codeLength:
 
 /** Inscription, étape 1 : un code à 6 chiffres et un lien de secours partent vers l'adresse. */
 export async function requestSignup(email: string): Promise<SignupRequest> {
-  return api<SignupRequest>("/api/inscription/demande", { method: "POST", body: { email } });
+  return verified((v) => api<SignupRequest>("/api/inscription/demande", { method: "POST", body: { email }, ...v }));
 }
 /** Inscription, étape 1 bis : le code saisi ; juste, il donne le jeton de l'étape 3 (15 minutes). */
 export async function verifySignupCode(email: string, code: string): Promise<{ token: string; email: string }> {
@@ -60,11 +62,11 @@ export async function finishSignup(token: string, name: string, password: string
   await api("/api/inscription/terminer", { method: "POST", body: { token, name, password } });
 }
 export async function signInWithEmail(email: string, password: string): Promise<void> {
-  await api("/api/auth/sign-in/email", { method: "POST", body: { email, password, rememberMe: true } });
+  await verified((v) => api("/api/auth/sign-in/email", { method: "POST", body: { email, password, rememberMe: true }, ...v }));
 }
 /** Mot de passe oublié : même réponse que l'adresse ait un compte ou non. */
 export async function requestPasswordReset(email: string): Promise<void> {
-  await api("/api/auth/request-password-reset", { method: "POST", body: { email } });
+  await verified((v) => api("/api/auth/request-password-reset", { method: "POST", body: { email }, ...v }));
 }
 /** Changement de mot de passe (session ouverte, mot de passe actuel exigé) ; les autres sessions sont fermées. */
 export async function changePassword(currentPassword: string, newPassword: string): Promise<void> {
@@ -91,6 +93,8 @@ export function takeHashToken(): string | null {
 export function authMessage(e: unknown, fallback: string): string {
   if (!(e instanceof ApiError)) return fallback;
   if (e.isNetwork) return "Connexion impossible. Vérifie ta connexion et réessaie.";
+  // Vérification de sécurité (lib/verification.ts) : annulée, ou action suspendue par le serveur (message exact).
+  if (e.code === "verification_cancelled" || e.code === "temporarily_blocked" || e.code === "verification_unavailable") return e.message;
   if (e.status === 429) return "Trop d'essais : attends une minute, puis réessaie.";
   const code = e.code.toLowerCase();
   return AUTH_ERRORS[code] ?? LOGIN_ERRORS[code] ?? (/[àâçéèêëîïôûùüÿœ]/i.test(e.message) ? e.message : fallback);

@@ -6,6 +6,7 @@
 // de job est réécrite vers /api/outils/…
 // Liens « Ouvrir dans AETHRYON Tools » (bot Discord) : jeton de 32 octets dont seule l'empreinte est gardée, valable
 // 55 min et SEULEMENT pour le compte connecté qui le possède (un lien vu par un autre ne lui donne rien).
+import type { Antibot } from "./antibot.ts";
 import { createHash, randomBytes } from "node:crypto";
 import type { Context, Hono } from "hono";
 import type { Config } from "./config.ts";
@@ -226,7 +227,7 @@ export function exportCost(body: Record<string, unknown>, media: { duration: num
   return exportMinutes(op, span / speed, short);
 }
 
-export function mountOutils(app: Hono<{ Variables: Vars }>, s: { cfg: Config; tools: ToolsService; usage: UsageService }): void {
+export function mountOutils(app: Hono<{ Variables: Vars }>, s: { cfg: Config; tools: ToolsService; usage: UsageService; antibot: Antibot }): void {
   const { tools } = s;
   const heavy = new Limiter(120, 3_600_000);   // aperçus, ouvertures, imports, exports : 120 par heure et par compte
   const refLimiter = new Limiter(30, 600_000);  // liens à ouvrir : 30 par 10 min et par compte
@@ -310,6 +311,7 @@ export function mountOutils(app: Hono<{ Variables: Vars }>, s: { cfg: Config; to
   app.post("/api/outils/apercu", async (c) => {
     const u = user(c);
     take(heavy, u.id);
+    { const g = await s.antibot.guard(c, "travaux"); if (g.deny) return g.deny; }  // anti-bot : travaux du site
     const body = (await c.req.json().catch(() => null)) as { url?: unknown } | null;
     const url = typeof body?.url === "string" ? body.url.trim() : "";
     if (!url || url.length > 2048) throw new HttpError(400, "invalid_url", "Colle le lien d'une vidéo YouTube, TikTok ou X.");
@@ -331,6 +333,7 @@ export function mountOutils(app: Hono<{ Variables: Vars }>, s: { cfg: Config; to
   app.post("/api/outils/sources", async (c) => {
     const u = user(c);
     take(heavy, u.id);
+    { const g = await s.antibot.guard(c, "travaux"); if (g.deny) return g.deny; }  // anti-bot : travaux du site
     const b = (await c.req.json().catch(() => null)) as Json | null;
     const url = typeof b?.url === "string" ? b.url.trim() : "";
     if (!url || url.length > 2048) throw new HttpError(400, "invalid_url", "Colle le lien d'une vidéo YouTube, TikTok ou X.");
@@ -348,6 +351,7 @@ export function mountOutils(app: Hono<{ Variables: Vars }>, s: { cfg: Config; to
   app.post("/api/outils/imports", async (c) => {
     const u = user(c);
     take(heavy, u.id);
+    { const g = await s.antibot.guard(c, "travaux"); if (g.deny) return g.deny; }  // anti-bot : travaux du site
     const b = (await c.req.json().catch(() => null)) as Json | null;
     const size = b?.size;
     if (typeof size !== "number" || !Number.isInteger(size) || size < 1) throw new HttpError(400, "invalid_size", TEXT.invalidBody);
@@ -434,6 +438,7 @@ export function mountOutils(app: Hono<{ Variables: Vars }>, s: { cfg: Config; to
   app.post("/api/outils/medias/:id/exports", async (c) => {
     const u = user(c);
     take(heavy, u.id);
+    { const g = await s.antibot.guard(c, "travaux"); if (g.deny) return g.deny; }  // anti-bot : travaux du site
     const body = await c.req.json().catch(() => null);
     if (!body || typeof body !== "object" || Array.isArray(body)) throw new HttpError(400, "invalid_body", TEXT.invalidBody);
     const id = jobId(c);

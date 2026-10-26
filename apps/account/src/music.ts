@@ -185,6 +185,8 @@ export function mountMusic(app: Hono<{ Variables: Vars }>, s: Services): void {
 
   app.post("/api/music/imports", async (c) => {
     const w = await who(c); if (w instanceof Response) return w;
+    // Anti-bot : imports demandés depuis le SITE seulement (le Desktop, par clé, n'est jamais défié).
+    if (w.via === "site") { const g = await s.antibot.guard(c, "travaux"); if (g.deny) return g.deny; }
     const b = await body(c);
     // Champs fermés (le serveur relit la source ; rien d'autre ne passe).
     const fwd: Json = {};

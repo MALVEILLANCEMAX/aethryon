@@ -328,7 +328,7 @@ test("migration 014 : up → down → up ; clés « desktop » et demandes effac
   const h = await harness({ ...ON, PREMIERE_CONNEXION: "1" });
   try {
     const db = h.s.db;
-    assert.equal(appliedVersions(db).at(-1), 15);
+    assert.equal(appliedVersions(db).at(-1), 16);
     const b = await newUser(h, "mig14@example.test");
     await b.json("/api/keys", { method: "POST", body: { name: "iPhone" } });
     const { cle } = await connect(h, b);
@@ -338,7 +338,7 @@ test("migration 014 : up → down → up ; clés « desktop » et demandes effac
     const kinds = () => (db.prepare("SELECT kind FROM ytc_key_meta ORDER BY kind").all() as { kind: string }[]).map((r) => r.kind);
     assert.deepEqual(kinds(), ["desktop", "shortcut"]);
 
-    assert.deepEqual(migrateDown(db, 2), [15, 14]);
+    assert.deepEqual(migrateDown(db, 3), [16, 15, 14]);
     assert.deepEqual(kinds(), ["shortcut"]);
     assert.equal((db.prepare("SELECT count(*) AS n FROM apikey").get() as { n: number }).n, 1, "la clé du raccourci reste, celle du Desktop est effacée");
     assert.equal((db.prepare("SELECT count(*) AS n FROM sqlite_master WHERE name = 'ytc_desktop_code'").get() as { n: number }).n, 0);
@@ -346,7 +346,7 @@ test("migration 014 : up → down → up ; clés « desktop » et demandes effac
     assert.equal(snap(), ref);
     assert.equal((await internalCall(h, "/internal/v1/authorize", { key: cle, action: "access" })).body.allow, false, "clé effacée : refusée");
 
-    assert.deepEqual(migrateUp(db), [14, 15]);
+    assert.deepEqual(migrateUp(db), [14, 15, 16]);
     assert.equal(snap(), ref);
     assert.deepEqual(db.prepare("PRAGMA foreign_key_check").all(), []);
     assert.equal((db.prepare("PRAGMA integrity_check").get() as { integrity_check: string }).integrity_check, "ok");

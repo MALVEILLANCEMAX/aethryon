@@ -583,25 +583,25 @@ test("migration 003 : reprise de dailyLimitOverride, down puis up idempotents", 
     const cols = (t: string) => (db.prepare(`PRAGMA table_info(${t})`).all() as { name: string }[]).map((c) => c.name);
     const tables = () => (db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE 'ytc_%' ORDER BY name").all() as { name: string }[]).map((t) => t.name);
     // 004 (extension) et 005 (Discord) sont au-dessus de 003 : on redescend des trois, puis on remonte des trois.
-    assert.deepEqual(migrateDown(db, 13), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]);
+    assert.deepEqual(migrateDown(db, 14), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]);
     assert.ok(!cols("ytc_usage").some((c) => ["job_id", "started_at", "cause"].includes(c)));
     assert.ok(!cols("ytc_key_meta").includes("last_used_at"));
     assert.ok(!cols("ytc_admin_event").some((c) => ["actor_label", "target_type", "result"].includes(c)));
     assert.deepEqual(tables(), ["ytc_admin_event", "ytc_key_meta", "ytc_migration", "ytc_quota_ledger", "ytc_setting", "ytc_usage"]);
     // ancien quota personnalisé → repris dans ytc_user_policy
     db.prepare('UPDATE "user" SET "dailyLimitOverride" = 3 WHERE id = ?').run(uid);
-    assert.deepEqual(migrateUp(db), [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     assert.equal(h.s.usage.policyRow(uid)!.daily_limit, 3);
     assert.equal(h.s.usage.policyFor(uid).dailyLimit, 3);
     assert.equal((await u.json("/api/me")).body.today.limit, 3);
     // retour arrière : la valeur courante revient dans la colonne lue par l'ancien code
     tx(db, () => h.s.usage.setPolicySync(uid, { dailyLimit: 7, unlimited: false, maxActive: null }, null));
-    assert.deepEqual(migrateDown(db, 13), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]);
+    assert.deepEqual(migrateDown(db, 14), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]);
     assert.equal((db.prepare('SELECT "dailyLimitOverride" AS o FROM "user" WHERE id = ?').get(uid) as { o: number }).o, 7);
-    assert.deepEqual(migrateUp(db), [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     assert.equal(h.s.usage.policyRow(uid)!.daily_limit, 7);
     assert.deepEqual(migrateUp(db), []);
-    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     assert.ok(tables().includes("ytc_user_policy") && tables().includes("ytc_quota_grant") && tables().includes("ytc_auth_failure"));
   } finally { h.close(); }
 });

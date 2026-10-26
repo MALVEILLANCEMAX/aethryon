@@ -104,7 +104,7 @@ test("migration 006 : up → down → up ; tables nouvelles seulement, données 
   try {
     const db = h.s.db;
     const before = appliedVersions(db);
-    assert.equal(before.at(-1), 15);
+    assert.equal(before.at(-1), 16);
     const u = await newUser(h, "mig@example.test");
     const uid = (await u.json("/api/me")).body.user.id as string;
     await u.json("/api/keys", { method: "POST", body: { name: "iPhone" } });
@@ -112,12 +112,12 @@ test("migration 006 : up → down → up ; tables nouvelles seulement, données 
     const ref = snap();
     await h.s.library.setPrefs(uid, { fmt: "mp3" });
     await h.s.library.savedAdd(uid, { url: "https://youtu.be/dQw4w9WgXcQ", title: "Essai" });
-    assert.deepEqual(migrateDown(db, 10), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6]);
+    assert.deepEqual(migrateDown(db, 11), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6]);
     const names = (db.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all() as { name: string }[]).map((r) => r.name);
     for (const t of ["ytc_user_pref", "ytc_saved_media", "ytc_discord_guild"]) assert.ok(!names.includes(t), `${t} supprimée`);
     assert.equal(snap(), ref, "données 001–005 identiques après le retour arrière");
     migrateUp(db);
-    assert.equal(appliedVersions(db).at(-1), 15);
+    assert.equal(appliedVersions(db).at(-1), 16);
     assert.equal(snap(), ref, "données 001–005 identiques après la remontée");
     assert.deepEqual(db.prepare("PRAGMA foreign_key_check").all(), []);
     assert.equal((db.prepare("PRAGMA integrity_check").get() as { integrity_check: string }).integrity_check, "ok");

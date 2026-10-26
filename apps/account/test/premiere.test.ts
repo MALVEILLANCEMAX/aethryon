@@ -413,7 +413,7 @@ test("migration 012 : up → down → up ; clés « premiere » et demandes effa
   const h = await harness({ ...ON, EXTENSION_IDS: "abcdefghijklmnopabcdefghijklmnop" });
   try {
     const db = h.s.db;
-    assert.equal(appliedVersions(db).at(-1), 15);
+    assert.equal(appliedVersions(db).at(-1), 16);
     const b = await newUser(h, "mig12@example.test");
     const short = (await b.json("/api/keys", { method: "POST", body: { name: "iPhone" } })).body.key.id as string;
     const { cle } = await connect(h, b);
@@ -423,7 +423,7 @@ test("migration 012 : up → down → up ; clés « premiere » et demandes effa
     const kinds = () => (db.prepare("SELECT kind FROM ytc_key_meta ORDER BY kind").all() as { kind: string }[]).map((r) => r.kind);
     assert.deepEqual(kinds(), ["premiere", "shortcut"]);
 
-    assert.deepEqual(migrateDown(db, 4), [15, 14, 13, 12]);
+    assert.deepEqual(migrateDown(db, 5), [16, 15, 14, 13, 12]);
     assert.deepEqual(kinds(), ["shortcut"]);
     assert.equal((db.prepare("SELECT count(*) AS n FROM apikey").get() as { n: number }).n, 1, "la clé du raccourci reste, celle de Premiere est effacée");
     assert.equal((db.prepare("SELECT count(*) AS n FROM sqlite_master WHERE name = 'ytc_premiere_code'").get() as { n: number }).n, 0);
@@ -431,7 +431,7 @@ test("migration 012 : up → down → up ; clés « premiere » et demandes effa
     assert.equal(snap(), ref);
     assert.equal((await internalCall(h, "/internal/v1/authorize", { key: cle, action: "access" })).body.allow, false, "clé effacée : refusée");
 
-    assert.deepEqual(migrateUp(db), [12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [12, 13, 14, 15, 16]);
     assert.equal(snap(), ref);
     assert.equal((db.prepare("SELECT key_id FROM ytc_key_meta").get() as { key_id: string }).key_id, short);
     assert.deepEqual(db.prepare("PRAGMA foreign_key_check").all(), []);

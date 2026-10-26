@@ -98,6 +98,9 @@ export function mountSignup(app: Hono<{ Variables: Vars }>, s: Services): void {
     const b = await body(c, ["email"]);
     const email = b ? normalizeEmail(b.email) : null;
     if (!email) return err(c, 400, "invalid_email", "Adresse e-mail invalide.");
+    // Anti-bot (antibot.ts) : chaque demande envoie un e-mail à un tiers → défi Cap vérifié par le serveur.
+    const g = await s.antibot.guard(c, "inscription", { email });
+    if (g.deny) return g.deny;
     if (!ipLimiter.take(ip(c))) return err(c, 429, "rate_limited", "Trop de demandes : réessaie dans quelques minutes.");
     if (signupsClosed()) return err(c, 403, "signups_closed", "Les inscriptions sont fermées pour le moment.");
     // Même réponse que l'adresse ait un compte ou non, qu'elle soit invitée ou non, que l'e-mail parte ou non.

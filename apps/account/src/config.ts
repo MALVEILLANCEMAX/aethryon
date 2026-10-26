@@ -67,6 +67,35 @@ export interface Config {
   /** AETHRYON Cloud V1 (stockage S3 temporaire de l'administrateur, src/cloud/) ; null = coupé (CLOUD ≠ on, défaut) :
    *  routes /api/cloud/* en 404 « cloud_closed », offres internes refusées, aucune requête vers le fournisseur. */
   cloud: CloudConfig | null;
+  /** Protection anti-bot (src/antibot.ts, docs/SECURITE-ANTIBOT.md) ; mode « off » par défaut : aucun défi. */
+  antibot: AntibotConfig;
+}
+
+/** ANTIBOT=off (défaut, aucun défi demandé), observe (décisions comptées, rien n'est demandé), on (défis exigés). */
+export type AntibotMode = "off" | "observe" | "on";
+export interface AntibotConfig {
+  mode: AntibotMode;
+  /** Cap standalone sur le réseau interne ytc-cap (siteverify), ex. http://ytc-cap:3000 ; null si coupé. */
+  capUrl: string | null;
+  /** Clé de site Cap (10 caractères hexadécimaux, publique : le navigateur la voit dans /cap/<clé>/). */
+  siteKey: string | null;
+  /** Secret de la clé de site (CAP_SECRET_FILE), jamais journalisé ni renvoyé. */
+  secret: string | null;
+  /** Durée d'un ticket de défi (s) : au-delà, « challenge_expired ». */
+  ticketTtlS: number;
+  /** Laissez-passer après un défi réussi pour les travaux du site (s). */
+  passTtlS: number;
+  /** Blocage temporaire d'un sujet (s). */
+  blockS: number;
+  /** Échecs de connexion (adresse visée ou sujet) à partir desquels chaque tentative exige un défi. */
+  loginFailures: number;
+  /** Travaux (Tools, Music) en 10 minutes à partir desquels un défi est demandé. */
+  travauxSeuil: number;
+  /** Preuves refusées en 15 minutes avant un blocage temporaire. */
+  echecsBlocage: number;
+  /** Conservation des événements suspects (jours) et des compteurs (jours). */
+  eventDays: number;
+  counterDays: number;
 }
 
 /** AETHRYON Cloud : fournisseur S3 générique (Backblaze B2, Cloudflare R2, MinIO…) choisi par la seule configuration. */
@@ -414,7 +443,34 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     premiereLink: env.PREMIERE_CONNEXION === "1",
     desktopLink: env.DESKTOP_CONNEXION === "1",
     cloud: loadCloud(env),
+    antibot: loadAntibot(env),
   };
+}
+
+/** Protection anti-bot : « off » sans rien lire ; « observe » ou « on » exigent Cap (URL interne, clé, secret). */
+export function loadAntibot(env: NodeJS.ProcessEnv): AntibotConfig {
+  const raw = (env.ANTIBOT || "off").trim().toLowerCase();
+  if (raw !== "off" && raw !== "observe" && raw !== "on") throw new ConfigError("ANTIBOT doit valoir off, observe ou on");
+  const mode = raw as AntibotMode;
+  const base = {
+    ticketTtlS: int(env, "ANTIBOT_TICKET_TTL_S", 300, 1, 1800),
+    passTtlS: int(env, "ANTIBOT_PASS_TTL_S", 1800, 60, 86_400),
+    blockS: int(env, "ANTIBOT_BLOCK_S", 900, 30, 86_400),
+    loginFailures: int(env, "ANTIBOT_LOGIN_FAILURES", 3, 1, 50),
+    travauxSeuil: int(env, "ANTIBOT_TRAVAUX_SEUIL", 12, 1, 1000),
+    echecsBlocage: int(env, "ANTIBOT_ECHECS_BLOCAGE", 5, 2, 100),
+    eventDays: int(env, "ANTIBOT_EVENT_DAYS", 14, 1, 90),
+    counterDays: int(env, "ANTIBOT_COUNTER_DAYS", 90, 7, 400),
+  };
+  if (mode === "off") return { mode, capUrl: null, siteKey: null, secret: null, ...base };
+  const capUrl = optionalUrl(env.CAP_INTERNAL_URL, "CAP_INTERNAL_URL");
+  if (!capUrl || !capUrl.startsWith("http://")) throw new ConfigError("CAP_INTERNAL_URL manquant (http://<conteneur Cap>:3000, réseau interne)");
+  // Clé de site : publique (le navigateur la voit), lue dans CAP_SITE_KEY ou dans un fichier (créé par deploy/cap-secrets.sh).
+  const siteKey = (env.CAP_SITE_KEY || readSecretFile(env.CAP_SITE_KEY_FILE, "CAP_SITE_KEY_FILE", false) || "").trim();
+  if (!/^[0-9a-f]{10}$/.test(siteKey)) throw new ConfigError("CAP_SITE_KEY : clé de site Cap attendue (10 caractères hexadécimaux)");
+  const secret = readSecretFile(env.CAP_SECRET_FILE, "CAP_SECRET_FILE", true)!;
+  if (!/^sk-[A-Za-z0-9]{20,100}$/.test(secret)) throw new ConfigError("CAP_SECRET_FILE : secret de clé de site Cap attendu (sk-…)");
+  return { mode, capUrl: capUrl.replace(/\/+$/, ""), siteKey, secret, ...base };
 }
 
 const BUCKET_RE = /^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/;

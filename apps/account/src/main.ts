@@ -28,6 +28,8 @@ log("info", "startup", {
   discordLogin: cfg.discord?.login === true,
   // Interrupteurs de la 3.8, relus par deploy/deploy-38.sh après la bascule (état seulement, jamais une clé).
   cloud: cfg.cloud ? "on" : "off", desktopLink: cfg.desktopLink, musicRelay: cfg.musicEnabled,
+  // Protection anti-bot (antibot.ts), relue par deploy/deploy-anti-bot.sh : mode seulement, jamais le secret.
+  antibot: cfg.antibot.mode, capSiteKey: cfg.antibot.siteKey,
 });
 if (cfg.discordInternal && !cfg.discordInternal.allowFrom) log("warn", "DISCORD_INTERNAL_ALLOW_FROM absent : API du bot ouverte à tout réseau qui joint ce port (secret seul)");
 // Vente ouverte sans offres appliquées : un abonné paierait sans recevoir les limites de son offre (FACTURATION.md §10).
@@ -37,7 +39,8 @@ const purge = async () => {
   try {
     const r = await server.usage.purge();
     const l = await server.library.purge();
-    log("info", "retention purge", { ...r, discordGuilds: l.guilds });
+    const a = await server.antibot.purge();
+    log("info", "retention purge", { ...r, discordGuilds: l.guilds, securityEvents: a.events, securityCounters: a.counters });
   } catch (e) {
     log("error", "retention purge failed", { err: String(e) });
   }
@@ -82,7 +85,8 @@ const stop = (sig: string) => {
   pub.close();
   internal.close();
   discordInternal?.close();
-  setTimeout(() => { server.close(); process.exit(0); }, 500).unref();
+  // Compteurs anti-bot en attente écrits avant la fermeture de la base.
+  void server.antibot.flush().finally(() => setTimeout(() => { server.close(); process.exit(0); }, 300).unref());
 };
 process.on("SIGTERM", () => stop("SIGTERM"));
 process.on("SIGINT", () => stop("SIGINT"));

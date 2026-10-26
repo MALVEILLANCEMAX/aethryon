@@ -25,6 +25,7 @@ const NB = " "; // espace insécable (typographie française : avant « : », �
 /** Toutes les routes de l'API d'administration (les tests vérifient que la liste est complète). */
 export const ADMIN_ROUTES: readonly (readonly ["GET" | "POST" | "PUT", string])[] = [
   ["GET", "/api/admin/session"],
+  ["GET", "/api/admin/securite"],
   ["GET", "/api/admin/me"],
   ["GET", "/api/admin/overview"],
   ["GET", "/api/admin/users"],
@@ -280,6 +281,14 @@ export function mountAdmin(app: Hono<{ Variables: Vars }>, s: Services): void {
   // ---- session, profil, vue d'ensemble -------------------------------------------------------
 
   app.get("/api/admin/session", (c) => { requireAdmin(c); return c.body(null, 204); });
+
+  // Section « Sécurité » (antibot.ts, migration 016) : compteurs réels par jour, événements suspects récents (sujet
+  // haché, IP tronquée), état de l'interrupteur et de Cap. Rien d'inventé : un compteur jamais incrémenté vaut 0.
+  app.get("/api/admin/securite", async (c) => {
+    requireAdmin(c);
+    const [report, cap] = await Promise.all([s.antibot.report(), s.antibot.capHealth()]);
+    return c.json({ ...report, cap });
+  });
 
   app.get("/api/admin/me", (c) => {
     const u = requireAdmin(c);

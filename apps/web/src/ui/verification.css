@@ -1,0 +1,101 @@
+/* Vérification de sécurité (ui/VerificationOverlay.tsx) — obsidienne, ivoire, or patiné.
+   Mouvement : transform et opacity seulement ; entrée 240 ms courbe forte, sortie 180 ms ; halo qui respire pendant
+   la preuve (2,4 s, constant → ease-in-out) ; yeux qui s'allument en 320 ms à la réussite confirmée par le serveur. */
+.verif {
+  --verif-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(15 15 16 / 0.94);
+  color: var(--color-ivory);
+  opacity: 1;
+  transition: opacity 200ms var(--verif-ease);
+  overscroll-behavior: contain;
+}
+.verif::backdrop { background: transparent; }
+.verif[data-leaving] { opacity: 0; transition: opacity 180ms var(--ease-exit); }
+@starting-style { .verif[open] { opacity: 0; } }
+
+.verif-card {
+  width: min(100%, 400px);
+  padding: 36px 28px 26px;
+  border: 1px solid var(--color-night-line);
+  border-radius: var(--radius-panel);
+  background: linear-gradient(180deg, #19181a 0%, var(--color-obsidian) 100%);
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.7), inset 0 1px 0 rgb(227 205 166 / 0.06);
+  text-align: center;
+  transform: none;
+  transition: transform 240ms var(--verif-ease), opacity 240ms var(--verif-ease);
+}
+@starting-style { .verif[open] .verif-card { opacity: 0; transform: translateY(10px) scale(0.97); } }
+.verif[data-leaving] .verif-card { transform: scale(0.98); opacity: 0; transition-duration: 180ms; }
+
+.verif-owl { position: relative; width: 112px; height: 112px; margin: 0 auto 18px; display: grid; place-items: center; }
+.verif-mark { position: relative; transition: transform 320ms var(--verif-ease), opacity 320ms var(--verif-ease); }
+@starting-style { .verif[open] .verif-mark { opacity: 0; transform: translateY(6px) scale(0.94); } }
+
+/* Halo doré discret : présent pendant la preuve, plus franc à la réussite, absent en erreur. */
+.verif-halo {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(212 175 124 / 0.28), rgb(212 175 124 / 0.08) 62%, transparent 72%);
+  opacity: 0.55;
+  transform: scale(0.96);
+  transition: opacity 320ms var(--verif-ease), transform 320ms var(--verif-ease);
+}
+.verif[data-phase="verifying"] .verif-halo { animation: verif-breathe 2.4s cubic-bezier(0.77, 0, 0.175, 1) infinite alternate; }
+.verif[data-phase="success"] .verif-halo { opacity: 1; transform: scale(1.04); animation: none; }
+.verif:is([data-phase="failed"], [data-phase="expired"], [data-phase="unavailable"], [data-phase="blocked"]) .verif-halo { opacity: 0.12; animation: none; }
+@keyframes verif-breathe { from { opacity: 0.4; transform: scale(0.95); } to { opacity: 0.8; transform: scale(1.02); } }
+
+/* Yeux qui s'illuminent : seulement en phase « success » (posée sur confirmation du serveur). */
+.verif .owl-eyes path { transition: fill 320ms var(--verif-ease); }
+.verif .owl-eyes { transition: filter 320ms var(--verif-ease), translate 220ms var(--ease-soft); }
+.verif[data-phase="success"] .owl-eyes path { fill: #a9824c; }  /* or patiné, sombre : les yeux s'allument sans changer la chouette */
+.verif[data-phase="success"] .owl-eyes { filter: drop-shadow(0 0 1.6px rgb(227 205 166 / 0.95)); }
+
+.verif-eyebrow { font-size: 11px; letter-spacing: 0.28em; color: var(--color-gold); margin: 0 0 8px; }
+.verif-title { font-family: var(--font-display); font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; margin: 0; color: var(--color-ivory); }
+.verif-line { margin: 10px auto 0; max-width: 30ch; min-height: 3em; font-size: 15px; line-height: 1.5; color: var(--color-mist); }
+.verif[data-phase="success"] .verif-line { color: var(--color-gold-light); }
+
+.verif-track { height: 2px; margin: 18px auto 0; width: 60%; border-radius: 2px; background: rgb(255 255 255 / 0.08); overflow: hidden; transition: opacity 200ms ease; }
+.verif-track[data-hidden] { opacity: 0; }
+.verif-bar { display: block; height: 100%; background: linear-gradient(90deg, #a98455, var(--color-gold)); transform-origin: 0 50%; transition: transform 200ms linear; }
+
+.verif-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 22px; }
+.verif-btn {
+  min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 500; cursor: pointer;
+  color: var(--color-ivory); background: transparent; border: 1px solid rgb(255 255 255 / 0.16);
+  transition: transform 160ms ease-out, background-color 180ms ease, border-color 180ms ease;
+}
+.verif-btn:active { transform: scale(0.97); }
+.verif-btn--gold { background: var(--color-gold); border-color: var(--color-gold); color: var(--color-obsidian); }
+@media (hover: hover) and (pointer: fine) {
+  .verif-btn:hover { border-color: rgb(255 255 255 / 0.32); }
+  .verif-btn--gold:hover { background: var(--color-gold-light); border-color: var(--color-gold-light); }
+}
+.verif-btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+.verif-note { margin: 22px 0 0; font-size: 12px; line-height: 1.5; color: rgb(179 169 153 / 0.75); }
+
+@media (max-width: 420px) {
+  .verif-card { padding: 30px 20px 22px; }
+  .verif-title { font-size: 23px; }
+}
+
+/* Mouvement réduit : moins et plus doux, jamais zéro information — fondus seulement. */
+@media (prefers-reduced-motion: reduce) {
+  .verif-halo, .verif[data-phase="verifying"] .verif-halo { animation: none; transform: none; }
+  .verif-card, .verif-mark, .verif[data-leaving] .verif-card { transform: none !important; }
+  @starting-style { .verif[open] .verif-card, .verif[open] .verif-mark { transform: none; } }
+  .verif-bar { transition: none; }
+}

@@ -54,6 +54,8 @@ FROM nginxinc/nginx-unprivileged:stable-alpine@sha256:15c994d10d6d78658721c3bcaf
 # REAL_IP_FROM est OBLIGATOIRE (pas de valeur par défaut) : une valeur fausse ferait partager à tous les
 # visiteurs la même IP pour les limites de débit. Préprod : 127.0.0.1/32 ; production : réseau de Traefik.
 ARG ACCOUNT_UPSTREAM=ytc2-pp-account:3000
+# Cap standalone (anti-bot) sur le réseau interne ytc-cap : nom résolu par Docker ; absent → /cap/* en 502 (rien d'autre).
+ARG CAP_UPSTREAM=ytc-cap:3000
 ARG REAL_IP_FROM
 ARG ROBOTS="noindex, nofollow"
 ARG CONTROL_CENTER=1
@@ -72,7 +74,7 @@ RUN if [ "$OFFRES" = reelles ]; then sed -i '/# >>> premium/,/# <<< premium/d' /
 RUN if [ "$INDEXING" = 0 ]; then sed -i '/# >>> indexation/,/# <<< indexation/d' /etc/nginx/conf.d/default.conf \
       && ! grep -q "location = /sitemap.xml" /etc/nginx/conf.d/default.conf; fi
 RUN if [ "$INDEXING" = 1 ]; then ROBOTS_PAGES="index, follow"; else ROBOTS_PAGES="$ROBOTS"; fi \
- && sed -i "s|__ACCOUNT_UPSTREAM__|${ACCOUNT_UPSTREAM}|; s|__REAL_IP_FROM__|${REAL_IP_FROM}|; s|__ROBOTS_PAGES__|${ROBOTS_PAGES}|; s|__ROBOTS__|${ROBOTS}|" /etc/nginx/conf.d/default.conf \
+ && sed -i "s|__ACCOUNT_UPSTREAM__|${ACCOUNT_UPSTREAM}|; s|__CAP_UPSTREAM__|${CAP_UPSTREAM}|; s|__REAL_IP_FROM__|${REAL_IP_FROM}|; s|__ROBOTS_PAGES__|${ROBOTS_PAGES}|; s|__ROBOTS__|${ROBOTS}|" /etc/nginx/conf.d/default.conf \
  && ! cat /etc/nginx/conf.d/default.conf /etc/nginx/security-headers.conf /etc/nginx/html.conf /etc/nginx/security-headers-cloud.conf /etc/nginx/html-cloud.conf /etc/nginx/security-headers-musique.conf /etc/nginx/html-musique.conf | grep -v "^\s*#" | grep -q "__" \
  && nginx -t
 RUN rm -f /usr/share/nginx/html/50x.html

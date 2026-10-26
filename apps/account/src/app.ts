@@ -28,6 +28,7 @@ import { mountFacturation, WEBHOOK_MAX_BYTES, WEBHOOK_PATH, type BillingService 
 import { isCloudBearer, mountCloud } from "./cloud/routes.ts";
 import { isMusicBearer, mountMusic, MUSIC_LARGE_BODY_MAX, MUSIC_LARGE_BODY_PATHS } from "./music.ts";
 import type { CloudService } from "./cloud/service.ts";
+import type { Antibot } from "./antibot.ts";
 
 export type { SessionUser } from "./http.ts";
 
@@ -44,6 +45,8 @@ export interface Services {
   billing: BillingService;
   /** AETHRYON Cloud V1 (src/cloud/) ; null tant que CLOUD ≠ on. */
   cloud: CloudService | null;
+  /** Protection anti-bot (antibot.ts) : défis Cap vérifiés par le serveur, compteurs de la section « Sécurité ». */
+  antibot: Antibot;
 }
 
 export const CHANGELOG = [
@@ -62,6 +65,9 @@ export function createPublicApp(s: Services): Hono<{ Variables: Vars }> {
   app.use("/api/*", async (c, next) => {
     const t0 = Date.now();
     await next();
+    // Anti-bot : toute réponse 429 est comptée (protections existantes comprises) ; preuve acceptée → en-tête.
+    if (c.res.status === 429) s.antibot.noteLimited(c);
+    s.antibot.decorate(c);
     // Exceptions : l'image de profil Discord relayée (cache PRIVÉ d'un jour, versionné par ?v=) et les médias
     // d'AETHRYON Tools (lecture par plages, planche, vignettes : leur propre Cache-Control privé) ; le reste : no-store.
     const ownCache = c.res.status < 300 && (c.req.path === "/api/discord/avatar" || (c.req.path.startsWith("/api/outils/") && c.req.method === "GET" && c.res.headers.has("cache-control")));
@@ -181,10 +187,25 @@ export function createPublicApp(s: Services): Hono<{ Variables: Vars }> {
     // V3.5 : session ouverte par un ticket de connexion Discord (discord.ts), seulement si la fonction est ouverte.
     ...(s.discord.loginEnabled ? ["/api/auth/discord-session"] : []),
     ...(s.mails.enabled ? ["/api/auth/sign-in/email", "/api/auth/request-password-reset", "/api/auth/reset-password", "/api/auth/change-password"] : [])]);
-  app.on(["GET", "POST"], "/api/auth/*", (c) => {
+  app.on(["GET", "POST"], "/api/auth/*", async (c) => {
     if (!AUTH_ROUTES.has(c.req.path)) return err(c, 404, "not_found", "Route inconnue.");
     if (c.req.path === "/api/auth/sign-in/social" && !cfg.google) {
       return err(c, 503, "google_disabled", "La connexion Google n'est pas encore configurée sur ce serveur.");
+    }
+    // Anti-bot (antibot.ts) : « mot de passe oublié » (un e-mail part) toujours défié ; connexion par mot de passe
+    // défiée après plusieurs échecs (adresse visée ou sujet). Google, Discord, sessions et déconnexion : jamais.
+    const p = c.req.path;
+    if (c.req.method === "POST" && (p === "/api/auth/sign-in/email" || p === "/api/auth/request-password-reset")) {
+      const body = (await c.req.raw.clone().json().catch(() => null)) as { email?: unknown } | null;
+      const email = typeof body?.email === "string" && body.email.length <= 254 ? body.email : null;
+      const g = await s.antibot.guard(c, p === "/api/auth/sign-in/email" ? "connexion" : "mot_de_passe", { email });
+      if (g.deny) return g.deny;
+      const res = await auth.handler(c.req.raw);
+      if (p === "/api/auth/sign-in/email") {
+        if (res.status === 401) s.antibot.loginFailed(c, email);
+        else if (res.ok) s.antibot.loginSucceeded(c, email);
+      }
+      return res;
     }
     return auth.handler(c.req.raw);
   });

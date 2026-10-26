@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { MotionConfig } from "motion/react";
 import { ToastProvider } from "./ui/Toasts.tsx";
+import { VerificationHost } from "./ui/VerificationHost.tsx";
 import { installPrefetch, preloadRoute, routes } from "./routes.tsx";
 import { captureFold, setStaticBoot } from "./lib/prerender.ts";
 import { watchVersion } from "./lib/version.ts";
@@ -44,6 +45,8 @@ async function start() {
         <ToastProvider>
           <RouterProvider router={router} />
         </ToastProvider>
+        {/* Vérification de sécurité (anti-bot) : au-dessus de toute page, chargée seulement sur défi du serveur. */}
+        <VerificationHost />
       </MotionConfig>
       <StaticBootDone />
     </StrictMode>,

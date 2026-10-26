@@ -16,14 +16,17 @@ export class ApiError extends Error {
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export async function api<T>(path: string, init: { method?: Method; body?: unknown; signal?: AbortSignal } = {}): Promise<T> {
+/** `headers` et `onResponse` : preuve de la vérification de sécurité (lib/verification.ts) et réponse du serveur. */
+export interface ApiInit { method?: Method; body?: unknown; signal?: AbortSignal; headers?: Record<string, string>; onResponse?: (res: Response) => void }
+
+export async function api<T>(path: string, init: ApiInit = {}): Promise<T> {
   const method = init.method ?? "GET";
   let res: Response;
   try {
     res = await fetch(path, {
       method,
       credentials: "same-origin",
-      headers: method === "GET" ? { accept: "application/json" } : { accept: "application/json", "content-type": "application/json" },
+      headers: { ...(method === "GET" ? { accept: "application/json" } : { accept: "application/json", "content-type": "application/json" }), ...(init.headers ?? {}) },
       body: method === "GET" ? undefined : JSON.stringify(init.body ?? {}),
       signal: init.signal,
     });
@@ -31,6 +34,7 @@ export async function api<T>(path: string, init: { method?: Method; body?: unkno
     if ((e as Error).name === "AbortError") throw e;
     throw new ApiError(0, "network", "Connexion impossible. Vérifie ta connexion et réessaie.");
   }
+  init.onResponse?.(res);
   const text = await res.text();
   let data: unknown = null;
   try { data = text ? JSON.parse(text) : null; } catch { data = null; }

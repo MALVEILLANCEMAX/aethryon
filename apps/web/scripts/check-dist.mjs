@@ -61,7 +61,11 @@ for (const f of files) {
     if (/@import\s+["']?https?:/i.test(css)) errors.push(`${rel} : @import externe`);
   }
   if (f.endsWith(".js")) {
-    const js = readFileSync(f, "utf8");
+    let js = readFileSync(f, "utf8");
+    // Widget Cap (@cap.js/widget, chargé seulement sur défi, élément caché) : sa feuille de style interne dessine la
+    // case à cocher avec deux SVG en data: — jamais affichés (widget masqué) et refusés de toute façon par la CSP
+    // (img-src 'self'). Exception limitée à ces deux images dans ce seul fichier.
+    if (/^assets\/cap\.min-[\w-]+\.js$/.test(rel)) js = js.replace(/url\(\\?["']?data:image\/svg\+xml,[^)]*\)/g, "url()");
     if (/["'`]data:(image|font|text)\//.test(js)) errors.push(`${rel} : data: URI dans le JS`);
     if (/new Function\(|\beval\(/.test(js)) errors.push(`${rel} : eval/new Function`);
   }

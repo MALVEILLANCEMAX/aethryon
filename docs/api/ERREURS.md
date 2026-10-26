@@ -82,3 +82,10 @@ téléchargement d'un flux reçoit un 403, les formats de ce client sont écart�
 restante (même règle de tri) est téléchargée, sans nouvelle requête d'extraction (le limiteur YouTube
 n'est pas contourné). `upstream_forbidden` n'est renvoyé qu'une fois tous les clients épuisés. Chaque
 tentative est journalisée (formats, client, présence d'un jeton PO, jamais l'URL).
+
+## Security verification (anti-bot, not conversions)
+
+Answers from account on sensitive website actions only (never the media API, never key-based routes), see
+[`docs/security/anti-bot.md`](../security/anti-bot.md): `challenge_required` (403), `challenge_failed` (403),
+`challenge_expired` (403), `verification_unavailable` (503), `temporarily_blocked` (429). They are not part of the
+conversion error table above (`scripts/check-error-codes.py`).

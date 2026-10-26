@@ -14,6 +14,7 @@ How to report a vulnerability: [`SECURITY.md`](../../SECURITY.md).
 - **Strict browser security.** The website has a Content Security Policy without `unsafe-inline`; the extension's
   pages use `script-src 'self'` and package all their code (no remote code).
 - **Containers are hardened**: read-only root filesystem, `cap_drop: [ALL]`, `no-new-privileges`, resource limits.
+- **Anti-bot protection** (self-hosted Cap, off by default): [`anti-bot.md`](anti-bot.md).
 - **Tests never reach real platforms**: the media API test suite runs in a container with `--network none`.
 
 ## Secret scanning

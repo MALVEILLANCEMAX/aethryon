@@ -223,10 +223,10 @@ test("migration 011 : les demandes « Me prévenir » de l'ancienne grille (Plus
     const a = await newUser(h, "ancien-a@example.test");
     const b = await newUser(h, "ancien-b@example.test");
     const ida = (await a.json("/api/me")).body.user.id as string, idb = (await b.json("/api/me")).body.user.id as string;
-    assert.deepEqual(migrateDown(db, 5), [15, 14, 13, 12, 11]); // le panneau Premiere (012) est au-dessus
+    assert.deepEqual(migrateDown(db, 6), [16, 15, 14, 13, 12, 11]); // le panneau Premiere (012) est au-dessus
     const ins = db.prepare("INSERT INTO ytc_plan_waitlist (user_id, plan, created_at) VALUES (?, ?, ?)");
     ins.run(ida, "plus", "2026-10-14T10:00:00.000Z"); ins.run(ida, "pro", "2026-10-14T09:00:00.000Z"); ins.run(idb, "pro", "2026-10-14T11:00:00.000Z");
-    assert.deepEqual(migrateUp(db), [11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [11, 12, 13, 14, 15, 16]);
     assert.deepEqual(db.prepare("SELECT user_id, created_at FROM ytc_offer_waitlist ORDER BY created_at").all().map((r) => ({ ...r })),
       [{ user_id: ida, created_at: "2026-10-14T09:00:00.000Z" }, { user_id: idb, created_at: "2026-10-14T11:00:00.000Z" }]);
     assert.equal(db.prepare("SELECT count(*) AS n FROM ytc_plan_waitlist").get()!.n, 3, "table d'origine intacte");
@@ -238,15 +238,15 @@ test("migration 009 : up → down → up ; anciennes demandes intactes (lien san
   const h = await harness();
   try {
     const db = h.s.db;
-    assert.equal(appliedVersions(db).at(-1), 15);
-    assert.deepEqual(migrateDown(db, 6), [15, 14, 13, 12, 11, 10]); // panneau Premiere (012), facturation (011) et AETHRYON Tools (010) sont au-dessus
+    assert.equal(appliedVersions(db).at(-1), 16);
+    assert.deepEqual(migrateDown(db, 7), [16, 15, 14, 13, 12, 11, 10]); // panneau Premiere (012), facturation (011) et AETHRYON Tools (010) sont au-dessus
     db.prepare("INSERT INTO ytc_signup_token (token_hash, email, created_at, expires_at) VALUES (?, ?, ?, ?)").run("a".repeat(64), "ancien@example.test", new Date().toISOString(), new Date(Date.now() + 60_000).toISOString());
     assert.deepEqual(migrateDown(db, 1), [9]);
     const cols = (db.prepare("SELECT name FROM pragma_table_info('ytc_signup_token')").all() as { name: string }[]).map((r) => r.name);
     assert.deepEqual(cols, ["token_hash", "email", "created_at", "expires_at", "used_at"]);
     assert.equal(db.prepare("SELECT count(*) AS n FROM sqlite_master WHERE name = 'ytc_plan_waitlist'").get()!.n, 0);
     assert.equal(db.prepare("SELECT count(*) AS n FROM ytc_signup_token").get()!.n, 1, "demande conservée");
-    assert.deepEqual(migrateUp(db), [9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [9, 10, 11, 12, 13, 14, 15, 16]);
     const r = db.prepare("SELECT code_hash, code_attempts FROM ytc_signup_token").get() as { code_hash: string | null; code_attempts: number };
     assert.deepEqual([r.code_hash, r.code_attempts], [null, 0]);
     assert.throws(() => db.prepare("INSERT INTO ytc_plan_waitlist (user_id, plan, created_at) VALUES ('x', 'gold', 'x')").run());

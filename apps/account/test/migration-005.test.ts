@@ -38,7 +38,7 @@ test("migration 005 : up → down → up sur une base 004 remplie ; données 001
   const h = await harness({ ADMIN_EMAILS: "admin@example.test", EXTENSION_IDS: "abcdefghijklmnopabcdefghijklmnop" });
   try {
     const db = h.s.db;
-    assert.deepEqual(migrateDown(db, 11), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]);
+    assert.deepEqual(migrateDown(db, 12), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]);
     assert.deepEqual(appliedVersions(db), [1, 2, 3, 4]);
     assert.ok(!tables(db).some((t) => DISCORD_TABLES.includes(t)));
 
@@ -85,8 +85,8 @@ test("migration 005 : up → down → up sur une base 004 remplie ; données 001
     healthy(db);
 
     // ---- 005 : up ----
-    assert.deepEqual(migrateUp(db), [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    assert.deepEqual(appliedVersions(db), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     same(db, before, "up");
     for (const t of DISCORD_TABLES) assert.ok(tables(db).includes(t), t);
     assert.match(sqlOf(db, "ytc_key_meta"), /'shortcut', 'extension', 'discord'/);
@@ -112,7 +112,7 @@ test("migration 005 : up → down → up sur une base 004 remplie ; données 001
     healthy(db);
 
     // ---- 005 : down ----
-    assert.deepEqual(migrateDown(db, 11), [15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]);
+    assert.deepEqual(migrateDown(db, 12), [16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5]);
     assert.deepEqual(appliedVersions(db), [1, 2, 3, 4]);
     assert.ok(!tables(db).some((t) => DISCORD_TABLES.includes(t)), "tables Discord retirées");
     same(db, before, "down (clés discord effacées)");
@@ -126,7 +126,7 @@ test("migration 005 : up → down → up sur une base 004 remplie ; données 001
     healthy(db);
 
     // ---- 005 : up de nouveau ----
-    assert.deepEqual(migrateUp(db), [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    assert.deepEqual(migrateUp(db), [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
     same(db, before, "up (2e fois)");
     for (const t of DISCORD_TABLES) assert.equal((db.prepare(`SELECT count(*) n FROM ${t}`).get() as { n: number }).n, 0, `${t} vide`);
     healthy(db);

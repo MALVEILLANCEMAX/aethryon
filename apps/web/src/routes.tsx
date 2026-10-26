@@ -195,6 +195,7 @@ function controlCenterRoute(): RouteObject {
   const AdminAnalytics = lazy(() => import("./admin/pages/Analytics.tsx"));
   const AdminSystem = lazy(() => import("./admin/pages/System.tsx"));
   const AdminAudit = lazy(() => import("./admin/pages/Audit.tsx"));
+  const AdminSecurite = lazy(() => import("./admin/pages/Securite.tsx"));
   const AdminSettings = lazy(() => import("./admin/pages/Settings.tsx"));
   const AdminNotFound = lazy(() => import("./admin/pages/NotFound.tsx"));
   return {
@@ -212,6 +213,7 @@ function controlCenterRoute(): RouteObject {
       { path: "analytics", element: <AdminAnalytics /> },
       { path: "system", element: <AdminSystem /> },
       { path: "audit", element: <AdminAudit /> },
+      { path: "securite", element: <AdminSecurite /> },
       { path: "settings", element: <AdminSettings /> },
       { path: "*", element: <AdminNotFound /> },
     ] }],

@@ -5,6 +5,7 @@
 // téléchargement du fichier par le navigateur (60 min) ; historique de l'espace. Le navigateur ne parle qu'à account
 // (/api/music/*), qui relaie à AETHRYON Music. Page chargée en entier : sa CSP autorise les pochettes, les aperçus et
 // les lecteurs officiels (nginx/security-headers-musique.conf), rien d'autre.
+import { verified } from "../lib/verification.ts";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { api, ApiError } from "../lib/api.ts";
 import { useDocumentTitle } from "../lib/hooks.ts";
@@ -191,7 +192,7 @@ export default function Musique() {
   const importer = async (corps: Record<string, unknown>[]) => {
     for (const c of corps) {
       try {
-        const r = await api<{ import: ImportVue }>("/api/music/imports", { method: "POST", body: c });
+        const r = await verified((v) => api<{ import: ImportVue }>("/api/music/imports", { method: "POST", body: c, ...v }));
         setImports((l) => [r.import, ...l]);
       } catch (e) {
         toast.show("error", "Import non lancé", e instanceof ApiError ? erreurMusique(e.code, (e.data?.detail as string) ?? e.message) : "Connexion impossible.");
