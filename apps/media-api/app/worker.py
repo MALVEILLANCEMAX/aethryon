@@ -33,6 +33,7 @@ from .cookies import EXPIRY_RE
 from .errors import ApiError, clean_message, map_ytdlp_error
 from .filenames import build_download_name
 from .logging_setup import redact, setup_logging
+from .registre import AGENT_IDENTIFIE, formats_proposes, registre
 from .urls import is_youtube_music_url, youtube_music_error
 
 log = logging.getLogger("ytapi.worker")
@@ -64,14 +65,11 @@ MEDIA_TYPES = {
 H264_CODECS = ("avc1", "avc3", "h264")
 IPHONE_VIDEO_CODECS = ("h264", "h265")
 
-# yt-dlp extractors allowed per platform (regexes, full match on the lowercased IE name).
+# yt-dlp extractors allowed per platform (regexes, full match on the lowercased IE name), from the single registry
+# (app/plateformes.json): officielle and beta platforms only; the API decides which of them are open.
 # Never the generic extractor, and not twitter:shortener: it follows t.co redirects to any
 # host (a tweet card could point the server at internal URLs).
-PLATFORM_EXTRACTORS: dict[str, list[str]] = {
-    "youtube": ["youtube", "youtube:.*", "youtubeytbe"],
-    "tiktok": ["tiktok", r"vm\.tiktok"],
-    "twitter": ["twitter", "twitter:(?!shortener).*"],
-}
+PLATFORM_EXTRACTORS: dict[str, list[str]] = registre().extractors()
 
 _STAGES = {"Merger": "merging", "ExtractAudio": "converting", "ThumbnailsConvertor": "converting",
            "Metadata": "tagging", "EmbedThumbnail": "tagging", "MoveFiles": "finalizing"}
@@ -180,6 +178,10 @@ def base_options(cfg: dict[str, Any], workdir: Path, platform: str, cookies_file
         "color": {"stdout": "no_color", "stderr": "no_color"},
         "extractor_args": copy.deepcopy(cfg.get("extractor_args") or {}),  # never the shared cfg
     }
+    found = registre().get(platform)
+    if found is not None and found.agent == "identifie":
+        # Wikimedia User-Agent policy: an automated client names itself and gives a contact (registry "agent").
+        opts["http_headers"] = {"User-Agent": AGENT_IDENTIFIE}
     if platform != "twitter":
         # Never resolve playlist entries (a channel would mean one extraction per video);
         # playlists are rejected right after extraction anyway.
@@ -777,6 +779,12 @@ def summarize(info: dict[str, Any], cfg: dict[str, Any], platform: str) -> dict[
         "qualities": qualities,
         "best_h264_quality": best_h264,
         "audio_only_available": has_audio and not is_gif,
+        # Conversions offered for this media, from its real formats and the registry (app/plateformes.json).
+        # yt-dlp: a codec "none" is a known absence, a missing codec is unknown (muxed progressive files of many
+        # sites): unknown counts as present here, the download itself still checks the real tracks.
+        "proposes": formats_proposes(
+            platform, video=any(f.get("vcodec") != "none" for f in formats),
+            audio=any(f.get("acodec") != "none" for f in formats) and not is_gif, duration=duration),
         "est_size_bytes": {
             "audio_best": best_audio_size,
             **{f"mp3_{b}": int(b * 1000 / 8 * duration) for b in (128, 192, 320) if duration and has_audio},

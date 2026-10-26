@@ -28,6 +28,8 @@ EXPECTED: dict[str, str] = {
     "playlist_not_supported": "Les playlists, chaînes et profils ne sont pas pris en charge : partage une vidéo.",
     "youtube_music_not_accepted": "Les liens YouTube Music ne sont pas acceptés : AETHRYON ne télécharge pas le "
                                   "catalogue musical commercial.",
+    "platform_not_accepted": "Cette plateforme n'est pas acceptée : AETHRYON ne télécharge ni le streaming payant, "
+                             "ni les catalogues musicaux, ni les contenus protégés.",
     "live_not_supported": "Les directs et les premières ne sont pas pris en charge.",
     "short_link_unresolved": "Le lien court n'a pas pu être ouvert : ouvre la vidéo dans l'app puis partage-la à "
                              "nouveau.",
@@ -47,6 +49,8 @@ EXPECTED: dict[str, str] = {
     "upstream_timeout": "Plateforme temporairement indisponible : elle n'a pas répondu à temps.",
     "extractor_broken": "Plateforme temporairement indisponible : elle a changé son fonctionnement, le serveur doit "
                         "être mis à jour.",
+    "platform_unavailable": "Plateforme temporairement indisponible : trop d'échecs récents, elle est mise en pause "
+                            "automatiquement ; ni ta vidéo ni ton compte ne sont en cause. Réessaie plus tard.",
     "upstream_forbidden": "Échec de récupération du média : la plateforme a refusé l'accès au fichier (HTTP 403).",
     "download_failed": "Échec de récupération du média : le téléchargement depuis la plateforme a été interrompu.",
     "format_unavailable": "Échec de récupération du média : aucun format compatible n'est proposé.",
@@ -67,7 +71,7 @@ EXPECTED: dict[str, str] = {
 def test_user_texts_are_exactly_the_documented_table() -> None:
     assert USER_TEXT == EXPECTED
     assert list(USER_TEXT) == list(EXPECTED)  # same order as the documentation, easier to review
-    assert len(USER_TEXT) == 44
+    assert len(USER_TEXT) == 46
 
 
 def test_user_texts_typography() -> None:

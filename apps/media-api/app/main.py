@@ -24,7 +24,7 @@ from starlette.datastructures import Headers, MutableHeaders
 from starlette.responses import MalformedRangeHeader, RangeNotSatisfiable
 
 from .cache import ResultCache, cache_key, link_or_copy
-from .config import Settings, load_settings
+from .config import Settings, enabled_platforms, load_settings
 from .cookies import CookieMonitor
 from .errors import USER_TEXT, ApiError, error_response, install_handlers, user_text
 from .filenames import content_disposition
@@ -37,7 +37,8 @@ from .runner import Cancelled, Runner, Task
 from .security import Guard, SlidingWindowLimiter, extract_token, rate_limited
 from .thumbs import ThumbCache, fetch_image
 from .tokens import TokenStore
-from .urls import MediaUrl, media_key, result_matches_media, validate_media_url
+from .registre import public_view
+from .urls import MediaUrl, check_platform_format, media_key, result_matches_media, validate_media_url
 from .cloud import CloudSync
 from .music.routes import make_router as make_music_router
 from .music.service import MusicService
@@ -316,6 +317,7 @@ def create_app(settings: Settings | None = None, runner: Runner | None = None) -
                                                      "activés sur ce serveur (MEDIA_TOOLS_ENABLED).")
         params = normalize_clip(params, settings.extrait_duree_max_s, settings.gif_max_duration_s)
         media = validate_media_url(params.url, settings.allowed_domains)
+        check_platform_format(media.platform, params.fmt, params.wants_clip)
         tparams = task_params(params, media)
         return params, media, tparams, cache_key(media_key(media), tparams)
 
@@ -363,6 +365,13 @@ def create_app(settings: Settings | None = None, runner: Runner | None = None) -
                 body["usage_events"] = {"sent": events.sent, "dropped": events.dropped,
                                         "pending": events.queue.qsize()}
         return body
+
+    @app.get("/platforms")
+    async def platforms() -> dict[str, Any]:
+        """Public, no network: the registry (categories, neutral icons, state, permitted formats) and, for each platform
+        open on this server, whether it is available right now (breaker). Data for the interface (feat/plateformes)."""
+        enabled = enabled_platforms(settings.allowed_domains)
+        return public_view(enabled, runner.platforms.public())
 
     @app.get("/status", dependencies=[Depends(admin_light_auth)])
     async def status() -> dict[str, Any]:

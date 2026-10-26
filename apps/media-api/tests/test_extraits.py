@@ -678,6 +678,16 @@ def test_source_ignoring_range_is_refused(media: MediaServer, sources: Path, tmp
     assert media.sent < (sources / "maitre.mp4").stat().st_size  # le corps complet n'a pas été lu
 
 
+def test_mp3_clip_of_a_silent_source_is_no_audio(media: MediaServer, sources: Path, tmp_path: Path,
+                                                 monkeypatch: pytest.MonkeyPatch) -> None:
+    """Codecs inconnus (traité comme muxé, comme Internet Archive) mais fichier muet : no_audio, pas download_failed."""
+    raw = _single_raw(media.base, "v.mp4", _kbps(sources / "v.mp4"))
+    raw["formats"][0].pop("acodec"), raw["formats"][0].pop("vcodec")
+    with pytest.raises(ApiError) as caught:
+        _clip(raw, tmp_path, monkeypatch, fmt="mp3", platform="archive", start_ms=10_000, end_ms=15_000)
+    assert (caught.value.status, caught.value.code) == (400, "no_audio")
+
+
 def test_only_dashy_formats_is_partial_impossible_without_any_request(media: MediaServer, sources: Path, tmp_path: Path,
                                                                       monkeypatch: pytest.MonkeyPatch) -> None:
     raw = _youtube_raw(media.base, sources)

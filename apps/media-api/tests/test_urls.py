@@ -98,7 +98,10 @@ def test_allowlist_is_configurable() -> None:
 
 
 def test_detect_platform_other() -> None:
-    assert detect_platform("vimeo.com") == "other"
+    # Vimeo est désormais une plateforme (bêta) du registre : détectée, mais fermée tant que PLATEFORMES_BETA ne
+    # l'ouvre pas (tests/test_plateformes.py). Un site hors registre et une plateforme refusée restent « other ».
+    assert detect_platform("example.org") == "other"
+    assert detect_platform("soundcloud.com") == "other"
 
 
 def test_normalized_url_drops_fragment_and_lowercases_host() -> None:

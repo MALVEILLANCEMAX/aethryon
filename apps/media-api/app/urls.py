@@ -10,21 +10,25 @@ from __future__ import annotations
 import ipaddress
 import re
 from dataclasses import dataclass
+from functools import lru_cache
 from urllib.parse import parse_qs, unquote, urlsplit, urlunsplit
 
 from .errors import USER_TEXT, ApiError
+from .registre import Plateforme, registre
 
 MAX_URL_LENGTH = 2048
 
-# Known platforms: registrable domain -> platform name.
+# Known platforms: domain -> platform id, derived from the single registry (app/plateformes.json): every platform that
+# may run yt-dlp (officielle / beta) or that is known but switched off (indisponible). Refused platforms (DRM, paid
+# streaming, music catalogues) are not here: they never map to a platform of the converter.
 PLATFORM_DOMAINS: dict[str, str] = {
-    "youtube.com": "youtube",
-    "youtu.be": "youtube",
-    "youtube-nocookie.com": "youtube",
-    "tiktok.com": "tiktok",
-    "twitter.com": "twitter",
-    "x.com": "twitter",
+    d: p.id for p in registre().plateformes if p.etat != "refusee" for d in p.domaines
 }
+# The three platforms with their own hand-written URL rules; every other one is checked against the URL patterns of
+# its own allowed yt-dlp extractors (never duplicated here, no network).
+_CUSTOM_RULES = ("youtube", "tiktok", "twitter")
+PLATFORM_NOT_ACCEPTED_CODE = "platform_not_accepted"
+PLATFORM_UNAVAILABLE_CODE = "platform_unavailable"
 
 # YouTube Music (catalogue musical commercial) est FERMÉ au convertisseur (décision du propriétaire, 2026-10-23) :
 # music.youtube.com et ses sous-domaines, quelle que soit la façon d'écrire le lien (casse, point final, port,
@@ -44,7 +48,7 @@ _FORBIDDEN_CHARS_RE = re.compile(r"[\x00-\x20\x7f\\]")
 class MediaUrl:
     url: str
     host: str
-    platform: str  # youtube | tiktok | twitter | other
+    platform: str  # registry id (youtube | tiktok | twitter | vimeo...) | other
     media_index: int | None = None  # X: N from a .../status/ID/video/N link
 
 
@@ -108,12 +112,36 @@ def _carries_youtube_music_link(query: str) -> bool:
 
 
 def detect_platform(host: str) -> str:
+    """Platform id of a host (registry, longest domain wins), or "other" for unknown and refused hosts."""
     if is_youtube_music_host(host):
         return "other"  # not a platform of the converter: fails closed everywhere (config, worker)
-    for domain, platform in PLATFORM_DOMAINS.items():
-        if host_matches(host, domain):
-            return platform
-    return "other"
+    found = registre().for_host(host)
+    return found.id if found is not None and found.etat != "refusee" else "other"
+
+
+def refused_platform(host: str) -> Plateforme | None:
+    """The refused platform (etat refusee) a host belongs to, if any (host only, no network)."""
+    found = registre().for_host(host)
+    return found if found is not None and found.etat == "refusee" else None
+
+
+def platform_not_accepted_error(platform: Plateforme) -> ApiError:
+    """Stable refusal of a platform AETHRYON never downloads from (text shared with docs/ERREURS.md)."""
+    if platform.code == YOUTUBE_MUSIC_CODE:
+        return youtube_music_error()
+    return ApiError(400, PLATFORM_NOT_ACCEPTED_CODE, USER_TEXT[PLATFORM_NOT_ACCEPTED_CODE])
+
+
+def platform_unavailable_error(name: str, retry_after_s: int | None = None) -> ApiError:
+    headers = {"Retry-After": str(retry_after_s)} if retry_after_s else {}
+    return ApiError(503, PLATFORM_UNAVAILABLE_CODE, f"{name} est temporairement indisponible. Réessaie plus tard.",
+                    headers)
+
+
+def allowed_platform_names(allowed_domains: tuple[str, ...]) -> list[str]:
+    """Names of the platforms opened by the allowed domains, in registry order (for messages)."""
+    ids = {detect_platform(d) for d in allowed_domains}
+    return [p.nom for p in registre().plateformes if p.id in ids]
 
 
 def validate_media_url(raw: str | None, allowed_domains: tuple[str, ...]) -> MediaUrl:
@@ -157,12 +185,18 @@ def validate_media_url(raw: str | None, allowed_domains: tuple[str, ...]) -> Med
     if not _HOST_RE.fullmatch(host) or all(label.isdigit() for label in host.split(".")):
         raise _invalid("Nom de domaine invalide.")
 
+    refused = refused_platform(host)
+    if refused is not None:
+        raise platform_not_accepted_error(refused)
+    known = registre().get(detect_platform(host))
+    if known is not None and known.etat == "indisponible":
+        raise platform_unavailable_error(known.nom)
     if not any(host_matches(host, domain) for domain in allowed_domains):
-        raise ApiError(
-            400,
-            "domain_not_allowed",
-            f"Le domaine {host} n'est pas autorisé (YouTube, TikTok, X uniquement).",
-        )
+        if known is not None and known.etat == "beta":
+            raise ApiError(400, "domain_not_allowed",
+                           f"{known.nom} n'est pas encore prise en charge : plateforme en essai, pas encore ouverte.")
+        names = ", ".join(allowed_platform_names(allowed_domains)) or "aucune plateforme"
+        raise ApiError(400, "domain_not_allowed", f"Le domaine {host} n'est pas autorisé ({names} uniquement).")
 
     netloc = host if port is None else f"{host}:{port}"
     normalized = urlunsplit((scheme, netloc, parts.path or "/", parts.query, ""))
@@ -177,6 +211,8 @@ def validate_media_url(raw: str | None, allowed_domains: tuple[str, ...]) -> Med
         if match:
             media_index = int(match.group(2)) or None
             normalized = urlunsplit((scheme, netloc, parts.path[: match.start()], "", ""))
+    elif platform not in _CUSTOM_RULES:
+        check_extractor_shape(platform, normalized)
     return MediaUrl(url=normalized, host=host, platform=platform, media_index=media_index)
 
 
@@ -324,3 +360,37 @@ def _tiktok_unsupported() -> ApiError:
     return ApiError(400, "unsupported_url",
                     "Ce type de lien TikTok n'est pas pris en charge : envoyez le lien d'une vidéo "
                     "(tiktok.com/@…/video/…, vm.tiktok.com/…, vt.tiktok.com/…).")
+
+
+# --- other platforms: the URL patterns of their own allowed extractors (yt-dlp, no network) ---------------------
+
+
+@lru_cache(maxsize=64)
+def _extractor_classes(platform: str) -> tuple[type, ...]:
+    """yt-dlp extractor classes allowed for `platform` (same full-match rule as yt-dlp's allowed_extractors)."""
+    from yt_dlp.extractor import gen_extractor_classes  # heavy import, only when a new platform is used
+
+    patterns = registre().extractors(avec_indisponibles=True).get(platform) or []
+    return tuple(ie for ie in gen_extractor_classes()
+                 if any(re.fullmatch(p, ie.IE_NAME.lower()) for p in patterns))
+
+
+def check_extractor_shape(platform: str, url: str) -> None:
+    """Refuse a link that none of the platform's allowed extractors recognises (a profile, a channel, a list...)
+    BEFORE any worker: the allowed extractors are single-media ones, so the shape check is theirs, never a copy."""
+    found = registre().get(platform)
+    name = found.nom if found else platform
+    if not any(ie.suitable(url) for ie in _extractor_classes(platform)):
+        raise ApiError(400, "unsupported_url",
+                       f"Ce type de lien {name} n'est pas pris en charge : envoyez le lien d'une seule vidéo "
+                       "(pas un profil, une chaîne ou une liste).")
+
+
+def check_platform_format(platform: str, fmt: str, clip: bool = False) -> None:
+    """Formats the registry permits for the platform (e.g. no MP3 from Imgur, whose clips are mostly silent)."""
+    found = registre().get(platform)
+    if found is None or not found.formats:
+        return
+    if fmt not in found.formats or (clip and "extrait" not in found.formats):
+        wanted = "un extrait" if clip and "extrait" not in found.formats else f"le format {fmt.upper()}"
+        raise ApiError(422, "format_unavailable", f"{found.nom} : {wanted} n'est pas proposé pour cette plateforme.")

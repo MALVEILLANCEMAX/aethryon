@@ -651,6 +651,10 @@ def ffmpeg_fenetre(url: str, liste: bool, debut_s: float, duree_s: float, flux: 
         raise Depassement()
     if code != 0:
         log.warning("ffmpeg window failed", extra={"returncode": code, "stderr": _sans_url(texte[-1500:])})
+        if flux == "a" and "matches no streams" in texte:
+            # Piste son annoncée inconnue par la plateforme (acodec absent, ex. film muet d'Internet Archive) et
+            # absente du fichier : refus clair, pas un « échec de récupération » (banc plateformes 2026-10-26).
+            raise ApiError(400, "no_audio", "Ce média n'a pas de piste son : extrait sonore impossible.")
         raise ApiError(502, "download_failed", "La récupération du passage a échoué (flux interrompu ou illisible).")
     if t0 is None:
         m = _START_RE.search(texte)

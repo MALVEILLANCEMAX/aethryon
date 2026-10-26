@@ -2,6 +2,7 @@
 // service de conversion (ytapi/app/urls.py, config.py ALLOWED_DOMAINS) pour ne jamais promettre ce qu'il refuserait :
 // une vidéo à la fois (ni playlist, ni chaîne, ni recherche), pas de diaporama photo TikTok, trois plateformes.
 import type { PlatformId } from "./brand.ts";
+import { REGISTRE_PLATEFORMES, type PlateformeRegistre } from "./plateformes-registre.ts";
 
 export type Probe =
   | { state: "vide" }
@@ -16,7 +17,7 @@ const HOSTS: readonly [string, PlatformId][] = [
 const COLLECTION = "Une vidéo à la fois : les playlists, chaînes et recherches ne sont pas prises en charge.";
 
 // YouTube Music (music.youtube.com) est FERMÉ au convertisseur depuis le 2026-10-23 (décision du propriétaire) : même
-// code et même texte que ytapi (docs/ERREURS.md, `youtube_music_not_accepted`). Seul l'hôte décide ; le lien n'est jamais suivi.
+// code et même texte que ytapi (docs/api/ERREURS.md, `youtube_music_not_accepted`). Seul l'hôte décide ; le lien n'est jamais suivi.
 export const YOUTUBE_MUSIC_TEXT = "Les liens YouTube Music ne sont pas acceptés\u00a0: AETHRYON ne télécharge pas le catalogue musical commercial.";
 const MUSIC_DOMAINS = ["music.youtube.com", "music.youtu.be", "music.youtube-nocookie.com", "youtubemusic.com"] as const;
 
@@ -44,6 +45,39 @@ function carriesMusicLink(params: URLSearchParams): boolean {
   return false;
 }
 
+// Plateformes du registre UNIQUE (ytapi/app/plateformes.json, copie générée) autres que les trois du site : refus
+// clair, avec le même code d'erreur que le service pour les refusées (docs/api/ERREURS.md, `platform_not_accepted`).
+export const PLATFORM_NOT_ACCEPTED_TEXT = "Cette plateforme n'est pas acceptée\u00a0: AETHRYON ne télécharge ni le streaming payant, ni les catalogues musicaux, ni les contenus protégés.";
+
+/** Entrée du registre pour un hôte (frontière d'étiquette ; le domaine le plus long gagne), sinon null. */
+export function plateformeDeHote(host: string): PlateformeRegistre | null {
+  const bare = host.trim().toLowerCase().replace(/\.+$/, "");
+  let best: PlateformeRegistre | null = null;
+  let len = 0;
+  for (const p of REGISTRE_PLATEFORMES.plateformes) {
+    for (const d of p.domaines) if ((bare === d || bare.endsWith(`.${d}`)) && d.length > len) { best = p; len = d.length; }
+  }
+  return best;
+}
+
+/** Détection de la plateforme d'un lien, sans réseau (données pour l'interface future : catégorie, icône, état). */
+export function plateformeDuLien(raw: string): PlateformeRegistre | null {
+  const text = raw.trim();
+  if (!text) return null;
+  try {
+    return plateformeDeHote(new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(text) ? text : `https://${text}`).hostname);
+  } catch {
+    return null;
+  }
+}
+
+function refusRegistre(p: PlateformeRegistre): string {
+  if (p.etat === "refusee") return p.code === "youtube_music_not_accepted" ? YOUTUBE_MUSIC_TEXT : PLATFORM_NOT_ACCEPTED_TEXT;
+  if (p.etat === "indisponible") return `${p.nom} est temporairement indisponible.`;
+  if (p.etat === "beta") return `${p.nom} n'est pas encore prise en charge\u00a0: plateforme en essai.`;
+  return `${p.nom} arrive bientôt sur le site.`;
+}
+
 export function probeLink(raw: string): Probe {
   const text = raw.trim();
   if (!text) return { state: "vide" };
@@ -57,7 +91,11 @@ export function probeLink(raw: string): Probe {
   const host = url.hostname.toLowerCase().replace(/\.$/, "");
   if (isYouTubeMusicHost(host)) return { state: "refus", message: YOUTUBE_MUSIC_TEXT };
   const platform = HOSTS.find(([h]) => host === h || host.endsWith(`.${h}`))?.[1];
-  if (!platform) return { state: "refus", message: "Ce site n'est pas pris en charge : YouTube, TikTok et X seulement." };
+  if (!platform) {
+    const known = plateformeDeHote(host);
+    if (known) return { state: "refus", message: refusRegistre(known) };
+    return { state: "refus", message: "Ce site n'est pas pris en charge : YouTube, TikTok et X seulement." };
+  }
   const path = url.pathname;
 
   if (platform === "youtube") {

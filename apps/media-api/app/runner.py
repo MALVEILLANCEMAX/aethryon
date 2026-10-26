@@ -20,7 +20,7 @@ from dataclasses import asdict, dataclass, field
 from multiprocessing.connection import Connection
 from typing import Any, AsyncIterator, Literal
 
-from .config import DEFAULT_YT_CLIENTS, Settings
+from .config import DEFAULT_YT_CLIENTS, Settings, enabled_platforms
 from .errors import ApiError
 from .platforms import Gate, PlatformMonitor
 
@@ -133,7 +133,9 @@ class Runner:
         self._running = 0
         self._children: set[multiprocessing.process.BaseProcess] = set()
         self.platforms = PlatformMonitor(settings.yt_cooldown_min, settings.yt_concurrency, settings.yt_min_interval_s,
-                                         settings.yt_cooldown_max_min)
+                                         settings.yt_cooldown_max_min, enabled_platforms(settings.allowed_domains),
+                                         settings.platform_breaker_failures, settings.platform_breaker_min,
+                                         settings.platform_breaker_max_min)
 
     # --- queue / slots ---------------------------------------------------------------------
 

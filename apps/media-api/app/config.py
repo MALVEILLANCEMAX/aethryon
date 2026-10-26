@@ -10,13 +10,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from .urls import detect_platform, is_youtube_music_host
+from .registre import registre
+from .urls import detect_platform, is_youtube_music_host, refused_platform
 
-DEFAULT_ALLOWED_DOMAINS = (
-    "youtube.com,youtu.be,youtube-nocookie.com,"
-    "tiktok.com,"
-    "twitter.com,x.com"
-)
+# Domains open by default: those of the OFFICIAL platforms of the registry (app/plateformes.json), i.e. platforms
+# tested for real with success. A beta platform is opened only by PLATEFORMES_BETA.
+DEFAULT_ALLOWED_DOMAINS = ",".join(registre().domains("officielle"))
 # socks5h: DNS resolved by the proxy (yt-dlp turns socks5 into socks5h anyway). https and socks4
 # are refused: yt-dlp's ffmpeg downloader would bypass an https proxy silently, socks4 resolves
 # names locally.
@@ -72,7 +71,21 @@ def parse_rate_limit(raw: str) -> tuple[int, int]:
     return count, multiplier * _PERIODS[match.group(3)]
 
 
-def parse_domains(raw: str) -> tuple[str, ...]:
+def parse_beta_platforms(raw: str) -> tuple[str, ...]:
+    """PLATEFORMES_BETA="vimeo,dailymotion": beta platforms of the registry opened on this server (default: none)."""
+    ids = tuple(dict.fromkeys(item.strip().lower() for item in raw.split(",") if item.strip()))
+    reg = registre()
+    for pid in ids:
+        found = reg.get(pid)
+        if found is None:
+            raise ConfigError(f"PLATEFORMES_BETA: unknown platform {pid!r} (see app/plateformes.json)")
+        if found.etat != "beta":
+            raise ConfigError(f"PLATEFORMES_BETA: {pid} is {found.etat}, not beta: only beta platforms can be opened "
+                              "this way (official ones are open by default, refused ones never)")
+    return ids
+
+
+def parse_domains(raw: str, beta: tuple[str, ...] = ()) -> tuple[str, ...]:
     domains = []
     for item in raw.split(","):
         domain = item.strip().lower().rstrip(".")
@@ -87,13 +100,33 @@ def parse_domains(raw: str) -> tuple[str, ...]:
     if closed:
         raise ConfigError(f"ALLOWED_DOMAINS: {', '.join(closed)} (YouTube Music) is closed to the converter: "
                           "AETHRYON does not download the commercial music catalogue (owner's decision, 2026-10-23)")
-    # Only domains of a supported platform (own URL rules and yt-dlp extractor list): a music service (SoundCloud,
-    # Deezer, Spotify, Apple Music...) or any other site can never be opened to yt-dlp by configuration alone.
+    refused = [d for d in domains if refused_platform(d) is not None]
+    if refused:
+        raise ConfigError(f"ALLOWED_DOMAINS: {', '.join(refused)} belongs to a refused platform (paid streaming, music "
+                          "catalogue, DRM or terms of use): it can never be opened")
+    # Only domains of a platform of the registry (own yt-dlp extractor list): any other site can never be opened to
+    # yt-dlp by configuration alone, and a beta platform only through PLATEFORMES_BETA.
     unknown = [d for d in domains if detect_platform(d) == "other"]
     if unknown:
         raise ConfigError(f"ALLOWED_DOMAINS: unsupported platform domain(s) {', '.join(unknown)} "
-                          "(YouTube, TikTok and X only; a new platform needs its own rules in the code)")
+                          "(platforms of app/plateformes.json only; a new platform needs its registry entry)")
+    reg = registre()
+    closed_beta = [d for d in domains if (p := reg.get(detect_platform(d))) is not None
+                   and p.etat in ("beta", "indisponible") and p.id not in beta]
+    if closed_beta:
+        raise ConfigError(f"ALLOWED_DOMAINS: {', '.join(closed_beta)} belongs to a beta or unavailable platform: a beta "
+                          "platform is opened with PLATEFORMES_BETA only, an unavailable one not at all")
+    for pid in beta:
+        found = reg.get(pid)
+        if found is not None:
+            domains.extend(found.domaines)
     return tuple(dict.fromkeys(domains))
+
+
+def enabled_platforms(allowed_domains: tuple[str, ...]) -> tuple[str, ...]:
+    """Ids of the platforms the allowed domains open (registry order)."""
+    ids = {detect_platform(d) for d in allowed_domains}
+    return tuple(p.id for p in registre().plateformes if p.id in ids and p.telechargeable)
 
 
 def parse_yt_clients(raw: str) -> tuple[str, ...]:
@@ -158,6 +191,15 @@ def parse_proxy(raw: str) -> str | None:
 class Settings:
     api_token: str  # may be "" when a tokens file is used
     allowed_domains: tuple[str, ...]
+    # Beta platforms of the registry opened on this server (PLATEFORMES_BETA; none by default).
+    plateformes_beta: tuple[str, ...] = ()
+    # Circuit breaker of the platforms other than YouTube (YouTube keeps its own, YT_COOLDOWN_*): after
+    # PLATFORM_BREAKER_FAILURES consecutive failures of the platform itself (not of a given video), it is paused
+    # PLATFORM_BREAKER_MIN minutes (doubled at each new failure after the pause, up to PLATFORM_BREAKER_MAX_MIN):
+    # requests get 503 platform_unavailable + Retry-After at once. 0 failures = breaker off.
+    platform_breaker_failures: int = 3
+    platform_breaker_min: int = 10
+    platform_breaker_max_min: int = 60
     max_concurrent: int = 2
     max_queue: int = 10
     max_duration_s: int = 3600
@@ -360,9 +402,14 @@ def load_settings() -> Settings:
     if log_level not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
         raise ConfigError("LOG_LEVEL must be DEBUG, INFO, WARNING or ERROR")
 
+    beta = parse_beta_platforms(os.environ.get("PLATEFORMES_BETA", ""))
     return Settings(
         api_token=token,
-        allowed_domains=parse_domains(os.environ.get("ALLOWED_DOMAINS", DEFAULT_ALLOWED_DOMAINS)),
+        allowed_domains=parse_domains(os.environ.get("ALLOWED_DOMAINS", DEFAULT_ALLOWED_DOMAINS), beta),
+        plateformes_beta=beta,
+        platform_breaker_failures=_int("PLATFORM_BREAKER_FAILURES", 3, minimum=0),
+        platform_breaker_min=_int("PLATFORM_BREAKER_MIN", 10, minimum=1),
+        platform_breaker_max_min=_int("PLATFORM_BREAKER_MAX_MIN", 60, minimum=1),
         max_concurrent=_int("MAX_CONCURRENT", 2, minimum=1),
         max_queue=_int("MAX_QUEUE", 10, minimum=1),
         max_duration_s=_int("MAX_DURATION_S", 3600, minimum=1),

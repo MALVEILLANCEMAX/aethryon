@@ -2,7 +2,7 @@
 
 `error` codes are stable identifiers (English); `detail` is a short French sentence meant to be
 shown as-is in an iPhone alert. Admin tokens get the technical detail; personal keys (ytc_) get
-the fixed text of USER_TEXT for the codes of docs/ERREURS.md.
+the fixed text of USER_TEXT for the codes of docs/api/ERREURS.md.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ log = logging.getLogger("ytapi.errors")
 COOKIES_HINT = "Des cookies d'un compte jetable (make cookies-install) règlent souvent le problème."
 
 # Text shown to personal keys (iPhone) and in the usage history of the account site: copied
-# character for character from docs/ERREURS.md, which is the reference (same codes, same texts as
+# character for character from docs/api/ERREURS.md, which is the reference (same codes, same texts as
 # account/src/usage.ts ERROR_TEXT). A code missing here keeps its technical detail in API answers.
 USER_TEXT: dict[str, str] = {
     "not_found": "Vidéo supprimée ou inaccessible : la plateforme ne la trouve pas (lien erroné ou vidéo retirée).",
@@ -41,6 +41,8 @@ USER_TEXT: dict[str, str] = {
     "playlist_not_supported": "Les playlists, chaînes et profils ne sont pas pris en charge : partage une vidéo.",
     "youtube_music_not_accepted": "Les liens YouTube Music ne sont pas acceptés : AETHRYON ne télécharge pas le "
                                   "catalogue musical commercial.",
+    "platform_not_accepted": "Cette plateforme n'est pas acceptée : AETHRYON ne télécharge ni le streaming payant, "
+                             "ni les catalogues musicaux, ni les contenus protégés.",
     "live_not_supported": "Les directs et les premières ne sont pas pris en charge.",
     "short_link_unresolved": "Le lien court n'a pas pu être ouvert : ouvre la vidéo dans l'app puis partage-la "
                              "à nouveau.",
@@ -62,6 +64,8 @@ USER_TEXT: dict[str, str] = {
     "upstream_timeout": "Plateforme temporairement indisponible : elle n'a pas répondu à temps.",
     "extractor_broken": "Plateforme temporairement indisponible : elle a changé son fonctionnement, le serveur "
                         "doit être mis à jour.",
+    "platform_unavailable": "Plateforme temporairement indisponible : trop d'échecs récents, elle est mise en pause "
+                            "automatiquement ; ni ta vidéo ni ton compte ne sont en cause. Réessaie plus tard.",
     "upstream_forbidden": "Échec de récupération du média : la plateforme a refusé l'accès au fichier (HTTP 403).",
     "download_failed": "Échec de récupération du média : le téléchargement depuis la plateforme a été interrompu.",
     "format_unavailable": "Échec de récupération du média : aucun format compatible n'est proposé.",
@@ -86,7 +90,7 @@ def user_text(code: str) -> str:
 
 def detail_for(request: Request, code: str, detail: str) -> str:
     """Detail as seen by the caller: the fixed text of a known code for personal keys, the
-    technical detail for admin tokens (and for codes outside docs/ERREURS.md: auth, quotas...)."""
+    technical detail for admin tokens (and for codes outside docs/api/ERREURS.md: auth, quotas...)."""
     principal = getattr(request.state, "principal", None)
     if principal is not None and principal.is_user and code in USER_TEXT:
         return USER_TEXT[code]

@@ -1,6 +1,6 @@
 # AETHRYON — development commands. None of them deploys anything.
 COMPOSE := docker-compose -p aethryon-dev -f compose.dev.yml
-.PHONY: help dev-secrets dev-downloads dev-build dev-up dev-down dev-logs test test-errors test-account test-media-api \
+.PHONY: help dev-secrets dev-downloads dev-build dev-up dev-down dev-logs test test-errors test-platforms test-account test-media-api \
 	test-web test-extension test-discord test-premiere-panel test-desktop-core test-shortcut scan
 
 help:
@@ -29,10 +29,14 @@ dev-down:
 dev-logs:
 	$(COMPOSE) logs --tail=100 -f
 
-test: test-errors test-account test-media-api test-web test-extension test-discord test-premiere-panel
+test: test-errors test-platforms test-account test-media-api test-web test-extension test-discord test-premiere-panel
 
 test-errors:
 	python3 scripts/check-error-codes.py
+
+test-platforms:
+	python3 scripts/sync-plateformes.py --check
+	cd apps/web && node --test tests/plateformes.test.ts tests/liens.test.ts
 
 test-account:
 	cd apps/account && npm ci --no-audit --no-fund && npm run typecheck && npm test
