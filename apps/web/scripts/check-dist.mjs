@@ -45,6 +45,13 @@ for (const f of files) {
       if (!ok) errors.push(`${rel} : lien Discord inattendu ${href}`);
       return ok ? tag.replace(href, "#discord-ajout") : tag;
     });
+    // Soutien (lib/soutien.ts, pied de page) : une NAVIGATION vers la page Buy Me a Coffee du propriétaire, jamais une ressource
+    // chargée ; seulement sur une ancre <a>, adresse exacte, nouvel onglet SANS référent (noopener noreferrer).
+    html = html.replace(/<a\b[^>]*?\shref="(https:\/\/buymeacoffee\.com\/[^"]*)"[^>]*>/g, (tag, href) => {
+      const ok = href === "https://buymeacoffee.com/malvoyance" && /\starget="_blank"/.test(tag) && /\srel="noopener noreferrer"/.test(tag);
+      if (!ok) errors.push(`${rel} : lien de soutien inattendu ou non sécurisé ${tag}`);
+      return ok ? tag.replace(href, "#soutien") : tag;
+    });
     for (const m of html.matchAll(/\b(?:src|href|srcset|imagesrcset)=["'](https?:)?\/\/[^"']+/gi)) errors.push(`${rel} : ressource externe ${m[0]}`);
   }
   if (f.endsWith(".css")) {

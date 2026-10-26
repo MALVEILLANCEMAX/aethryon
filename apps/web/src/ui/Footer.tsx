@@ -9,6 +9,8 @@ import { PLATFORMS } from "../lib/brand.ts";
 import { PlatformMark } from "./brand/PlatformMark.tsx";
 import { DISCORD_PUBLIC } from "../lib/discord.ts";
 import { OFFRES_MODE, TARIFS_LABEL } from "../lib/offres.ts";
+import { IconCup } from "./Icon.tsx";
+import { SOUTIEN_URL } from "../lib/soutien.ts";
 import { ouvrirPreferences } from "../lib/confidentialite.ts";
 import { ouvrirNouveautes, VERSION_SITE } from "../lib/nouveautes.ts";
 
@@ -58,6 +60,15 @@ export function Footer() {
             <StatusDot tone={st.data ? TONE[st.data.state] : "muted"} />
             {st.data ? LABEL[st.data.state] : "État du service"}
           </Link>
+          {/* Soutien volontaire : lien sortant simple (nouvel onglet, sans référent), rien n'est chargé depuis l'autre site. */}
+          <div className="mt-3 max-w-sm" data-soutien="">
+            <p className="text-[14px] leading-relaxed text-mist">Sans publicité : si AETHRYON t'est utile, tu peux le soutenir.</p>
+            <a href={SOUTIEN_URL} target="_blank" rel="noopener noreferrer"
+              className="mt-1 inline-flex min-h-11 items-center gap-2 text-[14.5px] text-gold-light underline decoration-gold/40 underline-offset-4 transition-colors hover:text-ivory hover:decoration-ivory/60"
+              data-soutien-lien="">
+              <IconCup size={18} className="shrink-0" />Soutenir AETHRYON<span className="sr-only"> (Buy Me a Coffee, nouvel onglet)</span>
+            </a>
+          </div>
         </div>
         <nav aria-label="Liens du pied de page" className="grid grid-cols-2 gap-8 sm:grid-cols-3">
           {cols.map((c) => (

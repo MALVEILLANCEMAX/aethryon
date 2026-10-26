@@ -64,6 +64,8 @@ export const ShortcutTile = ({ size = 28, className }: { size?: number; classNam
 /** Étoile à quatre branches (élément graphique de la planche). */
 export const IconSparkle = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M12 3c.6 4.6 1.9 7.4 9 9-7.1 1.6-8.4 4.4-9 9-.6-4.6-1.9-7.4-9-9 7.1-1.6 8.4-4.4 9-9z" /></svg>);
 export const IconArrowRight = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M5 12h14M13 6l6 6-6 6" /></svg>);
+/** Tasse fine (même grille 24, trait 1,6) : « Soutenir AETHRYON ». Deux filets de vapeur, anse à droite. */
+export const IconCup = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M5 10h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z" /><path d="M16 11.5h1.5a2.5 2.5 0 0 1 0 5H15.7" /><path d="M8.5 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3" /></svg>);
 export const IconArrowUpRight = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M7 17 17 7M8 7h9v9" /></svg>);
 export const IconLink = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" /></svg>);
 export const IconBook = ({ size, ...p }: P) => (<svg {...base(size)} {...p}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" transform="translate(0 -1)" /></svg>);
