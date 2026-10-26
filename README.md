@@ -36,13 +36,15 @@
 
 <p align="center">
   <a href="https://github.com/MALVEILLANCEMAX/aethryon/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/MALVEILLANCEMAX/aethryon/actions/workflows/ci.yml/badge.svg"></a>
-  <a href="#-license"><img alt="License: not chosen yet" src="https://img.shields.io/badge/license-not%20chosen%20yet-6B6459?style=flat-square&labelColor=0F0F10"></a>
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-D4AF7C?style=flat-square&labelColor=0F0F10"></a>
   <a href="https://buymeacoffee.com/malvoyance"><img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-D4AF7C?style=flat-square&logo=buymeacoffee&logoColor=0F0F10&labelColor=E3CDA6"></a>
 </p>
 
 <p align="center">
   <a href="https://raccourci.malvu.fr"><b>Website</b></a> ·
   <a href="#-downloads"><b>Downloads</b></a> ·
+  <a href="https://github.com/MALVEILLANCEMAX/aethryon/releases"><b>Releases</b></a> ·
+  <a href="CHANGELOG.md"><b>Changelog</b></a> ·
   <a href="docs/README.md"><b>Documentation</b></a> ·
   <a href="#-getting-started"><b>Run it locally</b></a> ·
   <a href="CONTRIBUTING.md"><b>Contributing</b></a> ·
@@ -272,7 +274,6 @@ make scan               # secret scan of the working tree (gitleaks)
 | 🔧 In progress | Premium plans — billing code is in place, sales are closed |
 | 📝 Open source | English translations of code comments and internal docs (mostly French today), more contributor guides |
 | 📝 Open source | Real-device demos for Discord and iPhone, Windows CI for Desktop and Setup |
-| ⚖️ Pending | Choice of an open-source license by the owner (see [License](#-license)) |
 
 ## ◆ Contributing
 
@@ -305,13 +306,14 @@ Starring the repository, reporting bugs and improving the documentation help jus
 
 ## ◆ License
 
-> [!IMPORTANT]
-> **No open-source license has been chosen yet.** Until the owner publishes a `LICENSE` file, all rights are
-> reserved: you may read the code, but not reuse or redistribute it.
+The **code** of AETHRYON is licensed under the [Apache License 2.0](LICENSE) — see also [`NOTICE`](NOTICE).
 
-The AETHRYON name, the owl, the logotype and the other brand assets in [`assets/`](assets) and
-[`packages/brand`](packages/brand) are **not** covered by the future code license. Third-party components keep their
-own licenses (fonts: SIL Open Font License; see the `LICENSE-*.txt` files next to them).
+The **brand is not**: the AETHRYON name, the owl, the logotype, icons, illustrations, the launch film, sounds and
+screenshots in [`assets/`](assets), [`packages/brand`](packages/brand) and the apps' brand files are reserved
+(Apache-2.0 §6 grants no trademark rights). Forks are welcome under the code license, but must be renamed and use their
+own visuals: read the [Trademark and Brand Assets Policy](TRADEMARK.md) and [`assets/LICENSE-ASSETS.md`](assets/LICENSE-ASSETS.md).
+Third-party components keep their own licenses (fonts: SIL Open Font License, see the `LICENSE-*.txt` files next to
+them; adapted code: `apps/web/LICENCES-TIERS.md`).
 
 <p align="center"><br>
   <img src="assets/brand/aethryon-petit.svg" alt="" width="28"><br>

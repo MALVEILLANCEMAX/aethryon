@@ -3,7 +3,7 @@ name = "aethryon-setup-ui"
 version = "2.0.0-beta.8"
 edition = "2021"
 description = "AETHRYON Setup : interface (Tauri 2) et modes silencieux"
-license = "LicenseRef-AETHRYON-proprietaire"
+license = "Apache-2.0"
 publish = false
 
 [build-dependencies]

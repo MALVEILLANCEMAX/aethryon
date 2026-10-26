@@ -2,6 +2,7 @@
   "name": "aethryon-premiere-cep",
   "private": true,
   "version": "2.0.1",
+  "license": "Apache-2.0",
   "description": "AETHRYON pour Premiere Pro v2 — interface web unique (coque CEP maintenant, coque UXP WebView plus tard).",
   "type": "module",
   "scripts": {

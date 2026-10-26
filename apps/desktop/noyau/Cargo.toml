@@ -3,7 +3,7 @@ name = "aethryon-noyau"
 version = "1.2.0-beta.2"
 edition = "2021"
 description = "Cœur portable d'AETHRYON Desktop (bibliothèque, surveillance, échanges avec le panneau Premiere, Native Messaging)"
-license = "LicenseRef-AETHRYON-proprietaire"
+license = "Apache-2.0"
 publish = false
 
 [dependencies]

@@ -3,7 +3,7 @@ name = "aethryon-archive-extension"
 version = "1.0.0"
 edition = "2021"
 description = "Vérification de l'extension navigateur AETHRYON (latest.json, empreinte, contenu de l'archive, identifiant de production), partagée par AETHRYON Desktop et AETHRYON Setup"
-license = "LicenseRef-AETHRYON-proprietaire"
+license = "Apache-2.0"
 publish = false
 
 [dependencies]

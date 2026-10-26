@@ -1,0 +1,13 @@
+AETHRYON
+Copyright 2026 The AETHRYON contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The AETHRYON name, the owl, the logotype, app icons, illustrations, the launch film, sounds, screenshots and other
+brand assets are NOT licensed under the Apache License (section 6 of the License grants no trademark rights).
+See TRADEMARK.md and assets/LICENSE-ASSETS.md.
+
+This product includes third-party components distributed under their own licenses, among them:
+- an adapted "Password strength" component from Arc (MIT), see apps/web/LICENCES-TIERS.md;
+- the Cap verification widget and WebAssembly (@cap.js/widget, @cap.js/wasm, Apache-2.0), see apps/web/LICENCES-TIERS.md;
+- fonts under the SIL Open Font License 1.1, with their license files next to them.

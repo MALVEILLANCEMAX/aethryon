@@ -23,6 +23,22 @@ apps/media-api/secrets/*
 *.pfx
 *.key
 cookies*.txt
+.env.*
+!.env.example
+*.crt
+*.cer
+*.der
+*.p8
+*.jks
+*.keystore
+*.gpg
+*.kdbx
+id_rsa*
+id_ed25519*
+.npmrc
+.pypirc
+.netrc
+*.tfstate*
 
 # Data that must never be published
 *.sqlite
@@ -30,6 +46,11 @@ cookies*.txt
 *.db
 *.bak
 *.log
+*.sql.gz
+*.dump
+backups/
+uploads/
+coverage/
 
 # Generated download folders (filled by apps/web/scripts/fetch-downloads.sh)
 apps/web/public-downloads/
@@ -48,6 +69,9 @@ shortcuts/ios/.cache/
 shortcuts/ios/build/
 
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
 
 # The signed iOS Shortcut is a published artefact
 !shortcuts/ios/dist/

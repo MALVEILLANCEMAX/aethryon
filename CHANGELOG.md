@@ -6,6 +6,25 @@ All notable changes to this repository are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `LICENSE` (Apache License 2.0), `NOTICE`, `TRADEMARK.md` and `assets/LICENSE-ASSETS.md`: the code is Apache-2.0, the
+  AETHRYON brand (name, owl, logotype, visuals) stays reserved. Package manifests and crates now declare `Apache-2.0`.
+- Anti-bot protection with a self-hosted [Cap](https://github.com/tiagozip/cap) instance, synced from production
+  (`604cca1`): server-side challenges on sensitive website actions (sign-up, password reset, repeated login failures,
+  website jobs), a security page in the Control Center, migration 016. Off by default (`ANTIBOT=off`); see
+  `docs/security/anti-bot.md`.
+
+### Changed
+
+- Code of Conduct reports go through GitHub private reporting until a dedicated address is published.
+- `.gitignore` covers more secret and data file types.
+
+### Fixed
+
+- Desktop core: the test `metadonnees_et_miniatures_progressives` no longer depends on the ranking of equal search
+  results (it failed on the CI runner).
+
 ## [0.1.0] — 2026-10-26 — First public source release (private preview)
 
 First release of the AETHRYON monorepo as an open-source project, prepared from the private production repository

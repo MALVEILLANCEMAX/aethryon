@@ -3,7 +3,7 @@ name = "aethryon-setup"
 version = "2.0.0-beta.8"
 edition = "2021"
 description = "AETHRYON Setup : amorce, un seul exe qui embarque la charge (interface, AETHRYON Desktop, extension CEP signée)"
-license = "LicenseRef-AETHRYON-proprietaire"
+license = "Apache-2.0"
 publish = false
 
 [[bin]]

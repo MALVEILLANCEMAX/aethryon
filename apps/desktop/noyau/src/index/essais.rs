@@ -533,7 +533,15 @@ fn metadonnees_et_miniatures_progressives() {
         }),
         "enrichissement non terminé"
     );
-    let el = |t: &str| b.chercher(Requete { texte: t.into(), ..Default::default() }).elements.remove(0);
+    // Several files share tags (artist, album), so a text search can rank another file first:
+    // pick the result whose file name matches, independently of ranking ties.
+    let el = |t: &str| {
+        b.chercher(Requete { texte: t.into(), ..Default::default() })
+            .elements
+            .into_iter()
+            .find(|e| Path::new(&e.chemin).file_name().map_or(false, |n| n.to_string_lossy().contains(t)))
+            .unwrap_or_else(|| panic!("aucun fichier nommé « {t} »"))
+    };
     let mp3 = el("nocturne");
     assert_eq!(mp3.titre.as_deref(), Some("Clair de nuit"));
     assert_eq!(mp3.artistes, vec!["Atelier Chouette"]);
