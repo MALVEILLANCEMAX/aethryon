@@ -66,6 +66,9 @@ RUN if [ "$CONTROL_CENTER" = 0 ]; then sed -i '/# >>> control-center/,/# <<< con
       && ! grep -q "admin-session" /etc/nginx/conf.d/default.conf; \
     else sed -i '/# >>> sans-control-center/,/# <<< sans-control-center/d' /etc/nginx/conf.d/default.conf \
       && grep -q "admin-session" /etc/nginx/conf.d/default.conf; fi
+ARG OFFRES=reelles
+RUN if [ "$OFFRES" = reelles ]; then sed -i '/# >>> premium/,/# <<< premium/d' /etc/nginx/conf.d/default.conf \
+      && ! grep -q "location = /premium" /etc/nginx/conf.d/default.conf; fi
 RUN if [ "$INDEXING" = 0 ]; then sed -i '/# >>> indexation/,/# <<< indexation/d' /etc/nginx/conf.d/default.conf \
       && ! grep -q "location = /sitemap.xml" /etc/nginx/conf.d/default.conf; fi
 RUN if [ "$INDEXING" = 1 ]; then ROBOTS_PAGES="index, follow"; else ROBOTS_PAGES="$ROBOTS"; fi \

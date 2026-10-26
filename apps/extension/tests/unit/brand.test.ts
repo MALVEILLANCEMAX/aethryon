@@ -24,7 +24,7 @@ test("tête et logotype de l'extension = ceux du site (même source brand/master
 });
 
 test("modules générés à jour : export_web.py --check (régénération sans écart)", () => {
-  const out = execFileSync("python3", ["-I", join(REPO, "brand/master/tools/export_web.py"), "--check"], { encoding: "utf8" });
+  const out = execFileSync("python3", ["-I", join(REPO, "../packages/brand/master/tools/export_web.py"), "--check"], { encoding: "utf8" });
   assert.match(out, /à jour/);
 });
 

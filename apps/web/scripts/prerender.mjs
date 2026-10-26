@@ -36,6 +36,8 @@ function nginxLocations() {
   let conf = readFileSync(join(web, "nginx/default.conf"), "utf8");
   const drop = (name) => { conf = conf.replace(new RegExp(`^[ \\t]*# >>> ${name}\\b[\\s\\S]*?^[ \\t]*# <<< ${name}\\b.*$`, "m"), ""); };
   drop(CONTROL_CENTER ? "sans-control-center" : "control-center");
+  // Page /premium : absente quand VITE_OFFRES vaut « reelles » (défaut), comme dans le Dockerfile.
+  if (!["apercu", "vente"].includes(process.env.VITE_OFFRES ?? "")) drop("premium");
   const exact = new Map(), prefix = new Map();
   for (const part of conf.split(/^\s*location\s+/m).slice(1)) {
     const m = part.match(/^(=\s*)?(\S+)\s*\{/);

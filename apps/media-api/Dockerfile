@@ -36,10 +36,7 @@ WORKDIR /app
 # the app's uid, so this does not protect the mounted secrets from a compromised worker.
 # yt-dlp is updated by rebuilding the image (`make update`).
 COPY requirements.txt /app/requirements.txt
-# WITH_POT=1 adds the bgutil PO token provider plugin (pinned to the server version, see README).
-ARG WITH_POT=0
 RUN pip install -r /app/requirements.txt \
-    && if [ "$WITH_POT" = "1" ]; then pip install "bgutil-ytdlp-pot-provider==2.0.2"; fi \
     && deno --version \
     && ffmpeg -hide_banner -version | head -n 1 \
     && python -c "import curl_cffi, yt_dlp_ejs, yt_dlp; print('yt-dlp', yt_dlp.version.__version__)"

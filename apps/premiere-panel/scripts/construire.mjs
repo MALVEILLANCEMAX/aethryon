@@ -90,7 +90,7 @@ if (i > 0 && process.argv[i + 1]) {
   mkdirSync(cible, { recursive: true });
   cpSync(ext, join(cible, "fr.aethryon.premiere"), { recursive: true });
   cpSync(join(sortie, "SHA256SUMS"), join(cible, "SHA256SUMS"));
-  for (const d of ["LISEZMOI.md", "PLAN-COQUE-UXP.md"]) cpSync(join(racine, "docs", d), join(cible, d));
+  cpSync(join(racine, "README.md"), join(cible, "README.md"));
   // Preuves : captures choisies et bilans des essais (s'ils ont été lancés).
   const rendus = join(racine, "tests", "e2e", "rendus");
   const captures = ["accueil-lien-480", "accueil-progression-480", "accueil-importe-480", "accueil-lien-300", "accueil-vide-960", "bibliotheque-grille-480", "bibliotheque-liste-300", "bibliotheque-apercu-960", "bibliotheque-selection-480", "bibliotheque-filtres-300", "compte-attente-300", "compte-connecte-480", "reglages-480", "diagnostic-480", "bout-en-bout-A3-telechargement", "bout-en-bout-B3-bibliotheque", "compte-indisponible-480", "bout-en-bout-C2-accord", "bout-en-bout-C6-importe", "bout-en-bout-C7-deconnecte"];

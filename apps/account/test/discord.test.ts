@@ -383,7 +383,7 @@ test("resolve : non lié, lié (quota au format de /api/me, concurrence max, e-m
     assert.equal(r.status, "active");
     assert.deepEqual(r.today, me.today, "même format et mêmes valeurs que /api/me");
     assert.equal(r.maxActive, me.maxActive);
-    assert.equal(r.user.email, "i•••@example.test");
+    assert.equal(r.user.email, "a•••@example.test");
     assert.equal(r.discord.name, "lie");
     assert.ok(!JSON.stringify(r).includes("alice@"), "e-mail jamais en clair");
     assert.ok((await u.json("/api/discord")).body.discord.lastUsedAt, "dernière utilisation enregistrée");

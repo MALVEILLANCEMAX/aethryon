@@ -28,9 +28,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 import build_variants as BV  # noqa: E402
 
 M = BV.ROOT
-REPO = M.parents[1]
-WEB = REPO / "web"
-EXTENSION = REPO / "extension"
+REPO = M.parents[2]  # repository root (packages/brand/master)
+WEB = REPO / "apps" / "web"
+EXTENSION = REPO / "apps" / "extension"
 ICONS = WEB / "public" / "brand" / "aethryon" / "icons"
 
 
