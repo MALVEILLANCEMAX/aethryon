@@ -17,7 +17,7 @@ const { launchWithExtension } = await import(`${INTEG}/tests/support/browser.mjs
 const { cdpFor, waitFor, FIXTURES } = await import(`${INTEG}/tests/browser/helpers.mjs`);
 const { axe, serious } = await import(`${INTEG}/tests/browser/ui-helpers.mjs`);
 const require = createRequire(import.meta.url);
-const { chromium } = require("/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const { chromium } = require("playwright-core");
 
 const DX = process.env.DX_STATE ?? "/tmp/aethryon-dx";          // mode.json et journal du relais
 const OUT = process.env.DEMO_OUT ?? "demo-out";

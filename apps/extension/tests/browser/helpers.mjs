@@ -18,7 +18,7 @@ const require = createRequire(import.meta.url);
 
 /** playwright-core : variable PLAYWRIGHT_CORE, sinon l'installation npx connue, sinon node_modules. */
 export function loadPlaywright() {
-  const candidates = [process.env.PLAYWRIGHT_CORE, "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core", "playwright-core"].filter(Boolean);
+  const candidates = [process.env.PLAYWRIGHT_CORE, "playwright-core", "playwright-core"].filter(Boolean);
   const errors = [];
   for (const c of candidates) {
     try {

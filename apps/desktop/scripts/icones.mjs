@@ -7,7 +7,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
-const pw = require(process.argv[2] || process.env.PLAYWRIGHT_CORE || "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const pw = require(process.argv[2] || process.env.PLAYWRIGHT_CORE || "playwright-core");
 const ici = dirname(dirname(fileURLToPath(import.meta.url)));
 const marque = (f) => readFileSync(join(ici, "src/assets/brand", f), "utf8");
 const dataUrl = (svg) => "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64");

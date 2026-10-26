@@ -1,3 +1,3 @@
-Copies exactes (octet pour octet) de /root/aethryon-film-v35/assets/brand/ (officiel/symbole, officiel/variantes, derives),
-elles-mêmes copiées de /etc/docker/ytc2 master 4b22960 (voir provenance.json et README.md du dossier brand du film).
+Copies exactes (octet pour octet) des fichiers officiels de la marque (symbole, variantes, dérivés), issus de
+packages/brand/master (dépôt privé d'origine, révision 4b22960) via le dossier de marque du film de lancement.
 Ne pas redessiner. Le logotype dérivé à liseré reste « à valider » par le propriétaire.

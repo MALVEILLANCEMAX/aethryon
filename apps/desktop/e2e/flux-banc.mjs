@@ -9,7 +9,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
-const pw = require(process.env.PLAYWRIGHT_CORE || "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const pw = require(process.env.PLAYWRIGHT_CORE || "playwright-core");
 const esbuild = require("esbuild");
 const ici = dirname(fileURLToPath(import.meta.url));
 const maquette = readFileSync(join(ici, "maquette-tauri.js"), "utf8");

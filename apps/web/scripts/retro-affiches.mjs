@@ -8,7 +8,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
-const { chromium } = require(process.env.PW ?? "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const { chromium } = require(process.env.PW ?? "playwright-core");
 const out = join(dirname(fileURLToPath(import.meta.url)), "../public/media/retro");
 mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });

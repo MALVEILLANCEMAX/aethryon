@@ -280,7 +280,7 @@ _YTDLP_RULES: list[tuple[re.Pattern[str], int, str, Detail]] = [
                 r"proxy.{0,40}(refused|unreachable|failed|timed out)|"
                 # socks5h:// errors name the target host, not the proxy: SocksHTTPSConnection(host=...)
                 r"Socks\w*Connection\(.{0,120}?(Failed to establish|refused|unreachable|timed out|No route)", re.I),
-     502, "proxy_unreachable", "Le proxy YouTube (YT_PROXY) est injoignable : vérifiez le PC/NetBird."),
+     502, "proxy_unreachable", "Le proxy YouTube (YT_PROXY) est injoignable : vérifiez le proxy configuré."),
     # A 403 is never "not found". Page/API requests and media streams get different details.
     (re.compile(r"Unable to download (webpage|API page|JSON metadata)\b.*(HTTP Error 403|403: Forbidden)", re.I),
      502, "upstream_forbidden", "La plateforme refuse la page au serveur (HTTP 403)."),

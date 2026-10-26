@@ -12,7 +12,7 @@ export interface MailConfig {
   port: number;
   user: string;
   password: string;   // SMTP_PASSWORD_FILE, jamais journalisé
-  from: string;       // « AETHRYON <auth@malvu.fr> »
+  from: string;       // « AETHRYON <noreply@example.com> »
   insecureLocal: boolean;
   /** Plafond d'e-mails par 24 h glissantes, tous destinataires (relais partagé : son quota ne doit jamais s'épuiser). */
   dailyMax: number;

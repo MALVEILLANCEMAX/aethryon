@@ -9,7 +9,7 @@ import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
-const pw = require(process.env.PLAYWRIGHT_CORE || "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const pw = require(process.env.PLAYWRIGHT_CORE || "playwright-core");
 const ici = dirname(fileURLToPath(import.meta.url));
 const dist = process.env.DIST || join(dirname(ici), "dist");
 const sortie = process.env.SORTIE || "captures";

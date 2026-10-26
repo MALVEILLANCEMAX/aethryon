@@ -24,7 +24,7 @@ import { servir } from "./serveur-statique.mjs";
 import { CLE_ESSAI, demarrerFauxServeur } from "../faux-serveur.mjs";
 
 const require = createRequire(import.meta.url);
-const { chromium } = require("/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const { chromium } = require("playwright-core");
 const ici = dirname(fileURLToPath(import.meta.url));
 const racine = resolve(ici, "..", "..");
 const rendus = join(ici, "rendus");

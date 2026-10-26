@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import { servir } from "./serveur-statique.mjs";
 
 const require = createRequire(import.meta.url);
-const { chromium } = require("/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const { chromium } = require("playwright-core");
 const ici = dirname(fileURLToPath(import.meta.url));
 const racine = join(ici, "..", "..");
 const sortie = join(ici, "rendus");

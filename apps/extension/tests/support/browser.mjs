@@ -11,7 +11,7 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 
 const require = createRequire(import.meta.url);
-const PW = process.env.PW ?? "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core";
+const PW = process.env.PW ?? "playwright-core";
 const { chromium } = require(PW);
 export const CHROME = process.env.CHROME ?? join(homedir(), ".cache/ms-playwright/chromium-1243/chrome-linux64/chrome");
 export const EXTENSION_ID = "dnllfjakdgmgfiompaheickmbjjlgjdc";

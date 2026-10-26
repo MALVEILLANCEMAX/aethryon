@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 const ici = dirname(fileURLToPath(import.meta.url));
-const { chromium } = createRequire(import.meta.url)("/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const { chromium } = createRequire(import.meta.url)("playwright-core");
 const page0 = pathToFileURL(join(ici, "..", "..", "sortie", "fr.aethryon.premiere", "client", "index.html")).href;
 const b = await chromium.launch({ args: ["--allow-file-access-from-files"] });
 const p = await b.newPage({ viewport: { width: 480, height: 300 } });

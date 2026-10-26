@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const ici = dirname(fileURLToPath(import.meta.url));
-const { chromium } = createRequire(import.meta.url)("/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core");
+const { chromium } = createRequire(import.meta.url)("playwright-core");
 const svg = readFileSync(join(ici, "..", "src", "assets", "marque", "aethryon-petit.svg"), "utf8");
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 23, height: 23 }, deviceScaleFactor: 1 });

@@ -16,7 +16,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
-export const PW_PATH = process.env.PW ?? "/root/.npm/_npx/705bc6b22212b352/node_modules/playwright-core";
+export const PW_PATH = process.env.PW ?? "playwright-core";
 export const AXE_PATH = process.env.AXE ?? "e2e/node_modules/axe-core/axe.min.js";
 const { chromium } = require(PW_PATH);
 const AXE_SOURCE = readFileSync(AXE_PATH, "utf8");
