@@ -3,7 +3,7 @@
 | File | Source | Notes |
 |---|---|---|
 | `banner.svg` | Composed from the official owl head and Marcellus logotype outlines (`assets/brand/`) | Animated with CSS inside the SVG; motion stops with `prefers-reduced-motion` |
-| `logo.svg` | Official app icon (`aethryon-app.svg`) | |
+| `logo.svg` | Official app icon (`assets/brand/aethryon-app.svg`) with the rounded mask operating systems apply | |
 | `demo-web.gif` | Excerpt of the official launch film (5.0 s → 9.2 s), 720 px, 15 fps | 1.4 MB |
 | `demo-extension.gif` | Excerpt of the official launch film (9.1 s → 15.8 s), 720 px, 12 fps | 2.6 MB |
 | `screenshots/site-*.png` | Website built from this repository, local development stack (Playwright, Chromium) | No account, no personal data |
