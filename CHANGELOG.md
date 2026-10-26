@@ -33,7 +33,7 @@ with a **fresh Git history**.
 | AETHRYON Desktop | 1.2.0-beta.2 |
 | Premiere Pro panel (CEP) | 2.0.1 |
 | AETHRYON Setup | 2.0.0-beta.8 |
-| Website / account / media API / Discord bot | state of the production branch on 2026-10-26 |
+| Website / account / media API / Discord bot | state of the production branch on 2026-10-26 (`b9b5af1`, footer support link included) |
 
 ### Changed compared with the private repository
 
