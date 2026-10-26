@@ -61,6 +61,8 @@ const NouveauMotDePasse = lazyPage(() => import("./app/MotDePasse.tsx").then((m)
 const Help = lazyPage(() => import("./app/Help.tsx"));
 const Privacy = lazyPage(() => import("./app/Privacy.tsx"));
 const ExtensionPage = lazyPage(() => import("./app/ExtensionPage.tsx"));
+// Open source : code (Apache-2.0), téléchargements pour ordinateur, versions du dépôt officiel (lib/github.ts).
+const OpenSource = lazyPage(() => import("./app/OpenSource.tsx"));
 const Conditions = lazyPage(() => import("./app/Conditions.tsx"));
 // Pages juridiques de la vente (src/legal/*.md) : publiques, pré-rendues.
 const Cgv = lazyPage(() => import("./app/Cgv.tsx"));
@@ -325,6 +327,7 @@ export const routes: RouteObject[] = caseSensitive([
       { path: "/aide", element: page(<Help />) },
       { path: "/confidentialite", element: page(<Privacy />) },
       { path: "/extension", element: page(<ExtensionPage />) },
+      { path: "/open-source", element: page(<OpenSource />) },
       { path: "/conditions", element: page(<Conditions />) },
       { path: "/cgv", element: page(<Cgv />) },
       { path: "/mentions-legales", element: page(<MentionsLegales />) },

@@ -13,6 +13,8 @@ import { IconCup } from "./Icon.tsx";
 import { SOUTIEN_URL } from "../lib/soutien.ts";
 import { ouvrirPreferences } from "../lib/confidentialite.ts";
 import { ouvrirNouveautes, VERSION_SITE } from "../lib/nouveautes.ts";
+import { GITHUB_PUBLIC, GITHUB_RELEASES_URL, GITHUB_URL } from "../lib/github.ts";
+import { GithubBadge } from "./brand/GithubMark.tsx";
 
 const TONE = { ok: "ok", degraded: "warn", paused: "warn", down: "bad" } as const;
 const LABEL = { ok: "Service opérationnel", degraded: "Service ralenti", paused: "Conversions suspendues", down: "Service indisponible" } as const;
@@ -27,7 +29,7 @@ export function Footer() {
   const me = useMe();
   const signedIn = !!me.data && !me.error;
   const cols: { title: string; links: [string, string][] }[] = [
-    { title: "Produit", links: [["/#demo", "Démo"], ["/#surfaces", "Produit"], ["/outils", "AETHRYON Tools"], ["/#tarifs", TARIFS_LABEL], ["/#feuille-de-route", "Feuille de route"], ["/installer", "Installer le raccourci"], ["/aide", "Aide"]] },
+    { title: "Produit", links: [["/#demo", "Démo"], ["/#surfaces", "Produit"], ["/outils", "AETHRYON Tools"], ["/#tarifs", TARIFS_LABEL], ["/#feuille-de-route", "Feuille de route"], ["/installer", "Installer le raccourci"], ["/open-source#telecharger", "Télécharger pour ordinateur"], ["/aide", "Aide"]] },
     { title: "Compte", links: signedIn
       ? [["/dashboard", "Mon espace"], ["/dashboard/cles", "Mes jetons"], ["/dashboard/activite", "Activité"]]
       : [["/commencer", "Créer un compte"], ["/connexion", "Se connecter"]] },
@@ -36,6 +38,7 @@ export function Footer() {
       // est ouverte (OFFRES=vente) : rien ne renvoie à des conditions de vente sans vente.
       ...(LEGAL_PUBLISHED ? [["/mentions-legales", "Mentions légales"], ["/conditions", "Conditions d'utilisation"]] as [string, string][] : []),
       ...(LEGAL_PUBLISHED && OFFRES_MODE === "vente" ? [["/cgv", "Conditions de vente"], ["/remboursement", "Remboursements"]] as [string, string][] : []),
+      ["/open-source", "Open source"], ["/open-source#versions", "Versions"],
       ["/confidentialite", "Confidentialité"], ["/aide#etat", "État du service"], ["/aide#versions", `Raccourci ${cfg.data?.shortcutVersion ?? "—"}`]] },
   ];
   return (
@@ -60,6 +63,20 @@ export function Footer() {
             <StatusDot tone={st.data ? TONE[st.data.state] : "muted"} />
             {st.data ? LABEL[st.data.state] : "État du service"}
           </Link>
+          {/* Dépôt officiel (code Apache-2.0) : seulement quand il est public (VITE_GITHUB_PUBLIC=1), sinon 404 pour le visiteur.
+              Lien sortant simple, nouvel onglet, sans référent ; le symbole GitHub n'est pas modifié (ui/brand/GithubMark.tsx). */}
+          {GITHUB_PUBLIC && (
+            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1" data-github="">
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-3 text-[14.5px] text-ivory transition-colors hover:text-gold-light" data-github-lien="code">
+                <GithubBadge />Code source sur GitHub<span className="sr-only"> (nouvel onglet)</span>
+              </a>
+              <a href={GITHUB_RELEASES_URL} target="_blank" rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center text-[14px] text-mist underline decoration-mist/40 underline-offset-4 transition-colors hover:text-ivory" data-github-lien="releases">
+                Releases<span className="sr-only"> sur GitHub (nouvel onglet)</span>
+              </a>
+            </div>
+          )}
           {/* Soutien volontaire : lien sortant simple (nouvel onglet, sans référent), rien n'est chargé depuis l'autre site. */}
           <div className="mt-3 max-w-sm" data-soutien="">
             <p className="text-[14px] leading-relaxed text-mist">Sans publicité : si AETHRYON t'est utile, tu peux le soutenir.</p>

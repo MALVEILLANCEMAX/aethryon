@@ -30,6 +30,15 @@ const LATEST = new URL("./public-downloads/extension/latest.json", import.meta.u
 if (EXTENSION_DOWNLOAD === "1" && !existsSync(LATEST)) throw new Error("EXTENSION_DOWNLOAD=1 sans public-downloads/extension/latest.json : lancer scripts/fetch-downloads.sh avec EXTENSION_DOWNLOAD=1");
 const EXTENSION_RELEASE = EXTENSION_DOWNLOAD === "1" ? readFileSync(LATEST, "utf8").trim() : "";
 
+// Dépôt GitHub officiel (src/lib/github.ts) : VITE_GITHUB_PUBLIC=1 seulement quand il est PUBLIC (sinon chaque lien
+// mènerait à une 404). Versions relevées à la construction par scripts/github-releases.mjs (.depot/notes.json) ;
+// absentes (npm run dev sans construction) : la page le dit, elle n'en invente aucune.
+const GITHUB_PUBLIC = process.env.VITE_GITHUB_PUBLIC ?? "0";
+if (GITHUB_PUBLIC !== "0" && GITHUB_PUBLIC !== "1") throw new Error(`VITE_GITHUB_PUBLIC doit valoir 0 ou 1 (reçu : ${GITHUB_PUBLIC})`);
+const DEPOT_NOTES_FILE = new URL("./.depot/notes.json", import.meta.url);
+const DEPOT_NOTES = existsSync(DEPOT_NOTES_FILE) ? readFileSync(DEPOT_NOTES_FILE, "utf8").trim() : "";
+if (DEPOT_NOTES && JSON.parse(DEPOT_NOTES).public !== (GITHUB_PUBLIC === "1")) throw new Error("`.depot/notes.json` relevé avec un autre VITE_GITHUB_PUBLIC : relancer scripts/github-releases.mjs");
+
 // Build strictement compatible avec la CSP du site : pas de script inline, pas de data: URI
 // (assetsInlineLimit: 0), pas de polyfill de modulepreload injecté.
 // Deux builds (npm run build) : le site (dist/) puis le rendu statique des pages publiques
@@ -37,7 +46,11 @@ const EXTENSION_RELEASE = EXTENSION_DOWNLOAD === "1" ? readFileSync(LATEST, "utf
 export default defineConfig(({ isSsrBuild }) => ({
   plugins: [react(), tailwindcss(), ...(MASCOT === "vector" ? [vectorExploration()] : [])],
   publicDir: isSsrBuild ? false : "public",
-  define: { "import.meta.env.VITE_EXTENSION_RELEASE": JSON.stringify(EXTENSION_RELEASE) },
+  define: {
+    "import.meta.env.VITE_EXTENSION_RELEASE": JSON.stringify(EXTENSION_RELEASE),
+    "import.meta.env.VITE_GITHUB_PUBLIC": JSON.stringify(GITHUB_PUBLIC),
+    "import.meta.env.VITE_DEPOT_NOTES": JSON.stringify(DEPOT_NOTES),
+  },
   build: {
     outDir: isSsrBuild ? ".prerender" : "dist",
     target: "es2022",

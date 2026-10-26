@@ -21,7 +21,7 @@ export { routes, DEFAULT_SOLUTION };
 /** Pages publiques pré-rendues (dist/index.html, dist/aide/index.html…), servies telles quelles par nginx
  *  (une `location = <chemin>` chacune) et seules adresses du plan du site (sitemap.xml). Toute autre route
  *  est une route de l'application : coque neutre (dist/app.html). */
-export const PUBLIC_PAGES = ["/", "/aide", "/installer", "/confidentialite", "/connexion", "/commencer", "/extension", "/conditions", "/outils", "/cgv", "/mentions-legales", "/remboursement",
+export const PUBLIC_PAGES = ["/", "/aide", "/installer", "/confidentialite", "/connexion", "/commencer", "/extension", "/conditions", "/outils", "/open-source", "/cgv", "/mentions-legales", "/remboursement",
   // AETHRYON Premium : seulement quand les offres payantes sont montrées (OFFRES=apercu ou vente).
   ...(PREMIUM_PAGE ? ["/premium"] : [])] as const;
 

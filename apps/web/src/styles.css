@@ -5,6 +5,7 @@
 @import "./qualite.css";
 @import "./premium.css";
 @import "./outils.css";
+@import "./open-source.css";
 
 /* Proposition « chouette vectorielle » : ses sources ne participent pas à la détection des classes (les
    composants vectoriels n'emploient que des classes déjà présentes) ; la construction par défaut reste

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 18122",
-    "build": "node scripts/cap-wasm.mjs && tsc -p tsconfig.json --noEmit && vite build && vite build --ssr src/entry-static.tsx && node scripts/prerender.mjs && node scripts/check-dist.mjs",
+    "build": "node scripts/cap-wasm.mjs && node scripts/github-releases.mjs && tsc -p tsconfig.json --noEmit && vite build && vite build --ssr src/entry-static.tsx && node scripts/prerender.mjs && node scripts/check-dist.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 18122",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
