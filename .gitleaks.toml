@@ -1,0 +1,38 @@
+# gitleaks configuration: default rules + allowlists of REVIEWED false positives only.
+# Every entry below was checked by hand (see docs/security/README.md). Never allowlist a real secret: revoke it.
+title = "AETHRYON gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public half of the extension signing key (manifest.json \"key\" field): it only fixes the extension ID"
+paths = [
+  '''apps/extension/src/manifest-key\.(dev|prod)\.json''',
+]
+
+[[allowlists]]
+description = "Obviously fake values used by the unit tests"
+regexes = [
+  '''^sk_test_simulateur0+1$''',
+  '''^whsec_simulateur0+$''',
+  '''^secret-de-test-0123456789$''',
+  '''^nouveau-mot-de-passe(-1)?$''',
+  '''^Ab3dEf6hIj9kLm2n$''',
+  '''^AbCdEfGh12345678$''',
+  '''^jobkey[a-z0-9]+$''',
+  '''^ancien-jeton-de-test-0123456789$''',
+  '''^mauvais-jeton-de-test''',
+]
+
+[[allowlists]]
+description = "Context-specific false positives (whole line reviewed)"
+regexTarget = "line"
+regexes = [
+  # SHA-256 digests of the official Discord brand files checked by apps/web/scripts/check-dist.mjs.
+  '''"discord-symbol-(blurple|white|black)\.svg": "[0-9a-f]{64}"''',
+  # Placeholder snowflake in an input-validation test.
+  '''discord_user_id: 123456789012345678''',
+  # File NAME of a throwaway signing bundle created by the test itself.
+  '''os\.path\.join\(self\.secrets, "signature\.p12"\)''',
+]

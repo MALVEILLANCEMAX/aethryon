@@ -1,0 +1,119 @@
+# Lint/typecheck, unit tests and builds of the published parts. No secret is used and nothing is deployed:
+# deployment to any server is intentionally NOT part of this repository's automation.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  error-codes:
+    name: Error-code catalogue
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - run: python3 scripts/check-error-codes.py
+
+  node-apps:
+    name: ${{ matrix.app }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: account
+            run: npm run typecheck && npm test
+          - app: discord-bot
+            run: npm run typecheck && npm test
+          - app: extension
+            run: npm run typecheck && npm test && npm run build
+          - app: premiere-panel
+            run: npm run typecheck && npm test && npm run build
+          - app: desktop
+            run: npm test && npm run build
+          - app: setup
+            run: npm run build
+          - app: web
+            run: npm run build && node --test --test-concurrency=1 tests/*.test.ts
+    defaults:
+      run:
+        working-directory: apps/${{ matrix.app }}
+    env:
+      # Website build: legal fields are placeholders in the public repository (filled by each deployment).
+      ALLOW_LEGAL_PLACEHOLDERS: "1"
+      VITE_LEGAL_DRAFT: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/${{ matrix.app }}/package-lock.json
+      - uses: actions/setup-python@v5   # the extension tests call the brand generator in --check mode
+        with: { python-version: "3.12" }
+      - run: npm ci --no-audit --no-fund
+      - run: ${{ matrix.run }}
+
+  media-api:
+    name: media-api (pytest, offline container)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - run: docker build --target test -t aethryon-media-api:test apps/media-api
+      - run: docker run --rm --network none aethryon-media-api:test
+
+  rust-core:
+    name: Rust core (Desktop + Setup engine)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - name: Desktop core
+        working-directory: apps/desktop
+        run: cargo test --locked -p aethryon-noyau -p aethryon-archive-extension
+      - name: Setup engine
+        working-directory: apps/setup
+        run: cargo test --locked -p aethryon-setup-moteur
+
+  shortcut:
+    name: iOS Shortcut (signature, content, no secret)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: shortcuts/ios
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install --require-hashes "--only-binary=:all:" -r tools/requirements.txt
+      - run: python -I tools/inspect_signed.py dist/AETHRYON.shortcut
+      - run: python -I tools/validate.py dist/AETHRYON.shortcut
+      - run: cd dist && sha256sum -c AETHRYON.shortcut.sha256
+
+  docker-images:
+    name: Development images
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - run: apps/web/scripts/fetch-downloads.sh
+      - run: docker build -t aethryon-account:ci apps/account
+      - run: docker build --build-arg REAL_IP_FROM=127.0.0.1/32 --build-arg ACCOUNT_UPSTREAM=account:3000 --build-arg ALLOW_LEGAL_PLACEHOLDERS=1 -t aethryon-web:ci apps/web
+      - run: docker build --target preprod -t aethryon-media-api:ci apps/media-api
+      - run: docker build -t aethryon-discord-bot:ci apps/discord-bot
