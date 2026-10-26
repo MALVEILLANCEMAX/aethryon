@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img"><title>AETHRYON — icône d'application</title><desc>Plein cadre, sans transparence (le système applique son propre masque arrondi).</desc><defs><radialGradient id="halo" cx="50%" cy="52%" r="50%"><stop offset="0" stop-color="#D4AF7C" stop-opacity="0.22"/><stop offset="1" stop-color="#D4AF7C" stop-opacity="0"/></radialGradient></defs><rect width="1024" height="1024" rx="0.000" fill="#0F0F10"/><rect width="1024" height="1024" rx="0.000" fill="url(#halo)"/><g transform="translate(149.2114 153.2343) scale(11.337143)"><g id="aethryon-head">
+    <path id="shell" d="M8 23C8 10 20 7 32 7s24 3 24 16v15c0 12-13 17-24 23C21 55 8 50 8 38Z" fill="#D7C2A5"/>
+    <path id="face-left" d="M32 28C22 13 9 14 8 30 6 48 21 47 32 57Z" fill="#FAF8F3"/>
+    <path id="face-right" d="M32 28C42 13 55 14 56 30 58 48 43 47 32 57Z" fill="#F0E7D9"/>
+    <g id="eyes">
+      <path id="eye-left" d="M13 26C23 24 28 29 28 37c-8 5-16 0-15-11Z" fill="#101010"/>
+      <path id="eye-right" d="M51 26C41 24 36 29 36 37c8 5 16 0 15-11Z" fill="#101010"/>
+      <circle id="glint-left" cx="21" cy="29" r="1.8" fill="#FAF8F3"/>
+      <circle id="glint-right" cx="44" cy="29" r="1.8" fill="#FAF8F3"/>
+    </g>
+    <path id="brow-left" d="M32 39C26 21 8 24 3 5 12 15 26 11 32 26Z" fill="#E8D5B7"/>
+    <path id="brow-right" d="M32 39C38 21 56 24 61 5 52 15 38 11 32 26Z" fill="#E8D5B7"/>
+    <path id="brow-line" d="M4 7C13 20 25 16 32 31 39 16 51 20 60 7" fill="none" stroke="#FAF8F3" stroke-width="1.4"/>
+    <path id="beak-left" d="M32 36 27 42 32 51Z" fill="#AC8150"/>
+    <path id="beak-right" d="M32 36 37 42 32 51Z" fill="#DCC39B"/>
+  </g></g></svg>

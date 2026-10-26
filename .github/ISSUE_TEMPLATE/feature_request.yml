@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest an improvement or a new capability.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How could AETHRYON help? Mockups and examples are welcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      multiple: true
+      options:
+        - Website / Tools
+        - Browser extension
+        - iOS Shortcut
+        - Discord bot
+        - Desktop / Premiere Pro panel
+        - Media API
+        - Documentation
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This does not require bypassing DRM, paywalls, private content or a platform's access controls.
+          required: true

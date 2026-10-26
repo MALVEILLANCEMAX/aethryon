@@ -1,0 +1,70 @@
+name: Bug report
+description: Something does not work as documented.
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. **Do not paste tokens, keys, cookies, e-mail addresses or other personal data.**
+        Security issues must be reported privately (see SECURITY.md).
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Website (apps/web)
+        - Account / API keys (apps/account)
+        - Media API (apps/media-api)
+        - Browser extension (apps/extension)
+        - Discord bot (apps/discord-bot)
+        - Desktop (apps/desktop)
+        - Premiere Pro panel (apps/premiere-panel)
+        - Setup (apps/setup)
+        - iOS Shortcut (shortcuts/ios)
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Component version (extension popup, Desktop settings, Shortcut version, commit SHA…)
+      placeholder: "3.8.1"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser or iOS version, Discord client, self-hosted or official service
+      placeholder: "Windows 11, Chrome 141, official service"
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. …
+        2. …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error code, logs or screenshots
+      description: Error codes look like `active_job_limit`. Remove personal data before posting.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed every token, key, cookie and personal detail from this report.
+          required: true
+        - label: The link I used is public and I have the right to download its content.
+          required: true

@@ -1,96 +1,117 @@
-# Extension AETHRYON (Chrome, Edge, Brave — Manifest V3)
+<p align="center"><img src="../../assets/logo.svg" width="64" alt=""></p>
 
-Architecture : `../docs/EXTENSION.md`. Distribution : `../docs/EXTENSION-STORE.md` (décision du 2026-10-11 :
-**distribution directe depuis le site, jamais sur un store**). Journal des versions : `CHANGELOG.md`.
+<h1 align="center">AETHRYON browser extension</h1>
 
-**Statut : version 1.0.0, en développement.** L'extension n'est publiée nulle part. Le ZIP se télécharge sur
-https://raccourci.malvu.fr/extension une fois la page mise en ligne, et la connexion au compte ne fonctionne
-qu'après le déploiement de la partie serveur (`../docs/DEPLOIEMENT.md` §14, validation du propriétaire) : avant,
-l'extension le dit clairement (« La connexion de l'extension n'est pas encore disponible sur le site AETHRYON »).
+<p align="center">
+  An AETHRYON button next to the video you are watching: video, audio, clip, GIF or image in one menu.<br>
+  Chrome · Microsoft Edge · Brave — Manifest V3 — version <b>3.8.1</b>
+</p>
 
-Convertis seulement des contenus pour lesquels tu disposes des droits nécessaires ; l'installation hors store ne
-change rien aux conditions de YouTube, TikTok et X.
+<p align="center">
+  <img src="../../assets/demo-extension.gif" alt="The extension menu on a video page" width="640"><br>
+  <sub>Excerpt from the official launch film</sub>
+</p>
 
-## Installer l'extension sur ton ordinateur
+<p align="center">
+  <img src="../../assets/screenshots/extension-popup.png" alt="Extension popup" width="300">
+  <img src="../../assets/screenshots/extension-timelens.png" alt="TimeLens precise clip editor" width="300">
+</p>
 
-Pour Chrome ou Microsoft Edge 140 ou plus récent, ou Brave à jour, sur ordinateur (pas sur téléphone). Aucune mise à
-jour automatique : l'extension te prévient quand une nouvelle version est disponible, et tu la remplaces toi-même.
-Libellés vérifiés dans l'interface française de Chromium 153 (`tests/browser/install.test.mjs`) ; Edge et Brave
-d'après leurs documentations officielles, **non vérifiés sur un vrai navigateur** (`../docs/AUDIT-SECURITE-EXTENSION.md`).
+## Features
 
-1. Télécharge `aethryon-extension-<version>.zip` sur la page de l'extension, et le fichier `SHA256SUMS` qui
-   l'accompagne. Ne la télécharge nulle part ailleurs : une extension chargée en mode développeur n'est examinée par
-   personne, et le navigateur ne demande aucune confirmation de ses autorisations.
-2. Vérifie l'archive (facultatif, recommandé) :
-   - Linux : `sha256sum -c SHA256SUMS --ignore-missing` doit afficher `aethryon-extension-<version>.zip: OK` ;
-   - macOS : `shasum -a 256 aethryon-extension-<version>.zip`, puis compare avec la ligne du fichier `SHA256SUMS` ;
-   - Windows (PowerShell) : `Get-FileHash .\aethryon-extension-<version>.zip -Algorithm SHA256`, puis compare de même
-     (PowerShell affiche l'empreinte en majuscules : seule la valeur compte).
-3. Décompresse l'archive dans un dossier **que tu garderas** (par exemple `Documents\AETHRYON`) : le navigateur lit
-   l'extension depuis ce dossier à chaque démarrage.
-4. Ouvre la page des extensions : `chrome://extensions` (Chrome), `edge://extensions` (Edge), `brave://extensions`
-   (Brave).
-5. Active le **mode développeur** (interrupteur en haut à droite dans Chrome et Brave, en bas du panneau de gauche
-   dans Edge) et **laisse-le activé** : depuis Chrome 134, une extension chargée ainsi est désactivée quand il est
-   coupé (Chrome la signale alors aussi comme « potentiellement dangereuse » dans son contrôle de sécurité, vu dans
-   Chromium 153). Edge affiche un avertissement permanent tant qu'une extension du mode développeur est active.
-6. Clique sur « Charger l'extension non empaquetée » (Chrome, Brave) ou « Charger l'extension décompressée »
-   (« Load unpacked » dans un Edge en anglais), et choisis le dossier décompressé (celui qui contient `manifest.json`).
-7. Vérifie l'identifiant affiché sur la carte : `necpohicddjeaeaaomaakehcbccapabg`. C'est l'identifiant de cette
-   version ; le serveur AETHRYON l'accepte une fois la partie serveur de la connexion déployée (§14 ci-dessus). Un autre
-   identifiant ne pourra pas se connecter.
-8. La page d'accueil de l'extension s'ouvre : elle confirme l'installation et la version, montre comment
-   **épingler** l'icône (pièce de puzzle › punaise ; dans Edge : bouton « Extensions » › œil « Afficher dans la barre
-   d'outils » ; ou « Détails » › « Épingler à la barre d'outils ») — l'état est lu dans le navigateur —, puis la
-   **notice sur tes données**. Rien n'est envoyé à un serveur avant que tu cliques sur « Accepter ».
-9. « Se connecter à AETHRYON » : une fenêtre du site s'ouvre ; connecte-toi si besoin, puis clique sur
-   « Autoriser ». Même compte et même quota que le raccourci iPhone.
+- **On YouTube, TikTok and X pages**: a discreet AETHRYON bar or button with *Download video (MP4)*,
+  *Extract audio (MP3)*, *Quick clip*, *Video frame (PNG, made on your device)*, *Thumbnail* and
+  *Continue in AETHRYON Tools*.
+- **TimeLens clips**: choose a passage around the playhead with frame-accurate controls (± 0.1 s, keyboard shortcuts);
+  only that range is fetched.
+- **Popup**: today's remaining conversions, the media of the current tab, progress and results.
+- **Send to Premiere Pro** (optional): hands the media to AETHRYON Desktop, which imports it into Premiere Pro.
+- **Same account and quota** as the iOS Shortcut, the Discord bot and the website.
 
-Mettre à jour : quand le popup affiche « Nouvelle version X.Y.Z disponible », ouvre la page de téléchargement,
-remplace le contenu du dossier chargé (celui qui contient `manifest.json`) par celui de la nouvelle archive
-(`manifest.json` doit rester directement dans ce dossier), puis clique sur l'icône ↻ « Actualiser » de la carte AETHRYON (Chrome, Brave) ou sur son lien « Recharger »
-(« Reload », Edge). Recharge les onglets YouTube, TikTok ou X déjà ouverts. Connexion, accord à la notice et réglages
-sont conservés (vérifié dans Chromium : `tests/browser/install.test.mjs`). **Ne supprime pas l'extension pour la mettre
-à jour** : la supprimer efface sa connexion et ses réglages. L'extension ne télécharge et n'installe jamais rien
-d'elle-même.
+## Compatibility
 
-Désinstaller : déconnecte-toi d'abord (popup › « Se déconnecter » : la clé est révoquée sur le serveur), puis
-« Supprimer » dans la page des extensions et supprime le dossier. Supprimée sans déconnexion, sa clé reste valable
-jusqu'à son expiration : révoque-la dans « Mes jetons » › « Extensions connectées ».
+| Browser | Status |
+|---|---|
+| Google Chrome **140+** (desktop) | Supported, tested in Chromium |
+| Microsoft Edge 140+ | Supported (based on Edge documentation; not verified on a real Edge install) |
+| Brave (current) | Supported (based on Brave documentation; not verified on a real Brave install) |
+| Firefox, Safari, mobile browsers | Not supported |
 
-## Construire et empaqueter
+## Install (manual, no store)
+
+The extension is distributed directly, not through a store. Only download it from the official website or from
+this repository's releases.
+
+1. Download [`aethryon-extension-3.8.1.zip`](https://raccourci.malvu.fr/downloads/extension/aethryon-extension-3.8.1.zip)
+   and [`SHA256SUMS`](https://raccourci.malvu.fr/downloads/extension/SHA256SUMS).
+2. Check the archive: `sha256sum -c SHA256SUMS --ignore-missing` (Linux), `shasum -a 256 <zip>` (macOS) or
+   `Get-FileHash .\<zip> -Algorithm SHA256` (Windows PowerShell).
+3. Unzip it into a folder **you will keep** (the browser loads the extension from there at every start).
+4. Open `chrome://extensions`, `edge://extensions` or `brave://extensions` and enable **Developer mode** (keep it on:
+   since Chrome 134 an unpacked extension is disabled when developer mode is turned off).
+5. Click **Load unpacked** and choose the folder that contains `manifest.json`.
+6. Check the ID shown on the card: **`necpohicddjeaeaaomaakehcbccapabg`**. Another ID cannot sign in.
+7. The welcome page explains how to pin the icon and shows the data notice. Nothing is sent to a server before you
+   click **Accept**. Then **Sign in to AETHRYON** and approve the connection on the website.
+
+**Update:** when the popup announces a new version, replace the folder's content with the new archive and click
+**Reload** on the extension card. Sign-in and settings are kept. The extension never downloads or installs code by
+itself.
+
+**Uninstall:** sign out first (the key is revoked on the server), then remove the extension and delete the folder.
+
+## Permissions
+
+| Permission | Why |
+|---|---|
+| `storage` | Settings, consent and the extension key (local storage restricted to the extension's own pages) |
+| `downloads` | Save the converted file |
+| `identity` | Sign-in window on the AETHRYON website (OAuth-style flow with PKCE) |
+| `alarms` | Follow conversion progress and check for new versions without keeping the service worker alive |
+| `activeTab` | Capture the visible tab for *Video frame* when the page cannot provide the image itself (only after a click) |
+| `notifications` (optional) | Notify when a conversion finishes, if you turn it on |
+| `nativeMessaging` (optional) | Talk to AETHRYON Desktop for *Send to Premiere Pro*, requested when you choose it |
+| Host access: the AETHRYON site and API only | Sign-in, quota, conversions, update notice |
+| Content scripts on `youtube.com`, `tiktok.com`, `x.com` / `twitter.com` | Show the AETHRYON button on video pages |
+
+No remote code: everything is packaged (`script-src 'self'`). No analytics.
+
+## How it talks to the API
+
+- Sign-in: `/extension/autoriser` on the website → an **extension key** bound to the extension ID.
+- Conversions: the [media API](../../docs/api/README.md) with `Authorization: Bearer <key>`, exactly like the Shortcut.
+- Update notice: `latest.json` on the website (`version`, `sha256`, `size`, `minChrome`, `notes`).
+
+The production endpoints are compiled in `scripts/build.mjs` (environment variables cannot change them in a
+production build). The development build targets the local stack (`AETHRYON_SITE`, `AETHRYON_API` can override it).
+
+## Build from source
 
 ```bash
 npm ci
-npm run build          # version distribuée : production, clé « installation locale » (identifiant stable) → dist/
-npm run build:dev      # préproduction (127.0.0.1:18111, localhost:18110 ; AETHRYON_API, AETHRYON_SITE,
-                       # AETHRYON_UPDATE_URL pour une autre pile de test) → dist-dev/
-npm run package        # build de production + release/ :
-                       #   aethryon-extension-<version>.zip (reproductible : entrées triées, 1980-01-01, 0644),
-                       #   SHA256SUMS (format sha256sum), latest.json (version, fichier, empreinte, taille, date,
-                       #   Chrome minimal, notes tirées de CHANGELOG.md)
+npm run typecheck && npm test      # unit tests
+npm run build                      # production build in dist/
+npm run build:dev                  # development build in dist-dev/ (ID dnllfjakdgmgfiompaheickmbjjlgjdc)
+npm run test:browser               # browser tests (Chromium, Playwright) — needs a local browser
 ```
 
-Nouvelle version : changer `version` dans `package.json` (seule source : le manifeste la reprend), ajouter sa
-section `## <version> — AAAA-MM-JJ` en tête de `CHANGELOG.md`, puis `npm run package`. Le build de production
-refuse toute adresse de test, carte de sources ou fichier source ; `release/` et `dist*/` ne sont pas versionnés.
-La marque vient de `brand/master` : `python3 ../brand/master/tools/export_web.py --extension` régénère
-`src/shared/brand-head.ts` (tête maître, petit logo, liseré, logotype), les icônes sont lues dans
-`brand/master/png`.
+### Reproducible releases
 
-## Tests
+`node scripts/zip.mjs` writes `release/aethryon-extension-<version>.zip`, `SHA256SUMS` and `latest.json`. The ZIP is
+**reproducible** (sorted entries, fixed dates and permissions): building version 3.8.1 from this repository gives the
+same SHA-256 as the published archive (`ae25b6d3…05b1a9`). Release notes come from [`CHANGELOG.md`](CHANGELOG.md).
 
-```bash
-npm run typecheck && npm test   # unitaires (service worker simulé, notice, connexion, avis de version, marque,
-                                # pictogrammes v3 = ceux du site)
-npm run test:release            # paquet : deux constructions → même SHA-256, contenu, manifeste (CSP, Chrome 140),
-                                # icônes, latest.json
-npm run test:browser            # Chromium réel : popup, réglages, accueil, intégrations (pages fabriquées),
-                                # connexion réelle et erreurs de connexion, téléchargements réels, sessions,
-                                # ZIP distribué chargé tel quel, installation et mise à jour dans chrome://extensions
-                                # en français (install), essais de sécurité du protocole (securite),
-                                # destination Premiere Pro : fichiers écrits dans Téléchargements/AETHRYON (premiere)
+Publishing a release is a maintainer decision: the archive is uploaded to the website by the maintainers, never by CI.
+
+## Layout
+
 ```
-
-Les tests navigateur qui parlent au compte et à ytapi visent une pile de préproduction ISOLÉE (site
-`http://localhost:18110`, ytapi à faux worker `http://127.0.0.1:18111`) ; voir `../docs/TESTS.md`.
+src/background/   service worker: jobs, downloads, sign-in, updates, native messaging
+src/content/      YouTube, TikTok and X integrations
+src/popup/        toolbar popup
+src/extrait/      TimeLens clip editor
+src/options/      settings page
+src/welcome/      first-run page and data notice
+src/shared/       config, API client, brand, errors
+tests/            unit, browser (Playwright), release and demo tests
+```
