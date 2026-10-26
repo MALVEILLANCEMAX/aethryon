@@ -63,7 +63,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: apps/${{ matrix.app }}/package-lock.json
-      - uses: actions/setup-python@v5   # the extension tests call the brand generator in --check mode
+      - uses: actions/setup-python@v7   # the extension tests call the brand generator in --check mode
         with: { python-version: "3.12" }
       - run: npm ci --no-audit --no-fund
       - run: ${{ matrix.run }}
@@ -99,7 +99,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { persist-credentials: false }
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with: { python-version: "3.11" }
       - run: pip install --require-hashes "--only-binary=:all:" -r tools/requirements.txt
       - run: python -I tools/inspect_signed.py dist/AETHRYON.shortcut
