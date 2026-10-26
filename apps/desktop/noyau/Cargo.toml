@@ -1,0 +1,68 @@
+[package]
+name = "aethryon-noyau"
+version = "1.2.0-beta.2"
+edition = "2021"
+description = "Cœur portable d'AETHRYON Desktop (bibliothèque, surveillance, échanges avec le panneau Premiere, Native Messaging)"
+license = "LicenseRef-AETHRYON-proprietaire"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha1 = "0.10"
+sha2 = "0.10"
+# Content-MD5 des envois vers AETHRYON Cloud (empreinte exigée et signée par account, vérifiée par le stockage S3).
+md-5 = "0.10.6"
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+notify = "8"
+unicode-normalization = "0.1"
+base64 = "0.22"
+aethryon-archive-extension = { path = "../archive-extension" }
+# HTTPS seulement (latest.json, archive de l'extension, setup) : rustls + ring (aucun OpenSSL, aucun CMake pour la
+# cible windows-gnu), racines de Mozilla (webpki-roots). Jamais de redirection suivie (maj_extension, maj_desktop).
+ureq = { version = "3", default-features = false, features = ["rustls"] }
+# Section MUSIQUE : lecture des étiquettes, des propriétés audio réelles (débit, fréquence, bits, canaux) et des pochettes
+# des fichiers audio de la bibliothèque. Crate officiel de crates.io, licence MIT OU Apache-2.0, pur Rust, lecture seule
+# (AETHRYON n'écrit JAMAIS dans les fichiers audio : les métadonnées vivent à part, R\musique\).
+lofty = "0.22"
+# AETHRYON INDEX (scanner de médias locaux, noyau/src/index/) : index persistant SQLite EMBARQUÉ (rusqlite, MIT ; SQLite,
+# domaine public ; FTS5 pour la recherche par mots), compilé avec le projet (aucune DLL, aucun SQLite du système).
+rusqlite = { version = "0.41", default-features = false, features = ["bundled", "cache"] }
+# Miniatures des images de l'index (décodeurs purs Rust ; MIT OU Apache-2.0). Déjà dans l'arbre par Tauri (png) ;
+# formats ajoutés : JPEG (zune-jpeg), GIF, WebP, BMP, TIFF. Aucun encodeur autre que JPEG n'est employé.
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "gif", "webp", "bmp", "tiff"] }
+
+[features]
+# Banc Linux SEULEMENT (exemple `banc`, extension/tests/support/desktop-host.sh) : adresse de base et autorité de
+# test lues dans l'environnement. Jamais activée pour aethryon-desktop.exe : en production, les adresses sont figées.
+essais = []
+
+[target.'cfg(unix)'.dependencies]
+# Priorité basse des fils du scanner sous Linux (essais) : nice et classe d'E/S « idle ». Déjà dans l'arbre.
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.56"
+windows-sys = { version = "0.61", features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+  "Win32_Security",
+  "Win32_Security_Cryptography",
+  "Win32_Storage_FileSystem",
+  "Win32_UI_Shell",
+  "Win32_System_Com",
+  "Win32_System_DataExchange",
+  "Win32_System_Diagnostics_Debug",
+  "Win32_System_Diagnostics_ToolHelp",
+  "Win32_System_LibraryLoader",
+  "Win32_System_Threading",
+  "Win32_UI_WindowsAndMessaging",
+] }
+
+[dev-dependencies]
+tempfile = "3"
+zip = { version = "=8.6.0", default-features = false, features = ["deflate"] }
+# Serveur HTTPS local des essais (certificat d'essai produit à la volée).
+rcgen = { version = "0.13", default-features = false, features = ["crypto", "ring", "pem"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }

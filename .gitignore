@@ -1,0 +1,53 @@
+# Dependencies and build outputs
+node_modules
+dist/
+dist-dev/
+target/
+.prerender/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Local configuration and secrets: never commit them
+.env
+*.env
+!*.env.example
+.dev/
+secrets/*
+!secrets/.gitkeep
+apps/media-api/secrets/*
+!apps/media-api/secrets/.gitkeep
+*.pem
+*.p12
+*.pfx
+*.key
+cookies*.txt
+
+# Data that must never be published
+*.sqlite
+*.sqlite-*
+*.db
+*.bak
+*.log
+
+# Generated download folders (filled by apps/web/scripts/fetch-downloads.sh)
+apps/web/public-downloads/
+apps/web/public/downloads/
+apps/extension/release/
+apps/setup/e2e/captures/
+captures/
+demo-out/
+
+# Large media kept outside git (see apps/web/README.md)
+apps/web/public/media/film/*.mp4
+
+# Shortcut build artefacts
+shortcuts/ios/.bin/
+shortcuts/ios/.cache/
+shortcuts/ios/build/
+
+.DS_Store
+
+# The signed iOS Shortcut is a published artefact
+!shortcuts/ios/dist/

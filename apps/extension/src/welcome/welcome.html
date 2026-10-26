@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr" class="welcome">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Bienvenue · AETHRYON</title>
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+  <header class="w-bar">
+    <div class="w-bar-inner">
+      <p id="brand" class="brand"></p>
+      <p id="w-version" class="w-version"></p>
+    </div>
+  </header>
+
+  <main id="main" class="w-main">
+    <section class="w-hero" aria-labelledby="w-title">
+      <div id="w-mascot" class="w-mascot"></div>
+      <div class="w-hero-text">
+        <p class="w-kicker" id="w-kicker"></p>
+        <h1 id="w-title" class="display">L'extension AETHRYON est installée</h1>
+        <p class="lead" id="w-lead"></p>
+      </div>
+    </section>
+
+    <ol class="w-steps">
+      <li class="w-step card" id="epingler" data-state="current">
+        <h2 class="w-step-title"><span class="w-num" aria-hidden="true">1</span><span>Épingle l'icône AETHRYON</span><span class="sr-only w-state"></span></h2>
+        <p class="w-text">Ton navigateur range les nouvelles extensions dans le menu «&nbsp;Extensions&nbsp;», à droite de la barre d'adresse&nbsp;: épingle AETHRYON pour l'avoir toujours sous la main.</p>
+        <div class="w-pin">
+          <ol class="w-how" id="pin-how"></ol>
+          <div class="w-illus" id="pin-illus" aria-hidden="true"></div>
+        </div>
+        <p class="w-status" id="pin-status" role="status"></p>
+        <p class="w-hint" id="devmode-hint">Garde le «&nbsp;Mode développeur&nbsp;» activé dans la page des extensions&nbsp;: ton navigateur en a besoin pour faire fonctionner une extension installée hors boutique comme AETHRYON.</p>
+      </li>
+
+      <li class="w-step card" id="donnees" data-state="current">
+        <h2 class="w-step-title" tabindex="-1"><span class="w-num" aria-hidden="true">2</span><span>Tes données&nbsp;: lis, puis accepte</span><span class="sr-only w-state"></span></h2>
+        <p class="w-text">Voici exactement ce que l'extension garde et envoie. Rien ne part vers un serveur avant ton accord.</p>
+        <dl class="facts" id="disclosure"></dl>
+        <p class="rights" id="rights"></p>
+        <div class="w-consent" id="consent-area"></div>
+      </li>
+
+      <li class="w-step card" id="connexion" data-state="todo">
+        <h2 class="w-step-title" tabindex="-1"><span class="w-num" aria-hidden="true">3</span><span>Connecte ton compte AETHRYON</span><span class="sr-only w-state"></span></h2>
+        <p class="w-text">Une fenêtre du site AETHRYON s'ouvre&nbsp;: connecte-toi si besoin, puis clique sur «&nbsp;Autoriser&nbsp;». Même compte et même quota que le raccourci iPhone.</p>
+        <div class="w-login" id="login-area"></div>
+      </li>
+    </ol>
+
+    <section class="w-next card" id="w-next" aria-labelledby="w-next-title" hidden>
+      <h2 id="w-next-title" class="w-step-title">Tout est prêt</h2>
+      <p class="w-text" id="w-next-text"></p>
+      <ul class="w-platforms" id="w-platforms" aria-label="Plateformes prises en charge"></ul>
+    </section>
+  </main>
+
+  <footer class="w-foot">
+    <p><span id="version">Version</span><span aria-hidden="true" class="sep">·</span><a id="help-link" class="link" href="#">Aide<span class="sr-only"> (nouvel onglet)</span></a><span aria-hidden="true" class="sep">·</span><a id="privacy-link" class="link" href="#">Confidentialité<span class="sr-only"> (nouvel onglet)</span></a></p>
+    <p>Compatible avec YouTube, TikTok et X — sans affiliation.</p>
+  </footer>
+  <script src="welcome.js"></script>
+</body>
+</html>

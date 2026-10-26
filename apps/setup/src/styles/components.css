@@ -1,0 +1,169 @@
+/* AETHRYON — composants du profil Desktop / installateur (WebView2, Chromium récent). Voir DESIGN-SYSTEM.md §6.
+   Règles : l'or est rare (action principale, sélection, progression, focus) ; jamais d'ombre grise ; transform/opacity
+   seulement pour le mouvement ; cibles ≥ 32 px (souris) et ≥ 24 px dans les barres denses. */
+
+/* ---- Boutons --------------------------------------------------------------------------------------------------------- */
+.btn { --h: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--h); padding: 0 16px;
+  border-radius: var(--r-pill); font-size: 13.5px; font-weight: 500; line-height: 1; white-space: nowrap; color: var(--text-1);
+  transition: background-color var(--d-micro) var(--ease-out), color var(--d-micro) var(--ease-out), transform var(--d-instant) var(--ease-out); }
+.btn:active { transform: scale(0.98); }
+.btn .ico { margin-left: -3px; }
+.btn--primary { background: var(--accent); color: var(--text-on-accent); font-weight: 600; box-shadow: var(--e-button); }
+.btn--primary:hover { background: var(--accent-hover); }
+.btn--secondary { box-shadow: inset 0 0 0 1px var(--line-3); }
+.btn--secondary:hover, .btn--ghost:hover { background: var(--bg-hover); color: var(--text-1); }
+.btn--ghost { color: var(--text-2); padding: 0 12px; }
+.btn--danger { color: var(--state-bad); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--state-bad) 42%, transparent); }
+.btn--sm { --h: 28px; padding: 0 12px; font-size: 12.5px; gap: 6px; }
+.btn--lg { --h: 44px; padding: 0 24px; font-size: 15px; }
+.btn--block { width: 100%; }
+.btn[disabled], .btn.is-disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+.btn--primary.is-disabled { box-shadow: none; }
+.btn.is-hover { background: var(--bg-hover); }
+.btn--primary.is-hover { background: var(--accent-hover); }
+.btn.is-focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.iconbtn { --s: 32px; display: inline-grid; place-items: center; width: var(--s); height: var(--s); flex: none; border-radius: var(--r-pill);
+  color: var(--text-2); transition: background-color var(--d-micro), color var(--d-micro); }
+.iconbtn:hover, .iconbtn.is-hover { background: var(--bg-hover); color: var(--text-1); }
+.iconbtn--sm { --s: 28px; }
+.iconbtn--xs { --s: 24px; }
+.iconbtn--onmedia { color: var(--ae-ivory); background: rgb(15 15 16 / 0.62); box-shadow: inset 0 0 0 1px rgb(250 248 243 / 0.12); }
+.iconbtn--onmedia:hover, .iconbtn--onmedia.is-hover { background: rgb(15 15 16 / 0.86); color: var(--ae-gold-light); }
+.iconbtn.is-active { color: var(--text-accent); }
+
+.kbd { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: var(--r-xs);
+  font: 600 11px/1 var(--font-ui); color: var(--text-3); box-shadow: inset 0 0 0 1px var(--line-2); background: rgb(250 248 243 / 0.03); }
+.link { color: var(--text-1); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-3); }
+.link--quiet { color: var(--text-2); }
+
+/* ---- Pastilles d'état (forme + texte : la couleur n'est jamais le seul signal) -------------------------------------- */
+.pill { display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 8px 0 6px; flex: none; border-radius: var(--r-pill);
+  font-size: var(--t-micro); font-weight: 500; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pill svg { flex: none; }
+.pill--available { color: var(--state-idle); background: var(--state-idle-bg); }
+.pill--running { color: var(--state-run); background: var(--state-run-bg); }
+.pill--imported, .pill--ok { color: var(--state-ok); background: var(--state-ok-bg); }
+.pill--missing { color: var(--state-idle); background: transparent; box-shadow: inset 0 0 0 1px var(--line-3); outline: 1px dashed var(--line-3); outline-offset: -1px; box-shadow: none; }
+.pill--error { color: var(--state-bad); background: var(--state-bad-bg); }
+.pill--warn { color: var(--state-warn); background: var(--state-warn-bg); }
+.pill--quiet { color: var(--text-3); background: transparent; box-shadow: inset 0 0 0 1px var(--line-2); }
+.pill--lg { height: 24px; padding: 0 10px 0 8px; font-size: 12px; }
+
+/* ---- Champs --------------------------------------------------------------------------------------------------------- */
+.field { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 10px; border-radius: var(--r-md); background: var(--bg-raised);
+  box-shadow: inset 0 0 0 1px var(--line-field); color: var(--text-1); font-size: 13.5px; min-width: 0; }
+.field .ico { color: var(--text-3); }
+.field .ph { color: var(--text-3); flex: 1; min-width: 0; }
+.field .val { flex: 1; min-width: 0; }
+.field.is-focus { box-shadow: inset 0 0 0 1px var(--focus), 0 0 0 3px rgb(212 175 124 / 0.22); }
+.field .caret { display: inline-block; width: 1px; height: 16px; background: var(--ae-gold); margin-left: 1px; vertical-align: middle; }
+
+.select { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px 0 12px; border-radius: var(--r-pill); color: var(--text-1);
+  box-shadow: inset 0 0 0 1px var(--line-2); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.select .ico:last-child { color: var(--text-3); }
+.select .lbl { color: var(--text-3); font-weight: 400; }
+
+/* ---- Contrôle segmenté (pastille glissante, ressort « glide » côté Desktop) ------------------------------------------- */
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--r-pill); background: var(--bg-raised); box-shadow: inset 0 0 0 1px var(--line-1); flex: none; }
+.seg > span { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 12px; border-radius: var(--r-pill); color: var(--text-2);
+  font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+.seg > span[aria-pressed="true"] { background: var(--ae-graphite); color: var(--text-1); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 1px 3px rgb(0 0 0 / 0.5); }
+.seg .n { color: var(--text-3); font-variant-numeric: tabular-nums; }
+:is(:root[data-theme="light"], .theme-light) .seg { background: var(--ae-sand); box-shadow: none; }
+:is(:root[data-theme="light"], .theme-light) .seg > span[aria-pressed="true"] { background: #fffdf9; box-shadow: 0 1px 2px rgb(52 40 22 / 0.16), 0 0 0 1px rgb(52 40 22 / 0.06); }
+
+/* ---- Interrupteur et case à cocher ------------------------------------------------------------------------------------- */
+.switch { position: relative; flex: none; width: 36px; height: 20px; border-radius: var(--r-pill); background: var(--ae-graphite); box-shadow: inset 0 0 0 1px var(--line-field); }
+.switch::after { content: ""; position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--ae-mist);
+  transition: transform var(--d-small) var(--ease-out), background-color var(--d-small); }
+.switch.on { background: var(--accent); box-shadow: none; }
+.switch.on::after { transform: translateX(16px) scale(1.17); background: var(--ae-obsidian); }
+:is(:root[data-theme="light"], .theme-light) .switch { background: var(--ae-sand); }
+:is(:root[data-theme="light"], .theme-light) .switch::after { background: var(--ae-ink-soft); }
+:is(:root[data-theme="light"], .theme-light) .switch.on { background: var(--ae-ink); }
+:is(:root[data-theme="light"], .theme-light) .switch.on::after { background: var(--ae-gold); }
+
+.check { display: inline-grid; place-items: center; flex: none; width: 16px; height: 16px; border-radius: var(--r-xs); box-shadow: inset 0 0 0 1.5px var(--line-field); color: var(--ae-obsidian); }
+.check.on { background: var(--accent); box-shadow: none; }
+
+/* ---- Progression ----------------------------------------------------------------------------------------------------- */
+.progress { position: relative; height: 4px; border-radius: var(--r-pill); background: rgb(250 248 243 / 0.1); overflow: hidden; }
+.progress > i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); border-radius: inherit;
+  background: linear-gradient(90deg, var(--ae-gold), var(--ae-gold-light)); }
+.progress--bad > i { background: var(--state-bad); opacity: 0.8; }
+.progress--ok > i { background: var(--state-ok); }
+.progress--wait > i { background: rgb(250 248 243 / 0.18); }
+.progress--indet > i { transform: translateX(var(--x, 40%)) scaleX(0.3); }
+:is(:root[data-theme="light"], .theme-light) .progress { background: rgb(20 20 19 / 0.08); }
+
+/* ---- Bulle, menu, toast, dialogue ------------------------------------------------------------------------------------ */
+.tip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: var(--r-md); background: rgb(250 248 243 / 0.97);
+  color: var(--ae-obsidian); font-size: 12px; font-weight: 600; white-space: nowrap; box-shadow: 0 12px 28px -14px rgb(0 0 0 / 0.85); }
+.tip .kbd { color: var(--ae-ink-soft); box-shadow: inset 0 0 0 1px rgb(15 15 16 / 0.18); background: rgb(15 15 16 / 0.04); }
+.menu { min-width: 220px; padding: 6px; border-radius: var(--r-lg); background: var(--bg-overlay); box-shadow: var(--e-3); }
+.menu .mi { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 10px 0 8px; border-radius: var(--r-md); font-size: 13px; color: var(--text-1); }
+.menu .mi .ico { color: var(--text-2); }
+.menu .mi.is-hl { background: var(--accent-tint); color: var(--text-accent); }
+.menu .mi.is-hl .ico { color: var(--accent); }
+.menu .mi .kbd { margin-left: auto; }
+.menu .sep { height: 1px; margin: 5px 8px; background: var(--line-1); }
+.toast { display: flex; align-items: flex-start; gap: 12px; width: 360px; padding: 12px 12px 12px 14px; border-radius: var(--r-lg);
+  background: var(--bg-overlay); box-shadow: var(--e-3); }
+.toast .tt { font-weight: 600; font-size: 13.5px; }
+.toast .tb { font-size: 12.5px; color: var(--text-2); }
+.dialog { width: 440px; padding: 24px; border-radius: var(--r-xl); background: var(--bg-overlay); box-shadow: var(--e-3); }
+
+/* ---- Groupes de réglages (lignes en encart, façon Réglages de Windows 11 / macOS) -------------------------------------- */
+.group { border-radius: var(--r-lg); background: var(--bg-raised); box-shadow: var(--e-1); }
+.group > .row { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 10px 16px; }
+.group > .row + .row { box-shadow: inset 0 1px 0 var(--line-1); }
+.row .rt { font-size: 13.5px; font-weight: 500; }
+.row .rd { font-size: 12.5px; color: var(--text-2); line-height: 17px; }
+.row .grow { flex: 1; min-width: 0; }
+.tile { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: var(--r-md); background: rgb(250 248 243 / 0.06); color: var(--text-2); }
+.tile--gold { color: var(--ae-gold); background: var(--accent-tint); }
+:is(:root[data-theme="light"], .theme-light) .tile { background: var(--ae-pearl); color: var(--ae-ink-soft); }
+:is(:root[data-theme="light"], .theme-light) .tile--gold { color: var(--ae-gold-text); background: rgb(212 175 124 / 0.2); }
+.group-title { margin: 0 0 8px 2px; font-size: 13px; font-weight: 600; color: var(--text-2); }
+
+/* ---- Sélecteur de dossier --------------------------------------------------------------------------------------------- */
+.folder { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; border-radius: var(--r-lg); background: var(--bg-raised); box-shadow: var(--e-1); }
+.folder .ff { font-size: 14px; font-weight: 600; }
+.folder .fp { margin-top: 2px; color: var(--text-3); }
+
+/* ---- Miniature et carte média (Desktop) ------------------------------------------------------------------------------- */
+.thumb { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r-md); overflow: hidden; background: var(--bg-stage); isolation: isolate; }
+.thumb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(250 248 243 / 0.07); pointer-events: none; }
+.thumb > img.pic { width: 100%; height: 100%; object-fit: cover; }
+.thumb.portrait > img.pic { object-fit: contain; }
+.thumb .wave { position: absolute; inset: 22% 8%; width: 84%; height: 56%; object-fit: fill; opacity: 0.95; }
+.thumb .ph-ico { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); }
+.badge { position: absolute; display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: var(--r-xs);
+  background: rgb(15 15 16 / 0.74); color: var(--ae-ivory); font-size: 11px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.badge--fmt { left: 8px; top: 8px; }
+.badge--dur { right: 8px; bottom: 8px; }
+.badge--state { left: 8px; bottom: 8px; padding: 0 6px 0 5px; gap: 5px; }
+.thumb .runline { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgb(250 248 243 / 0.14); }
+.thumb .runline > i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p)); background: var(--ae-gold); }
+.thumb.is-running > img.pic { opacity: 0.55; }
+.thumb.is-missing > img.pic { filter: grayscale(1); opacity: 0.22; }
+.thumb.is-missing::after { box-shadow: none; outline: 1px dashed rgb(250 248 243 / 0.3); outline-offset: -1px; }
+.thumb .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(15 15 16 / 0) 38%, rgb(15 15 16 / 0.82)); }
+.thumb .hoverbar { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 4px; }
+.thumb .playbig { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ae-ivory); color: var(--ae-obsidian); }
+.mcard { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.mcard .mt { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.mcard .mn { font-size: 13.5px; font-weight: 500; }
+.mcard .mx { color: var(--text-3); font-weight: 400; }
+.mcard .mm { margin-top: 3px; font-size: 12px; line-height: 16px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.mcard.is-selected .thumb { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mcard.is-hover .thumb > img.pic { transform: scale(1.02); }
+
+/* Fil d'or (liaison) : plein = relié, pointillé = non relié. Motif repris de la liaison Discord du site (§8). */
+.thread { position: relative; height: 2px; flex: 1; border-radius: 2px; background: linear-gradient(90deg, rgb(212 175 124 / 0.35), var(--ae-gold) 30%, var(--ae-gold) 70%, rgb(212 175 124 / 0.35)); }
+.thread.off { background: none; border-top: 2px dotted rgb(250 248 243 / 0.22); height: 0; }
+.dot-node { width: 8px; height: 8px; border-radius: 50%; background: var(--ae-gold); box-shadow: 0 0 0 3px rgb(212 175 124 / 0.18); flex: none; }
+
+/* Squelette : bloc calme (le reflet balayant n'est joué que sur Desktop, jamais en mouvement réduit) */
+.skel { border-radius: var(--r-md); background: linear-gradient(100deg, rgb(250 248 243 / 0.04) 30%, rgb(250 248 243 / 0.08) 50%, rgb(250 248 243 / 0.04) 70%); }

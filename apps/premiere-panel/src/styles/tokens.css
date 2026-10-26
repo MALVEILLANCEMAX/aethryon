@@ -1,0 +1,202 @@
+/* =====================================================================================================================
+   AETHRYON Desktop + panneau Premiere Pro — jetons de design (étape B, MAQUETTE, rien n'est publié)
+   ---------------------------------------------------------------------------------------------------------------------
+   Source de vérité de l'identité : web/src/styles.css (@theme) et docs/DESIGN.md, copiés via
+   <projet du film, non publié> (master 4b22960). Les valeurs marquées « site » sont reprises
+   à l'identique ; celles marquées « dérivé » sont nouvelles, calculées pour l'interface d'application sombre, et leur
+   contraste est mesuré dans DESIGN-SYSTEM.md §8.
+   Préfixe --ae- : évite toute collision avec les variables de l'hôte (--uxp-host-*) et de Spectrum (--spectrum-*).
+   Thème sombre par défaut (Premiere est sombre). Thème clair : Desktop seulement, [data-theme="light"] ou système.
+   ===================================================================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* ---- Palette de marque (site, inchangée) ---------------------------------------------------------------------- */
+  --ae-obsidian: #0f0f10;      /* site : fond sombre principal */
+  --ae-night: #18181a;         /* site : surface posée sur l'obsidienne */
+  --ae-graphite: #2a2a2e;      /* site : sombre secondaire */
+  --ae-night-line: #2e2c29;    /* site : filets sur sombre */
+  --ae-ivory: #faf8f3;         /* site : fond clair, texte sur sombre */
+  --ae-pearl: #f4efe7;         /* site */
+  --ae-sand: #e9e0d0;          /* site */
+  --ae-beige: #d9d1c4;         /* site */
+  --ae-line: #e2d8c9;          /* site */
+  --ae-line-strong: #cfbfa7;   /* site */
+  --ae-field-light: #9a8e7c;   /* site : bord des champs sur clair, 3:1 */
+  --ae-ink: #141413;           /* site */
+  --ae-ink-soft: #4a463f;      /* site */
+  --ae-muted: #6b6459;         /* site */
+  --ae-gold: #d4af7c;          /* site : or champagne, accent RARE */
+  --ae-gold-light: #e3cda6;    /* site : reflets, texte or sur sombre */
+  --ae-gold-text: #7a5f38;     /* site : or lisible sur clair */
+  --ae-mist: #b3a999;          /* site : texte secondaire sur sombre */
+  --ae-ok: #2f6b47;  --ae-ok-bg: #e6efe6;     /* site */
+  --ae-warn: #8a5a12; --ae-warn-bg: #f5e9d2;  /* site */
+  --ae-bad: #a3372b;  --ae-bad-bg: #f6e3de;   /* site */
+
+  /* ---- Dérivés pour l'application sombre ------------------------------------------------------------------------ */
+  --ae-raised: #202023;        /* dérivé : champ, piste de contrôle, survol de ligne (entre night et graphite) */
+  --ae-overlay-fill: #1d1d20;  /* dérivé : menus, bulles, toasts, feuilles */
+  --ae-dim: #948b7e;           /* dérivé : texte tertiaire (méta), ≥ 4,5:1 sur night et raised */
+  --ae-field-dark: #766f65;    /* dérivé : bord des champs sur sombre, ≥ 3:1 sur night (WCAG 1.4.11) */
+  --ae-gold-press: #c49c66;    /* dérivé : or pressé */
+  --ae-ok-dark: #94c7a3;       /* dérivé : « Importé », « Prêt » sur sombre (sauge chaude) */
+  --ae-bad-dark: #ee9b8b;      /* dérivé : « Erreur » sur sombre (terre cuite claire) */
+  --ae-warn-dark: #e2b36b;     /* dérivé : avertissement sur sombre, jamais sans pictogramme (proche de l'or) */
+
+  /* ---- Rôles (thème sombre) -------------------------------------------------------------------------------------- */
+  --bg-base: var(--ae-obsidian);          /* fenêtre, barre latérale, scène média, installateur */
+  --bg-sheet: var(--ae-night);            /* feuille de contenu (Desktop), fond du panneau Premiere */
+  --bg-raised: var(--ae-raised);          /* champs, pistes, groupes posés sur la feuille */
+  --bg-hover: rgb(250 248 243 / 0.05);
+  --bg-press: rgb(250 248 243 / 0.08);
+  --bg-selected: rgb(212 175 124 / 0.12);
+  --bg-overlay: var(--ae-overlay-fill);
+  --bg-stage: var(--ae-obsidian);         /* la vidéo se regarde toujours sur l'obsidienne, quel que soit le thème */
+  --scrim: rgb(6 6 7 / 0.62);
+
+  --line-1: rgb(250 248 243 / 0.07);      /* filets décoratifs */
+  --line-2: rgb(250 248 243 / 0.12);      /* bords de groupes, séparateurs de contrôles */
+  --line-3: rgb(250 248 243 / 0.22);      /* bouton secondaire, pointillés */
+  --line-field: var(--ae-field-dark);     /* bord des champs (3:1) */
+  --line-sheen: rgb(227 205 166 / 0.16);  /* filet de lumière champagne en haut des feuilles sombres (site §4) */
+
+  --text-1: var(--ae-ivory);
+  --text-2: var(--ae-mist);
+  --text-3: var(--ae-dim);
+  --text-disabled: rgb(250 248 243 / 0.34);
+  --text-accent: var(--ae-gold-light);
+  --text-on-accent: var(--ae-obsidian);
+
+  --accent: var(--ae-gold);
+  --accent-hover: var(--ae-gold-light);
+  --accent-press: var(--ae-gold-press);
+  --accent-tint: rgb(212 175 124 / 0.12);
+  --accent-tint-strong: rgb(212 175 124 / 0.2);
+  --focus: var(--ae-gold);
+
+  --state-ok: var(--ae-ok-dark);      --state-ok-bg: rgb(47 107 71 / 0.26);
+  --state-bad: var(--ae-bad-dark);    --state-bad-bg: rgb(163 55 43 / 0.22);
+  --state-warn: var(--ae-warn-dark);  --state-warn-bg: rgb(138 90 18 / 0.24);
+  --state-run: var(--ae-gold-light);  --state-run-bg: rgb(212 175 124 / 0.12);
+  --state-idle: var(--ae-mist);       --state-idle-bg: rgb(250 248 243 / 0.06);
+
+  /* ---- Typographie ------------------------------------------------------------------------------------------------ */
+  /* Inter et Playfair Display sont embarquées (WOFF2, SIL OFL 1.1). Segoe UI Variable = repli natif de Windows 11.
+     Le logotype n'utilise AUCUNE police : contours vectoriels Marcellus (wordmark.ts). */
+  --font-ui: "Inter", "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Playfair Display", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-mono: "Cascadia Mono", Consolas, ui-monospace, monospace;
+  --font-features: "cv11" 1, "ss01" 1;    /* réglages du site (a simple, 1 sans empattement) */
+
+  /* Échelle Desktop / installateur (px, interligne) */
+  --t-display-xl: 44px;  --lh-display-xl: 48px;   /* installateur : « Bienvenue dans AETHRYON » */
+  --t-display-l: 30px;   --lh-display-l: 36px;    /* titres de page Desktop, titres d'étape */
+  --t-display-m: 22px;   --lh-display-m: 28px;    /* titre d'un média, états vides, titres de dialogue */
+  --t-figure: 52px;      --lh-figure: 52px;       /* chiffre éditorial (« 10 médias ») */
+  --t-title: 15px;       --lh-title: 20px;        /* Inter 600 : titres de groupe */
+  --t-body: 14px;        --lh-body: 20px;         /* Inter 400/500 : interface */
+  --t-small: 12.5px;     --lh-small: 17px;        /* méta, aides */
+  --t-micro: 11.5px;     --lh-micro: 14px;        /* pastilles, badges, raccourcis (jamais < 11 px) */
+  --t-lead: 17px;        --lh-lead: 26px;         /* sous-titre de l'installateur (= corps du site) */
+
+  /* Échelle du panneau Premiere (plus dense, au voisinage de l'interface d'Adobe) */
+  --p-t-display: 18px;   --p-lh-display: 23px;
+  --p-t-title: 13px;     --p-lh-title: 17px;
+  --p-t-body: 12.5px;    --p-lh-body: 16px;
+  --p-t-small: 11.5px;   --p-lh-small: 15px;
+  --p-t-micro: 11px;     --p-lh-micro: 13px;
+
+  /* ---- Espacement (base 4) ------------------------------------------------------------------------------------------ */
+  --s-0: 2px; --s-1: 4px; --s-2: 6px; --s-3: 8px; --s-4: 12px; --s-5: 16px; --s-6: 20px; --s-7: 24px;
+  --s-8: 32px; --s-9: 40px; --s-10: 48px; --s-11: 64px;
+
+  /* ---- Rayons (concentriques : intérieur = extérieur − marge) ---------------------------------------------------- */
+  --r-xs: 4px;     /* badges dans une miniature, touches */
+  --r-sm: 6px;     /* champs du panneau, cases à cocher */
+  --r-md: 8px;     /* fenêtre Windows 11, champs Desktop, miniatures */
+  --r-lg: 12px;    /* groupes, cartes, menus, toasts, coin de la feuille de contenu */
+  --r-xl: 16px;    /* dialogues, feuilles */
+  --r-2xl: 24px;   /* grandes scènes de l'installateur */
+  --r-pill: 999px; /* boutons, contrôles segmentés, pastilles d'état (signature du site) */
+
+  /* ---- Élévation (sombre : lumière par le haut + ombre noire profonde, jamais d'ombre grise) ------------------------ */
+  --e-0: none;
+  --e-1: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 0 0 1px var(--line-1);
+  --e-2: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 0 0 1px var(--line-2), 0 18px 40px -18px rgb(0 0 0 / 0.85);
+  --e-3: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 0 0 1px var(--line-2), 0 30px 70px -26px rgb(0 0 0 / 0.95);
+  --e-button: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 1px 1px rgb(15 15 16 / 0.4), 0 10px 22px -14px rgb(0 0 0 / 0.9);
+
+  /* ---- Mouvement (site : web/src/lib/motion.ts) -------------------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.22, 0.8, 0.26, 1);     /* site « soft » : entrées, déplacements */
+  --ease-in: cubic-bezier(0.32, 0, 0.67, 0);        /* site « exit » : sorties */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);    /* site « calm » : progression, fil d'or */
+  --d-instant: 80ms;   /* pression */
+  --d-micro: 140ms;    /* survol, couleur */
+  --d-small: 200ms;    /* interrupteur, bulle, toast */
+  --d-medium: 280ms;   /* feuille, aperçu, changement de section */
+  --d-large: 420ms;    /* fil d'or, réorganisation de liste */
+  --d-reveal: 620ms;   /* installateur seulement */
+  --d-exit-ratio: 0.65;
+  --stagger: 24ms;
+
+  /* ---- Fenêtre Windows 11 -------------------------------------------------------------------------------------------- */
+  --win-radius: 8px;          /* coin des fenêtres de Windows 11 */
+  --win-caption-w: 46px;      /* boutons de légende */
+  --win-caption-h: 32px;
+  --win-close-hover: #c42b1c; /* rouge de fermeture de Windows 11 */
+}
+
+/* ---- Thème clair (Desktop et installateur uniquement ; le panneau Premiere reste sombre) ------------------------------ */
+:root[data-theme="light"], .theme-light {
+  color-scheme: light;
+  --bg-base: var(--ae-pearl);
+  --bg-sheet: var(--ae-ivory);
+  --bg-raised: #fffdf9;               /* dérivé : champ posé sur l'ivoire */
+  --bg-hover: rgb(20 20 19 / 0.045);
+  --bg-press: rgb(20 20 19 / 0.08);
+  --bg-selected: rgb(212 175 124 / 0.2);
+  --bg-overlay: #fffdf9;
+  --bg-stage: var(--ae-obsidian);
+  --scrim: rgb(20 20 19 / 0.32);
+  --line-1: var(--ae-line);
+  --line-2: rgb(20 20 19 / 0.1);
+  --line-3: var(--ae-line-strong);
+  --line-field: var(--ae-field-light);
+  --line-sheen: rgb(255 255 255 / 0.8);
+  --text-1: var(--ae-ink);
+  --text-2: var(--ae-ink-soft);
+  --text-3: var(--ae-muted);
+  --text-disabled: rgb(20 20 19 / 0.38);
+  --text-accent: var(--ae-gold-text);
+  --text-on-accent: var(--ae-obsidian);
+  --accent: var(--ae-gold);
+  --accent-hover: var(--ae-gold-light);
+  --accent-press: var(--ae-gold-press);
+  --accent-tint: rgb(212 175 124 / 0.18);
+  --accent-tint-strong: rgb(212 175 124 / 0.3);
+  --focus: var(--ae-gold-text);
+  --state-ok: var(--ae-ok);     --state-ok-bg: var(--ae-ok-bg);
+  --state-bad: var(--ae-bad);   --state-bad-bg: var(--ae-bad-bg);
+  --state-warn: var(--ae-warn); --state-warn-bg: var(--ae-warn-bg);
+  --state-run: var(--ae-gold-text); --state-run-bg: rgb(212 175 124 / 0.2);
+  --state-idle: var(--ae-ink-soft); --state-idle-bg: rgb(20 20 19 / 0.05);
+  /* ombres chaudes du site, venues du haut */
+  --e-1: 0 0 0 1px var(--ae-line), 0 1px 2px rgb(52 40 22 / 0.05);
+  --e-2: 0 0 0 1px var(--ae-line), 0 1px 2px rgb(52 40 22 / 0.05), 0 12px 32px -20px rgb(52 40 22 / 0.24);
+  --e-3: 0 0 0 1px rgb(15 15 16 / 0.05), 0 2px 6px rgb(52 40 22 / 0.06), 0 30px 64px -30px rgb(52 40 22 / 0.34);
+  --e-button: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 1px 1px rgb(52 40 22 / 0.18), 0 10px 20px -14px rgb(52 40 22 / 0.5);
+}
+
+/* Le thème « Système » suit Windows (WebView2 relaie le réglage clair/sombre de Windows). */
+@media (prefers-color-scheme: light) {
+  :root[data-theme="system"] { color-scheme: light; }
+  /* Desktop : l'application pose data-theme="light" quand Windows est en clair (évite de dupliquer le bloc ci-dessus). */
+}
+
+/* Mouvement réduit : réglage Windows « Effets d'animation » (WebView2) ou réglage AETHRYON. */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) { --d-small: 120ms; --d-medium: 120ms; --d-large: 120ms; --d-reveal: 160ms; --stagger: 0ms; }
+}
+:root[data-motion="reduced"] { --d-small: 120ms; --d-medium: 120ms; --d-large: 120ms; --d-reveal: 160ms; --stagger: 0ms; }

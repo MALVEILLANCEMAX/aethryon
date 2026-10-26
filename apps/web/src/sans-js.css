@@ -1,0 +1,9 @@
+/* Lecteurs SANS JavaScript uniquement : feuille chargée dans un <noscript> des pages pré-rendues
+   (scripts/prerender.mjs la copie dans dist/assets/ sous un nom haché ; l'application ne l'importe pas).
+   Le contenu que l'application n'ouvre qu'à la demande (les quatre solutions, les réponses de la FAQ et de
+   l'aide) est écrit dans le HTML avec data-sans-js (masqué par styles.css) : il est affiché ici, et les
+   onglets, inutiles sans script, sont retirés. Même spécificité, chargée après : cette règle l'emporte. */
+[data-sans-js] { display: block; }
+[role="tablist"],
+[data-solutions-owl],
+[data-js-only] { display: none; }

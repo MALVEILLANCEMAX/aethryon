@@ -1,0 +1,25 @@
+{
+  "name": "aethryon-premiere-cep",
+  "private": true,
+  "version": "2.0.1",
+  "description": "AETHRYON pour Premiere Pro v2 — interface web unique (coque CEP maintenant, coque UXP WebView plus tard).",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "rendus": "node tests/e2e/rendus.mjs",
+    "construire": "node scripts/construire.mjs"
+  },
+  "dependencies": {
+    "preact": "10.29.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "acorn": "8.15.0",
+    "typescript": "5.9.3",
+    "vite": "6.4.3",
+    "vitest": "3.2.7"
+  }
+}

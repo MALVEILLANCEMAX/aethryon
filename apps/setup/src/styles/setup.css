@@ -1,0 +1,43 @@
+/* AETHRYON Setup — compléments propres au setup (les feuilles de l'étape B sont reprises telles quelles).
+   Fenêtre fixe de 960 × 640, sans cadre, fond obsidienne dès le premier pixel (html ET body : aucun éclair blanc). */
+html, body, #racine { background: #0f0f10; }
+html { color-scheme: dark; }
+
+/* Progression réelle de la copie : octets écrits / octets à écrire (aucune estimation). */
+.octets { display: flex; align-items: center; gap: 10px; margin-top: 2px; font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.octets > i { position: relative; flex: 1; height: 3px; border-radius: 2px; background: rgb(250 248 243 / 0.1); overflow: hidden; }
+.octets > i::after { content: ""; position: absolute; inset: 0; background: var(--ae-gold); transform-origin: 0 50%; transform: scaleX(var(--p, 0));
+  transition: transform 160ms var(--ease-out); }
+
+/* Résumé du retour arrière après un échec */
+.retour { display: flex; align-items: center; gap: 9px; margin-top: 16px; padding: 9px 12px; border-radius: var(--r-md); font-size: 12.5px;
+  color: var(--text-1); background: var(--state-ok-bg); }
+.retour > svg { color: var(--state-ok); flex: none; }
+.retour--partiel { background: var(--state-warn-bg); }
+.retour--partiel > svg { color: var(--state-warn); }
+.retour + .steps { margin-top: 16px; }
+
+/* Choix de la maintenance et de la désinstallation : cartes sélectionnables (rôle radio) */
+.choice--action { width: 100%; text-align: left; cursor: pointer; transition: box-shadow var(--d-micro) var(--ease-out), background-color var(--d-micro) var(--ease-out); }
+.choice--action:hover { background: var(--bg-hover); }
+.choice--action.is-choisi { box-shadow: inset 0 0 0 1.5px var(--ae-gold); background: rgb(212 175 124 / 0.06); }
+.choice--action.choice--danger.is-choisi { box-shadow: inset 0 0 0 1.5px var(--state-bad); background: var(--state-bad-bg); }
+.choice--action .tile { width: 34px; height: 34px; }
+.choice--action .radio { width: 16px; height: 16px; flex: none; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--line-3); margin-right: 4px; position: relative; }
+.choice--action.is-choisi .radio { box-shadow: inset 0 0 0 1.5px var(--ae-gold); }
+.choice--action.is-choisi .radio::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--ae-gold); }
+.choice--action.choice--danger.is-choisi .radio { box-shadow: inset 0 0 0 1.5px var(--state-bad); }
+.choice--action.choice--danger.is-choisi .radio::after { background: var(--state-bad); }
+.choice--action .mono { font-size: 11.5px; color: var(--text-3); }
+.confirmation { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13px; color: var(--text-1); cursor: pointer; }
+.confirmation input { width: 16px; height: 16px; accent-color: var(--state-bad); }
+
+.inst-body .det .rd .mono { overflow-wrap: anywhere; }
+.sub .t { white-space: nowrap; padding-left: 8px; }
+/* Fin : chargement unique de l'extension navigateur depuis son dossier géré (le setup ne pilote pas Chrome). */
+.nav-ext { max-width: 660px; margin: 16px auto 0; padding: 12px 16px; border-radius: 10px; text-align: left; font-size: 12.5px; color: var(--text-2); background: var(--surface-2, rgb(255 255 255 / 0.03)); box-shadow: inset 0 0 0 1px var(--line-1); }
+.nav-ext-titre { font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+.nav-ext-pas { margin: 0 0 6px; padding-left: 18px; display: grid; gap: 3px; }
+.nav-ext .mono { font-size: 11.5px; word-break: break-all; }
+.lien { color: var(--ae-gold, var(--text-1)); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; background: none; border: 0; padding: 0; font: inherit; }
+.lien:focus-visible { outline: 2px solid var(--ae-gold, currentColor); outline-offset: 2px; border-radius: 2px; }

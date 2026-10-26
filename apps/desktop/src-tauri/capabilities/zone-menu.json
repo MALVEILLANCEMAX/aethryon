@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "zone-menu",
+  "description": "Menu de la zone de notification dessiné par AETHRYON (src/zone/menu-zone.ts) : il écoute seulement l'annonce d'ouverture « zone-menu-ouvrir ». Ses trois actions passent par les commandes zone_menu_*.",
+  "windows": ["zone-menu"],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten"
+  ]
+}

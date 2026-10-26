@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr" class="popup">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>AETHRYON</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="bar">
+    <h1 id="brand" class="brand"></h1>
+    <p id="conn" class="conn" hidden><span class="dot" aria-hidden="true"></span><span id="conn-label"></span></p>
+    <button id="open-settings" class="icon-btn" type="button" aria-label="Réglages" title="Réglages"></button>
+  </header>
+  <div id="scroll" class="scroll">
+    <main id="main" aria-busy="true">
+      <p class="sr-only" role="status">Chargement…</p>
+      <div class="skeleton" aria-hidden="true">
+        <div class="sk sk-strip"></div>
+        <div class="sk sk-card"></div>
+        <div class="sk sk-line"></div>
+      </div>
+    </main>
+    <footer class="foot">
+      <p class="foot-meta"><span id="version">Version</span><span aria-hidden="true" class="sep">·</span><a id="help-link" class="link" href="#">Aide<span class="sr-only"> (nouvel onglet)</span></a></p>
+      <p class="foot-note">Compatible avec YouTube, TikTok et X — sans affiliation.</p>
+      <p id="rights" class="foot-note foot-rights"></p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

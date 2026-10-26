@@ -1,0 +1,6 @@
+// Test A : pipeline minimal (compilation, signature, inspection). Aucun réseau, aucun secret.
+#define name YTC Test A
+#define color red
+#define version 27
+
+showNotification("Le pipeline Cherri fonctionne.", "YTC Test A")

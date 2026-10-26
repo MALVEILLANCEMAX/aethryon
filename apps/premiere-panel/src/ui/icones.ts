@@ -1,0 +1,80 @@
+// Jeu d'icônes linéaires AETHRYON (DESIGN-SYSTEM §5), copié de B-DIRECTION-ARTISTIQUE/sources/js/icons.js
+// (tracés du site quand ils existent). Grille 24, trait rond, couleur héritée. Règle optique : stroke-width = 32 / taille.
+// Pictogrammes de plateforme : ceux du site et de l'extension navigateur (aucun logo de marque).
+
+export const TRACES = {
+    // navigation
+    home: '<path d="M4 11l8-6.5 8 6.5V19a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19z"/>', // site
+    library: '<rect x="3" y="7" width="18" height="13.5" rx="2.5"/><path d="M5.5 4h13"/><path d="M10.5 11.2v5.6l4.4-2.8z"/>',
+    transfers: '<path d="M8 4v14m-3.5-3.5L8 18l3.5-3.5"/><path d="M16 20V6m-3.5 3.5L16 6l3.5 3.5"/>',
+    link: '<circle cx="5.5" cy="12" r="2.5"/><circle cx="18.5" cy="12" r="2.5"/><path d="M8 12h8"/>',
+    settings: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+    // recherche et affichage
+    search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/>',
+    filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
+    sort: '<path d="M7 4v16m-3-3 3 3 3-3"/><path d="M13 7h7M13 12h5M13 17h3"/>',
+    grid: '<rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/>',
+    list: '<path d="M9.5 6h10.5M9.5 12h10.5M9.5 18h10.5"/><path d="M4.5 6h.5M4.5 12h.5M4.5 18h.5" stroke-width="2.6"/>',
+    // lecture
+    play: '<path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/>', // site
+    pause: '<path d="M8.5 5.5v13M15.5 5.5v13" stroke-width="2.6"/>', // site
+    'frame-back': '<path d="M16.5 6l-6 6 6 6M7.5 6v12"/>',
+    'frame-fwd': '<path d="M7.5 6l6 6-6 6M16.5 6v12"/>',
+    volume: '<path d="M4 9.5h3l4.5-4v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
+    loop: '<path d="M17 2.5l3 3-3 3M4 11.5v-1a5 5 0 0 1 5-5h11M7 21.5l-3-3 3-3M20 12.5v1a5 5 0 0 1-5 5H4"/>',
+    expand: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+    monitor: '<rect x="3" y="4" width="18" height="12.5" rx="2.5"/><path d="M9 20.5h6M12 16.5v4"/><path d="M10.6 8.1v4.3l3.6-2.15z"/>',
+    // actions sur un média
+    import: '<path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H9l2 2h7.5A2.5 2.5 0 0 1 21 10.5v7a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><path d="M12 10.5v6.2m-2.6-2.6 2.6 2.6 2.6-2.6"/>',
+    download: '<path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/>', // site
+    folder: '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H9l2 2.5h7.5A2.5 2.5 0 0 1 21 10v7.5a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/>', // site
+    reveal: '<path d="M3 17.5v-11A2.5 2.5 0 0 1 5.5 4H9l2 2h6.5A2.5 2.5 0 0 1 20 8.5V10"/><path d="M3 17.5l2.6-6.1A2.2 2.2 0 0 1 7.6 10h13a1.2 1.2 0 0 1 1.1 1.7l-2.7 6.4A3 3 0 0 1 16.3 20H5.5A2.5 2.5 0 0 1 3 17.5z"/>',
+    copy: '<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>', // site
+    external: '<path d="M14 4h6v6M20 4l-8.5 8.5"/><path d="M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/>',
+    convert: '<path d="M4 8h13.5l-3.5-3.5M20 16H6.5l3.5 3.5"/>',
+    drag: '<path d="M12 3v18M3 12h18M9.5 5.5 12 3l2.5 2.5M9.5 18.5 12 21l2.5-2.5M5.5 9.5 3 12l2.5 2.5M18.5 9.5 21 12l-2.5 2.5"/>',
+    more: '<path d="M6 12h.01M12 12h.01M18 12h.01" stroke-width="2.8"/>',
+    trash: '<path d="M4.5 7h15M10 4h4M6.5 7l.9 11.6a2 2 0 0 0 2 1.9h5.2a2 2 0 0 0 2-1.9L17.5 7M10 11v5.5M14 11v5.5"/>',
+    // états
+    check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', // site
+    close: '<path d="M6 6l12 12M18 6L6 18"/>', // site
+    alert: '<path d="M12 8v5M12 16.5v.5"/><path d="M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>', // site
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/>', // site
+    error: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.5"/>',
+    clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    missing: '<path d="M14 3.5H7.5A2.5 2.5 0 0 0 5 6v12a2.5 2.5 0 0 0 2.5 2.5h9A2.5 2.5 0 0 0 19 18V8.5z"/><path d="M14 3.5v5h5"/><path d="M10.2 12.4a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1v.3M12 17.4v.3"/>',
+    retry: '<path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/>', // site (IconReplay)
+    repair: '<path d="M15 4.5a4.5 4.5 0 0 0-4.2 6.1l-6.2 6.2a1.9 1.9 0 0 0 2.6 2.6l6.2-6.2a4.5 4.5 0 0 0 6.1-4.2l-2.6 2.6-2.4-.4-.4-2.4 2.6-2.6A4.5 4.5 0 0 0 15 4.5z"/>',
+    shield: '<path d="M12 3l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>', // site
+    // types de médias
+    film: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M7 5v14M17 5v14M3 9.5h4M3 14.5h4M17 9.5h4M17 14.5h4"/>', // site
+    audio: '<path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 10.5v3"/>',
+    image: '<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="9.5" r="1.8"/><path d="M21 16l-5-5-8 9"/>', // site
+    // paramètres
+    bell: '<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    power: '<path d="M12 3.5v8M7.2 6.6a7 7 0 1 0 9.6 0"/>',
+    log: '<rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>',
+    update: '<circle cx="12" cy="12" r="9"/><path d="M12 16V8.5m-3.5 3.5L12 8.5l3.5 3.5"/>',
+    theme: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor" stroke="none"/>',
+    motion: '<path d="M3 12h3M3 7h6M3 17h6"/><circle cx="15.5" cy="12" r="5"/>',
+    // chevrons
+    'chevron-down': '<path d="M6 9l6 6 6-6"/>', // site
+    'chevron-right': '<path d="M9 6l6 6-6 6"/>', // site
+    'chevron-left': '<path d="M15 6l-6 6 6 6"/>', // site
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    'arrow-left': '<path d="M19 12H5m5.5-5.5L5 12l5.5 5.5"/>',
+    'arrow-right': '<path d="M5 12h14m-5.5-5.5L19 12l-5.5 5.5"/>',
+    // pictogrammes neutres (style des pictogrammes de plateforme : trait 1,6, un accent or) — JAMAIS de logo de tiers
+    'picto-montage': '<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="M6.5 12.5h6M9 16h8"/><path d="M15.5 9v11" stroke="#D4AF7C"/>',
+    'picto-browser': '<rect x="3" y="4.5" width="18" height="15" rx="3"/><path d="M3 9h18"/><path d="M6 6.8h.01M8.5 6.8h.01" stroke="#D4AF7C" stroke-width="2.4"/>',
+  // pictogrammes neutres de plateforme (extension/src/shared/icons.ts) : la forme dit le format, un accent or
+  youtube: '<rect x="2.5" y="5.25" width="19" height="13.5" rx="3.2"/><path d="M6.2 15h11.6" opacity="0.3"/><path class="acc" d="M6.2 15h6" stroke-width="2.2"/><circle cx="12.6" cy="15" r="1.5" fill="currentColor" stroke="none"/>',
+  tiktok: '<path class="acc" d="M5.1 16.4V7.3a2.6 2.6 0 0 1 2.6-2.6" stroke-width="1.8"/><rect x="8" y="2.75" width="10.75" height="18.5" rx="2.9"/><path d="M10.9 16.6h3.4" opacity="0.45"/>',
+  twitter: '<rect x="3.5" y="3.5" width="17" height="17" rx="3.4"/><circle cx="7.7" cy="7.9" r="1.5" fill="currentColor" stroke="none"/><path d="M10.7 7.9h5.6" opacity="0.55"/><rect class="acc-fill" x="6.5" y="11.1" width="11" height="6.4" rx="1.5" fill="currentColor" opacity="0.45" stroke="none"/>',
+  lien: '<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>',
+  coller: '<rect x="6" y="4.5" width="12" height="16" rx="2.5"/><path d="M9.5 4.5V4a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 4v.5"/><path d="M9.5 11h5M9.5 15h3"/>',
+  ciseaux: '<circle cx="6.5" cy="7" r="2.5"/><circle cx="6.5" cy="17" r="2.5"/><path d="M8.6 8.4 20 17M8.6 15.6 20 7"/>',
+  volumeoff: '<path d="M4 9.5h3l4.5-4v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>',
+};
+
+export type NomIcone = keyof typeof TRACES;

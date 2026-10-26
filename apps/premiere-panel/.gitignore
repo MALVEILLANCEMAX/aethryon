@@ -1,0 +1,5 @@
+node_modules/
+dist/
+sortie/
+tests/e2e/rendus/
+*.log

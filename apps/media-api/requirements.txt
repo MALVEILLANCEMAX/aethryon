@@ -1,0 +1,8 @@
+# Web stack: pinned for reproducible builds.
+fastapi==0.142.2
+starlette==1.7.0
+uvicorn==0.54.0
+# yt-dlp is intentionally NOT pinned: sites change often, `make update` rebuilds with the latest
+# release. [default] brings yt-dlp-ejs (YouTube JS challenge solver, version-locked by yt-dlp),
+# [curl-cffi] brings browser impersonation (required for TikTok from a datacenter IP).
+yt-dlp[default,curl-cffi]>=2026.8.19

@@ -1,0 +1,172 @@
+/* AETHRYON — page de réglages (onglet). Le système de marque (jetons, polices, boutons, contrôles,
+   badges, tête maître, mascotte, mouvement réduit) vient du popup : une seule source. Ici : mise en page,
+   interrupteurs et notice sur les données. */
+@import url("../popup/popup.css");
+
+html.options { scroll-padding-top: 80px; }
+.options body { font-size: 15px; line-height: 1.55; }
+
+/* En-tête */
+.opt-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: saturate(1.4) blur(16px);
+}
+.opt-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 720px;
+  min-height: 60px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.options .brand { display: flex; align-items: center; margin: 0; }
+
+/* « Enregistré » : discret, n'apparaît qu'après un changement. */
+.save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  border-radius: var(--radius-control);
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity var(--dur-comp) var(--ease-soft), transform var(--dur-comp) var(--ease-soft);
+}
+.save-status[data-show="true"] { opacity: 1; transform: none; }
+.save-status[data-tone="bad"] { background: var(--bad-bg); color: var(--bad); }
+.save-status:empty { padding: 0; }
+
+/* Contenu */
+.opt-main { max-width: 720px; margin: 0 auto; padding: 36px 24px 8px; }
+.opt-intro { margin-bottom: 30px; }
+.opt-intro .display { margin: 0; font-size: 40px; }
+.lead { max-width: 52ch; margin: 10px 0 0; color: var(--ink-soft); font-size: 16px; }
+
+.group { margin-top: 26px; }
+.group-title {
+  margin: 0 0 10px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.rows { padding: 4px 0; }
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 60px;
+  padding: 14px 20px;
+}
+.row + .row { border-top: 1px solid var(--line); }
+.row-block { display: block; }
+.row-text { flex: 1; min-width: 0; }
+.row-label { display: block; margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
+.row-desc { margin: 3px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+p.row-desc.row-text { margin: 0; }
+.row-sub { min-height: 52px; padding-top: 10px; padding-bottom: 10px; }
+.row-sub .row-label { flex: 1; font-weight: 500; }
+.pf-icon { display: inline-grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: 9px; background: var(--bg); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.row-sub:has(.switch:disabled) .row-label, .row-sub:has(.switch:disabled) .pf-icon { opacity: 0.55; }
+.row-foot { margin: 0; padding: 4px 20px 14px; font-size: 13px; color: var(--muted); }
+.row-foot:empty { display: none; }
+.row-foot[data-tone="bad"] { color: var(--bad); font-weight: 500; }
+.seg-fixed { flex: none; width: 250px; }
+.seg-fixed.seg-dest { width: 300px; }
+.select-fixed { flex: none; width: 190px; }
+
+/* Interrupteur (case à cocher native, rôle « switch ») */
+.switch {
+  position: relative;
+  flex: none;
+  width: 46px;
+  height: 28px;
+  margin: 0;
+  border-radius: var(--radius-control);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--field);
+  appearance: none;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-soft), box-shadow var(--dur-micro) var(--ease-soft);
+}
+.switch::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--switch-thumb);
+  box-shadow: var(--switch-thumb-shadow);
+  transition: transform var(--dur-micro) var(--ease-soft), background-color var(--dur-micro) ease;
+}
+.switch:checked { background: var(--primary-bg); box-shadow: none; }
+.switch:checked::before { transform: translateX(18px); background: var(--primary-fg); }
+.switch:disabled { cursor: not-allowed; opacity: 0.45; }
+.switch[aria-busy="true"] { cursor: progress; }
+@media (prefers-color-scheme: dark) {
+  .switch::before { background: var(--ink-soft); }
+  .switch:checked::before { background: var(--primary-fg); }
+}
+
+/* Compte */
+#account-body { display: grid; gap: 14px; }
+.account-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
+.account-quota { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+.options .logout { margin: 0; }
+.options .login { max-width: 360px; }
+.options .note { margin: 0; }
+.link-icon { display: inline-flex; }
+
+/* Données et confidentialité : la même notice que la page d'accueil (src/shared/consent.ts) */
+.prose { display: grid; gap: 14px; padding: 16px 20px; }
+.facts { display: grid; gap: 4px 0; margin: 0; }
+.facts dt { position: relative; margin-top: 8px; padding-left: 18px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.facts dt:first-child { margin-top: 0; }
+.facts dt::before {
+  content: "";
+  position: absolute;
+  top: 0.5em;
+  left: 2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.facts dd { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
+.rights { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--badge-gold-bg); color: var(--ink); font-size: 13.5px; }
+.consent-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.consent-actions .confirm { width: 100%; }
+.prose .row-desc { margin: 0; }
+
+/* Pied */
+.opt-foot { max-width: 720px; margin: 0 auto; padding: 28px 24px 40px; text-align: center; font-size: 13px; color: var(--muted); }
+.opt-foot p { margin: 0; }
+.opt-foot p + p { margin-top: 4px; }
+.opt-foot .sep { margin: 0 8px; }
+.opt-foot .link { display: inline-flex; align-items: center; min-height: 32px; color: var(--ink-soft); }
+
+@media (max-width: 560px) {
+  .opt-main { padding: 24px 16px 8px; }
+  .opt-bar-inner { padding: 0 16px; }
+  .opt-intro .display { font-size: 32px; }
+  .row { flex-wrap: wrap; padding: 14px 16px; }
+  .row-sub { flex-wrap: nowrap; }
+  .seg-fixed, .select-fixed, .seg-fixed.seg-dest { width: 100%; }
+  .row-foot { padding: 4px 16px 14px; }
+}

@@ -1,0 +1,5 @@
+Images de la direction artistique (étape B, sources/media) : extraites du clip SYNTHÉTIQUE « Coucher de soleil sur la côte »
+(généré par ffmpeg pour le film de lancement) et du film V3.5. Elles ne servent qu'aux captures de l'interface avec une
+maquette de l'API Tauri (e2e/maquette-tauri.js) : ce sont des données d'essai, pas des fonctions démontrées.
+coucher-apercu.mp4 (2026-10-23) : 2 s fabriquées par ffmpeg à partir de coucher-4s-1280.jpg (H.264, 640 px), servies par le
+banc e2e/cloud-38.mjs à la place de l'URL signée du stockage pour l'aperçu du Cloud (lecteur intégré) : donnée d'essai.

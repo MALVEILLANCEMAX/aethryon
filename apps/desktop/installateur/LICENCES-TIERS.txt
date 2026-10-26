@@ -1,0 +1,12 @@
+AETHRYON Desktop — composants de tiers livrés
+
+- Polices Inter (Rasmus Andersson) et Playfair Display (Claus Eggers Sørensen) : SIL Open Font License 1.1
+  (textes complets joints : LICENSE-Inter.txt, LICENSE-PlayfairDisplay.txt).
+- Logotype AETHRYON : dessiné d'après Marcellus (Brian J. Bonislawsky), SIL Open Font License 1.1, livré en contours.
+- Tauri 2, wry, tao (Tauri Programme) : MIT ou Apache 2.0.
+- React, React DOM (Meta Platforms) : MIT.
+- Crates Rust notify, serde, serde_json, sha1, sha2, uuid, chrono, base64, unicode-normalization, winreg, windows-sys :
+  MIT ou Apache 2.0 (selon chaque crate).
+- WebView2Loader.dll (Microsoft) : fournie par le crate webview2-com-sys (MIT) ; les conditions de redistribution de ce
+  binaire Microsoft sont À VÉRIFIER avant toute publication (audit §3.2).
+Aucune bibliothèque FFmpeg n'est livrée.

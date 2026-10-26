@@ -1,0 +1,74 @@
+Signé le 2026-10-10 19:20 UTC par HubSign (https://hubsign.routinehub.services/sign)
+AEA1 profil 0, 36451 octets, auth data 2204 octets, clés ['SigningCertificateChain']
+  cert 0 : subject=CN = 04f02268ce3546f48d8968475fc8438d, O = Apple Inc., C = US | issuer=CN = Apple System Integration CA 4, OU = Apple Certification Authority, O = Apple Inc., C = US | notAfter=Nov  3 19:01:06 2027 GMT
+  cert 1 : subject=CN = Apple System Integration CA 4, OU = Apple Certification Authority, O = Apple Inc., C = US | issuer=CN = Apple Root CA - G3, OU = Apple Certification Authority, O = Apple Inc., C = US | notAfter=Feb 18 00:00:00 2032 GMT
+  cert 2 : subject=CN = Apple Root CA - G3, OU = Apple Certification Authority, O = Apple Inc., C = US | issuer=CN = Apple Root CA - G3, OU = Apple Certification Authority, O = Apple Inc., C = US | notAfter=Apr 30 18:19:06 2039 GMT
+  chaîne vérifiée par openssl jusqu'à Apple Root CA - G3 (empreinte figée)
+  contenu extrait : 26832 octets, sommes SHA-256 des segments correctes
+  archive : Shortcut.wflow (26734 octets), 308 actions
+  différence tolérée : WFWorkflowClientVersion : '5037.0.17' -> '1505.3'
+  différence tolérée : WFWorkflowTriggers : [] -> None
+  identique au plist compilé pour : WFWorkflowActions, WFWorkflowImportQuestions, WFWorkflowTypes, WFWorkflowInputContentItemClasses, WFWorkflowNoInputBehavior
+RÉSULTAT : signature Apple (chaîne) et contenu vérifiés
+(fichier signé : contenu extrait, 26734 octets)
+308 actions compilées
+-- structure
+  PASS  le raccourci contient des actions
+  PASS  visible dans la feuille de partage (ActionExtension)
+  PASS  accepte les URL et le texte
+  PASS  aucune action hors liste (pas de « Exécuter un raccourci », d'URL externe…)
+-- blocs (Si, Menu, Répéter)
+  PASS  chaque bloc a un identifiant unique et est correctement imbriqué
+  PASS  chaque « Si » a une branche principale non vide
+-- variables
+  PASS  chaque référence vise une action ou une variable définie avant
+-- question d'importation (jeton)
+  PASS  une seule question d'importation
+  PASS  ActionIndex présent (sinon iOS ignore la question en silence)
+  PASS  la question vise le champ d'une action Texte
+  PASS  le champ du jeton est vide dans le fichier
+  PASS  aucune valeur par défaut pour le jeton
+  PASS  la question a un texte
+-- requêtes vers l'API
+  PASS  exactement une requête de création, une de suivi, une de fichier
+  PASS  sonde 401 sans jeton : présente uniquement en version DEBUG
+  PASS  création : POST JSON sur https://api.malvu.fr/media/jobs?wait=20
+  PASS  création : corps JSON exactement {url, fmt}, en texte
+  PASS  création : url = le lien extrait (variable, pas une chaîne fixe)
+  PASS  création : fmt = la variable du format choisi
+  PASS  création : en-tête Authorization = « Bearer » + sortie du jeton (texte)
+  PASS  création : Advanced et ShowHeaders activés (méthode, corps, en-têtes pris en compte)
+  PASS  suivi : GET sur status_url + ?wait=20
+  PASS  suivi : en-tête Authorization = « Bearer » + sortie du jeton (texte)
+  PASS  suivi : Advanced et ShowHeaders activés (méthode, corps, en-têtes pris en compte)
+  PASS  fichier : GET sur file_url
+  PASS  fichier : en-tête Authorization = « Bearer » + sortie du jeton (texte)
+  PASS  fichier : Advanced et ShowHeaders activés (méthode, corps, en-têtes pris en compte)
+  PASS  une seule boucle, bornée (≤ 60 tours)
+  PASS  la requête de suivi est dans la boucle
+  PASS  aucune autre URL que api.malvu.fr/media
+-- gestion des erreurs
+  PASS  la clé « error » de la réponse est lue
+  PASS  la clé « detail » de la réponse est lue
+  PASS  la clé « message » de la réponse est lue
+  PASS  la clé « status » de la réponse est lue
+  PASS  la clé « status_url » de la réponse est lue
+  PASS  la clé « media_type » de la réponse est lue
+  PASS  la clé « file_url » de la réponse est lue
+  PASS  la clé « title » de la réponse est lue
+  PASS  création : réponse contrôlée (detail, error, message, status) avec arrêt propre
+  PASS  suivi : réponse contrôlée (detail, error, message, status) avec arrêt propre
+  PASS  chaque alerte d'erreur est suivie d'un arrêt
+-- conditions de tout le raccourci
+  PASS  uniquement « est » / « n'est pas » comparé à une valeur fixe (aucun test de présence ni « contient »)
+-- secrets
+  PASS  aucun des 2 jetons réels de ytapi n'apparaît (comparaison en mémoire)
+  PASS  aucune chaîne ressemblant à un jeton (≥ 32 caractères)
+  PASS  aucun « Bearer » suivi d'une valeur en clair
+-- enregistrement et confirmation
+  PASS  enregistrement dans Photos et dans Fichiers prévus
+  PASS  Fichiers : demande l'emplacement
+  PASS  chaque enregistrement est suivi d'une alerte de confirmation
+  PASS  aucune confirmation (alerte ou notification) avant l'enregistrement
+  PASS  aucune requête réseau après l'enregistrement
+== VALIDE (0 échec(s))

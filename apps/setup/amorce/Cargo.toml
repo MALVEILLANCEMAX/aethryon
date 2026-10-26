@@ -1,0 +1,21 @@
+[package]
+name = "aethryon-setup"
+version = "2.0.0-beta.8"
+edition = "2021"
+description = "AETHRYON Setup : amorce, un seul exe qui embarque la charge (interface, AETHRYON Desktop, extension CEP signée)"
+license = "LicenseRef-AETHRYON-proprietaire"
+publish = false
+
+[[bin]]
+name = "aethryon-setup"
+path = "src/main.rs"
+
+[dependencies]
+aethryon-setup-moteur = { path = "../moteur" }
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.56"
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_Security", "Win32_System_Threading", "Win32_UI_WindowsAndMessaging"] }
+
+[build-dependencies]
+embed-resource = "3"

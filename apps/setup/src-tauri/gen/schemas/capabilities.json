@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Fenêtre du setup : événements (progression) et glissement de la barre de titre dessinée. Les opérations passent par les commandes du setup.","local":true,"windows":["main"],"permissions":["core:default","core:window:allow-start-dragging"]}}

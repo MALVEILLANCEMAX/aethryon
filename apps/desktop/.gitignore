@@ -1,0 +1,7 @@
+node_modules/
+dist/
+target/
+/construit/
+/e2e/captures/
+/e2e/resultats/
+*.log

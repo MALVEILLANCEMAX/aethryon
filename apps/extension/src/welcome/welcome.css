@@ -1,0 +1,112 @@
+/* AETHRYON — page d'accueil de l'extension (premier lancement). Le système de marque (jetons, polices,
+   boutons, tête maître, mascotte, mouvement réduit) vient du popup : une seule source. Ici : mise en page
+   des trois étapes, illustration de l'épinglage (barre schématique, vraie tête du logo) et notice. */
+@import url("../popup/popup.css");
+
+html.welcome { scroll-padding-top: 84px; }
+.welcome body { font-size: 15px; line-height: 1.55; }
+
+.w-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: saturate(1.4) blur(16px);
+}
+.w-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 760px;
+  min-height: 60px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.welcome .brand { display: flex; align-items: center; margin: 0; }
+.w-version { margin: 0; font-size: 13px; color: var(--muted); }
+
+.w-main { max-width: 760px; margin: 0 auto; padding: 36px 24px 8px; }
+
+/* Héros : installation confirmée */
+.w-hero { display: grid; grid-template-columns: 116px minmax(0, 1fr); align-items: center; gap: 22px; margin-bottom: 30px; }
+.w-kicker { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 3px 10px; border-radius: var(--radius-control); background: var(--ok-bg); color: var(--ok); font-size: 13px; font-weight: 600; }
+.w-hero .display { margin: 10px 0 0; font-size: 36px; }
+.w-hero .lead { max-width: 54ch; margin: 10px 0 0; color: var(--ink-soft); font-size: 16px; }
+
+/* Étapes */
+.w-steps { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.w-step { padding: 20px 22px; }
+.w-step[data-state="done"] { border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.w-step-title { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.w-step-title:focus-visible { outline-offset: 4px; border-radius: 6px; }
+.w-num {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+}
+.w-step[data-state="current"] .w-num { border-color: var(--primary-bg); background: var(--primary-bg); color: var(--primary-fg); }
+.w-step[data-state="done"] .w-num { border-color: var(--gold); background: var(--gold); color: #0f0f10; }
+.w-text { margin: 10px 0 0; color: var(--ink-soft); }
+.w-hint { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+#devmode-hint { margin-top: 10px; }
+.w-status { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 0; font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+.w-status:empty { display: none; }
+.w-status svg { flex: none; margin-top: 2px; }
+.w-status[data-tone="ok"] { color: var(--ok); }
+.w-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Épinglage : consignes + barre d'outils schématique (la vraie tête du logo, petit logo comme l'icône) */
+.w-pin { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 20px; align-items: center; margin-top: 14px; }
+.w-how { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: how; }
+.w-how li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; color: var(--ink); }
+.w-how li svg { flex: none; margin-top: 2px; color: var(--gold-text); }
+.w-illus { display: grid; gap: 8px; padding: 14px; border-radius: 16px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.w-toolbar { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 10px; background: var(--raised); box-shadow: inset 0 0 0 1px var(--line); }
+.w-omnibox { flex: 1; height: 18px; border-radius: 9px; background: var(--surface-2); }
+.w-tb-btn { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--ink-soft); }
+.w-tb-owl { background: #0f0f10; box-shadow: inset 0 0 0 1px rgb(215 190 152 / 0.6); }
+.w-menu { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; background: var(--raised); box-shadow: var(--shadow-card), inset 0 0 0 1px var(--line); }
+.w-menu-owl { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: #0f0f10; }
+.w-menu-name { flex: 1; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
+.w-menu-pin { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; color: var(--gold-text); box-shadow: inset 0 0 0 1.5px var(--gold); }
+
+/* Notice */
+.welcome .facts { display: grid; gap: 4px 0; margin: 16px 0 0; }
+.welcome .facts dt { position: relative; margin-top: 10px; padding-left: 18px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.welcome .facts dt:first-child { margin-top: 0; }
+.welcome .facts dt::before { content: ""; position: absolute; top: 0.5em; left: 2px; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+.welcome .facts dd { margin: 0; padding-left: 18px; font-size: 14px; color: var(--ink-soft); }
+.welcome .rights { margin: 16px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--badge-gold-bg); color: var(--ink); font-size: 14px; }
+.w-consent { display: grid; gap: 12px; margin-top: 16px; }
+.w-login { display: grid; gap: 12px; margin-top: 14px; max-width: 420px; }
+.w-next { margin-top: 18px; padding: 20px 22px; border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.w-platforms { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 0; padding: 0; list-style: none; }
+.w-platforms li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: var(--ink); }
+.w-platforms .pf-logo { flex: none; color: var(--ink-soft); }
+
+/* Pied */
+.w-foot { max-width: 760px; margin: 0 auto; padding: 28px 24px 40px; text-align: center; font-size: 13px; color: var(--muted); }
+.w-foot p { margin: 0; }
+.w-foot p + p { margin-top: 4px; }
+.w-foot .sep { margin: 0 8px; }
+.w-foot .link { display: inline-flex; align-items: center; min-height: 32px; color: var(--ink-soft); }
+
+@media (max-width: 620px) {
+  .w-main { padding: 24px 16px 8px; }
+  .w-bar-inner { padding: 0 16px; }
+  .w-hero { grid-template-columns: 1fr; justify-items: start; gap: 12px; }
+  .w-hero .display { font-size: 28px; }
+  .w-pin { grid-template-columns: 1fr; }
+  .w-step { padding: 16px; }
+}

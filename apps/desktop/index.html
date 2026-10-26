@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr" data-theme="dark" style="background:#0b0a09">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AETHRYON</title>
+</head>
+<body>
+<div id="racine"></div>
+<!-- Écran de démarrage (src/lib/demarrage.ts, src/styles/demarrage.css) : fond obsidienne en ligne, peint dès la
+     première image ; chouette et logotype = fichiers officiels de src/assets/brand. -->
+<div id="demarrage" data-etat="attente" data-tauri-drag-region="deep" style="position:fixed;inset:0;z-index:10000;background:#0b0a09">
+  <div class="dm-centre">
+    <img class="dm-chouette" src="/src/assets/brand/aethryon-master.svg" width="96" height="96" alt="" draggable="false">
+    <img class="dm-logotype" src="/src/assets/brand/aethryon-logotype-marcellus-ivoire.svg" width="111" height="13" alt="AETHRYON" draggable="false">
+    <div class="dm-etapes">
+      <span class="dm-points" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="dm-libelle" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+</div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

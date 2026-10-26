@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+  Page FABRIQUÉE pour les tests : page d'une vidéo TikTok (/@compte/video/<id>) avec une vue détaillée
+  [data-e2e="browse-video"] et une rangée d'actions horizontale (icônes browse-*). Servie par interception.
+  ?split=1 : actions et description hors du conteneur de la vue détaillée.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Vidéo de test | TikTok</title>
+<meta property="og:image" content="https://p16-sign-va.tiktokcdn.com/obj/og-fixture.jpeg">
+<style>
+  html, body { margin: 0; font-family: Arial, sans-serif; background: #fff; color: #161823; }
+  [data-e2e="browse-video"] { display: flex; gap: 24px; padding: 24px; }
+  .player { width: 360px; height: 640px; background: #000; border-radius: 8px; }
+  .side { flex: 1; }
+  .actions { display: flex; flex-direction: row; align-items: center; gap: 12px; }
+  .actions button { height: 36px; border-radius: 18px; border: 0; padding: 0 12px; background: rgba(22,24,35,.06); }
+</style>
+</head>
+<body>
+<div id="app">
+  <div data-e2e="browse-video">
+    <div class="player"><video preload="none"></video></div>
+    <div class="side">
+      <a data-e2e="browse-username" href="/@alice.test">alice.test</a>
+      <h1 data-e2e="browse-video-desc">Une vidéo en page détaillée</h1>
+      <div class="actions">
+        <button type="button"><span data-e2e="browse-like-icon">♥</span> 12</button>
+        <button type="button"><span data-e2e="browse-comment-icon">✎</span> 3</button>
+        <button type="button"><span data-e2e="browse-share-icon">↗</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // ?split=1 : le conteneur [data-e2e="browse-video"] n'englobe que le lecteur (actions et description à côté).
+  if (new URLSearchParams(location.search).get("split") === "1") {
+    const side = document.querySelector(".side");
+    document.getElementById("app").append(side);
+  }
+</script>
+</body>
+</html>

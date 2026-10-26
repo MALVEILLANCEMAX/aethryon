@@ -1,0 +1,40 @@
+/* Menu de la zone de notification (zone-menu.html, menu-zone.ts) — direction « Nocturne ».
+   Verre : voile obsidienne posé sur l'acrylique de Windows 11 (DWM, src-tauri/src/dwm.rs) ; coins arrondis, ombre et
+   liseré dessinés par DWM. Sans acrylique (Windows 10, Windows 11 21H2, transparence réduite) : fond obsidienne plein,
+   coins et filet en CSS. Accents or champagne ; icônes fines de ui/traces.ts ; texte un peu plus appuyé sur le verre. */
+/* color-scheme normal : un document « dark » sans fond peut recevoir un canevas sombre opaque ; ici tout reste transparent. */
+:root { color-scheme: normal; }
+html, body { height: 100%; overflow: hidden; background: transparent; }
+body { cursor: default; user-select: none; -webkit-user-select: none; }
+
+.zm {
+  position: fixed; inset: 0; padding: 4px; outline: none; overflow: hidden;
+  font-size: 13px; line-height: 18px; font-weight: 450; letter-spacing: 0.003em; color: var(--ae-ivory);
+  background: var(--ae-obsidian); border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgb(250 248 243 / 0.1), inset 0 1px 0 rgb(227 205 166 / 0.16);
+}
+:root[data-verre="1"] .zm { background: rgb(15 15 16 / 0.6); border-radius: 0; box-shadow: inset 0 1px 0 rgb(227 205 166 / 0.14); }
+@media (prefers-reduced-transparency: reduce) { :root[data-verre="1"] .zm { background: var(--ae-obsidian); } }
+
+.zm-c { width: max-content; min-width: 212px; }
+.zm-i {
+  display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 16px 0 10px; border-radius: 4px; white-space: nowrap;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+.zm-i .ico { flex: none; color: var(--ae-mist); transition: color 120ms ease-out; }
+.zm-i.is-hl { background: rgb(212 175 124 / 0.14); color: var(--ae-gold-light); }
+.zm-i.is-hl .ico { color: var(--ae-gold); }
+.zm-i:active { background: rgb(212 175 124 / 0.22); }
+.zm--clavier .zm-i, .zm--clavier .zm-i .ico { transition: none; }
+.zm-sep { height: 1px; margin: 4px 6px; background: rgb(250 248 243 / 0.09); }
+
+/* Entrée depuis l'icône (le cœur donne le côté), 160 ms ; fermeture instantanée. Mouvement réduit : fondu seul. */
+:root { --zm-dx: 0px; --zm-dy: 4px; }
+:root[data-cote="haut"] { --zm-dy: -4px; }
+:root[data-cote="droite"] { --zm-dx: 4px; --zm-dy: 0px; }
+:root[data-cote="gauche"] { --zm-dx: -4px; --zm-dy: 0px; }
+.zm-c { transition: opacity 120ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+:root:not([data-ouvert="1"]) .zm-c { opacity: 0; transform: translate(var(--zm-dx), var(--zm-dy)); transition: none; }
+:root[data-motion="reduced"] .zm-c { transform: none !important; }
+@media (prefers-reduced-motion: reduce) { :root:not([data-motion="full"]) .zm-c { transform: none !important; } }
+@media (forced-colors: active) { .zm { border: 1px solid CanvasText; } .zm-i.is-hl { outline: 1px solid Highlight; } }

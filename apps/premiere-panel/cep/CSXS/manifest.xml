@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  AETHRYON pour Premiere Pro v2 : coque CEP (CSXS 12 = CEP 12, Chromium 99, Node.js 17.7.1).
+  - Hôte : Premiere Pro 25.0 et plus (PPRO [25.0,99.9]) ; menu Fenêtre › Extensions › AETHRYON.
+  - Options de CEF (liste CEFCommandLine ci-dessous) : Node.js activé (enable-nodejs) SANS contexte mixte
+    (mixed-context) ; accès aux fichiers locaux pour lire les médias et en tirer des miniatures
+    (allow-file-access-from-files, allow-file-access) ; aucune autre option, jamais disable-web-security.
+  - Le script hôte jsx/aethryon.jsx est chargé par ScriptPath ; aucun script n'est chargé à distance.
+  - Paquet NON SIGNÉ à ce stade : la signature (ZXP auto-signé horodaté) est faite à part. Jamais PlayerDebugMode.
+  - Ce commentaire ne doit jamais contenir deux tirets à la suite (XML 1.0, section 2.5) : la construction le vérifie.
+-->
+<ExtensionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ExtensionBundleId="fr.aethryon.premiere" ExtensionBundleVersion="@VERSION@" ExtensionBundleName="AETHRYON" Version="12.0">
+  <ExtensionList>
+    <Extension Id="fr.aethryon.premiere.panneau" Version="@VERSION@" />
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="PPRO" Version="[25.0,99.9]" />
+    </HostList>
+    <LocaleList>
+      <Locale Code="All" />
+    </LocaleList>
+    <RequiredRuntimeList>
+      <RequiredRuntime Name="CSXS" Version="12.0" />
+    </RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="fr.aethryon.premiere.panneau">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./client/index.html</MainPath>
+          <ScriptPath>./jsx/aethryon.jsx</ScriptPath>
+          <CEFCommandLine>
+            <Parameter>--enable-nodejs</Parameter>
+            <Parameter>--allow-file-access-from-files</Parameter>
+            <Parameter>--allow-file-access</Parameter>
+          </CEFCommandLine>
+        </Resources>
+        <Lifecycle>
+          <AutoVisible>true</AutoVisible>
+        </Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>AETHRYON</Menu>
+          <Geometry>
+            <Size>
+              <Height>760</Height>
+              <Width>480</Width>
+            </Size>
+            <MinSize>
+              <Height>320</Height>
+              <Width>280</Width>
+            </MinSize>
+            <MaxSize>
+              <Height>4000</Height>
+              <Width>4000</Width>
+            </MaxSize>
+          </Geometry>
+          <Icons>
+            <Icon Type="Normal">./icons/panneau-clair.png</Icon>
+            <Icon Type="RollOver">./icons/panneau-clair-survol.png</Icon>
+            <Icon Type="DarkNormal">./icons/panneau-sombre.png</Icon>
+            <Icon Type="DarkRollOver">./icons/panneau-sombre-survol.png</Icon>
+          </Icons>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>

@@ -1,0 +1,28 @@
+#pragma code_page(65001)
+1 ICON "amorce.ico"
+1 24 "amorce.manifest"
+1 VERSIONINFO
+FILEVERSION 2,0,0,2
+PRODUCTVERSION 2,0,0,2
+FILEOS 0x40004
+FILETYPE 0x1
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040C04B0"
+    BEGIN
+      VALUE "CompanyName", "AETHRYON"
+      VALUE "FileDescription", "AETHRYON Setup"
+      VALUE "FileVersion", "2.0.0-beta.2"
+      VALUE "InternalName", "AETHRYON-Setup"
+      VALUE "LegalCopyright", "© 2026 AETHRYON"
+      VALUE "OriginalFilename", "AETHRYON-Setup.exe"
+      VALUE "ProductName", "AETHRYON"
+      VALUE "ProductVersion", "2.0.0-beta.2"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x040C, 1200
+  END
+END

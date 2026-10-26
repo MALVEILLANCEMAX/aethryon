@@ -1,0 +1,78 @@
+<!doctype html>
+<!--
+  Page FABRIQUÉE pour les tests : structure minimale des Shorts (ytd-shorts > #shorts-inner-container >
+  ytd-reel-video-renderer[is-active] > #actions > reel-action-bar-view-model). Servie sous
+  https://www.youtube.com/shorts/<id> par interception Playwright.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Short de test #shorts - YouTube</title>
+<style>
+  html, body { margin: 0; background: #fff; color: #0f0f0f; font-family: Roboto, Arial, sans-serif; }
+  ytd-app, ytd-page-manager, ytd-shorts { display: block; }
+  #shorts-inner-container { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 16px 0; }
+  ytd-reel-video-renderer { display: flex; align-items: flex-end; gap: 16px; height: calc(100vh - 32px); }
+  #player-container { width: 360px; height: 100%; border-radius: 12px; background: #000; }
+  #actions reel-action-bar-view-model { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .round { width: 48px; height: 48px; border-radius: 50%; border: 0; background: rgba(0,0,0,.05); }
+</style>
+</head>
+<body>
+<ytd-app>
+  <ytd-page-manager id="page-manager">
+    <ytd-shorts>
+      <div id="shorts-container">
+        <div id="shorts-inner-container"></div>
+      </div>
+    </ytd-shorts>
+  </ytd-page-manager>
+</ytd-app>
+<script>
+  (() => {
+    const ids = ["sHoRt000001", "sHoRt000002", "sHoRt000003"];
+    const box = document.getElementById("shorts-inner-container");
+    ids.forEach((id, i) => {
+      const reel = document.createElement("ytd-reel-video-renderer");
+      reel.id = String(i);
+      reel.dataset.fixture = "reel-" + i;
+      const player = document.createElement("div");
+      player.id = "player-container";
+      const overlay = document.createElement("div");
+      overlay.id = "overlay";
+      const title = document.createElement("h2");
+      title.className = "title";
+      title.textContent = "Short numéro " + (i + 1);
+      overlay.append(title);
+      player.append(overlay);
+      const actions = document.createElement("div");
+      actions.id = "actions";
+      const bar = document.createElement("reel-action-bar-view-model");
+      for (const label of ["J’aime", "Commentaires", "Partager"]) {
+        const b = document.createElement("button");
+        b.className = "round";
+        b.setAttribute("aria-label", label);
+        bar.append(b);
+      }
+      actions.append(bar);
+      reel.append(player, actions);
+      box.append(reel);
+    });
+    const current = ids.indexOf(location.pathname.split("/")[2]);
+    const activate = (i) => {
+      document.querySelectorAll("ytd-reel-video-renderer").forEach((r, j) => r.toggleAttribute("is-active", j === i));
+    };
+    activate(current >= 0 ? current : 0);
+    window.fx = {
+      ids,
+      /** Défilement vers le Short i : YouTube déplace is-active et met à jour l'URL. */
+      scrollTo(i) {
+        document.querySelectorAll("ytd-reel-video-renderer")[i].scrollIntoView({ block: "start" });
+        activate(i);
+        history.replaceState({}, "", "/shorts/" + ids[i]);
+      },
+    };
+  })();
+</script>
+</body>
+</html>

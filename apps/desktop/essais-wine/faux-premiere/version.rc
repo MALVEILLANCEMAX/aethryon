@@ -1,0 +1,18 @@
+// Exécutable FACTICE pour l'essai sous Wine : seule sa ressource de version (26.5.2.13) compte.
+1 VERSIONINFO
+FILEVERSION 26,5,2,13
+PRODUCTVERSION 26,5,2,13
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904B0"
+    BEGIN
+      VALUE "FileVersion", "26.5.2.13"
+      VALUE "ProductName", "Essai AETHRYON (pas Adobe Premiere Pro)"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

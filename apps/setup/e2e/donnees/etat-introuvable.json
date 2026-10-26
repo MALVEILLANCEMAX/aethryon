@@ -1,0 +1,50 @@
+{
+  "mode": "installation",
+  "demande": "normal",
+  "actions": [],
+  "charge": {
+    "version": "2.0.0-beta.2",
+    "versionDesktop": "1.0.0-beta.3",
+    "versionExtension": "2.0.0",
+    "extensionRemplacant": false,
+    "tailleDesktop": 12560000,
+    "tailleExtension": 3868,
+    "intervallePremiere": "[25.0,99.9]",
+    "signature": {
+      "algorithme": "rsa-sha1",
+      "horodatage": "RFC 3161, autorité locale"
+    }
+  },
+  "options": {
+    "extension": true,
+    "desktop": true,
+    "dossierMedias": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+    "surveillance": true,
+    "demarrageAuto": true,
+    "notifications": "importantes"
+  },
+  "detection": {
+    "premiere": [],
+    "principale": null,
+    "cherche": [
+      "C:\\Program Files\\Adobe\\Adobe Premiere Pro*",
+      "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Adobe Premiere Pro.exe",
+      "HKLM\\SOFTWARE\\Adobe\\Premiere Pro\\<version>"
+    ],
+    "premiereOuvert": false,
+    "intervalleExtension": "[25.0,99.9]",
+    "creativeCloud": "C:\\Program Files\\Adobe\\Adobe Creative Cloud\\ACC\\Creative Cloud.exe",
+    "webview2": "141.0.3537.71",
+    "windows": "Windows 11 · 64 bits",
+    "dossierExtensions": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions",
+    "playerDebugMode": [],
+    "extensionPresente": null,
+    "extensionEstLien": false,
+    "installation": null,
+    "ancienneBeta": null,
+    "desktopOuvert": false,
+    "espaceLibre": 182000000000,
+    "dureeMs": 0
+  },
+  "journal": null
+}

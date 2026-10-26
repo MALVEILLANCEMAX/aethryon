@@ -1,0 +1,15 @@
+# Espace de travail Rust d'AETHRYON Desktop.
+#  - noyau/     : logique portable (index, surveillance, commandes, transferts, Native Messaging, intégration Windows
+#                 derrière cfg(windows) avec des remplaçants portables) ; testée par `cargo test -p aethryon-noyau` sous Linux.
+#  - archive-extension/ : vérification de l'extension navigateur (latest.json, SHA-256, contenu sûr, identifiant de
+#                 production), partagée avec AETHRYON Setup (setup/moteur).
+#  - src-tauri/ : l'application Tauri 2 (fenêtre, zone de notification, notifications, pont vers l'interface React).
+[workspace]
+members = ["noyau", "src-tauri", "archive-extension"]
+resolver = "2"
+
+[profile.release]
+strip = true
+lto = true
+opt-level = "s"
+codegen-units = 1

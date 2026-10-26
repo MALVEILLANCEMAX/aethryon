@@ -1,0 +1,22 @@
+diff --git a/shortcut.go b/shortcut.go
+index 75acf5d..358b082 100644
+--- a/shortcut.go
++++ b/shortcut.go
+@@ -61,7 +61,7 @@ type Aggrandizement struct {
+ 
+ type WFDictionaryFieldValueItem struct {
+ 	WFKey      any `plist:",omitempty"`
+-	WFItemType int `plist:",omitempty"`
++	WFItemType int // always emitted: 0 (Text) is meaningful, like real Shortcuts exports
+ 	WFValue    any `plist:",omitempty"`
+ }
+ 
+@@ -135,7 +135,7 @@ type WFQuantityFieldValue struct {
+ }
+ 
+ type WFMenuItem struct {
+-	WFItemType int `plist:",omitempty"`
++	WFItemType int // always emitted: 0 (Text) is meaningful, like real Shortcuts exports
+ 	WFValue    any `plist:",omitempty"`
+ }
+ 

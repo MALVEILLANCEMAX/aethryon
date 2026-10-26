@@ -1,0 +1,2574 @@
+[
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 2,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 237,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          }
+        ],
+        "fait": 3,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 242,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 3,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 242,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          }
+        ],
+        "fait": 3,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 4,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 5,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 5,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 6,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 6,
+        "total": 7,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 290,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          }
+        ],
+        "fait": 12560000,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 296,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 12560000,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 296,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          }
+        ],
+        "fait": 14657945,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 332,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 14657945,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 332,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "termine",
+            "detail": "3,8 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 63
+          }
+        ],
+        "fait": 18657945,
+        "total": 18657945,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 395,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "termine",
+            "detail": "3,8 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 63
+          }
+        ],
+        "fait": 18657945,
+        "total": 18657945,
+        "dureeMs": 104,
+        "resume": "AETHRYON Desktop et l'extension copiés · 17,8 Mo écrits."
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 395,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "termine",
+            "detail": "3,8 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 63
+          }
+        ],
+        "fait": 18657945,
+        "total": 18657945,
+        "dureeMs": 104,
+        "resume": "AETHRYON Desktop et l'extension copiés · 17,8 Mo écrits."
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 3,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 395,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "termine",
+            "detail": "3,8 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 63
+          }
+        ],
+        "fait": 18657945,
+        "total": 18657945,
+        "dureeMs": 104,
+        "resume": "AETHRYON Desktop et l'extension copiés · 17,8 Mo écrits."
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Applications installées : Modifier et Désinstaller",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 3,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 395,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "termine",
+            "detail": "3,8 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 63
+          }
+        ],
+        "fait": 18657945,
+        "total": 18657945,
+        "dureeMs": 104,
+        "resume": "AETHRYON Desktop et l'extension copiés · 17,8 Mo écrits."
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "echec",
+        "sous": [
+          {
+            "libelle": "Applications installées : Modifier et Désinstaller",
+            "etat": "echec",
+            "detail": "Registre : écriture de EstimatedSize impossible (panne simulée du registre).",
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 3,
+        "dureeMs": 0,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": "Registre : écriture de EstimatedSize impossible (panne simulée du registre).",
+    "retourArriere": [],
+    "ecouleMs": 395,
+    "resultat": null
+  },
+  {
+    "operation": "installer",
+    "etapes": [
+      {
+        "cle": "verification",
+        "titre": "Vérification",
+        "description": "Empreintes de la charge, extension signée, espace disque, dossier des médias.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Paquet AETHRYON : 3 fichier(s), empreintes SHA-256",
+            "etat": "termine",
+            "detail": "3 vérifiés, identiques à charge.json",
+            "dureeMs": 242
+          },
+          {
+            "libelle": "Extension Premiere Pro : signature et Manifest",
+            "etat": "termine",
+            "detail": "7 fichiers conformes au Manifest signé, horodatage présent",
+            "dureeMs": 47
+          },
+          {
+            "libelle": "Espace disque",
+            "etat": "termine",
+            "detail": "17,8 Mo requis, 170 Go libres",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier des médias inscriptible",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Premiere Pro et AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "fermés",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 7,
+        "total": 7,
+        "dureeMs": 290,
+        "resume": "Charge et extension signée vérifiées · 17,8 Mo requis, 170 Go libres."
+      },
+      {
+        "cle": "installation",
+        "titre": "Installation",
+        "description": "AETHRYON Desktop, extension Premiere Pro, copie de maintenance.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop 1.0.0-beta.3",
+            "etat": "termine",
+            "detail": "2 fichiers, 12,0 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 5
+          },
+          {
+            "libelle": "Extension Premiere Pro 2.0.0",
+            "etat": "termine",
+            "detail": "7 fichiers signés et leur signature, sans lien symbolique → AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "dureeMs": 35
+          },
+          {
+            "libelle": "Programme de maintenance (AETHRYON-Setup.exe)",
+            "etat": "termine",
+            "detail": "3,8 Mo → AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 63
+          }
+        ],
+        "fait": 18657945,
+        "total": 18657945,
+        "dureeMs": 104,
+        "resume": "AETHRYON Desktop et l'extension copiés · 17,8 Mo écrits."
+      },
+      {
+        "cle": "enregistrement",
+        "titre": "Enregistrement des composants",
+        "description": "Applications installées, menu Démarrer, démarrage avec Windows.",
+        "etat": "echec",
+        "sous": [
+          {
+            "libelle": "Applications installées : Modifier et Désinstaller",
+            "etat": "echec",
+            "detail": "Registre : écriture de EstimatedSize impossible (panne simulée du registre).",
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 3,
+        "dureeMs": 0,
+        "resume": null
+      },
+      {
+        "cle": "configuration",
+        "titre": "Configuration",
+        "description": "Dossier des médias et préférences.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "validation",
+        "titre": "Validation",
+        "description": "Fichiers, signature, registre et préférences relus.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": true,
+    "succes": false,
+    "annule": false,
+    "erreur": "Registre : écriture de EstimatedSize impossible (panne simulée du registre).",
+    "retourArriere": [
+      "rétabli HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\AETHRYON",
+      "retiré C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\AETHRYON-Setup.exe",
+      "retiré C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+      "retiré C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\AETHRYON-preparation-4005",
+      "retiré C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\WebView2Loader.dll",
+      "retiré C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\aethryon-desktop.exe",
+      "retiré C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\.retour-arriere-4005",
+      "retiré C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON",
+      "retiré C:\\Users\\Élodie\\Videos\\AETHRYON (vide)"
+    ],
+    "ecouleMs": 397,
+    "resultat": null
+  }
+]

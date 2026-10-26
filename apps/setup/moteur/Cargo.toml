@@ -1,0 +1,33 @@
+[package]
+name = "aethryon-setup-moteur"
+version = "2.0.0-beta.8"
+edition = "2021"
+description = "AETHRYON Setup : installation, réparation, mise à jour et désinstallation (par utilisateur, sans droits d'administrateur)"
+license = "LicenseRef-AETHRYON-proprietaire"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+base64 = "0.22"
+zip = { version = "=8.6.0", default-features = false, features = ["deflate"] }
+roxmltree = "0.21"
+# Vérification de l'extension navigateur, partagée avec AETHRYON Desktop (desktop/archive-extension).
+aethryon-archive-extension = { path = "../../desktop/archive-extension" }
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.56"
+windows = { version = "0.62", features = [
+  "Win32_Foundation",
+  "Win32_Storage_FileSystem",
+  "Win32_System_Com",
+  "Win32_System_Com_StructuredStorage",
+  "Win32_System_Diagnostics_ToolHelp",
+  "Win32_System_Threading",
+  "Win32_UI_Shell",
+  "Win32_UI_Shell_Common",
+  "Win32_UI_WindowsAndMessaging",
+] }
+
+[dev-dependencies]

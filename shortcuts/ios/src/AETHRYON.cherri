@@ -1,0 +1,288 @@
+/*
+ * AETHRYON — raccourci iPhone de raccourci.malvu.fr, pour l'API https://api.malvu.fr/media (version 3).
+ *
+ * Source unique du raccourci distribué, compilé par Cherri (shortcut/tools/build.sh), signé par
+ * tools/sign.sh. Le jeton n'est JAMAIS dans ce fichier : il est demandé à l'installation par une
+ * question d'importation (#question). Jeton personnel « ytc_… » (raccourci.malvu.fr › Mes jetons) ou
+ * jeton historique : les deux passent par le même en-tête.
+ *
+ * Parcours (une étape = un bloc ci-dessous) :
+ *   1. lien partagé (feuille de partage, sinon presse-papiers, sinon saisie) ;
+ *   2. lien court TikTok développé SUR L'IPHONE (vm./vt.tiktok.com, tiktok.com/t/) ;
+ *   3. jeton ; 4. format (MP4 → Photos, MP3 → Fichiers) ;
+ *   5. POST /jobs?wait=20 ; 6. suivi borné (40 × GET status_url?wait=20 ≈ 13 min) ;
+ *   7. destination d'après media_type ; 8. GET file_url (fichier binaire, même en-tête) puis contrôle
+ *      POSITIF de l'extension (mp4/mov pour Photos, mp3 pour Fichiers : jamais un JSON, un texte ou
+ *      une page) ; 9. enregistrement ; 10. confirmation SEULEMENT après l'enregistrement.
+ *
+ * Règle héritée du correctif v2 : la v1 testait « le texte de la clé error a une valeur », or sur iOS
+ * une action Texte vide compte comme une valeur ; toute réussite partait dans la branche d'erreur et
+ * le fichier n'était jamais téléchargé (constaté encore le 2026-10-10 à 18:17 et 18:20 UTC : POST 200,
+ * aucun GET du fichier). Après la création du job, AUCUNE condition « a une valeur », « contient »…
+ * seulement « est » / « n'est pas » comparé à une valeur fixe (tools/validate.py le vérifie). Avant le
+ * POST, les seuls tests de présence portent sur des LISTES (liens détectés, correspondances), qui sont
+ * vides ou non.
+ *
+ * Contrat de l'API (inchangé) :
+ *   POST /jobs?wait=20  corps JSON {url, fmt}  en-tête Authorization: Bearer <jeton>
+ *        -> {status: queued|running|done|error, status_url, file_url, media_type, title, …}
+ *        -> en cas d'erreur : {error: <code>, detail: <phrase en français>} (sans status)
+ *   GET  status_url?wait=20 -> même JSON ; GET file_url -> le fichier (binaire, Content-Type exact,
+ *        nom « Titre [id].mp4 » dans l'URL et dans Content-Disposition).
+ */
+#define name AETHRYON
+#define color darkgray
+#define glyph downloadArrow
+#define inputs url, text
+#define from sharesheet
+
+#include 'actions/web'
+#include 'actions/text'
+#include 'actions/sharing'
+#include 'actions/photos'
+#include 'actions/documents'
+
+// Variantes locales des actions de Cherri, avec les clés « Advanced » et « ShowHeaders » que
+// Raccourcis exige pour activer méthode, corps et en-têtes (WFActions.plist) et que Cherri
+// n'écrit pas. En-têtes et corps doivent être des dictionnaires littéraux : les variables y
+// sont permises dans les valeurs, pas à la place du dictionnaire.
+action 'downloadurl' requetePOST(text url: 'WFURL', dictionary! corps: 'WFJSONValues', dictionary! entetes: 'WFHTTPHeaders'): variable {
+    "WFHTTPMethod": "POST",
+    "WFHTTPBodyType": "JSON",
+    "Advanced": true,
+    "ShowHeaders": true
+}
+
+action 'downloadurl' requeteGET(text url: 'WFURL', dictionary! entetes: 'WFHTTPHeaders'): variable {
+    "WFHTTPMethod": "GET",
+    "Advanced": true,
+    "ShowHeaders": true
+}
+
+action 'documentpicker.save' enregistrerFichier(variable fichier: 'WFInput') {
+    "WFAskWhereToSave": true,
+    "WFSaveFileOverwrite": false
+}
+
+// « Obtenir les détails des fichiers » avec l'entrée sur la bonne clé (WFInput).
+action 'properties.files' detailFichier(variable fichier: 'WFInput', text propriete: 'WFContentItemPropertyName'): text
+
+#question jetonUtilisateur "Colle ton jeton AETHRYON (créé sur raccourci.malvu.fr › Mes jetons). Ne le partage jamais." ""
+
+// 1. Lien de la vidéo : feuille de partage, sinon presse-papiers, sinon saisie.
+//    Présence testée par un COMPTE (« Compter les éléments », comparé au texte exact « 0 ») : aucune
+//    condition « a une valeur » dans tout le raccourci.
+@liens = getURLs(ShortcutInput)
+const nbLiens1 = count(@liens)
+@nbLiens = "{nbLiens1}"
+if @nbLiens == "0" {
+    const pressePapiers = getClipboard()
+    @liens = getURLs(pressePapiers)
+    const nbLiens2 = count(@liens)
+    @nbLiens = "{nbLiens2}"
+}
+if @nbLiens == "0" {
+    const saisie = prompt("Lien de la vidéo (YouTube, TikTok ou X) ?", "URL")
+    @liens = getURLs(saisie)
+    const nbLiens3 = count(@liens)
+    @nbLiens = "{nbLiens3}"
+}
+if @nbLiens == "0" {
+    alert("Aucun lien vidéo trouvé. Partage une vidéo ou copie son lien, puis relance.", "AETHRYON")
+    stop()
+}
+const premierLien = getFirstItem(@liens)
+@lien = "{premierLien}"
+
+// 2. Lien court TikTok (vm.tiktok.com, vt.tiktok.com, tiktok.com/t/) : développé sur l'iPhone, depuis
+//    sa connexion, avant l'envoi au serveur (le serveur sait aussi le faire, mais TikTok peut renvoyer
+//    un serveur vers l'accueil). Le lien développé n'est retenu que s'il mène à une vidéo (ou à un
+//    diaporama, que le serveur refusera avec un message clair) ; sinon le lien d'origine part tel quel.
+//    Les deux tests comptent les correspondances (texte exact « 0 » ou non).
+const liensCourts = matchText("^https?://(vm|vt)\\.tiktok\\.com/|^https?://(www\\.)?tiktok\\.com/t/", @lien, false)
+const nbCourtsBrut = count(liensCourts)
+@nbCourts = "{nbCourtsBrut}"
+if @nbCourts != "0" {
+    const lienDeveloppe = expandURL(@lien)
+    const liensVideo = matchText("tiktok\\.com/@[^/?#]*/(video|photo)/[0-9]+", "{lienDeveloppe}", false)
+    const nbVideoBrut = count(liensVideo)
+    @nbVideo = "{nbVideoBrut}"
+    if @nbVideo != "0" {
+        @lien = "{lienDeveloppe}"
+    }
+}
+
+// 3. Jeton (question d'importation), sans espace parasite. Jeton vide : le serveur répond 401,
+//    le message « Jeton refusé » s'affiche (pas de test de présence ici).
+const jetonSaisi = text(jetonUtilisateur)
+const jeton = trimWhitespace(jetonSaisi)
+
+// 4. Format.
+@format = "mp4"
+menu "Format" {
+    item "Vidéo MP4 (Photos)":
+        @format = "mp4"
+    item "Audio MP3 (Fichiers)":
+        @format = "mp3"
+}
+
+// 5. Création du job : le serveur attend jusqu'à 20 s ; un MP3, un TikTok, un tweet ou un
+//    résultat en cache est souvent déjà terminé ici.
+@reponse = requetePOST("https://api.malvu.fr/media/jobs?wait=20", {"url": "{@lien}", "fmt": "{@format}"}, {"Authorization": "Bearer {jeton}"})
+@donnees = getDictionary(@reponse)
+const statutBrut1 = getValue(@donnees, "status")
+@statut = "{statutBrut1}"
+const erreurBrute1 = getValue(@donnees, "error")
+@codeErreur = "{erreurBrute1}"
+const detailBrut1 = getValue(@donnees, "detail")
+@detail = "{detailBrut1}"
+const messageBrut1 = getValue(@donnees, "message")
+@message = "{messageBrut1}"
+const suivi = getValue(@donnees, "status_url")
+
+// État : « ok » (terminé), « attente » (en file ou en cours) ou « erreur » (tout le reste,
+// y compris une réponse sans statut : jeton refusé, quota, service indisponible…).
+@etat = "erreur"
+if @statut == "done" {
+    @etat = "ok"
+}
+if @statut == "queued" {
+    @etat = "attente"
+}
+if @statut == "running" {
+    @etat = "attente"
+}
+if @etat == "erreur" {
+    if @codeErreur == "unauthorized" {
+        alert("Jeton refusé : {@detail} Copie ton jeton depuis raccourci.malvu.fr › Mes jetons, puis réinstalle le raccourci et colle-le.", "AETHRYON")
+    } else {
+        alert("La conversion n'a pas abouti. {@detail}{@message} (code : {@codeErreur}, statut : {@statut}). Sans détail, le service est peut-être momentanément indisponible : réessaie dans une minute.", "AETHRYON")
+    }
+    stop()
+}
+
+// 6. Attente bornée : au plus 40 requêtes de 20 s (≈ 13 min). Le serveur répond dès la fin du
+//    job ; une fois le job terminé, les tours restants ne font plus aucune requête.
+repeat tour for 40 {
+    if @etat == "attente" {
+        @reponse = requeteGET("{suivi}?wait=20", {"Authorization": "Bearer {jeton}"})
+        @donnees = getDictionary(@reponse)
+        const statutBrut2 = getValue(@donnees, "status")
+        @statut = "{statutBrut2}"
+        const erreurBrute2 = getValue(@donnees, "error")
+        @codeErreur = "{erreurBrute2}"
+        const detailBrut2 = getValue(@donnees, "detail")
+        @detail = "{detailBrut2}"
+        const messageBrut2 = getValue(@donnees, "message")
+        @message = "{messageBrut2}"
+        @etat = "erreur"
+        if @statut == "done" {
+            @etat = "ok"
+        }
+        if @statut == "queued" {
+            @etat = "attente"
+        }
+        if @statut == "running" {
+            @etat = "attente"
+        }
+        if @etat == "erreur" {
+            if @codeErreur == "unauthorized" {
+                alert("Jeton refusé pendant la conversion : {@detail} Copie ton jeton depuis raccourci.malvu.fr › Mes jetons, puis réinstalle le raccourci.", "AETHRYON")
+            } else {
+                alert("La conversion a échoué. {@detail}{@message} (code : {@codeErreur}, statut : {@statut}). Relance le raccourci avec le même lien : une conversion déjà faite est resservie sans attendre.", "AETHRYON")
+            }
+            stop()
+        }
+    }
+}
+if @etat != "ok" {
+    alert("La conversion prend plus de 13 minutes (statut : {@statut}). Relance le raccourci avec le même lien et le même format : elle reprendra là où elle en est.", "AETHRYON")
+    stop()
+}
+
+// 7. Type du fichier annoncé par le serveur → destination. Comparaisons exactes uniquement.
+const typeMediaBrut = getValue(@donnees, "media_type")
+@typeMedia = "{typeMediaBrut}"
+@destination = "aucune"
+if @typeMedia == "video/mp4" {
+    @destination = "photos"
+}
+if @typeMedia == "video/quicktime" {
+    @destination = "photos"
+}
+if @typeMedia == "audio/mpeg" {
+    @destination = "fichiers"
+}
+if @typeMedia == "audio/mp4" {
+    @destination = "fichiers"
+}
+if @typeMedia == "video/x-matroska" {
+    @destination = "fichiers"
+}
+if @typeMedia == "video/webm" {
+    @destination = "fichiers"
+}
+if @destination == "aucune" {
+    alert("Type de fichier inattendu ({@typeMedia}) : rien n'a été téléchargé ni enregistré.", "AETHRYON")
+    stop()
+}
+if @format == "mp3" {
+    if @typeMedia != "audio/mpeg" {
+        alert("Un MP3 était demandé mais le serveur annonce {@typeMedia} : rien n'a été enregistré.", "AETHRYON")
+        stop()
+    }
+}
+const titreBrut = getValue(@donnees, "title")
+@titre = "{titreBrut}"
+
+// 8. Téléchargement du fichier lui-même (données binaires), avec le même en-tête, puis contrôle
+//    POSITIF : seule l'extension attendue passe (mp4/mov pour Photos, mp3/m4a/mkv/webm pour Fichiers).
+//    Une erreur du serveur (JSON), un texte ou une page HTML n'est jamais enregistré.
+const lienFichier = getValue(@donnees, "file_url")
+const fichier = requeteGET("{lienFichier}", {"Authorization": "Bearer {jeton}"})
+const extensionBrute = detailFichier(fichier, "File Extension")
+@extension = "{extensionBrute}"
+@recu = "non"
+if @destination == "photos" {
+    if @extension == "mp4" {
+        @recu = "oui"
+    }
+    if @extension == "mov" {
+        @recu = "oui"
+    }
+}
+if @destination == "fichiers" {
+    if @extension == "mp3" {
+        @recu = "oui"
+    }
+    if @extension == "m4a" {
+        @recu = "oui"
+    }
+    if @extension == "mkv" {
+        @recu = "oui"
+    }
+    if @extension == "webm" {
+        @recu = "oui"
+    }
+}
+if @recu != "oui" {
+    if @extension == "json" {
+        const erreurFichier = getDictionary(fichier)
+        const detailFichierBrut = getValue(erreurFichier, "detail")
+        alert("Le fichier n'a pas pu être téléchargé : {detailFichierBrut} Rien n'a été enregistré. Relance le raccourci.", "AETHRYON")
+    } else {
+        alert("Le serveur n'a pas renvoyé le fichier attendu (reçu : « {@extension} ») : rien n'a été enregistré. Relance le raccourci dans une minute.", "AETHRYON")
+    }
+    stop()
+}
+
+// 9. Enregistrement natif : vidéo dans l'album Récents de Photos, audio dans Fichiers (emplacement
+//    choisi). 10. Confirmation SEULEMENT après l'enregistrement effectif (si iOS refuse, Raccourcis
+//    affiche son erreur et s'arrête avant la confirmation).
+if @destination == "photos" {
+    savePhoto(fichier)
+    alert("Vidéo enregistrée dans Photos : {@titre}", "AETHRYON")
+} else {
+    enregistrerFichier(fichier)
+    alert("Fichier enregistré dans Fichiers : {@titre}", "AETHRYON")
+}

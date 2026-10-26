@@ -1,0 +1,45 @@
+// Test B : logique native (entrée de partage, presse-papiers, saisie, jeton par question
+// d'importation, menu de format, variables, conditions). Aucune requête réseau.
+#define name YTC Test B
+#define color red
+#define glyph downloadArrow
+#define inputs url, text
+#define from sharesheet
+
+#include 'actions/web'
+#include 'actions/sharing'
+
+#question apiToken "Colle ton jeton (donné par l'administrateur)" ""
+
+// Lien : entrée partagée, sinon presse-papiers, sinon saisie.
+@liens = getURLs(ShortcutInput)
+if !@liens {
+    const pressePapiers = getClipboard()
+    @liens = getURLs(pressePapiers)
+}
+if !@liens {
+    const saisie = prompt("Lien de la vidéo ?", "URL")
+    @liens = getURLs(saisie)
+}
+if !@liens {
+    alert("Aucun lien vidéo trouvé. Partage une vidéo ou copie son lien, puis relance.", "YouTube Converter")
+    stop()
+}
+const lien = getFirstItem(@liens)
+
+// Jeton propre à chaque utilisateur : rempli par la question d'importation.
+const jeton = text(apiToken)
+if !jeton {
+    alert("Aucun jeton configuré. Réinstalle le raccourci et colle ton jeton.", "YouTube Converter")
+    stop()
+}
+
+@format = ""
+menu "Format" {
+    item "MP3 — Audio":
+        @format = "mp3"
+    item "MP4 — Vidéo":
+        @format = "mp4"
+}
+
+show("Lien : {lien}\nFormat : {@format}")

@@ -1,0 +1,16 @@
+# AETHRYON Setup (v2) — espace de travail Rust.
+#  - moteur/    : logique d'installation, de maintenance et de désinstallation, derrière des traits (fichiers,
+#                 registre, système) ; implémentations Windows (cfg(windows)) et factices (essais sous Linux).
+#  - src-tauri/ : l'interface « AETHRYON Setup » (Tauri 2, WebView2) et les modes silencieux (--silencieux).
+#  - amorce/    : AETHRYON-Setup.exe, un seul fichier : il embarque la charge (interface, Desktop, extension CEP
+#                 signée), l'extrait dans %TEMP% et lance l'interface (WebView2Loader.dll doit être à côté d'elle).
+[workspace]
+members = ["moteur", "src-tauri", "amorce"]
+resolver = "2"
+
+[profile.release]
+strip = true
+lto = true
+opt-level = "s"
+codegen-units = 1
+panic = "abort"

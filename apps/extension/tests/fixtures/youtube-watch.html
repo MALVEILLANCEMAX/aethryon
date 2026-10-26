@@ -1,0 +1,121 @@
+<!doctype html>
+<!--
+  Page FABRIQUÉE pour les tests (aucune copie de YouTube) : imite seulement la structure DOM utilisée par
+  le content script (ytd-app > ytd-page-manager > ytd-watch-flexy > ytd-watch-metadata > #actions >
+  #top-level-buttons-computed). Servie sous https://www.youtube.com/watch?v=… par interception Playwright.
+  ?noanchor=1 : la rangée d'actions n'existe pas (test du panneau de secours).
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Vidéo de test AETHRYON - YouTube</title>
+<style>
+  html, body { margin: 0; background: #fff; color: #0f0f0f; font-family: Roboto, Arial, sans-serif; }
+  html[dark], html[dark] body { background: #0f0f0f; color: #f1f1f1; }
+  ytd-app, ytd-page-manager, ytd-watch-flexy, ytd-watch-metadata, yt-formatted-string { display: block; }
+  #columns { display: flex; gap: 24px; padding: 24px; }
+  #primary { flex: 1; min-width: 0; }
+  #movie_player { aspect-ratio: 16 / 9; background: #000; border-radius: 12px; }
+  #top-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+  #actions-inner, ytd-menu-renderer, #top-level-buttons-computed { display: flex; align-items: center; }
+  #top-level-buttons-computed > * + * { margin-left: 8px; }
+  .yt-btn { height: 36px; padding: 0 16px; border: 0; border-radius: 18px; background: rgba(0,0,0,.05); font: 500 14px Roboto, Arial, sans-serif; }
+  html[dark] .yt-btn { background: rgba(255,255,255,.1); color: #f1f1f1; }
+  #secondary { width: 360px; }
+  #secondary a { display: block; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<ytd-app>
+  <div id="content">
+    <ytd-page-manager id="page-manager">
+      <ytd-watch-flexy video-id="" role="main">
+        <div id="columns">
+          <div id="primary">
+            <div id="player"><div id="movie_player" class="html5-video-player"><video preload="none"></video></div></div>
+            <div id="below">
+              <ytd-watch-metadata class="watch-active-metadata">
+                <div id="title"><h1><yt-formatted-string id="fx-title">Titre initial</yt-formatted-string></h1></div>
+                <div id="top-row">
+                  <div id="owner"><a href="/@chaine-de-test">Chaîne de test</a> <button class="yt-btn">S’abonner</button></div>
+                  <div id="actions">
+                    <div id="actions-inner">
+                      <div id="menu">
+                        <ytd-menu-renderer>
+                          <div id="top-level-buttons-computed">
+                            <button class="yt-btn" id="fx-like">J’aime</button>
+                            <button class="yt-btn" id="fx-share">Partager</button>
+                          </div>
+                          <button class="yt-btn" aria-label="Autres actions">…</button>
+                        </ytd-menu-renderer>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ytd-watch-metadata>
+            </div>
+            <button id="fx-fullscreen" type="button" onclick="document.documentElement.requestFullscreen()">Plein écran</button>
+          </div>
+          <div id="secondary">
+            <a href="/watch?v=aaaaaaaaaaa">Recommandation 1</a>
+            <a href="/watch?v=bbbbbbbbbbb">Recommandation 2</a>
+          </div>
+        </div>
+      </ytd-watch-flexy>
+    </ytd-page-manager>
+  </div>
+</ytd-app>
+<script>
+  // Aides de test (monde de la page) : navigation SPA et re-rendu comme le ferait YouTube.
+  (() => {
+    const params = new URLSearchParams(location.search);
+    const flexy = document.querySelector("ytd-watch-flexy");
+    flexy.setAttribute("video-id", params.get("v") || "");
+    document.getElementById("fx-title").textContent = params.get("title") || "Titre initial";
+    if (params.get("noanchor") === "1") {
+      // Ni rangée d'actions, ni bloc titre sous le lecteur (ancrage de la barre V3.5) : le panneau de secours prend
+      // le relais ; le titre reste celui du document.
+      document.getElementById("actions").remove();
+      const meta = document.querySelector("ytd-watch-metadata");
+      meta.replaceWith(...meta.childNodes);
+      if (params.get("title")) document.title = `${params.get("title")} - YouTube`;
+    }
+    const buttons = () => {
+      const box = document.createElement("div");
+      box.id = "top-level-buttons-computed";
+      for (const t of ["J’aime", "Partager"]) {
+        const b = document.createElement("button");
+        b.className = "yt-btn";
+        b.textContent = t;
+        box.append(b);
+      }
+      return box;
+    };
+    // Raccourcis clavier « de la page » (YouTube écoute keydown sur document) : compteur pour les tests.
+    window.fxKeys = 0;
+    document.addEventListener("keydown", () => { window.fxKeys++; });
+    window.fx = {
+      /** Navigation SPA : URL, titre, attribut video-id, puis yt-navigate-finish (conteneurs réutilisés). */
+      navigate(id, title) {
+        history.pushState({}, "", "/watch?v=" + id);
+        document.title = title + " - YouTube";
+        flexy.setAttribute("video-id", id);
+        document.getElementById("fx-title").textContent = title;
+        document.dispatchEvent(new CustomEvent("yt-navigate-finish", { bubbles: true }));
+      },
+      /** Re-rendu : la rangée de boutons est remplacée (le bouton AETHRYON disparaît avec elle). */
+      rerenderActions() {
+        document.getElementById("top-level-buttons-computed").replaceWith(buttons());
+      },
+      goHome() {
+        history.pushState({}, "", "/");
+        document.dispatchEvent(new CustomEvent("yt-navigate-finish", { bubbles: true }));
+      },
+      setDark(on) {
+        document.documentElement.toggleAttribute("dark", on);
+      },
+    };
+  })();
+</script>
+</body>
+</html>

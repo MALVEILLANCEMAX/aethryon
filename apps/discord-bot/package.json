@@ -1,0 +1,23 @@
+{
+  "name": "aethryon-discord",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Bot Discord officiel AETHRYON (Node 22, TypeScript, discord.js, connexion Gateway sortante, aucune route publique).",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test --test-concurrency=1 test/*.test.ts",
+    "start": "node dist/bot.js",
+    "register": "node dist/register.js",
+    "commands:json": "node dist/register.js --dry-run"
+  },
+  "dependencies": {
+    "discord.js": "14.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "typescript": "5.9.3"
+  }
+}

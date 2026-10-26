@@ -1,0 +1,82 @@
+<!doctype html>
+<!--
+  Page FABRIQUÉE pour les tests : fil « Pour toi » minimal (éléments [data-e2e="recommend-list-item-container"]
+  d'une hauteur d'écran, lecteur « xgwrapper-0-<id> », colonne d'actions avec icônes data-e2e).
+  Servie sous https://www.tiktok.com/foryou par interception Playwright. Thème sombre via ?theme=dark.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Pour toi | TikTok</title>
+<style>
+  html, body { margin: 0; font-family: Arial, sans-serif; }
+  body { background: #fff; color: #161823; }
+  body.dark { background: #121212; color: #fff; }
+  #main-content-homepage_hot { display: flex; flex-direction: column; align-items: center; }
+  article { height: 100vh; display: flex; align-items: flex-end; gap: 16px; padding: 16px 0; box-sizing: border-box; }
+  .player { width: 320px; height: 100%; background: #000; border-radius: 8px; position: relative; }
+  .player video { width: 100%; height: 100%; }
+  .desc { position: absolute; left: 12px; bottom: 12px; color: #fff; }
+  section.action-bar { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  section.action-bar button { width: 48px; height: 48px; border-radius: 50%; border: 0; background: rgba(22,24,35,.06); }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="main-content-homepage_hot">
+    <div class="column-list">
+      <!-- 0 : identifiant par le lecteur + compte (pas de lien direct) -->
+      <article data-e2e="recommend-list-item-container" data-scroll-index="0" data-fixture="tt-0">
+        <div class="player">
+          <div id="xgwrapper-0-7300000000000000001" class="xgplayer"><video preload="none" poster="https://p16-sign-va.tiktokcdn.com/obj/fixture-0.jpeg"></video></div>
+          <div class="desc" data-e2e="video-desc"><span>Première vidéo du fil #fyp</span></div>
+        </div>
+        <section class="action-bar">
+          <a data-e2e="video-author-avatar" href="/@alice.test">@alice.test</a>
+          <button type="button"><span data-e2e="like-icon">♥</span></button>
+          <button type="button"><span data-e2e="comment-icon">✎</span></button>
+          <button type="button"><span data-e2e="share-icon">↗</span></button>
+        </section>
+      </article>
+      <!-- 1 : lien direct vers la vidéo -->
+      <article data-e2e="recommend-list-item-container" data-scroll-index="1" data-fixture="tt-1">
+        <div class="player">
+          <div class="xgplayer"><video preload="none"></video></div>
+          <div class="desc" data-e2e="video-desc"><span>Deuxième vidéo</span> <a href="/@bob_test/video/7300000000000000002">lien</a></div>
+        </div>
+        <section class="action-bar">
+          <a data-e2e="video-author-avatar" href="/@bob_test">@bob_test</a>
+          <button type="button"><span data-e2e="like-icon">♥</span></button>
+          <button type="button"><span data-e2e="comment-icon">✎</span></button>
+          <button type="button"><span data-e2e="share-icon">↗</span></button>
+        </section>
+      </article>
+      <!-- 2 : identifiant par le lecteur + compte -->
+      <article data-e2e="recommend-list-item-container" data-scroll-index="2" data-fixture="tt-2">
+        <div class="player">
+          <div id="xgwrapper-0-7300000000000000003" class="xgplayer"><video preload="none"></video></div>
+          <div class="desc" data-e2e="video-desc"><span>Troisième vidéo</span></div>
+        </div>
+        <section class="action-bar">
+          <a data-e2e="video-author-avatar" href="/@carol?lang=fr">@carol</a>
+          <button type="button"><span data-e2e="like-icon">♥</span></button>
+          <button type="button"><span data-e2e="comment-icon">✎</span></button>
+          <button type="button"><span data-e2e="share-icon">↗</span></button>
+        </section>
+      </article>
+    </div>
+  </div>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get("theme") === "dark") document.body.classList.add("dark");
+  window.fx = {
+    scrollToItem(i) {
+      document.querySelectorAll("article")[i].scrollIntoView({ block: "start" });
+    },
+    setDark(on) {
+      document.body.classList.toggle("dark", on);
+    },
+  };
+</script>
+</body>
+</html>

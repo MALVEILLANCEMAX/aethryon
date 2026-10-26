@@ -1,0 +1,49 @@
+[package]
+name = "aethryon-desktop"
+version = "1.2.0-beta.2"
+edition = "2021"
+description = "AETHRYON Desktop"
+license = "LicenseRef-AETHRYON-proprietaire"
+publish = false
+default-run = "aethryon-desktop"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+aethryon-noyau = { path = "../noyau" }
+tauri = { version = "2", features = ["tray-icon", "protocol-asset", "image-png"] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-notification = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+
+# Fenêtre sans bordure blanche : attributs DWM (src/dwm.rs). Glisser natif vers d'autres applications (src/glisser.rs) :
+# OLE DoDragDrop, objet de données du Shell, image par WIC. Mêmes versions que Tauri 2.12.4 / wry 0.57 / tao 0.37
+# (windows 0.62.2, windows-core 0.62.2, déjà dans Cargo.lock) : aucune nouvelle dépendance téléchargée.
+# `windows-core` est requis en direct par la macro `#[implement]` (chemins `::windows_core::…`).
+[target.'cfg(windows)'.dependencies]
+windows-core = "0.62"
+windows = { version = "0.62", features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Dwm",
+  "Win32_Graphics_Gdi",
+  "Win32_Graphics_Imaging",
+  "Win32_System_Com",
+  "Win32_System_Com_StructuredStorage",
+  "Win32_System_LibraryLoader",
+  "Win32_System_Ole",
+  "Win32_System_SystemServices",
+  "Win32_System_Threading",
+  "Win32_UI_Controls",
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_UI_Shell",
+  "Win32_UI_Shell_Common",
+  "Win32_UI_WindowsAndMessaging",
+] }
+
+[features]
+# Construction de production (frontend embarqué) : `cargo build --release --features custom-protocol`.
+custom-protocol = ["tauri/custom-protocol"]

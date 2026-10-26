@@ -1,0 +1,108 @@
+{
+  "mode": "maintenance",
+  "demande": "maintenance",
+  "actions": [
+    "reparer",
+    "desinstaller"
+  ],
+  "charge": {
+    "version": "2.0.0-beta.2",
+    "versionDesktop": "1.0.0-beta.3",
+    "versionExtension": "2.0.0",
+    "extensionRemplacant": false,
+    "tailleDesktop": 12560000,
+    "tailleExtension": 3868,
+    "intervallePremiere": "[25.0,99.9]",
+    "signature": {
+      "algorithme": "rsa-sha1",
+      "horodatage": "RFC 3161, autorité locale"
+    }
+  },
+  "options": {
+    "extension": true,
+    "desktop": true,
+    "dossierMedias": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+    "surveillance": true,
+    "demarrageAuto": true,
+    "notifications": "importantes"
+  },
+  "detection": {
+    "premiere": [
+      {
+        "exe": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2026\\Adobe Premiere Pro.exe",
+        "dossier": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2026",
+        "version": "26.5.2.13",
+        "compatible": true,
+        "beta": false,
+        "source": "dossier"
+      }
+    ],
+    "principale": {
+      "exe": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2026\\Adobe Premiere Pro.exe",
+      "dossier": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2026",
+      "version": "26.5.2.13",
+      "compatible": true,
+      "beta": false,
+      "source": "dossier"
+    },
+    "cherche": [
+      "C:\\Program Files\\Adobe\\Adobe Premiere Pro*",
+      "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Adobe Premiere Pro.exe",
+      "HKLM\\SOFTWARE\\Adobe\\Premiere Pro\\<version>"
+    ],
+    "premiereOuvert": false,
+    "intervalleExtension": "[25.0,99.9]",
+    "creativeCloud": "C:\\Program Files\\Adobe\\Adobe Creative Cloud\\ACC\\Creative Cloud.exe",
+    "webview2": "141.0.3537.71",
+    "windows": "Windows 11 · 64 bits",
+    "dossierExtensions": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions",
+    "playerDebugMode": [],
+    "extensionPresente": "2.0.0",
+    "extensionEstLien": false,
+    "installation": {
+      "version": "2.0.0-beta.2",
+      "dossier": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON",
+      "inventaire": {
+        "schema": 1,
+        "produit": "AETHRYON",
+        "version": "2.0.0-beta.2",
+        "installeLe": "2026-10-18T14:45:41Z",
+        "misAJourLe": "2026-10-18T14:45:41Z",
+        "options": {
+          "extension": true,
+          "desktop": true,
+          "dossierMedias": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+          "surveillance": true,
+          "demarrageAuto": true,
+          "notifications": "importantes"
+        },
+        "fichiers": [
+          {
+            "chemin": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\aethryon-desktop.exe",
+            "sha256": "a89486595132afab06211b82624af93c60d98dcd7b909931514b9fb1903af6b8",
+            "taille": 12400000
+          },
+          {
+            "chemin": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\WebView2Loader.dll",
+            "sha256": "7494376b7fb91d79a548522ca11b0ff75bda2f5f46fd7aeb91caa6a53c096a1d",
+            "taille": 160000
+          },
+          {
+            "chemin": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON\\AETHRYON-Setup.exe",
+            "sha256": "4ba2c177b8254c6bb92f6b628b14db7099dfc1a41070e9040682b8e1d24407bc",
+            "taille": 4000000
+          }
+        ],
+        "versionDesktop": "1.0.0-beta.3",
+        "versionExtension": "2.0.0",
+        "dossierExtension": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+        "raccourci": "C:\\Users\\Élodie\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\AETHRYON.lnk"
+      }
+    },
+    "ancienneBeta": null,
+    "desktopOuvert": false,
+    "espaceLibre": 182000000000,
+    "dureeMs": 0
+  },
+  "journal": null
+}

@@ -1,0 +1,3482 @@
+[
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 0,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 1,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 0,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          }
+        ],
+        "fait": 0,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 1,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 2,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 2,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 3,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 3,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 2,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 3,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 3,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 0,
+        "total": 1,
+        "dureeMs": null,
+        "resume": null
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 3,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "attente",
+        "sous": [],
+        "fait": 0,
+        "total": 0,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 3,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [],
+        "fait": 0,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 0,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 0,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 1,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Médias",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 2,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Médias",
+            "etat": "termine",
+            "detail": "gardés : C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 2,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Médias",
+            "etat": "termine",
+            "detail": "gardés : C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier d'installation",
+            "etat": "enCours",
+            "detail": null,
+            "dureeMs": null
+          }
+        ],
+        "fait": 3,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 2,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "enCours",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Médias",
+            "etat": "termine",
+            "detail": "gardés : C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier d'installation",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 2
+          }
+        ],
+        "fait": 3,
+        "total": 4,
+        "dureeMs": null,
+        "resume": null
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 4,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Médias",
+            "etat": "termine",
+            "detail": "gardés : C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier d'installation",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 2
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "Préférences et bibliothèque retirées ; médias gardés, journal gardé."
+      }
+    ],
+    "courante": 4,
+    "termine": false,
+    "succes": false,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 4,
+    "resultat": null
+  },
+  {
+    "operation": "desinstaller",
+    "etapes": [
+      {
+        "cle": "fermeture",
+        "titre": "Fermeture",
+        "description": "AETHRYON Desktop est fermé s'il est ouvert.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "AETHRYON Desktop",
+            "etat": "termine",
+            "detail": "n'était pas ouvert",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON Desktop n'était pas ouvert."
+      },
+      {
+        "cle": "extension",
+        "titre": "Extension Premiere Pro",
+        "description": "Dossier de l'extension CEP de l'utilisateur.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "C:\\Users\\Élodie\\AppData\\Roaming\\Adobe\\CEP\\extensions\\fr.aethryon.premiere",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "Plus rien dans AppData\\Roaming\\Adobe\\CEP\\extensions."
+      },
+      {
+        "cle": "desktop",
+        "titre": "AETHRYON Desktop",
+        "description": "Application, raccourci, démarrage avec Windows, Native Messaging.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Application",
+            "etat": "termine",
+            "detail": "2 fichier(s) retiré(s)",
+            "dureeMs": 2
+          },
+          {
+            "libelle": "Raccourci du menu Démarrer",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Démarrage avec Windows",
+            "etat": "termine",
+            "detail": "retiré",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Native Messaging (Chrome, Edge, Brave)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "2 fichier(s), raccourci, démarrage avec Windows et Native Messaging retirés."
+      },
+      {
+        "cle": "registre",
+        "titre": "Applications installées",
+        "description": "Entrée de désinstallation de Windows.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Entrée « Applications installées »",
+            "etat": "termine",
+            "detail": "retirée",
+            "dureeMs": 0
+          }
+        ],
+        "fait": 1,
+        "total": 1,
+        "dureeMs": 0,
+        "resume": "AETHRYON n'apparaît plus dans Paramètres › Applications."
+      },
+      {
+        "cle": "donnees",
+        "titre": "Données",
+        "description": "Préférences et bibliothèque ; médias selon votre choix.",
+        "etat": "termine",
+        "sous": [
+          {
+            "libelle": "Préférences (%APPDATA%\\AETHRYON)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Bibliothèque et échanges (%LOCALAPPDATA%\\AETHRYON, journaux gardés)",
+            "etat": "termine",
+            "detail": null,
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Médias",
+            "etat": "termine",
+            "detail": "gardés : C:\\Users\\Élodie\\Videos\\AETHRYON",
+            "dureeMs": 0
+          },
+          {
+            "libelle": "Dossier d'installation",
+            "etat": "termine",
+            "detail": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON",
+            "dureeMs": 2
+          }
+        ],
+        "fait": 4,
+        "total": 4,
+        "dureeMs": 2,
+        "resume": "Préférences et bibliothèque retirées ; médias gardés, journal gardé."
+      }
+    ],
+    "courante": 4,
+    "termine": true,
+    "succes": true,
+    "annule": false,
+    "erreur": null,
+    "retourArriere": [],
+    "ecouleMs": 4,
+    "resultat": {
+      "version": "2.0.0-beta.2",
+      "versionDesktop": null,
+      "versionExtension": null,
+      "extensionRemplacant": false,
+      "dossierMedias": "C:\\Users\\Élodie\\Videos\\AETHRYON",
+      "dossierInstallation": "C:\\Users\\Élodie\\AppData\\Local\\Programs\\AETHRYON",
+      "dossierExtension": null,
+      "exeDesktop": null,
+      "premiereOuvert": false,
+      "ancienneBetaRemplacee": null,
+      "avertissements": []
+    }
+  }
+]

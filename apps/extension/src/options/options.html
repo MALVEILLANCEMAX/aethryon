@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr" class="options">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Réglages · AETHRYON</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <header class="opt-bar">
+    <div class="opt-bar-inner">
+      <p id="brand" class="brand"></p>
+      <p id="save-status" class="save-status" role="status" aria-live="polite"></p>
+    </div>
+  </header>
+
+  <main id="main" class="opt-main">
+    <div id="update-slot"></div>
+    <div class="opt-intro">
+      <h1 class="display">Réglages</h1>
+      <p class="lead">Ces réglages s'appliquent à ce navigateur. Chaque changement est enregistré aussitôt.</p>
+    </div>
+
+    <section class="group" aria-labelledby="t-buttons">
+      <h2 id="t-buttons" class="group-title">Boutons dans les sites</h2>
+      <div class="card rows">
+        <div class="row">
+          <div class="row-text">
+            <label class="row-label" for="inline-buttons">Bouton AETHRYON dans les pages</label>
+            <p class="row-desc" id="d-inline-buttons">Un bouton Télécharger sous chaque vidéo prise en charge, directement dans la page.</p>
+          </div>
+          <input id="inline-buttons" class="switch" type="checkbox" role="switch" aria-describedby="d-inline-buttons">
+        </div>
+        <div class="row row-sub">
+          <span class="pf-icon" data-platform="youtube"></span>
+          <label class="row-label" for="pf-youtube">YouTube</label>
+          <input id="pf-youtube" class="switch" type="checkbox" role="switch" data-platform="youtube" aria-describedby="d-platforms">
+        </div>
+        <div class="row row-sub">
+          <span class="pf-icon" data-platform="tiktok"></span>
+          <label class="row-label" for="pf-tiktok">TikTok</label>
+          <input id="pf-tiktok" class="switch" type="checkbox" role="switch" data-platform="tiktok" aria-describedby="d-platforms">
+        </div>
+        <div class="row row-sub">
+          <span class="pf-icon" data-platform="twitter"></span>
+          <label class="row-label" for="pf-twitter">X</label>
+          <input id="pf-twitter" class="switch" type="checkbox" role="switch" data-platform="twitter" aria-describedby="d-platforms">
+        </div>
+        <p class="row-foot" id="d-platforms">Désactive une plateforme pour n'y afficher aucun bouton. Le popup reste disponible partout.</p>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-format">
+      <h2 id="t-format" class="group-title">Format par défaut</h2>
+      <div class="card rows">
+        <div class="row">
+          <p class="row-desc row-text" id="d-format">Choisi d'avance dans le popup et sous les vidéos. Tu peux toujours le changer avant de télécharger.</p>
+          <div class="seg seg-fixed" role="radiogroup" aria-labelledby="t-format" aria-describedby="d-format">
+            <label class="seg-opt"><input type="radio" name="default-fmt" value="mp4"><span>MP4 · Vidéo</span></label>
+            <label class="seg-opt"><input type="radio" name="default-fmt" value="mp3"><span>MP3 · Audio</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-dest">
+      <h2 id="t-dest" class="group-title">Envoyer vers</h2>
+      <div class="card rows">
+        <div class="row">
+          <p class="row-desc row-text" id="d-dest">Où vont les vidéos et l'audio téléchargés. Premiere Pro&nbsp;: AETHRYON Desktop convertit la vidéo (MP4 H.264 + AAC jusqu'à 1080p) ou l'audio, l'enregistre dans sa bibliothèque et l'importe dans Premiere Pro (chutier AETHRYON)&nbsp;; aucun téléchargement par le navigateur. Extraits, GIF, images et miniatures restent dans Téléchargements.</p>
+          <div class="seg seg-fixed seg-dest" role="radiogroup" aria-labelledby="t-dest" aria-describedby="d-dest">
+            <label class="seg-opt"><input type="radio" name="destination" value="downloads"><span>Téléchargements</span></label>
+            <label class="seg-opt"><input type="radio" name="destination" value="premiere"><span>Premiere Pro</span></label>
+          </div>
+        </div>
+        <div class="row" id="dest-link-row" hidden>
+          <div class="row-text">
+            <p class="row-label" id="t-dest-link">Suivi par AETHRYON Desktop</p>
+            <p class="row-desc" id="d-dest-link"></p>
+          </div>
+          <button id="dest-allow" class="btn btn-secondary btn-sm" type="button" aria-describedby="d-dest-link">Autoriser</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-quality">
+      <h2 id="t-quality" class="group-title">Qualité MP4</h2>
+      <div class="card rows">
+        <div class="row">
+          <p class="row-desc row-text" id="d-quality">Auto prend la meilleure qualité disponible. Une qualité plus basse donne un fichier plus léger.</p>
+          <span class="select select-fixed"><select id="quality" aria-labelledby="t-quality" aria-describedby="d-quality"></select></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-bitrate">
+      <h2 id="t-bitrate" class="group-title">Débit MP3</h2>
+      <div class="card rows">
+        <div class="row">
+          <p class="row-desc row-text" id="d-bitrate">192&nbsp;kbit/s convient à la plupart des écoutes&nbsp;; 320&nbsp;kbit/s donne la meilleure fidélité.</p>
+          <span class="select select-fixed"><select id="bitrate" aria-labelledby="t-bitrate" aria-describedby="d-bitrate"></select></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-clip">
+      <h2 id="t-clip" class="group-title">Extraits et outils rapides</h2>
+      <div class="card rows">
+        <div class="row">
+          <p class="row-desc row-text" id="d-clip-length">Durée proposée à l'ouverture de l'extrait, depuis l'instant de lecture (la durée maximale est celle du serveur).</p>
+          <div class="seg seg-fixed" role="radiogroup" aria-label="Durée d'un extrait" aria-describedby="d-clip-length">
+            <label class="seg-opt"><input type="radio" name="clip-length" value="10"><span>10&nbsp;s</span></label>
+            <label class="seg-opt"><input type="radio" name="clip-length" value="15"><span>15&nbsp;s</span></label>
+            <label class="seg-opt"><input type="radio" name="clip-length" value="30"><span>30&nbsp;s</span></label>
+            <label class="seg-opt"><input type="radio" name="clip-length" value="60"><span>60&nbsp;s</span></label>
+          </div>
+        </div>
+        <div class="row">
+          <p class="row-desc row-text" id="d-clip-anchor">Place de l'extrait par rapport à l'instant de lecture.</p>
+          <div class="seg seg-fixed" role="radiogroup" aria-label="Placement de l'extrait" aria-describedby="d-clip-anchor">
+            <label class="seg-opt"><input type="radio" name="clip-anchor" value="before"><span>Avant</span></label>
+            <label class="seg-opt"><input type="radio" name="clip-anchor" value="around"><span>Autour</span></label>
+            <label class="seg-opt"><input type="radio" name="clip-anchor" value="after"><span>Après</span></label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-text">
+            <label class="row-label" for="page-tools">Outils rapides dans les pages</label>
+            <p class="row-desc" id="d-page-tools">Extrait, GIF, image, miniature et AETHRYON Tools dans la fenêtre du bouton Télécharger, sous les vidéos.</p>
+          </div>
+          <input id="page-tools" class="switch" type="checkbox" role="switch" aria-describedby="d-page-tools">
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-panel">
+      <h2 id="t-panel" class="group-title">Panneau flottant</h2>
+      <div class="card rows">
+        <div class="row">
+          <div class="row-text">
+            <label class="row-label" for="floating-panel">Afficher le panneau flottant</label>
+            <p class="row-desc" id="d-floating-panel">Un petit panneau déplaçable sur les pages vidéo, utile quand le bouton ne trouve pas sa place dans la page.</p>
+          </div>
+          <input id="floating-panel" class="switch" type="checkbox" role="switch" aria-describedby="d-floating-panel">
+        </div>
+        <div class="row">
+          <div class="row-text">
+            <p class="row-label" id="l-panel-pos">Position du panneau</p>
+            <p class="row-desc" id="panel-pos">Position par défaut</p>
+          </div>
+          <button id="panel-reset" class="btn btn-secondary btn-sm" type="button" aria-describedby="panel-pos">Réinitialiser la position</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-notif">
+      <h2 id="t-notif" class="group-title">Notifications</h2>
+      <div class="card rows">
+        <div class="row">
+          <div class="row-text">
+            <label class="row-label" for="notifications">Me prévenir quand un fichier est enregistré</label>
+            <p class="row-desc" id="d-notifications">Une notification du système à la fin de chaque téléchargement. Chrome te demandera l'autorisation.</p>
+          </div>
+          <input id="notifications" class="switch" type="checkbox" role="switch" aria-describedby="d-notifications notif-msg">
+        </div>
+        <p class="row-foot" id="notif-msg" role="status"></p>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-account">
+      <h2 id="t-account" class="group-title">Compte</h2>
+      <div class="card rows">
+        <div class="row row-block" id="account-body">
+          <p class="row-desc">Chargement…</p>
+        </div>
+        <div class="row">
+          <div class="row-text">
+            <p class="row-label">Accès de l'extension</p>
+            <p class="row-desc">L'extension apparaît dans «&nbsp;Mes jetons&nbsp;» sur le site&nbsp;: tu peux y révoquer chaque appareil à tout moment.</p>
+          </div>
+          <a id="keys-link" class="btn btn-secondary btn-sm" href="#"><span>Gérer les accès</span><span class="sr-only"> (nouvel onglet)</span><span id="keys-icon" class="link-icon"></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="t-privacy" id="donnees">
+      <h2 id="t-privacy" class="group-title">Données et confidentialité</h2>
+      <div class="card rows prose">
+        <p class="row-desc" id="consent-status">Chargement…</p>
+        <dl class="facts" id="disclosure"></dl>
+        <p class="rights" id="rights"></p>
+        <div class="consent-actions" id="consent-actions"></div>
+        <p class="row-desc"><a id="privacy-link" class="link" href="#">Politique de confidentialité d'AETHRYON<span class="sr-only"> (nouvel onglet)</span></a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="opt-foot">
+    <p><span id="version">Version</span><span aria-hidden="true" class="sep">·</span><a id="help-link" class="link" href="#">Aide<span class="sr-only"> (nouvel onglet)</span></a></p>
+    <p>Compatible avec YouTube, TikTok et X — sans affiliation.</p>
+  </footer>
+  <script src="options.js"></script>
+</body>
+</html>

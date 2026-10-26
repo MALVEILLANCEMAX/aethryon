@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AETHRYON Desktop",
+  "mainBinaryName": "aethryon-desktop",
+  "version": "1.2.0-beta.2",
+  "identifier": "fr.aethryon.desktop",
+  "build": { "frontendDist": "../dist", "devUrl": "http://localhost:5173" },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "AETHRYON",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 640,
+        "decorations": false,
+        "shadow": false,
+        "visible": false,
+        "center": true,
+        "resizable": true,
+        "dragDropEnabled": true,
+        "backgroundColor": "#0B0A09"
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' asset: http://asset.localhost data: blob: https://*.backblazeb2.com https://i.scdn.co https://*.spotifycdn.com https://*.mzstatic.com https://*.sndcdn.com https://*.dzcdn.net https://archive.org https://*.archive.org https://upload.wikimedia.org; media-src 'self' asset: http://asset.localhost blob: https://*.backblazeb2.com https://audio-ssl.itunes.apple.com https://*.dzcdn.net https://upload.wikimedia.org; frame-src https://open.spotify.com https://embed.music.apple.com https://w.soundcloud.com https://widget.deezer.com https://archive.org; style-src 'self' 'unsafe-inline'; font-src 'self'; connect-src ipc: http://ipc.localhost",
+      "assetProtocol": { "enable": true, "scope": [] }
+    }
+  },
+  "bundle": {
+    "active": false,
+    "publisher": "AETHRYON",
+    "copyright": "© 2026 AETHRYON",
+    "shortDescription": "AETHRYON Desktop",
+    "longDescription": "AETHRYON Desktop : bibliothèque de médias et liaison avec le panneau AETHRYON de Premiere Pro.",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico", "icons/icon.png"]
+  }
+}

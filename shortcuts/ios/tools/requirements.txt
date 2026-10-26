@@ -1,0 +1,2 @@
+lzfse==0.4.2 \
+    --hash=sha256:16c78d419e449d423b5ce141e55fdcca209e9b5cd999fa0c477b46d0879a3c5b

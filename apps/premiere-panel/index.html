@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="fr" data-hote="">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Aucune ressource distante active : scripts et styles du paquet seulement ; images distantes limitées aux
+         miniatures des plateformes (repli quand le serveur AETHRYON n'en fournit pas). Le réseau passe par Node. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file:; style-src 'self' file: 'unsafe-inline'; font-src 'self' file: data:; img-src 'self' file: data: blob: https://i.ytimg.com https://*.ytimg.com https://pbs.twimg.com https://*.tiktokcdn.com https://*.tiktokcdn-us.com https://*.tiktokcdn-eu.com https://*.ibyteimg.com; media-src 'self' file: data: blob:; connect-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <title>AETHRYON</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/entree.tsx"></script>
+  </body>
+</html>

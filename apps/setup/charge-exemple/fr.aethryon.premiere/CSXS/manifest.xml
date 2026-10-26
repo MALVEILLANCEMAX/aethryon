@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- REMPLAÇANT d'essai de l'installateur : la vraie extension AETHRYON (CEP) est construite par ailleurs
+     (premiere-pro/V2-A-cep/fr.aethryon.premiere). Même identifiant, pour essayer l'installation, la signature,
+     la réparation et la désinstallation. -->
+<ExtensionManifest Version="7.0" ExtensionBundleId="fr.aethryon.premiere" ExtensionBundleVersion="0.0.1" ExtensionBundleName="AETHRYON">
+  <ExtensionList>
+    <Extension Id="fr.aethryon.premiere.panneau" Version="0.0.1"/>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="PPRO" Version="[25.0,99.9]"/>
+    </HostList>
+    <LocaleList>
+      <Locale Code="All"/>
+    </LocaleList>
+    <RequiredRuntimeList>
+      <RequiredRuntime Name="CSXS" Version="12.0"/>
+    </RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="fr.aethryon.premiere.panneau">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./client/index.html</MainPath>
+        </Resources>
+        <Lifecycle>
+          <AutoVisible>true</AutoVisible>
+        </Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>AETHRYON (remplaçant d'essai)</Menu>
+          <Geometry>
+            <Size><Height>480</Height><Width>360</Width></Size>
+          </Geometry>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>

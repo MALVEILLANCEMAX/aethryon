@@ -1,0 +1,123 @@
+<!doctype html>
+<!--
+  Page FABRIQUÉE pour les tests : structure minimale de X (#react-root > main > [data-testid="primaryColumn"]
+  > cellules [data-testid="cellInnerDiv"] > article[data-testid="tweet"], horodatage <time> dans le lien
+  /<compte>/status/<id>, médias [data-testid="videoPlayer"] > [data-testid="videoComponent"] > <video>,
+  barre d'actions [role="group"], publication citée div[role="link"]). Servie sous https://x.com/… :
+  - /home                      : fil de publications variées (voir POSTS) ;
+  - /<compte>/status/<id>      : publication principale (avec vidéo, sauf ?novideo=1) + une réponse.
+  Le fixture ne charge rien : les affiches pbs.twimg.com sont bloquées par le routeur du test.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Accueil / X</title>
+<style>
+  html, body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { display: flex; justify-content: center; }
+  [data-testid="primaryColumn"] { width: 600px; border-left: 1px solid #eff3f4; border-right: 1px solid #eff3f4; }
+  [data-testid="cellInnerDiv"] { transform: translateY(0); border-bottom: 1px solid #eff3f4; }
+  article { display: flex; gap: 12px; padding: 12px 16px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: #cfd9de; flex: none; }
+  .content { flex: 1; min-width: 0; }
+  [data-testid="User-Name"] { display: flex; gap: 4px; color: #536471; }
+  [data-testid="User-Name"] a { color: inherit; text-decoration: none; }
+  .media { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 12px; border-radius: 16px; overflow: hidden; }
+  [data-testid="videoPlayer"], .photo { aspect-ratio: 16 / 9; background: #000; }
+  [data-testid="videoComponent"], video { width: 100%; height: 100%; display: block; }
+  .photo { background: #8899a6; }
+  div[role="link"] { margin-top: 12px; padding: 12px; border: 1px solid #cfd9de; border-radius: 16px; cursor: pointer; }
+  [role="group"] { display: flex; justify-content: space-between; max-width: 425px; margin-top: 12px; }
+  [role="group"] button, [role="group"] a { border: 0; background: none; color: #536471; height: 34px; min-width: 34px; }
+</style>
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+<div id="react-root">
+  <main role="main">
+    <div data-testid="primaryColumn">
+      <section role="region" aria-label="Fil d’actualité"><div id="timeline"></div></section>
+    </div>
+  </main>
+</div>
+<script>
+  (() => {
+    const POSTS = [
+      { fx: "A", handle: "alice", status: "1790000000000000001", text: "Une vidéo", videos: 1 },
+      { fx: "B", handle: "bob", status: "1790000000000000002", text: "Texte seul, sans média", videos: 0 },
+      { fx: "C", handle: "carol", status: "1790000000000000003", text: "Deux vidéos dans la même publication", videos: 2 },
+      { fx: "D", handle: "dan", status: "1790000000000000004", text: "Je cite une vidéo", videos: 0, quote: { handle: "dave", status: "1790000000000000044", videos: 1 } },
+      { fx: "E", handle: "erin", status: "1790000000000000005", text: "Une photo seulement", videos: 0, photos: 1 },
+      { fx: "F", handle: "fred", status: "1790000000000000006", text: "Citation sans lien exploitable", videos: 0, quote: { handle: "gus", status: null, videos: 1 } },
+      { fx: "G", handle: "hana", status: "1790000000000000007", text: "Ma vidéo et une vidéo citée", videos: 1, quote: { handle: "ivan", status: "1790000000000000077", videos: 1 } },
+    ];
+    const el = (tag, attrs = {}, ...children) => {
+      const e = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+      for (const c of children) e.append(c);
+      return e;
+    };
+    const video = (n) => el("div", { "data-testid": "videoPlayer" }, el("div", { "data-testid": "videoComponent" },
+      el("video", { preload: "none", poster: `https://pbs.twimg.com/ext_tw_video_thumb/${n}/pu/img/fixture.jpg` })));
+    const media = (p) => {
+      const box = el("div", { class: "media" });
+      for (let i = 0; i < (p.videos || 0); i++) box.append(el("div", { "data-testid": "tweetPhoto" }, video(i + 1)));
+      for (let i = 0; i < (p.photos || 0); i++) box.append(el("div", { "data-testid": "tweetPhoto" }, el("div", { class: "photo" })));
+      return box;
+    };
+    const userName = (p, withLink) => el("div", { "data-testid": "User-Name" },
+      el("a", { href: "/" + p.handle, role: "link" }, el("span", {}, p.handle[0].toUpperCase() + p.handle.slice(1))),
+      el("span", {}, "@" + p.handle), el("span", {}, "·"),
+      withLink && p.status
+        ? el("a", { href: `/${p.handle}/status/${p.status}`, role: "link", class: "fx-time" }, el("time", { datetime: "2026-10-10T10:00:00.000Z" }, "10 oct."))
+        : el("div", {}, el("time", { datetime: "2026-10-09T10:00:00.000Z" }, "9 oct.")));
+    const article = (p) => {
+      const content = el("div", { class: "content" }, userName(p, true), el("div", { "data-testid": "tweetText", lang: "fr" }, el("span", {}, p.text)), media(p));
+      if (p.quote) {
+        const q = p.quote;
+        content.append(el("div", { role: "link", tabindex: "0", class: "fx-quote" },
+          userName(q, !!q.status), el("div", { "data-testid": "tweetText" }, el("span", {}, "Publication citée de " + q.handle)), media(q)));
+      }
+      content.append(el("div", { role: "group", "aria-label": "Actions" },
+        el("div", {}, el("button", { "data-testid": "reply", "aria-label": "Répondre" }, "↩")),
+        el("div", {}, el("button", { "data-testid": "retweet", "aria-label": "Republier" }, "⇄")),
+        el("div", {}, el("button", { "data-testid": "like", "aria-label": "J’aime" }, "♥")),
+        el("div", {}, el("a", { href: `/${p.handle}/status/${p.status}/analytics`, class: "fx-analytics", "aria-label": "Statistiques" }, "▥")),
+        el("div", {}, el("button", { "data-testid": "bookmark", "aria-label": "Signet" }, "⚑"))));
+      return el("div", { "data-testid": "cellInnerDiv" }, el("article", { "data-testid": "tweet", role: "article", tabindex: "0", "data-fixture": "x-" + p.fx },
+        el("div", { class: "avatar" }), content));
+    };
+
+    const timeline = document.getElementById("timeline");
+    const m = /^\/([A-Za-z0-9_]+)\/status\/(\d+)/.exec(location.pathname);
+    if (m) {
+      document.title = "Publication / X";
+      const novideo = new URLSearchParams(location.search).get("novideo") === "1";
+      timeline.append(article({ fx: "focal", handle: m[1], status: m[2], text: "Publication principale", videos: novideo ? 0 : 1 }));
+      timeline.append(article({ fx: "reply", handle: "replyer", status: "1790000000000000099", text: "Réponse avec vidéo", videos: 1 }));
+    } else {
+      for (const p of POSTS) timeline.append(article(p));
+    }
+    // Clic sur une publication : X ouvre la publication (le bouton AETHRYON ne doit pas le déclencher).
+    window.fxArticleClicks = 0;
+    document.addEventListener("click", (e) => { if (e.target.closest && e.target.closest("article")) window.fxArticleClicks++; });
+
+    window.fx = {
+      /** Nœud recyclé par le fil : même <article>, autre publication (liens modifiés en place). */
+      recycle(fx, next) {
+        const a = document.querySelector(`[data-fixture="x-${fx}"]`);
+        const t = a.querySelector("a.fx-time");
+        t.setAttribute("href", `/${next.handle}/status/${next.status}`);
+        a.querySelector("a.fx-analytics").setAttribute("href", `/${next.handle}/status/${next.status}/analytics`);
+        a.querySelector('[data-testid="tweetText"] span').textContent = next.text || "Publication recyclée";
+        const box = a.querySelector(".content > .media");
+        box.replaceWith(media(next));
+      },
+      setTheme(dark) {
+        document.body.style.backgroundColor = dark ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)";
+        document.body.style.color = dark ? "rgb(231, 233, 234)" : "rgb(15, 20, 25)";
+      },
+    };
+  })();
+</script>
+</body>
+</html>
