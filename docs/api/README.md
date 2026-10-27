@@ -39,6 +39,12 @@ curl -s -H "Authorization: Bearer $AETHRYON_KEY" -H 'content-type: application/j
 Errors are JSON objects with a stable `error` code and a user-facing `detail` text; the full list is in
 [`ERREURS.md`](ERREURS.md) (French).
 
+Supported platforms are declared once in `apps/media-api/app/plateformes.json`. `scripts/sync-plateformes.py` derives
+from it the website copy and [`CATALOGUE-PLATEFORMES.json`](CATALOGUE-PLATEFORMES.json), the catalogue read by the
+website, Desktop and the extension (status of each platform, formats proven end to end, closed features with their
+reason, mandatory attribution); `--check` fails when a generated file is stale. Media under a free licence (Wikimedia
+Commons) carry an `attribution` object (author, licence, source) in the job result.
+
 ## Account API (`apps/account`)
 
 Served by the website under `/api/*` (same origin, `HttpOnly` session cookie, Origin check and JSON-only bodies for

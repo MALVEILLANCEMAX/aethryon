@@ -22,7 +22,7 @@
   <a href="#-downloads"><img alt="Browser extension version" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraccourci.malvu.fr%2Fdownloads%2Fextension%2Flatest.json&query=%24.version&label=extension&style=flat-square&color=D4AF7C&labelColor=0F0F10"></a>
   <a href="#-downloads"><img alt="iOS Shortcut version" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraccourci.malvu.fr%2Fapi%2Fconfig&query=%24.shortcutVersion&label=iOS%20shortcut&style=flat-square&color=D4AF7C&labelColor=0F0F10"></a>
   <a href="apps/discord-bot/README.md"><img alt="Discord bot: available" src="https://img.shields.io/badge/discord%20bot-available-D4AF7C?style=flat-square&labelColor=0F0F10"></a>
-  <a href="apps/desktop/README.md"><img alt="Desktop: 1.2.0-beta.2 for Windows" src="https://img.shields.io/badge/desktop-1.2.0--beta.2%20%C2%B7%20Windows-B3A999?style=flat-square&labelColor=0F0F10"></a>
+  <a href="apps/desktop/README.md"><img alt="Desktop: 1.3.0-beta.1 for Windows" src="https://img.shields.io/badge/desktop-1.3.0--beta.1%20%C2%B7%20Windows-B3A999?style=flat-square&labelColor=0F0F10"></a>
 </p>
 
 <p align="center">
@@ -137,9 +137,9 @@ Supported sources today: public **YouTube**, **TikTok** and **X** links (playlis
 | | Component | Version | Get it | Notes |
 |:-:|---|---|---|---|
 | 📱 | **iOS Shortcut** | 3.0 | [**Add from iCloud**](https://www.icloud.com/shortcuts/e1e2eaadf6c841bd884c9dbe680675d1) · [signed `.shortcut` file](https://raccourci.malvu.fr/downloads/AETHRYON.shortcut) · [in this repo](shortcuts/ios/dist/AETHRYON.shortcut) | Needs a personal key from your account. [Guide](shortcuts/ios/README.md) |
-| 🧩 | **Browser extension** (Chrome, Edge, Brave) | 3.8.1 | [**Download the ZIP**](https://raccourci.malvu.fr/downloads/extension/aethryon-extension-3.8.1.zip) · [SHA256SUMS](https://raccourci.malvu.fr/downloads/extension/SHA256SUMS) · [install page](https://raccourci.malvu.fr/extension) | Manual install (developer mode), no store. [Guide](apps/extension/README.md) |
+| 🧩 | **Browser extension** (Chrome, Edge, Brave) | 3.9.0 | [**Download the ZIP**](https://raccourci.malvu.fr/downloads/extension/aethryon-extension-3.9.0.zip) · [SHA256SUMS](https://raccourci.malvu.fr/downloads/extension/SHA256SUMS) · [install page](https://raccourci.malvu.fr/extension) | Manual install (developer mode), no store. [Guide](apps/extension/README.md) |
 | 💬 | **Discord bot** | v2 | [**Add to my apps**](https://discord.com/oauth2/authorize?client_id=1558821698734923796&integration_type=1&scope=applications.commands) · [Add to a server](https://discord.com/oauth2/authorize?client_id=1558821698734923796&integration_type=0&scope=applications.commands+bot&permissions=274878286912) | Private replies by default. [Commands](apps/discord-bot/README.md) |
-| 🖥️ | **AETHRYON Setup** (Desktop + Premiere Pro panel, Windows) | 2.0.0-beta.8 | [**Download the installer**](https://raccourci.malvu.fr/downloads/premiere/AETHRYON-Setup-2.0.0-beta.8.exe) · [SHA256SUMS](https://raccourci.malvu.fr/downloads/premiere/SHA256SUMS) | Beta. [Desktop](apps/desktop/README.md) · [Panel](apps/premiere-panel/README.md) |
+| 🖥️ | **AETHRYON Setup** (Desktop + Premiere Pro panel, Windows) | 2.0.0-beta.9 | [**Download the installer**](https://raccourci.malvu.fr/downloads/premiere/AETHRYON-Setup-2.0.0-beta.9.exe) · [SHA256SUMS](https://raccourci.malvu.fr/downloads/premiere/SHA256SUMS) | Beta. [Desktop](apps/desktop/README.md) · [Panel](apps/premiere-panel/README.md) |
 | 🌐 | **Website** | — | [raccourci.malvu.fr](https://raccourci.malvu.fr) | Account, keys, activity, Tools |
 
 > [!TIP]
@@ -199,6 +199,7 @@ The [launch film](https://raccourci.malvu.fr/media/film/aethryon-v35-1080.mp4) s
 | [`apps/setup`](apps/setup/README.md) | Windows installer for Desktop and the panel | Tauri 2, Rust |
 | [`shortcuts/ios`](shortcuts/ios/README.md) | iOS Shortcut sources (Cherri), validator and signed file | Cherri, Python |
 | [`packages/brand`](packages/brand/README.md) | Master identity: owl, logotype, icons and generators | SVG, Python |
+| [`packages/design`](packages/design/README.md) | Égide design system: tokens, theme engine, CSS, icons, framework-free components | TypeScript, CSS |
 | [`docs`](docs/README.md) | Architecture, installation, API, security | Markdown |
 
 ## ◆ Architecture
@@ -255,7 +256,7 @@ own test credentials. Step-by-step guide: [`docs/installation/development.md`](d
 <summary><b>Run the tests</b></summary>
 
 ```bash
-make test               # error catalogue, account, media-api (offline container), web build, extension, bot, panel
+make test               # error catalogue, design system, account, media-api (offline container), web build, extension, bot, panel
 make test-desktop-core  # Rust core of Desktop (needs a Rust toolchain)
 make test-shortcut      # checks the signed Shortcut: Apple chain, content, no secret
 make scan               # secret scan of the working tree (gitleaks)

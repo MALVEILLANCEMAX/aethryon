@@ -58,6 +58,8 @@ apps/web/public/downloads/
 apps/extension/release/
 apps/setup/e2e/captures/
 captures/
+# ...except the reviewed design screenshots (test accounts and sample data only)
+!docs/design/captures/
 demo-out/
 
 # Large media kept outside git (see apps/web/README.md)

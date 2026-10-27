@@ -1,0 +1,2608 @@
+{
+ "rendus": {
+  "site|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|obsidian|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|obsidian|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|obsidian|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|obsidian|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|ivory|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|ivory|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|ivory|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|ivory|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|oled|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|oled|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|oled|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|oled|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "site|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "site|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "site|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "extension|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|midnight|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|midnight|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|midnight|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|midnight|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "douce",
+   "axe": [],
+   "errs": []
+  },
+  "site|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "site|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "site|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "site|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "extension|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|minimal|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|minimal|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|minimal|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|minimal|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "reduite",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom-exemple|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom-exemple|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom-exemple|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom-exemple|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "site|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-convertir|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-bibliotheque|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-transferts|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-musique|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-apparence|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-bientot|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "desktop-pf-refusee|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension-pf-bientot|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "extension|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom|360": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom|390": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom|1024": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  },
+  "mobile-feuille|custom|1440": {
+   "debordement": false,
+   "horsCadre": [],
+   "motion": "complete",
+   "axe": [],
+   "errs": []
+  }
+ },
+ "essais": {
+  "themeEditeur": {
+   "contrastesAvantAppliquer": "27 paires vérifiées, toutes conformesWCAG 2.2 AA\n         Voir les mesurestexte ",
+   "applique": true,
+   "accentApplique": "#5E8FB8",
+   "persisteApresRechargement": {
+    "theme": "custom",
+    "nom": "Égée (essai)",
+    "select": "Custom : Égée (essai)"
+   },
+   "errs": []
+  },
+  "mouvementReduit": {
+   "site": {
+    "motion": "reduite",
+    "scale": "0.5",
+    "recitArrete": true,
+    "champVide": true,
+    "animFil": "none"
+   },
+   "desktop": {
+    "transitionFil": "0s",
+    "meandre": []
+   }
+  },
+  "clavier": {
+   "paletteOuverte": true,
+   "paletteSansAnimation": "0s",
+   "paletteVersBibliotheque": "bibliotheque",
+   "poigneeFleches": [
+    "62.5",
+    "73.5"
+   ],
+   "toucheI_debutALaLecture": "1:10.0 → 1:32.5",
+   "entreeConvertit": true,
+   "espacePause": true,
+   "tabulation": {
+    "arrets": 69,
+    "sansAnneau": [],
+    "invisibles": []
+   },
+   "stationClavier": "1",
+   "feuilleClavier": {
+    "ouverte": true,
+    "fermeeParEchap": true,
+    "focusRendu": "feuille"
+   },
+   "errs": []
+  },
+  "plateformes": {
+   "detection": {
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "x": "X",
+    "bluesky": "Bluesky, Bientôt",
+    "wikimedia": "Wikimedia Commons, Bientôt",
+    "archive": "Internet Archive, En préproduction",
+    "instagram": "Instagram, Non proposée",
+    "vimeo": "Vimeo, Indisponible",
+    "youtube-music": "YouTube Music, Refusée",
+    "spotify": "Spotify, Refusée",
+    "netflix": "Netflix, Refusée",
+    "inconnu": "exemple.invalid, Non reconnue"
+   },
+   "encartInstagram": "Instagram : non proposéeLes conditions d'Instagram interdisent le téléchargement automatisé sans accord écrit. Voir les ",
+   "panneX": "X : temporairement indisponibleX ne répond pas pour le moment. Réessaie plus tard ; rien n'est perdu",
+   "blueskyDesktop": {
+    "interrupteurExtrait": "true",
+    "raison": "Extraits indisponibles pour Bluesky : la source ne permet pas de lire seulement un passage.",
+    "action": "true / Disponible bientôt",
+    "conversionBloquee": true
+   },
+   "dialogue": {
+    "ouvert": true,
+    "onglets": [
+     "Populaires14",
+     "Musique10",
+     "Streaming12",
+     "Autres2"
+    ]
+   },
+   "axeDialogue": [],
+   "errs": []
+  },
+  "importExport": {
+   "urlRefusee": [
+    "« c-accent » : couleur #RRGGBB uniquement (ni url(), ni var(), ni mot-clé CSS)."
+   ],
+   "cleInconnue": [
+    "Clé inconnue à la racine : script."
+   ],
+   "versionFuture": [
+    "Ce thème vient d'une version plus récente d'AETHRYON (schemaVersion 3)."
+   ],
+   "jsonCasse": [
+    "Ce n'est pas du JSON valide (Expected property name or '}' in JSON at position 2 (line 1 column 3))."
+   ],
+   "tropLourd": [
+    "Fichier trop lourd : 17 Ko (16 Ko au plus)."
+   ],
+   "policeOuJs": [
+    "« typography.preset » : egide, sobre ou lecture."
+   ],
+   "exportValide": true,
+   "allerRetour": "accepté",
+   "apresImport": {
+    "nom": "Égée (essai)",
+    "contrastes": "27 paires vérifiées, toutes conformesWCAG 2.2 AA\n         Vo"
+   },
+   "razTotale": "obsidian"
+  },
+  "requetesExternes": [],
+  "moteurRendu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+ },
+ "cadence": {
+  "site : récit de la démonstration": {
+   "ips": 60,
+   "p95ms": 16.8,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "desktop : deux conversions qui avancent": {
+   "ips": 60,
+   "p95ms": 16.8,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "desktop : glisser une poignée de la frise": {
+   "ips": 60,
+   "p95ms": 16.7,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "mobile : ouverture de la feuille": {
+   "ips": 60,
+   "p95ms": 16.8,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "éditeur : curseur de teinte en continu": {
+   "ips": 60,
+   "p95ms": 16.7,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "site : récit de la démonstration (CPU ×4)": {
+   "ips": 60,
+   "p95ms": 16.7,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "desktop : deux conversions qui avancent (CPU ×4)": {
+   "ips": 60,
+   "p95ms": 16.7,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "desktop : glisser une poignée de la frise (CPU ×4)": {
+   "ips": 60,
+   "p95ms": 16.7,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "mobile : ouverture de la feuille (CPU ×4)": {
+   "ips": 60,
+   "p95ms": 16.7,
+   "pire": 16.8,
+   "tachesLongues": []
+  },
+  "éditeur : curseur de teinte en continu (CPU ×4)": {
+   "ips": 60,
+   "p95ms": 16.8,
+   "pire": 33.4,
+   "tachesLongues": []
+  }
+ },
+ "contrastes": {
+  "obsidian": {
+   "paires": 27,
+   "echecs": [],
+   "minRatioSurSeuil": 1.05
+  },
+  "ivory": {
+   "paires": 27,
+   "echecs": [],
+   "minRatioSurSeuil": 1.04
+  },
+  "oled": {
+   "paires": 27,
+   "echecs": [],
+   "minRatioSurSeuil": 1.19
+  },
+  "midnight": {
+   "paires": 27,
+   "echecs": [],
+   "minRatioSurSeuil": 1.2
+  },
+  "minimal": {
+   "paires": 27,
+   "echecs": [],
+   "minRatioSurSeuil": 1.06
+  },
+  "custom": {
+   "paires": 27,
+   "echecs": [],
+   "minRatioSurSeuil": 1.03
+  }
+ },
+ "etat": {
+  "cookies": [],
+  "origins": [
+   {
+    "origin": "http://127.0.0.1:41595",
+    "localStorage": [
+     {
+      "name": "aethryon.egide-demo.v1",
+      "value": "{\"custom\":\"{\\n  \\\"$schema\\\": \\\"https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json\\\",\\n  \\\"format\\\": \\\"aethryon-theme\\\",\\n  \\\"schemaVersion\\\": 1,\\n  \\\"id\\\": \\\"perso.egee-essai\\\",\\n  \\\"name\\\": \\\"Égée (essai)\\\",\\n  \\\"author\\\": \\\"AETHRYON\\\",\\n  \\\"base\\\": \\\"obsidian\\\",\\n  \\\"seeds\\\": {\\n    \\\"accent\\\": \\\"#5E8FB8\\\",\\n    \\\"neutralHue\\\": 230,\\n    \\\"neutralChroma\\\": 0.014,\\n    \\\"background\\\": 30\\n  },\\n  \\\"tokens\\\": {\\n    \\\"r-panel\\\": 16\\n  },\\n  \\\"typography\\\": {\\n    \\\"preset\\\": \\\"lecture\\\",\\n    \\\"scale\\\": 1.05\\n  },\\n  \\\"density\\\": \\\"aeree\\\",\\n  \\\"motion\\\": {\\n    \\\"intensity\\\": \\\"complete\\\"\\n  },\\n  \\\"effects\\\": {\\n    \\\"sheen\\\": true,\\n    \\\"grain\\\": false\\n  }\\n}\",\"theme\":\"custom\"}"
+     }
+    ]
+   }
+  ]
+ },
+ "customDoc": {
+  "$schema": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json",
+  "format": "aethryon-theme",
+  "schemaVersion": 1,
+  "id": "perso.egee-essai",
+  "name": "Égée (essai)",
+  "author": "AETHRYON",
+  "base": "obsidian",
+  "seeds": {
+   "accent": "#5E8FB8",
+   "neutralHue": 230,
+   "neutralChroma": 0.014,
+   "background": 30
+  },
+  "tokens": {
+   "r-panel": 16
+  },
+  "typography": {
+   "preset": "lecture",
+   "scale": 1.05
+  },
+  "density": "aeree",
+  "motion": {
+   "intensity": "complete"
+  },
+  "effects": {
+   "sheen": true,
+   "grain": false
+  }
+ }
+}

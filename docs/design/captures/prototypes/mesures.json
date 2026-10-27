@@ -1,0 +1,528 @@
+{
+ "a-stele-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1431,
+  "errs": []
+ },
+ "a-stele-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1222,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1425,
+  "errs": []
+ },
+ "a-stele-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "landmark-one-main:moderate:1",
+   "region:moderate:6"
+  ],
+  "ms": 1402,
+  "errs": []
+ },
+ "a-stele-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1223,
+  "axe": [
+   "landmark-one-main:moderate:1",
+   "region:moderate:6"
+  ],
+  "ms": 1407,
+  "errs": []
+ },
+ "a-stele-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1414,
+  "errs": []
+ },
+ "a-stele-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1401,
+  "errs": []
+ },
+ "b-atelier-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "aria-hidden-focus:serious:1",
+   "color-contrast:serious:10",
+   "landmark-one-main:moderate:1",
+   "region:moderate:5"
+  ],
+  "ms": 1424,
+  "errs": []
+ },
+ "b-atelier-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1061,
+  "axe": [
+   "aria-hidden-focus:serious:1",
+   "color-contrast:serious:9",
+   "landmark-one-main:moderate:1",
+   "region:moderate:14"
+  ],
+  "ms": 1468,
+  "errs": []
+ },
+ "b-atelier-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "aria-allowed-attr:critical:1",
+   "color-contrast:serious:16",
+   "page-has-heading-one:moderate:1",
+   "region:moderate:5"
+  ],
+  "ms": 1427,
+  "errs": []
+ },
+ "b-atelier-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 876,
+  "axe": [
+   "aria-allowed-attr:critical:1",
+   "color-contrast:serious:8",
+   "page-has-heading-one:moderate:1",
+   "region:moderate:2"
+  ],
+  "ms": 1436,
+  "errs": []
+ },
+ "b-atelier-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "color-contrast:serious:3"
+  ],
+  "ms": 1444,
+  "errs": []
+ },
+ "b-atelier-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [
+   "color-contrast:serious:3"
+  ],
+  "ms": 1434,
+  "errs": []
+ },
+ "c-glaux-site-bureau": {
+  "webgl": true,
+  "overflowX": false,
+  "h": 900,
+  "fps": 23,
+  "axe": [
+   "landmark-one-main:moderate:1",
+   "region:moderate:5"
+  ],
+  "ms": 7557,
+  "errs": []
+ },
+ "c-glaux-site-mobile": {
+  "webgl": true,
+  "overflowX": false,
+  "h": 844,
+  "fps": 34,
+  "axe": [
+   "landmark-one-main:moderate:1",
+   "region:moderate:4"
+  ],
+  "ms": 6855,
+  "errs": []
+ },
+ "c-glaux-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1395,
+  "errs": []
+ },
+ "c-glaux-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 964,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1400,
+  "errs": []
+ },
+ "c-glaux-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1399,
+  "errs": []
+ },
+ "c-glaux-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1379,
+  "errs": []
+ },
+ "d-egide-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1769,
+  "errs": []
+ },
+ "d-egide-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 989,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1427,
+  "errs": []
+ },
+ "d-egide-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:4"
+  ],
+  "ms": 1442,
+  "errs": []
+ },
+ "d-egide-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1557,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1427,
+  "errs": []
+ },
+ "d-egide-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1429,
+  "errs": []
+ },
+ "d-egide-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1434,
+  "errs": []
+ },
+ "d-egide-ivory-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:4"
+  ],
+  "ms": 1470,
+  "errs": []
+ },
+ "d-egide-ivory-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1557,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1453,
+  "errs": []
+ },
+ "d-egide-ivory-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1426,
+  "errs": []
+ },
+ "d-egide-ivory-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1427,
+  "errs": []
+ },
+ "d-egide-ivory-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1430,
+  "errs": []
+ },
+ "d-egide-ivory-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 989,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1430,
+  "errs": []
+ },
+ "d-egide-oled-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:4"
+  ],
+  "ms": 1448,
+  "errs": []
+ },
+ "d-egide-oled-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1557,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1456,
+  "errs": []
+ },
+ "d-egide-oled-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1434,
+  "errs": []
+ },
+ "d-egide-oled-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1424,
+  "errs": []
+ },
+ "d-egide-oled-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1424,
+  "errs": []
+ },
+ "d-egide-oled-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 989,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1454,
+  "errs": []
+ },
+ "d-egide-midnight-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:4"
+  ],
+  "ms": 1445,
+  "errs": []
+ },
+ "d-egide-midnight-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1557,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1434,
+  "errs": []
+ },
+ "d-egide-midnight-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1443,
+  "errs": []
+ },
+ "d-egide-midnight-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1429,
+  "errs": []
+ },
+ "d-egide-midnight-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1447,
+  "errs": []
+ },
+ "d-egide-midnight-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 989,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1438,
+  "errs": []
+ },
+ "d-egide-minimal-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:4"
+  ],
+  "ms": 1456,
+  "errs": []
+ },
+ "d-egide-minimal-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1543,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1423,
+  "errs": []
+ },
+ "d-egide-minimal-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1424,
+  "errs": []
+ },
+ "d-egide-minimal-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1456,
+  "errs": []
+ },
+ "d-egide-minimal-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1460,
+  "errs": []
+ },
+ "d-egide-minimal-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 984,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1449,
+  "errs": []
+ },
+ "d-egide-custom-app-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:4"
+  ],
+  "ms": 1466,
+  "errs": []
+ },
+ "d-egide-custom-app-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 1568,
+  "axe": [
+   "region:moderate:1"
+  ],
+  "ms": 1464,
+  "errs": []
+ },
+ "d-egide-custom-popup-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [],
+  "ms": 1450,
+  "errs": []
+ },
+ "d-egide-custom-popup-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 844,
+  "axe": [],
+  "ms": 1418,
+  "errs": []
+ },
+ "d-egide-custom-site-bureau": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 900,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1433,
+  "errs": []
+ },
+ "d-egide-custom-site-mobile": {
+  "webgl": false,
+  "overflowX": false,
+  "h": 992,
+  "axe": [
+   "region:moderate:2"
+  ],
+  "ms": 1426,
+  "errs": []
+ }
+}

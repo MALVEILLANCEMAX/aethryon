@@ -8,6 +8,18 @@ All notable changes to this repository are documented here. The format follows
 
 ### Added
 
+- **Égide**, the shared design system (`packages/design`), synced from production (`5e941c4`): design tokens, a theme
+  engine that computes contrast (27 WCAG pairs per theme), six themes (Obsidian, Ivory, OLED, Midnight, Minimal,
+  Custom), a strict theme file format with import and export, a theme editor, an in-house icon set and framework-free
+  DOM components. Checked by `make test-design` and a CI job (generated files, website copy, master owl, size budgets).
+- Website, AETHRYON Desktop **1.3.0-beta.1**, browser extension **3.9.0** and AETHRYON Setup **2.0.0-beta.9** move to
+  Égide: new layout, Settings › Appearance with the theme editor, platform catalogue with the real state of each
+  platform. Building extension 3.9.0 from this repository gives the published archive byte for byte.
+- Platform registry synced from production (`c81fdac` to `4ce9ce6`): one registry of platforms in the media API,
+  beta platforms behind `PLATEFORMES_BETA`, a per-platform circuit breaker, Wikimedia Commons (with author, licence and
+  source attribution) and Bluesky, the interface catalogue `docs/api/CATALOGUE-PLATEFORMES.json` and
+  `make test-platforms`.
+- `docs/design/`: before/after screenshots of the Égide redesign (test accounts and sample data only).
 - `LICENSE` (Apache License 2.0), `NOTICE`, `TRADEMARK.md` and `assets/LICENSE-ASSETS.md`: the code is Apache-2.0, the
   AETHRYON brand (name, owl, logotype, visuals) stays reserved. Package manifests and crates now declare `Apache-2.0`.
 - Anti-bot protection with a self-hosted [Cap](https://github.com/tiagozip/cap) instance, synced from production
@@ -17,6 +29,9 @@ All notable changes to this repository are documented here. The format follows
 
 ### Changed
 
+- Website, Desktop and extension fonts: Marcellus, Hanken Grotesk and Geist Mono (SIL OFL), shipped once in
+  `packages/design/fonts`, replace Inter and Playfair Display. The experimental WebGL "retro" objects, the "Athena" owl
+  exploration and the old unused token generator of the website were removed.
 - Code of Conduct reports go through GitHub private reporting until a dedicated address is published.
 - `.gitignore` covers more secret and data file types.
 
