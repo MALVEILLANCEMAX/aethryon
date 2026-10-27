@@ -1,29 +1,42 @@
-// Page d'accueil AETHRYON — refonte visuelle V2 (2026-10-11) : moins de texte, le produit montré.
-// Rythme : obsidienne (héros : la promesse, le champ « colle un lien », les plateformes, puis le film de lancement
-// AETHRYON 3.5 de 38 s, comme sur ton-piston.com) → ivoire (les trois façons de l'utiliser, cartes illustrées) → obsidienne (ce qui sort :
-// le parcours animé, MP4 et MP3 portés par leurs reliques 3D) → perle (le tarif réel) → ivoire (feuille de
-// route, questions) → obsidienne (appel final). Revue produit du 2026-10-15 : plus d'annonce flottante en bas à droite
-// (elle doublait la pastille « Nouveau » du héros et couvrait le contenu) ; Tools rejoint les façons de l'utiliser.
+// Page d'accueil AETHRYON, Égide v2 (direction validée par le propriétaire le 2026-10-26 ; référence : la démonstration
+// docs/design/demo-egide). Rythme : le héros (la promesse et LA SCÈNE, démonstration interactive du vrai parcours), le
+// film de lancement « Le Passage » (œuvre du propriétaire, sa propre section), les endroits où l'utiliser, le catalogue
+// des plateformes (états réels), les six thèmes, les offres (ventes fermées), les nouveautés et les questions.
 import { useDocumentTitle } from "../lib/hooks.ts";
 import { Faq } from "./Faq.tsx";
-import { FinalCta } from "./FinalCta.tsx";
 import { Hero } from "./Hero.tsx";
 import { Roadmap } from "./Roadmap.tsx";
-import { Formats } from "./v2/Formats.tsx";
-import { Surfaces } from "./v2/Surfaces.tsx";
+import { Catalogue } from "./egide/Catalogue.tsx";
+import { Stations } from "./egide/Stations.tsx";
+import { CartesThemes } from "./egide/Themes.tsx";
+import { Film } from "./v2/Film.tsx";
 import { Tarifs } from "./v2/Tarifs.tsx";
+
+function SectionFilm() {
+  return (
+    <section id="film" aria-labelledby="t-film" className="s-section s-film">
+      <div className="s-section-tete">
+        <h2 id="t-film" className="eg-titre s-h2">Le Passage</h2>
+        <p>Le film de lancement d'AETHRYON 3.5, en 38 secondes.</p>
+      </div>
+      <Film />
+    </section>
+  );
+}
 
 export function Landing() {
   useDocumentTitle("");
   return (
-    <>
+    <div className="s-accueil">
+      <span id="demo" aria-hidden="true" />
       <Hero />
-      <Surfaces />
-      <Formats />
+      <SectionFilm />
+      <Stations />
+      <Catalogue />
+      <CartesThemes />
       <Tarifs />
       <Roadmap />
       <Faq />
-      <FinalCta />
-    </>
+    </div>
   );
 }

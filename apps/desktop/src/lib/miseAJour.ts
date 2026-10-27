@@ -99,6 +99,6 @@ export function resume(e: EtatMaj, actuelle: string): { titre: string; detail: s
     case "erreur":
       return { titre: "Mise à jour impossible", detail: e.erreur ?? "Erreur inconnue." };
     default:
-      return { titre: "Mises à jour", detail: `Version ${actuelle}. Aucune mise à jour n'est installée sans votre clic.` };
+      return { titre: "Mises à jour", detail: `Version ${actuelle}. Aucune mise à jour n'est installée sans ton clic.` };
   }
 }

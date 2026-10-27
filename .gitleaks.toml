@@ -35,4 +35,6 @@ regexes = [
   '''discord_user_id: 123456789012345678''',
   # File NAME of a throwaway signing bundle created by the test itself.
   '''os\.path\.join\(self\.secrets, "signature\.p12"\)''',
+  # Name of the localStorage key of the appearance preference, compared in a StorageEvent listener (not a secret).
+  '''e\.key ?=== ?["`]aethryon\.apparence\.v1["`]''',
 ]

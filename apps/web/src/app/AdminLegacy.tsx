@@ -84,7 +84,7 @@ export default function AdminLegacy() {
             <form className="flex items-end gap-2" onSubmit={(e) => { e.preventDefault(); const n = Number(limit); if (Number.isInteger(n) && n >= 0) void save({ dailyLimit: n }, "Limite mise à jour"); }}>
               <div>
                 <label htmlFor="limit" className="text-sm text-ink-soft">Limite par jour</label>
-                <input id="limit" inputMode="numeric" value={limit} onChange={(e) => setLimit(e.target.value)} placeholder={String(o.dailyLimit)} className="mt-2 h-12 w-28 rounded-[12px] border border-field bg-white/70 px-3 text-[16px]" />
+                <input id="limit" inputMode="numeric" value={limit} onChange={(e) => setLimit(e.target.value)} placeholder={String(o.dailyLimit)} className="mt-2 h-12 w-28 rounded-[12px] border border-field bg-surface px-3 text-[16px]" />
               </div>
               <Button type="submit" variant="secondary">Appliquer</Button>
             </form>
@@ -97,7 +97,7 @@ export default function AdminLegacy() {
           <h2 className="font-display text-[23px] font-medium">Utilisateurs</h2>
           <div>
             <label htmlFor="search" className="sr-only">Rechercher un utilisateur</label>
-            <input id="search" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Rechercher (e-mail, nom)" className="h-11 w-full rounded-[12px] border border-field bg-white/70 px-3.5 text-[15px] sm:w-72" />
+            <input id="search" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Rechercher (e-mail, nom)" className="h-11 w-full rounded-[12px] border border-field bg-surface px-3.5 text-[15px] sm:w-72" />
           </div>
         </div>
         <div className="mt-4 overflow-x-auto rounded-[18px] border border-line bg-pearl/60">

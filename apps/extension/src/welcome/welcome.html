@@ -1,13 +1,16 @@
 <!doctype html>
-<html lang="fr" class="welcome">
+<html lang="fr" class="welcome" data-eg-theme="obsidian">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
   <title>Bienvenue · AETHRYON</title>
+  <!-- Égide : thème choisi posé avant le premier rendu (script externe), socle, feuille commune, feuille de la page. -->
+  <script src="../egide/genere/theme-boot.js"></script>
+  <link rel="stylesheet" href="../egide/genere/egide.css">
+  <link rel="stylesheet" href="../egide/extension.css">
   <link rel="stylesheet" href="welcome.css">
 </head>
-<body>
+<body class="eg-page">
   <header class="w-bar">
     <div class="w-bar-inner">
       <p id="brand" class="brand"></p>

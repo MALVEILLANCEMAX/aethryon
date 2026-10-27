@@ -774,7 +774,8 @@ impl Service {
         if !transferts::id_valide(&d.id) || !transferts::FORMATS.contains(&d.format.as_str()) {
             return Err("Demande de conversion invalide.".into());
         }
-        let url = conversion::valider_url(&d.url)?;
+        // « Coller un lien » du Desktop : aussi Bluesky et Wikimedia Commons ; extension et panneau : contrat §12.
+        let url = if d.origine == "desktop" { conversion::valider_url_desktop(&d.url)? } else { conversion::valider_url(&d.url)? };
         let d = Demande { url, ..d };
         let avec_trace = d.origine == "extension";
         let refuser = |code: &str, m: &str| {

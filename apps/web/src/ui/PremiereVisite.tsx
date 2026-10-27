@@ -19,7 +19,6 @@ import { Dialog } from "./Dialog.tsx";
 import { IconCheck, IconClose } from "./Icon.tsx";
 import { OwlMark } from "./brand/OwlMark.tsx";
 import { PremiereMark } from "./brand/PremiereMark.tsx";
-import { RetroObject, type RetroHandle } from "./retro/RetroObject.tsx";
 import "../visite.css";
 
 const NB = " ";
@@ -63,7 +62,7 @@ export default function PremiereVisite() {
 // ---- panneau « Un petit cookie ? » ------------------------------------------------------------------------------
 function CookiePanel({ onDetail, onDone }: { onDetail(): void; onDone(): void }) {
   const calm = useCalm();
-  const retro = useRef<RetroHandle | null>(null);
+  const [bond, setBond] = useState(0);
   const [miettes, setMiettes] = useState(0);
   const [note, setNote] = useState(false);
   const consent = FACULTATIFS.length > 0;
@@ -73,7 +72,7 @@ function CookiePanel({ onDetail, onDone }: { onDetail(): void; onDone(): void })
     if (note) return;
     if (fete) {
       void jouerCookie();
-      retro.current?.bounce();
+      setBond((n) => n + 1);
       setMiettes((n) => n + 1);
     }
     setNote(true);
@@ -92,7 +91,7 @@ function CookiePanel({ onDetail, onDone }: { onDetail(): void; onDone(): void })
       exit={calm ? { opacity: 0, transition: { duration: DUR.calm } } : { opacity: 0, y: 18, transition: { duration: 0.22, ease: EASE.exit } }}
     >
       <div className="cookie-art" aria-hidden="true">
-        <RetroObject kind="cookie" size="xs" handle={(h) => { retro.current = h; }} />
+        <img key={bond} src="/media/retro/cookie.png" alt="" width={72} height={72} className="cookie-img" data-bond={bond ? "" : undefined} decoding="async" />
         {miettes > 0 && <span key={miettes} className="cookie-miettes">{Array.from({ length: 7 }, (_, i) => <i key={i} className={`m${i}`} />)}</span>}
       </div>
       <div className="cookie-texte">

@@ -192,7 +192,7 @@ async function openPrecis(w) {
 }
 
 describe("TimeLens : popup", () => {
-  test("T12 popup 380 × 600 : « Exporter » visible sans défilement, aucun débordement ; clair et sombre", { timeout: 90_000 }, async () => {
+  test("T12 popup 360 × 600 (Égide) : « Exporter » visible sans défilement, aucun débordement ; Ivory et Obsidian", { timeout: 90_000 }, async () => {
     const w = await openWatch({ durationS: 600, at: 12.5 });
     const sw = await b.worker();
     await sw.evaluate(async () => {
@@ -208,19 +208,20 @@ describe("TimeLens : popup", () => {
     });
     for (const scheme of ["light", "dark"]) {
       const page = await b.context.newPage();
-      await page.setViewportSize({ width: 380, height: 600 });
-      await page.emulateMedia({ colorScheme: scheme });
+      await page.setViewportSize({ width: 360, height: 600 });
       const errors = [];
       page.on("pageerror", (e) => errors.push(e.message));
       await page.goto(`chrome-extension://${EXTENSION_ID}/popup/popup.html`);
-      await page.locator(".seg-opt", { hasText: "Extrait" }).click();
+      // Égide : le thème est un choix (Ivory, Obsidian) ; « Vidéo / Passage ».
+      await page.evaluate((t) => document.documentElement.setAttribute("data-eg-theme", t), scheme === "light" ? "ivory" : "obsidian");
+      await page.locator(".seg-opt", { hasText: "Passage" }).click();
       await page.waitForSelector(".ce .tl-h-start");
       await page.waitForFunction(() => /^Lecteur 0:12\.5$/.test(document.querySelector(".ce-now")?.textContent ?? ""), null, { timeout: 5_000 })
         .catch(async (e) => { throw new Error(`${e.message} : « ${await page.evaluate(() => document.querySelector(".ce-now")?.textContent + " | " + document.querySelector(".ce")?.getAttribute("data-limits"))} »`); });
       await page.waitForFunction(() => document.querySelector(".ce")?.getAttribute("data-limits") === "serveur", null, { timeout: 5_000 });
       await page.waitForTimeout(400);
       const m = await page.evaluate(() => {
-        const sc = document.querySelector(".scroll");
+        const sc = document.querySelector("main"); // Égide : <main> est la zone qui défilerait
         const go = document.querySelector(".ce-go").getBoundingClientRect();
         const ce = document.querySelector(".ce").getBoundingClientRect();
         const outside = [...document.querySelectorAll(".ce *")].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && !e.closest(".tl-lens") && (r.right > ce.right + 2.5 || r.left < ce.left - 2.5); }).map((e) => e.className || e.tagName);

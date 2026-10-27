@@ -31,7 +31,7 @@ import { IconArrowUpRight, IconLock, IconShield, IconTrash } from "../ui/Icon.ts
 import { Skeleton } from "../ui/bits.tsx";
 import { OwlMark } from "../ui/brand/OwlMark.tsx";
 import { PlatformGlyph } from "../ui/brand/PlatformGlyph.tsx";
-import { AthenaIcon } from "../ui/brand/athena/icons.tsx";
+import { Icone } from "../ui/egide/Egide.tsx";
 import { DiscordAvatar } from "../ui/DiscordAvatar.tsx";
 import { useToast } from "../ui/Toasts.tsx";
 import { LoadError, PageHeader, toastError } from "./common.tsx";
@@ -59,13 +59,13 @@ export const RESULTS: Record<string, { tone: Tone; title: string; text: string }
 
 /** Commandes RÉELLES du bot (discord/src/v2/commands.ts), quand la conversion est ouverte : libellé court et pictogramme
  *  (le détail reste dans la description de chaque commande, affichée par Discord). */
-const COMMANDS: { name: string; text: string; icon: "video" | "audio" | "photos" | "files" | "info"; media?: true }[] = [
+const COMMANDS: { name: string; text: string; icon: "video" | "son" | "gif" | "biblio" | "info" | "ciseaux"; media?: true }[] = [
   { name: "/convert", text: "MP4 ou MP3", icon: "video" },
-  { name: "/audio", text: "Le son, en MP3", icon: "audio" },
+  { name: "/audio", text: "Le son, en MP3", icon: "son" },
   { name: "/preview", text: "Aperçu privé", icon: "info", media: true },
-  { name: "/clip", text: "Un extrait", icon: "video", media: true },
-  { name: "/gif", text: "Un GIF", icon: "photos", media: true },
-  { name: "/saved", text: "Ta bibliothèque", icon: "files", media: true },
+  { name: "/clip", text: "Un extrait", icon: "ciseaux", media: true },
+  { name: "/gif", text: "Un GIF", icon: "gif", media: true },
+  { name: "/saved", text: "Ta bibliothèque", icon: "biblio", media: true },
 ];
 
 type LinkState = "lie" | "non-lie" | "fermee" | "chargement";
@@ -310,7 +310,7 @@ export default function Discord() {
           <h2 id="discord-commandes" className="font-display text-[24px] font-medium">Ce que fait le bot</h2>
           <ul className="dl-commands mt-4">
             {commands.map((c) => (
-              <li key={c.name}><span className="dl-command-ico" aria-hidden><AthenaIcon name={c.icon} size={17} /></span><code>{c.name}</code><span>{c.text}</span></li>
+              <li key={c.name}><span className="dl-command-ico" aria-hidden><Icone nom={c.icon} /></span><code>{c.name}</code><span>{c.text}</span></li>
             ))}
           </ul>
         </section>

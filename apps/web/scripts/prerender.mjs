@@ -104,13 +104,13 @@ if (!ogUrl) fail(`dist/${templateFile} : meta og:url absente (origine publique d
 const origin = new URL(ogUrl).origin;
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-// Polices du texte affiché d'emblée (sous-ensembles latins d'Inter et de Playfair Display) : préchargées,
+// Polices Égide du texte affiché d'emblée (Hanken Grotesk, Marcellus, Geist Mono, fichiers latins OFL du socle) : préchargées,
 // elles sont prêtes au premier affichage du HTML statique ; sinon le texte, déjà visible avec la police de
 // secours, changerait de métrique à leur arrivée (décalage de mise en page).
 const assets = readdirSync(join(dist, "assets"));
-const fonts = [/^inter-latin-wght-normal-[\w-]+\.woff2$/, /^playfair-display-latin-wght-normal-[\w-]+\.woff2$/].map((re) => {
+const fonts = [/^hanken-grotesk-latin-wght-normal-[\w-]+\.woff2$/, /^marcellus-latin-400-normal-[\w-]+\.woff2$/, /^geist-mono-latin-wght-normal-[\w-]+\.woff2$/].map((re) => {
   const f = assets.find((a) => re.test(a));
-  if (!f) fail(`police introuvable dans dist/assets (${re}) : nom changé par @fontsource ? adapter scripts/prerender.mjs`);
+  if (!f) fail(`police introuvable dans dist/assets (${re}) : nom changé dans design/fonts ? adapter scripts/prerender.mjs`);
   return `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin>`;
 });
 

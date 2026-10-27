@@ -1,0 +1,195 @@
+/* =====================================================================================================================
+   AETHRYON Desktop sur Égide — la coque (DESIGN_SYSTEM.md § 4 et § 11, démonstration validée demo-egide/, écran Desktop).
+   Structure gardée : barre de titre 44 px · navigation 216 px · travail fluide · le fil 340 px (≥ 1 280) ; 200 / 300
+   (1 100 – 1 279) ; rail de 64 px + fil 288 px (900 – 1 099, la fenêtre ne descend pas sous 900 px).
+   Mouvement : seul l'indicateur de section glisse (transform, court, aucun au clavier) ; le contenu d'une section
+   arrive sans animation (usage fréquent) ; une tâche qui entre dans le fil : fondu + 6 px ; mouvement réduit : rien.
+   ===================================================================================================================== */
+
+/* ---- Fenêtre ------------------------------------------------------------------------------------------------------ */
+.win { position: relative; width: 100vw; height: 100vh; display: grid; grid-template-rows: 44px minmax(0, 1fr); overflow: hidden;
+  border-radius: var(--d-r-fenetre); background: var(--eg-c-canvas); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+.corps { display: grid; grid-template-columns: 216px minmax(0, 1fr) 340px; min-height: 0; min-width: 0; }
+.win[data-fil="masque"] .corps { grid-template-columns: 216px minmax(0, 1fr); }
+
+/* ---- Barre de titre ------------------------------------------------------------------------------------------------ */
+.barre { display: flex; align-items: center; gap: 10px; min-width: 0; padding-left: 14px; background: var(--eg-c-sunken); border-bottom: var(--eg-b-fine) solid var(--eg-c-line); }
+.barre-marque { display: inline-flex; align-items: center; gap: 9px; flex: none; width: 188px; color: var(--eg-c-text); }
+.barre-marque .wordmark { flex: none; }
+.barre-souple { flex: 1; align-self: stretch; }
+.tb-search { display: flex; align-items: center; gap: 8px; flex: 0 1 440px; min-width: 150px; height: 30px; padding: 0 5px 0 10px; border-radius: var(--eg-r-control);
+  border: var(--eg-b-fine) solid var(--eg-c-line-strong); background: var(--eg-c-canvas); color: var(--eg-c-text-3); font-size: var(--eg-fs-s);
+  transition: border-color var(--eg-d-court) ease, color var(--eg-d-court) ease; }
+.tb-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; color: var(--eg-c-text); }
+.tb-search input::placeholder { color: var(--eg-c-text-3); }
+.tb-search input::-webkit-search-cancel-button { display: none; }
+.tb-search:focus-within { border-color: var(--eg-c-accent-text); }
+.tb-search:has(input:focus-visible) { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
+@media (hover: hover) and (pointer: fine) { .tb-search:hover { border-color: var(--eg-c-control); color: var(--eg-c-text-2); } }
+
+.etats { display: flex; align-items: center; gap: 2px; flex: none; }
+.puce-etat { display: inline-flex; align-items: center; gap: 7px; height: 30px; max-width: 200px; padding: 0 9px; border-radius: var(--eg-r-control);
+  font-size: var(--eg-fs-xs); font-weight: 600; color: var(--eg-c-text-2); transition: background-color var(--eg-d-court) ease, color var(--eg-d-court) ease; }
+.puce-etat .ico { color: var(--eg-c-text-3); }
+.puce-texte { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.puce-point { width: 6px; height: 6px; border-radius: 50%; flex: none; background: transparent; box-shadow: inset 0 0 0 1.5px var(--eg-c-text-3); }
+.puce-etat[data-ton="ok"] .puce-point { background: var(--eg-c-ok); box-shadow: 0 0 0 3px var(--eg-c-ok-soft); }
+.puce-etat[data-ton="alerte"] .puce-point { background: var(--eg-c-warn); box-shadow: none; }
+.bt-fil, .avatar { position: relative; display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: var(--eg-r-control); color: var(--eg-c-text-2);
+  transition: background-color var(--eg-d-court) ease, color var(--eg-d-court) ease, transform var(--eg-d-micro) var(--eg-e-out); }
+.bt-fil[aria-expanded="true"] { color: var(--eg-c-accent-text); }
+.n-fil { position: absolute; top: 1px; right: -2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--eg-c-accent); color: var(--eg-c-on-accent);
+  font: 700 10px/16px var(--eg-f-ui); text-align: center; }
+.avatar { border-radius: 50%; font-size: var(--eg-fs-s); font-weight: 650; }
+.avatar--relie { background: var(--eg-c-accent); color: var(--eg-c-on-accent); }
+@media (hover: hover) and (pointer: fine) {
+  .puce-etat:hover, .bt-fil:hover, .avatar:not(.avatar--relie):hover { background: var(--eg-c-hover); color: var(--eg-c-text); }
+  .avatar--relie:hover { background: var(--eg-c-accent-hover); }
+}
+.avatar:active, .puce-etat:active, .bt-fil:active { transform: scale(calc(1 - 0.03 * var(--eg-move))); }
+.barre .captions { align-self: stretch; margin-left: 2px; }
+.captions { display: flex; align-self: flex-start; margin-left: auto; }
+.captions button { width: var(--d-legende-l); height: var(--cap-h, 44px); display: grid; place-items: center; color: var(--eg-c-text-2);
+  transition: background-color var(--eg-d-court) ease, color var(--eg-d-court) ease; }
+.captions button:focus-visible { outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) {
+  .captions button:hover { background: var(--eg-c-hover); color: var(--eg-c-text); }
+  .captions button.fermer:hover { background: var(--d-fermer-survol); color: #FFF; }
+}
+
+/* ---- Navigation (un seul indicateur qui glisse, pas quand la navigation vient du clavier) ---------------------------- */
+.side { position: relative; display: flex; flex-direction: column; min-height: 0; min-width: 0; padding: 12px 10px 12px; border-right: var(--eg-b-fine) solid var(--eg-c-line); }
+.side .grow { flex: 1; }
+.nav { position: relative; display: grid; gap: 2px; }
+.nav a { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; min-height: var(--eg-h-row); padding: 0 10px; border-radius: var(--eg-r-control);
+  color: var(--eg-c-text-2); font-size: var(--eg-fs-s); font-weight: 550; text-decoration: none; transition: color var(--eg-d-court) ease, background-color var(--eg-d-court) ease; }
+.nav a .ico { color: var(--eg-c-text-3); transition: color var(--eg-d-court) ease; }
+.nav a .lbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav a[aria-current="page"] { color: var(--eg-c-text); }
+.nav a[aria-current="page"] .ico { color: var(--eg-c-accent-text); }
+.nav a:focus-visible { outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) { .nav a:not([aria-current="page"]):hover { background: var(--eg-c-hover); color: var(--eg-c-text); } }
+.nav .count { margin-left: auto; min-width: 20px; padding: 0 6px; border-radius: 999px; font: 700 11px/18px var(--eg-f-ui); text-align: center;
+  color: var(--eg-c-on-accent); background: var(--eg-c-accent); font-variant-numeric: tabular-nums; }
+.nav .badge-dot { display: none; }
+.nav-ind { position: absolute; left: 0; right: 0; top: 0; z-index: 0; border-radius: var(--eg-r-control); pointer-events: none; background: var(--eg-c-raised);
+  box-shadow: inset 2px 0 0 var(--eg-c-accent), 0 0 0 1px var(--eg-c-line); transition: transform var(--eg-d-court) var(--eg-e-out); }
+.nav[data-instant] .nav-ind { transition: none; }
+.side-maj { display: flex; align-items: center; gap: 8px; margin: 8px 0 0; padding: 7px 10px; border-radius: var(--eg-r-control); text-align: left;
+  font-size: var(--eg-fs-xs); font-weight: 600; color: var(--eg-c-accent-text); background: var(--eg-c-accent-soft); }
+@media (hover: hover) and (pointer: fine) { .side-maj:hover { color: var(--eg-c-text); } }
+.side-ver { margin-top: 10px; padding: 0 10px; font: 500 11px/1.3 var(--eg-f-mono); color: var(--eg-c-text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Niche du Companion (bas de la navigation) : la médaille d'Égide et une ligne d'état annoncée. */
+.niche-boite { position: relative; margin: 0 0 4px; transition: opacity var(--eg-d-court) var(--eg-e-out); }
+.niche-boite[data-masquee] { opacity: 0; pointer-events: none; }
+.niche { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 6px 8px 6px 6px; border-radius: var(--eg-r-control); text-align: left; color: var(--eg-c-text-2); }
+@media (hover: hover) and (pointer: fine) { .niche:hover { background: var(--eg-c-hover); color: var(--eg-c-text); } }
+.niche-figure { width: 32px; height: 32px; display: grid; place-items: center; flex: none; }
+.niche-texte { min-width: 0; font-size: var(--eg-fs-xs); line-height: 1.35; }
+.niche-ligne { display: block; overflow-wrap: anywhere; }
+.niche[data-etat="error"] .niche-texte { color: var(--eg-c-err); }
+.astuce { position: absolute; left: 0; bottom: calc(100% + 8px); z-index: 20; width: 208px; max-width: 280px; padding: 10px 30px 10px 12px; border-radius: var(--eg-r-panel);
+  background: var(--eg-c-raised); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop); font-size: var(--eg-fs-xs); line-height: 1.4; color: var(--eg-c-text); }
+.astuce .eg-btn--icone { position: absolute; top: 4px; right: 4px; }
+.astuce-actions { margin-top: 6px; font-size: var(--eg-fs-xs); }
+
+/* Le Companion : la médaille, et l'état AUTOUR d'elle (la chouette ne bouge jamais). */
+.companion { position: relative; display: inline-grid; place-items: center; flex: none; }
+.companion::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: 0; box-shadow: 0 0 0 1.5px var(--eg-c-accent-text);
+  transition: opacity var(--eg-d-court) ease; }
+.companion[data-etat="curious"]::after, .companion[data-etat="hint"]::after { opacity: 1; }
+.companion[data-etat="error"]::after { opacity: 1; box-shadow: 0 0 0 1.5px var(--eg-c-err); }
+
+/* ---- Zone de travail ------------------------------------------------------------------------------------------------- */
+.sheet { position: relative; min-height: 0; min-width: 0; overflow: hidden; background: var(--eg-c-canvas); }
+.page { --page-x: 28px; --page-y: 20px; height: 100%; display: flex; flex-direction: column; min-height: 0; overflow: auto; padding: var(--page-y) var(--page-x) 36px; scrollbar-gutter: stable; container-type: inline-size; --eg-fil-fond: var(--eg-c-canvas); }
+.page::-webkit-scrollbar, .colonne-fil .taches::-webkit-scrollbar { width: 10px; height: 10px; }
+.page::-webkit-scrollbar-thumb, .colonne-fil .taches::-webkit-scrollbar-thumb { background: var(--eg-c-line-strong); border-radius: 999px; border: 3px solid transparent; background-clip: padding-box; }
+.entree-section { display: flex; flex-direction: column; min-height: 100%; }
+/* En-tête de page partagé : titre Marcellus, une phrase courte. */
+.ph { display: flex; align-items: flex-end; gap: 16px; }
+.ph .grow { flex: 1; min-width: 0; }
+.ph .sub { margin-top: 6px; font-size: var(--eg-fs-s); color: var(--eg-c-text-2); }
+.ph .sub b { color: var(--eg-c-text); font-weight: 600; }
+.carte-n { position: relative; border-radius: var(--eg-r-panel); background: var(--eg-c-surface); background-image: var(--eg-sheen); border: var(--eg-b-fine) solid var(--eg-c-line); }
+.surtitre { font-size: var(--eg-fs-xs); line-height: 1.25; font-weight: 600; color: var(--eg-c-accent-text); }
+
+/* ---- Le fil (colonne de droite) -------------------------------------------------------------------------------------- */
+.fil-hote { min-height: 0; min-width: 0; display: flex; }
+.colonne-fil { flex: 1; display: flex; flex-direction: column; min-height: 0; min-width: 0; border-left: var(--eg-b-fine) solid var(--eg-c-line); background: var(--eg-c-surface);
+  --eg-fil-fond: var(--eg-c-surface); }
+.fil-tete { display: flex; align-items: baseline; gap: 10px; padding: 16px 10px 8px 18px; }
+.fil-tete h2 { font-size: var(--eg-fs-d-s); line-height: 1.15; white-space: nowrap; }
+.fil-resume { margin-left: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--eg-c-text-3); font-size: 11px; white-space: pre; }
+.fil-masquer { align-self: center; }
+.taches { list-style: none; margin: 0; padding: 4px 10px 12px; overflow: auto; flex: 1; min-height: 0; }
+.tache { position: relative; display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 12px; padding: 10px 8px 12px; border-radius: var(--eg-r-control); outline: none;
+  transition: background-color var(--eg-d-court) ease, opacity var(--eg-d-moyen) var(--eg-e-out), transform var(--eg-d-moyen) var(--eg-e-out); }
+@starting-style { .tache { opacity: 0; transform: translateY(calc(-6px * var(--eg-move))); } }
+.tache::before { content: ""; position: absolute; left: 14.5px; top: 28px; bottom: -6px; width: 1px; background: var(--eg-c-line-strong); }
+.tache:last-child::before { display: none; }
+.tache > .eg-noeud { margin-top: 3px; }
+.tache:focus-visible { box-shadow: inset 0 0 0 var(--eg-b-focus) var(--eg-c-focus); }
+@media (hover: hover) and (pointer: fine) { .tache:hover { background: var(--eg-c-hover); } }
+.t-corps { min-width: 0; }
+.t-l1 { display: flex; gap: 8px; align-items: baseline; }
+.t-titre { flex: 1; min-width: 0; font-size: var(--eg-fs-s); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t-pc { flex: none; font-size: 11px; color: var(--eg-c-text-2); }
+.t-l2 { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--eg-fs-xs); color: var(--eg-c-text-3); margin-top: 2px; }
+.t-l2 > span { display: inline-flex; align-items: center; gap: 4px; }
+.t-etape { margin-left: auto; }
+.tache[data-etat="cours"] .t-etape { color: var(--eg-c-text-2); }
+.tache[data-etat="err"] .t-etape { color: var(--eg-c-err); }
+.tache[data-etat="ok"] .t-etape { color: var(--eg-c-ok); }
+.t-prog { margin-top: 10px; }
+.t-l3 { display: flex; justify-content: space-between; gap: 8px; margin-top: 6px; font-size: 11px; color: var(--eg-c-text-3); }
+.t-err { margin: 4px 0 0; color: var(--eg-c-err); font-size: var(--eg-fs-xs); }
+.t-acts { display: flex; flex-wrap: wrap; gap: 2px; margin: 6px 0 0 -6px; }
+.t-acts:empty { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  /* Tâches en cours : actions en surimpression au survol ou au focus ; terminées et en erreur : toujours visibles. */
+  .tache:is([data-etat="cours"], [data-etat="pause"], [data-etat="attente"]) .t-acts { position: absolute; top: 6px; right: 6px; margin: 0; padding: 2px; border-radius: var(--eg-r-control);
+    background: var(--eg-c-raised); box-shadow: 0 0 0 1px var(--eg-c-line-strong); opacity: 0; transition: opacity var(--eg-d-court) ease; }
+  .tache:hover .t-acts, .tache:focus-within .t-acts { opacity: 1; }
+}
+.eg-fil--wait .eg-fil-run, .eg-fil--wait .eg-fil-tete::after { background: var(--eg-c-text-3); }
+.eg-fil--indet .eg-fil-run { right: auto; width: 30%; transform: translateX(-100%); animation: d-fil-indet calc(1600ms * max(var(--eg-motion-scale), 0.01)) var(--eg-e-move) infinite; }
+@keyframes d-fil-indet { to { transform: translateX(340%); } }
+.fil-vide { display: grid; justify-items: center; gap: 8px; padding: 36px 20px; text-align: center; color: var(--eg-c-text-2); font-size: var(--eg-fs-s); }
+.fil-vide b { color: var(--eg-c-text); font-size: var(--eg-fs-m); font-weight: 600; margin-top: 4px; }
+.fil-vide span { max-width: 28ch; }
+.fil-pied { padding: 10px 18px 14px; border-top: var(--eg-b-fine) solid var(--eg-c-line); }
+
+/* ---- Tailles de fenêtre (≥ 900 px) ----------------------------------------------------------------------------------- */
+@media (max-width: 1279px) {
+  .corps { grid-template-columns: 200px minmax(0, 1fr) 300px; }
+  .win[data-fil="masque"] .corps { grid-template-columns: 200px minmax(0, 1fr); }
+  .barre-marque { width: 172px; }
+  .page { --page-x: 20px; --page-y: 18px; }
+}
+@media (max-width: 1099px) {
+  .corps { grid-template-columns: 64px minmax(0, 1fr) 288px; }
+  .win[data-fil="masque"] .corps { grid-template-columns: 64px minmax(0, 1fr); }
+  .barre-marque { width: auto; }
+  .barre-marque .wordmark { display: none; }
+  .side { padding: 12px 8px; }
+  .nav a { justify-content: center; padding: 0; }
+  .nav a .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .nav a .count { display: none; }
+  .nav a .badge-dot { display: block; position: absolute; top: 7px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--eg-c-accent); box-shadow: 0 0 0 2px var(--eg-c-canvas); }
+  .niche { justify-content: center; padding: 4px 0; }
+  .niche-texte { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .side-ver, .side-maj span { display: none; }
+  .side-maj { justify-content: center; padding: 8px 0; }
+  .puce-etat { padding: 0 8px; }
+  .fil-tete { padding-left: 14px; }
+}
+
+/* ---- Mouvement réduit : rien ne glisse ni n'entre ------------------------------------------------------------------- */
+:root[data-d-reduit="1"] :is(.nav-ind, .tache) { transition: none !important; }
+@media (forced-colors: active) {
+  .nav-ind { background: Highlight; forced-color-adjust: none; opacity: 0.35; }
+  .puce-point { forced-color-adjust: none; }
+  .colonne-fil, .barre { border-color: CanvasText; }
+}

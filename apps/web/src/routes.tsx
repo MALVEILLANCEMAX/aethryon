@@ -51,6 +51,8 @@ const Abonnement = lazyPage(() => import("./app/Abonnement.tsx"));
 const Cloud = lazyPage(() => import("./app/Cloud.tsx"));
 // AETHRYON Music (tout compte connecté ; 404 « music_closed » tant que le relais est coupé).
 const Musique = lazyPage(() => import("./app/Musique.tsx"));
+// Réglages › Apparence (Égide) : l'éditeur de thèmes du socle ; préférence gardée sur l'appareil, aucune route serveur.
+const Apparence = lazyPage(() => import("./app/Apparence.tsx"));
 // Page publique de l'offre annuelle (AETHRYON Premium), seulement quand les offres payantes sont montrées.
 const Premium = lazyPage(() => import("./app/Premium.tsx"));
 const DiscordDownload = lazyPage(() => import("./app/DiscordDownload.tsx"));
@@ -135,7 +137,7 @@ function PageFallback() {
 function Shell() {
   return (
     <>
-      <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[80] focus:rounded-full focus:bg-obsidian focus:px-5 focus:py-3 focus:text-ivory">Aller au contenu</a>
+      <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[80] focus:rounded-full focus:bg-sunken focus:px-5 focus:py-3 focus:text-fg">Aller au contenu</a>
       <ScrollManager />
       <Nav />
       {/* Au moins un écran plus la couture du pied de page et son ombre portée (≈ 80 px) : pendant un chargement (page,
@@ -158,8 +160,8 @@ function AdminFallback() {
   return (
     <div aria-busy="true" className="min-h-dvh bg-ivory lg:pl-[264px]">
       <span className="sr-only" role="status">Chargement du Control Center…</span>
-      <div className="fixed inset-y-0 left-0 hidden w-[264px] bg-obsidian lg:block" />
-      <div className="h-14 bg-obsidian lg:hidden" />
+      <div className="fixed inset-y-0 left-0 hidden w-[264px] bg-sunken lg:block" />
+      <div className="h-14 bg-sunken lg:hidden" />
     </div>
   );
 }
@@ -167,7 +169,7 @@ function AdminFallback() {
 /** Attente du code de l'éditeur : la scène obsidienne, sans texte qui saute. */
 function StudioFallback() {
   return (
-    <div aria-busy="true" className="fixed inset-0 bg-obsidian">
+    <div aria-busy="true" className="fixed inset-0 bg-sunken">
       <span className="sr-only" role="status">Ouverture de l'éditeur…</span>
     </div>
   );
@@ -236,7 +238,7 @@ function caseSensitive(list: RouteObject[]): RouteObject[] {
 /** Pages dont le code est chargé d'avance, au repos, après l'affichage : une navigation vers elles s'affiche aussitôt,
  *  sans attente. Le code seulement (aucune donnée, aucune requête à l'API). */
 const IDLE_PUBLIC = ["/", "/outils", "/aide", "/installer", "/extension", "/connexion", "/commencer", "/confidentialite", "/conditions"];
-const IDLE_ESPACE = ["/dashboard", "/dashboard/cles", "/dashboard/activite", "/dashboard/compte", "/dashboard/abonnement", "/dashboard/discord"];
+const IDLE_ESPACE = ["/dashboard", "/dashboard/cles", "/dashboard/activite", "/dashboard/compte", "/dashboard/abonnement", "/dashboard/discord", "/dashboard/apparence"];
 
 /** Préchargement du code des pages : au repos (pages principales ; celles de l'espace quand on y est), et dès qu'un doigt
  *  ou un pointeur se pose sur un lien interne (avant la fin du toucher). Rien en mode économie de données ni en 2G,
@@ -316,6 +318,7 @@ export const routes: RouteObject[] = caseSensitive([
           { path: "abonnement", element: page(<Abonnement />) },
           { path: "cloud", element: page(<Cloud />) },
           { path: "musique", element: page(<Musique />) },
+          { path: "apparence", element: page(<Apparence />) },
         ] }],
       },
       { path: "/discord/telechargement", element: page(<DiscordDownload />) },

@@ -1,4 +1,6 @@
-// Banc « Nocturne-2 » : Musique, Transferts, Intégrations, Paramètres, écran du scanner AETHRYON Index et Bibliothèque
+// Banc « Nocturne-2 » (adapté à Égide, lot 2 : classes des composants .eg-*, barre de titre .barre, médaille au lieu de
+// la chouette 3D, éditeur de thèmes au lieu du segment « Thème » ; les fonctions essayées sont les mêmes) :
+// Musique, Transferts, Intégrations, Paramètres, écran du scanner AETHRYON Index et Bibliothèque
 // unifiée. Chromium (Playwright), application construite (dist/), MAQUETTE de l'API Tauri (maquette-tauri.js et
 // maquette-musique.js ; scan, volumes et médias scannés de la maquette d'AETHRYON Index). Les captures prouvent
 // l'INTERFACE ; rien ici n'est WebView2 ni un vrai Windows (NON DÉMONTRÉ). Le cœur (pause et reprise par plage
@@ -142,7 +144,7 @@ await essai("Transferts : bilan avec la chouette, cartes (octets, débit, étape
   await capturer(s.p, "transferts-1280");
   await carte.getByRole("button", { name: "Mettre en pause" }).click();
   await s.p.waitForSelector('.xfp-carte[data-transfert="desk-maree"][data-pause]');
-  const pause = await carte.evaluate((c) => ({ etape: c.querySelector(".xfp-etape")?.textContent, vitesse: !!c.querySelector(".xfp-vitesse"), reprendre: !!c.querySelector("button.btn--primary"), noeud: c.querySelector(".pn[data-etat='en-cours'] .pn-detail")?.textContent }));
+  const pause = await carte.evaluate((c) => ({ etape: c.querySelector(".xfp-etape")?.textContent, vitesse: !!c.querySelector(".xfp-vitesse"), reprendre: !!c.querySelector("button.eg-btn--principal"), noeud: c.querySelector(".pn[data-etat='en-cours'] .pn-detail")?.textContent }));
   await capturer(s.p, "transferts-pause");
   await carte.getByRole("button", { name: "Reprendre" }).click();
   await s.p.waitForFunction(() => !document.querySelector('.xfp-carte[data-transfert="desk-maree"][data-pause]'));
@@ -173,7 +175,7 @@ await essai("Transferts : bilan avec la chouette, cartes (octets, débit, étape
 await essai("Transferts : vide (chouette en profondeur, action réelle), mouvement réduit (aucune boucle hors chouette)", async () => {
   const s = await ouvrir({ vide: true });
   await aller(s.p, "transferts");
-  const vide = await s.p.evaluate(() => ({ chouette: !!document.querySelector(".xfp-vide .companion--3d"), bouton: document.querySelector(".xfp-vide .btn--primary")?.textContent }));
+  const vide = await s.p.evaluate(() => ({ chouette: !!document.querySelector(".xfp-vide .companion"), bouton: document.querySelector(".xfp-vide .eg-btn--principal")?.textContent }));
   await capturer(s.p, "transferts-vide");
   await fermer(s);
   const r = await ouvrir({ pilotables: true }, { reduit: true });
@@ -285,7 +287,7 @@ await essai("Musique : albums sur le fond de leur pochette, artistes ronds, play
 await essai("Intégrations : quatre cartes (état réel, une action), détails dépliables au clavier, action selon l'état", async () => {
   const s = await ouvrir();
   await aller(s.p, "integrations");
-  const cartes = await s.p.evaluate(() => [...document.querySelectorAll(".int-carte")].map((c) => ({ titre: c.querySelector(".int-carte-titre")?.textContent, etat: c.querySelector(".pill")?.textContent, actions: c.querySelectorAll(".int-actions:not(.int-actions--details) .btn").length })));
+  const cartes = await s.p.evaluate(() => [...document.querySelectorAll(".int-carte")].map((c) => ({ titre: c.querySelector(".int-carte-titre")?.textContent, etat: c.querySelector(".eg-pastille")?.textContent, actions: c.querySelectorAll(".int-actions:not(.int-actions--details) .eg-btn").length })));
   await s.p.locator(".int-carte--large summary").focus();
   await s.p.keyboard.press("Enter");
   const ouvert = await s.p.evaluate(() => document.querySelector(".int-carte--large details")?.open);
@@ -294,7 +296,7 @@ await essai("Intégrations : quatre cartes (état réel, une action), détails d
   await fermer(s);
   const t = await ouvrir({ introuvable: true, compte: "non-relie" });
   await aller(t.p, "integrations");
-  const introuvable = await t.p.evaluate(() => ({ premiere: [...document.querySelector(".int-carte--large .int-actions").querySelectorAll(".btn")].map((b) => b.textContent), compte: document.querySelector(".int-carte[data-statut='non-relie'] .btn--primary")?.textContent, cartes: document.querySelectorAll(".int-carte").length }));
+  const introuvable = await t.p.evaluate(() => ({ premiere: [...document.querySelector(".int-carte--large .int-actions").querySelectorAll(".eg-btn")].map((b) => b.textContent), compte: document.querySelector(".int-carte[data-statut='non-relie'] .eg-btn--principal")?.textContent, cartes: document.querySelectorAll(".int-carte").length }));
   await capturer(t.p, "integrations-introuvable");
   await fermer(t);
   return {
@@ -311,22 +313,24 @@ await essai("Paramètres : catégories, navigation qui suit la lecture, la coque
   await capturer(s.p, "parametres-900x640");
   await s.p.locator(".reg-nav a", { hasText: "Mises à jour" }).click();
   await s.p.waitForTimeout(1000);
-  const apres = await s.p.evaluate(() => ({ tete: Math.round(document.querySelector(".tete").getBoundingClientRect().top), courant: document.querySelector(".reg-nav a[aria-current]")?.textContent, defile: document.querySelector(".page").scrollTop }));
+  const apres = await s.p.evaluate(() => ({ tete: Math.round(document.querySelector(".barre").getBoundingClientRect().top), courant: document.querySelector(".reg-nav a[aria-current]")?.textContent, defile: document.querySelector(".page").scrollTop }));
   await capturer(s.p, "parametres-mises-a-jour");
   const options = await s.p.evaluate(() => ({
     interrupteurs: [...document.querySelectorAll(".reg-page [role=switch]")].map((b) => b.getAttribute("aria-label")),
     segmentes: [...document.querySelectorAll(".reg-page .seg")].map((g) => g.getAttribute("aria-label")),
-    boutons: [...document.querySelectorAll(".reg-page .btn")].map((b) => b.textContent.trim()),
+    boutons: [...document.querySelectorAll(".reg-page .eg-btn")].map((b) => b.textContent.trim()),
     aides: [...document.querySelectorAll(".reg-aide")].every((b) => (b.getAttribute("aria-label") || "").startsWith("Aide : ")),
     presence: !!document.querySelector('[data-reglage="presence"] .rd--choix'),
+    editeur: !!document.querySelector(".reg-editeur .eg-editeur") && document.querySelectorAll(".eg-ed-base").length === 5,
   }));
   await fermer(s);
   const attendus = ["Surveiller ce dossier", "Média prêt", "Import réussi dans Premiere", "Erreurs", "Lancer au démarrage de Windows"];
-  const segs = ["Thème", "Réduire les animations", "Présence de la chouette", "Chutier d'import", "Mode accéléré Everything"];
+  // Égide : le segment « Thème » (Système / Clair / Sombre) est remplacé par les six thèmes et l'éditeur (Apparence).
+  const segs = ["Réduire les animations", "Présence de la chouette", "Chutier d'import", "Mode accéléré Everything"];
   const btns = ["Modifier…", "Ajouter…", "Rechercher les mises à jour", "Licences", "Ouvrir le dossier", "Exporter un rapport…", "Réparer", "Désinstaller…", "Déplacer…"];
   return {
     ok: categories.length === 9 && categories.includes("AETHRYON Index") && apres.tete === 0 && apres.courant === "Mises à jour" && apres.defile > 0
-      && attendus.every((x) => options.interrupteurs.includes(x)) && segs.every((x) => options.segmentes.includes(x)) && btns.every((x) => options.boutons.includes(x)) && options.aides && options.presence,
+      && attendus.every((x) => options.interrupteurs.includes(x)) && segs.every((x) => options.segmentes.includes(x)) && btns.every((x) => options.boutons.includes(x)) && options.aides && options.presence && options.editeur,
     categories, apres, options,
   };
 });
@@ -451,9 +455,9 @@ await essai("Bibliothèque unifiée : origine, décomptes réels, source sur la 
   await premiere.click();
   await s.p.keyboard.press("Alt+Enter");
   await s.p.waitForTimeout(400);
-  const details = await s.p.evaluate(() => ({ bouton: document.querySelector(".bib-details .btn--primary")?.textContent, source: [...document.querySelectorAll(".bib-details dt")].some((d) => d.textContent === "Source"), importer: !!document.querySelector(".mcard .iconbtn[aria-label^='Importer']") }));
+  const details = await s.p.evaluate(() => ({ bouton: document.querySelector(".bib-details .eg-btn--principal")?.textContent, source: [...document.querySelectorAll(".bib-details dt")].some((d) => d.textContent === "Source"), importer: !!document.querySelector(".mcard .eg-btn--icone[aria-label^='Importer']") }));
   await capturer(s.p, "bibliotheque-scannes-details");
-  await s.p.locator(".bib-details .btn--primary").click();
+  await s.p.locator(".bib-details .eg-btn--principal").click();
   await s.p.waitForTimeout(300);
   // Ctrl I sur un média scanné : explication, aucune commande d'import.
   await premiere.focus();
@@ -467,7 +471,7 @@ await essai("Bibliothèque unifiée : origine, décomptes réels, source sur la 
   await video.dblclick();
   await s.p.waitForSelector(".pv", { timeout: 4000 });
   await s.p.waitForTimeout(600);
-  const apercu = await s.p.evaluate(() => ({ video: !!document.querySelector(".pv video"), bouton: document.querySelector(".insp .btn--primary")?.textContent }));
+  const apercu = await s.p.evaluate(() => ({ video: !!document.querySelector(".pv video"), bouton: document.querySelector(".insp .eg-btn--principal")?.textContent }));
   await capturer(s.p, "bibliotheque-apercu-scanne");
   await s.p.keyboard.press("Escape");
   await s.p.locator("#recherche-globale").fill("drone");

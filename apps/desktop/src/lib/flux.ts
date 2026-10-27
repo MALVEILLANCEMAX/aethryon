@@ -240,9 +240,9 @@ export function verdictPour(zone: string, c: Classement | null, ctx: ContexteFlu
   if (regle) return regle.verdict(c, ctx, provenance);
   if (zone === "premiere") {
     if (c.medias.length === 0) {
-      return refuse(c.fichiers.length || c.dossiers.length ? "Ajoutez d'abord ces fichiers à la bibliothèque : seuls ses médias partent vers Premiere Pro." : "Rien à envoyer vers Premiere Pro.");
+      return refuse(c.fichiers.length || c.dossiers.length ? "Ajoute d'abord ces fichiers à la bibliothèque : seuls ses médias partent vers Premiere Pro." : "Rien à envoyer vers Premiere Pro.");
     }
-    if (ctx.premiereConnecte === false) return refuse("Premiere Pro n'est pas connecté : ouvrez le panneau AETHRYON dans Premiere Pro.");
+    if (ctx.premiereConnecte === false) return refuse("Premiere Pro n'est pas connecté : ouvre le panneau AETHRYON dans Premiere Pro.");
     if (ctx.medias) {
       const parId = new Map(ctx.medias.map((m) => [m.id, m]));
       for (const id of c.medias) {

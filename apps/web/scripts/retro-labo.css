@@ -1,5 +1,0 @@
-body { margin: 0; font-family: system-ui, sans-serif; background: #0f0f10; color: #faf8f3; }
-main { display: grid; grid-template-columns: repeat(4, 300px); gap: 16px; padding: 16px; }
-.cell { width: 300px; height: 300px; position: relative; }
-.cell.clair { background: #faf8f3; }
-canvas { width: 300px; height: 300px; image-rendering: pixelated; display: block; }

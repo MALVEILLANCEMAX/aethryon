@@ -392,6 +392,7 @@ pub fn lancer(args: Vec<String>) {
             commandes::mode_lancement,
             commandes::fenetre_prete,
             commandes::fenetre,
+            commandes::fenetre_fond,
             commandes::mode_fenetre,
             commandes::config_modifier,
             commandes::choisir_dossier,

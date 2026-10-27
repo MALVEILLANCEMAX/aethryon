@@ -10,7 +10,7 @@ export function QRCode({ value, size = 168, label }: { value: string; size?: num
     return { path: d, n: count };
   }, [value]);
   return (
-    <svg role="img" aria-label={label} width={size} height={size} viewBox={`0 0 ${n} ${n}`} shapeRendering="crispEdges" className="rounded-[10px] bg-white p-0">
+    <svg role="img" aria-label={label} width={size} height={size} viewBox={`0 0 ${n} ${n}`} shapeRendering="crispEdges" className="rounded-[10px] bg-[#fff] p-0">
       <rect width={n} height={n} fill="#fff" />
       <path d={path} fill="#0b0d12" />
     </svg>

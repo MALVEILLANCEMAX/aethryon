@@ -12,14 +12,14 @@ export interface Series { key: string; label: string; fill: string; stroke: stri
 
 export const SERIES = {
   gold: { fill: "fill-gold", stroke: "stroke-gold-text", swatch: "bg-gold" },
-  graphite: { fill: "fill-graphite", stroke: "stroke-graphite", swatch: "bg-graphite" },
+  graphite: { fill: "fill-raised", stroke: "stroke-line-strong", swatch: "bg-raised" },
   bad: { fill: "fill-bad", stroke: "stroke-bad", swatch: "bg-bad" },
 } as const;
 
 /** Parts d'un anneau (classes écrites en entier : Tailwind ne voit que les noms complets). */
 export const SLICE = {
   gold: { fill: "fill-gold", ring: "stroke-gold", swatch: "bg-gold" },
-  graphite: { fill: "fill-graphite", ring: "stroke-graphite", swatch: "bg-graphite" },
+  graphite: { fill: "fill-raised", ring: "stroke-line-strong", swatch: "bg-raised" },
 } as const;
 
 export interface Point { label: string; full: string; values: Record<string, number | null> }
@@ -246,14 +246,14 @@ export function LineChart({ data, series, summary, height = 200, fmt = fmtNum, i
           {series.map((s, k) => <path key={s.key} d={paths[k]} fill="none" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" className={s.stroke} />)}
           {active === null && series.map((s) => {
             const v = data[last]?.values[s.key];
-            return v === null || v === undefined ? null : <circle key={s.key} cx={x(last)} cy={y(v)} r={4} strokeWidth={2} className={cn(s.fill === SERIES.gold.fill ? "fill-gold-text" : s.fill, "stroke-ivory")} />;
+            return v === null || v === undefined ? null : <circle key={s.key} cx={x(last)} cy={y(v)} r={4} strokeWidth={2} className={cn(s.fill === SERIES.gold.fill ? "fill-gold-text" : s.fill, "stroke-canvas")} />;
           })}
           {active !== null && (
             <g>
               <line x1={x(active)} x2={x(active)} y1={PAD.t} y2={PAD.t + plotH} className="stroke-line-strong" strokeWidth={1} />
               {series.map((s) => {
                 const v = data[active]?.values[s.key];
-                return v === null || v === undefined ? null : <circle key={s.key} cx={x(active)} cy={y(v)} r={4} strokeWidth={2} className={cn(s.fill === SERIES.gold.fill ? "fill-gold-text" : s.fill, "stroke-ivory")} />;
+                return v === null || v === undefined ? null : <circle key={s.key} cx={x(active)} cy={y(v)} r={4} strokeWidth={2} className={cn(s.fill === SERIES.gold.fill ? "fill-gold-text" : s.fill, "stroke-canvas")} />;
               })}
             </g>
           )}
@@ -344,7 +344,7 @@ export function HBars({ items, max, barClass = "bg-gold", markerLabel, empty = "
               <div className={cn("h-full rounded-full transition-[width] duration-500 ease-[var(--ease-soft)] motion-reduce:transition-none", barClass)} style={{ width: `${Math.max(it.value > 0 ? 1.5 : 0, (it.value / top) * 100)}%` }} />
             )}
             {it.marker !== null && it.marker !== undefined && top > 0 && (
-              <span title={markerLabel} className="absolute -top-[3px] h-4 w-[3px] -translate-x-1/2 rounded-full bg-graphite ring-2 ring-ivory" style={{ left: `${Math.min(100, (it.marker / top) * 100)}%` }} />
+              <span title={markerLabel} className="absolute -top-[3px] h-4 w-[3px] -translate-x-1/2 rounded-full bg-raised ring-2 ring-canvas" style={{ left: `${Math.min(100, (it.marker / top) * 100)}%` }} />
             )}
           </div>
           {it.sub && <p className="tabular mt-1 text-[12.5px] text-muted">{it.sub}</p>}

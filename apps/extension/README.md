@@ -4,7 +4,7 @@
 
 <p align="center">
   An AETHRYON button next to the video you are watching: video, audio, clip, GIF or image in one menu.<br>
-  Chrome · Microsoft Edge · Brave — Manifest V3 — version <b>3.8.1</b>
+  Chrome · Microsoft Edge · Brave — Manifest V3 — version <b>3.9.0</b>
 </p>
 
 <p align="center">
@@ -42,7 +42,7 @@
 The extension is distributed directly, not through a store. Only download it from the official website or from
 this repository's releases.
 
-1. Download [`aethryon-extension-3.8.1.zip`](https://raccourci.malvu.fr/downloads/extension/aethryon-extension-3.8.1.zip)
+1. Download [`aethryon-extension-3.9.0.zip`](https://raccourci.malvu.fr/downloads/extension/aethryon-extension-3.9.0.zip)
    and [`SHA256SUMS`](https://raccourci.malvu.fr/downloads/extension/SHA256SUMS).
 2. Check the archive: `sha256sum -c SHA256SUMS --ignore-missing` (Linux), `shasum -a 256 <zip>` (macOS) or
    `Get-FileHash .\<zip> -Algorithm SHA256` (Windows PowerShell).
@@ -98,8 +98,8 @@ npm run test:browser               # browser tests (Chromium, Playwright) — ne
 ### Reproducible releases
 
 `node scripts/zip.mjs` writes `release/aethryon-extension-<version>.zip`, `SHA256SUMS` and `latest.json`. The ZIP is
-**reproducible** (sorted entries, fixed dates and permissions): building version 3.8.1 from this repository gives the
-same SHA-256 as the published archive (`ae25b6d3…05b1a9`). Release notes come from [`CHANGELOG.md`](CHANGELOG.md).
+**reproducible** (sorted entries, fixed dates and permissions): building version 3.9.0 from this repository gives the
+same SHA-256 as the published archive (`8ee3023a…1c6a82`). Release notes come from [`CHANGELOG.md`](CHANGELOG.md).
 
 Publishing a release is a maintainer decision: the archive is uploaded to the website by the maintainers, never by CI.
 

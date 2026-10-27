@@ -1,169 +1,129 @@
-/* AETHRYON — composants du profil Desktop / installateur (WebView2, Chromium récent). Voir DESIGN-SYSTEM.md §6.
-   Règles : l'or est rare (action principale, sélection, progression, focus) ; jamais d'ombre grise ; transform/opacity
-   seulement pour le mouvement ; cibles ≥ 32 px (souris) et ≥ 24 px dans les barres denses. */
+/* AETHRYON Desktop — compléments aux composants Égide (design/css/composants.css). Les boutons, segments,
+   interrupteurs, pastilles, fils et nœuds sont ceux d'Égide (ui/base.tsx les émet : .eg-btn, .eg-seg…) ; ici, seulement
+   ce que le Desktop a en propre : variantes « danger » et tailles, groupes de réglages, miniatures et cartes de médias,
+   menu contextuel au clavier, dialogue et toasts React, champs, touches. Aucune couleur, aucun rayon ni aucune durée en
+   dur : jetons --eg-* seulement. Mouvement : transform et opacity ; survols derrière (hover: hover) and (pointer: fine). */
 
-/* ---- Boutons --------------------------------------------------------------------------------------------------------- */
-.btn { --h: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--h); padding: 0 16px;
-  border-radius: var(--r-pill); font-size: 13.5px; font-weight: 500; line-height: 1; white-space: nowrap; color: var(--text-1);
-  transition: background-color var(--d-micro) var(--ease-out), color var(--d-micro) var(--ease-out), transform var(--d-instant) var(--ease-out); }
-.btn:active { transform: scale(0.98); }
-.btn .ico { margin-left: -3px; }
-.btn--primary { background: var(--accent); color: var(--text-on-accent); font-weight: 600; box-shadow: var(--e-button); }
-.btn--primary:hover { background: var(--accent-hover); }
-.btn--secondary { box-shadow: inset 0 0 0 1px var(--line-3); }
-.btn--secondary:hover, .btn--ghost:hover { background: var(--bg-hover); color: var(--text-1); }
-.btn--ghost { color: var(--text-2); padding: 0 12px; }
-.btn--danger { color: var(--state-bad); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--state-bad) 42%, transparent); }
-.btn--sm { --h: 28px; padding: 0 12px; font-size: 12.5px; gap: 6px; }
-.btn--lg { --h: 44px; padding: 0 24px; font-size: 15px; }
-.btn--block { width: 100%; }
-.btn[disabled], .btn.is-disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
-.btn--primary.is-disabled { box-shadow: none; }
-.btn.is-hover { background: var(--bg-hover); }
-.btn--primary.is-hover { background: var(--accent-hover); }
-.btn.is-focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* ---- Boutons : compléments du Desktop ------------------------------------------------------------------------------ */
+.eg-btn .ico { flex: none; }
+.eg-btn--danger { background: var(--eg-c-raised); color: var(--eg-c-err); border-color: var(--eg-c-err); }
+.eg-btn--grand { min-height: 44px; padding: 0 20px; font-size: var(--eg-fs-m); }
+.eg-btn--petit { min-height: 30px; padding: 0 11px; font-size: var(--eg-fs-xs); gap: 6px; }
+.eg-btn--bloc { width: 100%; }
+.eg-btn--icone.eg-btn--petit { width: 30px; min-height: 30px; padding: 0; }
+.eg-btn--icone.eg-btn--xs { width: 26px; min-height: 26px; padding: 0; }
+.eg-btn--sur-media { color: var(--d-sur-media); background: var(--d-voile-media); }
+.eg-btn--actif { color: var(--eg-c-accent-text); }
+.eg-btn:disabled .eg-meandre, .eg-btn[aria-busy="true"] { cursor: progress; }
+@media (hover: hover) and (pointer: fine) {
+  .eg-btn--danger:not(:disabled):hover { background: var(--eg-c-err-soft); }
+  .eg-btn--sur-media:not(:disabled):hover { background: rgb(0 0 0 / 0.88); color: #FFF; }
+}
+.kbd { display: inline-grid; place-items: center; min-width: 20px; height: 18px; padding: 0 5px; border-radius: var(--d-r-touche);
+  font: 500 11px/1 var(--eg-f-mono); color: var(--eg-c-text-3); border: var(--eg-b-fine) solid var(--eg-c-line-strong); }
+.link { color: var(--eg-c-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--eg-c-line-strong); cursor: pointer; }
+.link--quiet { color: var(--eg-c-text-2); }
+.lien-or { display: inline-flex; align-items: center; gap: 6px; color: var(--eg-c-accent-text); font-size: var(--eg-fs-s); font-weight: 600; }
+@media (hover: hover) and (pointer: fine) { .lien-or:hover { text-decoration: underline; text-underline-offset: 3px; } }
 
-.iconbtn { --s: 32px; display: inline-grid; place-items: center; width: var(--s); height: var(--s); flex: none; border-radius: var(--r-pill);
-  color: var(--text-2); transition: background-color var(--d-micro), color var(--d-micro); }
-.iconbtn:hover, .iconbtn.is-hover { background: var(--bg-hover); color: var(--text-1); }
-.iconbtn--sm { --s: 28px; }
-.iconbtn--xs { --s: 24px; }
-.iconbtn--onmedia { color: var(--ae-ivory); background: rgb(15 15 16 / 0.62); box-shadow: inset 0 0 0 1px rgb(250 248 243 / 0.12); }
-.iconbtn--onmedia:hover, .iconbtn--onmedia.is-hover { background: rgb(15 15 16 / 0.86); color: var(--ae-gold-light); }
-.iconbtn.is-active { color: var(--text-accent); }
+/* ---- Pastilles : les tons d'Égide ; « introuvable » en pointillés (la forme porte le sens) --------------------------- */
+.eg-pastille { flex: none; font-variant-numeric: tabular-nums; }
+.eg-pastille--petite { height: 22px; padding: 0 8px; }
+.eg-pastille[data-forme="pointilles"] { border-style: dashed; background: transparent; }
 
-.kbd { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: var(--r-xs);
-  font: 600 11px/1 var(--font-ui); color: var(--text-3); box-shadow: inset 0 0 0 1px var(--line-2); background: rgb(250 248 243 / 0.03); }
-.link { color: var(--text-1); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-3); }
-.link--quiet { color: var(--text-2); }
+/* ---- Progression : le fil d'Égide (role="progressbar" sur l'enveloppe) ---------------------------------------------- */
+.progress { position: relative; height: var(--eg-b-fil); border-radius: 2px; background: var(--eg-c-line-strong); overflow: hidden; }
+.progress > i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); border-radius: inherit; background: var(--eg-c-thread);
+  transition: transform var(--eg-d-fil) linear; }
+.progress--bad > i { background: var(--eg-c-err); }
+.progress--ok > i { background: var(--eg-c-ok); }
+.progress--wait > i { background: var(--eg-c-line-strong); }
+.progress--indet > i { transform: translateX(-60%) scaleX(0.3); animation: d-indet calc(1600ms * max(var(--eg-motion-scale), 0.01)) var(--eg-e-move) infinite; }
+@keyframes d-indet { from { transform: translateX(-60%) scaleX(0.3); } to { transform: translateX(160%) scaleX(0.3); } }
+.eg-fil--d { --eg-fil-fond: var(--eg-c-surface); }
+.eg-fil-run, .eg-fil-tete { will-change: transform; }
 
-/* ---- Pastilles d'état (forme + texte : la couleur n'est jamais le seul signal) -------------------------------------- */
-.pill { display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 8px 0 6px; flex: none; border-radius: var(--r-pill);
-  font-size: var(--t-micro); font-weight: 500; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.pill svg { flex: none; }
-.pill--available { color: var(--state-idle); background: var(--state-idle-bg); }
-.pill--running { color: var(--state-run); background: var(--state-run-bg); }
-.pill--imported, .pill--ok { color: var(--state-ok); background: var(--state-ok-bg); }
-.pill--missing { color: var(--state-idle); background: transparent; box-shadow: inset 0 0 0 1px var(--line-3); outline: 1px dashed var(--line-3); outline-offset: -1px; box-shadow: none; }
-.pill--error { color: var(--state-bad); background: var(--state-bad-bg); }
-.pill--warn { color: var(--state-warn); background: var(--state-warn-bg); }
-.pill--quiet { color: var(--text-3); background: transparent; box-shadow: inset 0 0 0 1px var(--line-2); }
-.pill--lg { height: 24px; padding: 0 10px 0 8px; font-size: 12px; }
+/* ---- Champs et listes déroulantes ------------------------------------------------------------------------------------ */
+.field { display: flex; align-items: center; gap: 8px; height: var(--eg-h-ctl); padding: 0 10px; border-radius: var(--eg-r-control); background: var(--eg-c-surface);
+  border: var(--eg-b-fine) solid var(--eg-c-control); color: var(--eg-c-text); font-size: var(--eg-fs-s); min-width: 0; transition: border-color var(--eg-d-court) ease; }
+.field .ico { color: var(--eg-c-text-3); }
+.field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; color: var(--eg-c-text); }
+.field input::placeholder { color: var(--eg-c-text-3); }
+.field input::-webkit-search-cancel-button { display: none; }
+.field:focus-within { border-color: var(--eg-c-accent-text); }
+.field:has(input:focus-visible) { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
+.select { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 10px 0 12px; border-radius: var(--eg-r-control); color: var(--eg-c-text);
+  border: var(--eg-b-fine) solid var(--eg-c-control); background: var(--eg-c-raised); font-size: var(--eg-fs-s); font-weight: 600; white-space: nowrap; }
+.select .ico:last-child { color: var(--eg-c-text-3); }
+.select .lbl { color: var(--eg-c-text-3); font-weight: 400; }
+.select--natif { appearance: none; font: inherit; font-weight: 600; color: var(--eg-c-text); background: transparent; border: 0; cursor: pointer; }
+.select--natif option { background: var(--eg-c-raised); color: var(--eg-c-text); }
+@media (hover: hover) and (pointer: fine) { button.select:hover, .select:hover { border-color: var(--eg-c-text-3); } }
+.check { display: inline-grid; place-items: center; flex: none; width: 16px; height: 16px; border-radius: var(--d-r-touche); border: 1.5px solid var(--eg-c-control); color: var(--eg-c-on-accent); }
+.check.on { background: var(--eg-c-accent); border-color: var(--eg-c-accent); }
 
-/* ---- Champs --------------------------------------------------------------------------------------------------------- */
-.field { display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 10px; border-radius: var(--r-md); background: var(--bg-raised);
-  box-shadow: inset 0 0 0 1px var(--line-field); color: var(--text-1); font-size: 13.5px; min-width: 0; }
-.field .ico { color: var(--text-3); }
-.field .ph { color: var(--text-3); flex: 1; min-width: 0; }
-.field .val { flex: 1; min-width: 0; }
-.field.is-focus { box-shadow: inset 0 0 0 1px var(--focus), 0 0 0 3px rgb(212 175 124 / 0.22); }
-.field .caret { display: inline-block; width: 1px; height: 16px; background: var(--ae-gold); margin-left: 1px; vertical-align: middle; }
-
-.select { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px 0 12px; border-radius: var(--r-pill); color: var(--text-1);
-  box-shadow: inset 0 0 0 1px var(--line-2); font-size: 13px; font-weight: 500; white-space: nowrap; }
-.select .ico:last-child { color: var(--text-3); }
-.select .lbl { color: var(--text-3); font-weight: 400; }
-
-/* ---- Contrôle segmenté (pastille glissante, ressort « glide » côté Desktop) ------------------------------------------- */
-.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: var(--r-pill); background: var(--bg-raised); box-shadow: inset 0 0 0 1px var(--line-1); flex: none; }
-.seg > span { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 12px; border-radius: var(--r-pill); color: var(--text-2);
-  font-size: 12.5px; font-weight: 500; white-space: nowrap; }
-.seg > span[aria-pressed="true"] { background: var(--ae-graphite); color: var(--text-1); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 1px 3px rgb(0 0 0 / 0.5); }
-.seg .n { color: var(--text-3); font-variant-numeric: tabular-nums; }
-:is(:root[data-theme="light"], .theme-light) .seg { background: var(--ae-sand); box-shadow: none; }
-:is(:root[data-theme="light"], .theme-light) .seg > span[aria-pressed="true"] { background: #fffdf9; box-shadow: 0 1px 2px rgb(52 40 22 / 0.16), 0 0 0 1px rgb(52 40 22 / 0.06); }
-
-/* ---- Interrupteur et case à cocher ------------------------------------------------------------------------------------- */
-.switch { position: relative; flex: none; width: 36px; height: 20px; border-radius: var(--r-pill); background: var(--ae-graphite); box-shadow: inset 0 0 0 1px var(--line-field); }
-.switch::after { content: ""; position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--ae-mist);
-  transition: transform var(--d-small) var(--ease-out), background-color var(--d-small); }
-.switch.on { background: var(--accent); box-shadow: none; }
-.switch.on::after { transform: translateX(16px) scale(1.17); background: var(--ae-obsidian); }
-:is(:root[data-theme="light"], .theme-light) .switch { background: var(--ae-sand); }
-:is(:root[data-theme="light"], .theme-light) .switch::after { background: var(--ae-ink-soft); }
-:is(:root[data-theme="light"], .theme-light) .switch.on { background: var(--ae-ink); }
-:is(:root[data-theme="light"], .theme-light) .switch.on::after { background: var(--ae-gold); }
-
-.check { display: inline-grid; place-items: center; flex: none; width: 16px; height: 16px; border-radius: var(--r-xs); box-shadow: inset 0 0 0 1.5px var(--line-field); color: var(--ae-obsidian); }
-.check.on { background: var(--accent); box-shadow: none; }
-
-/* ---- Progression ----------------------------------------------------------------------------------------------------- */
-.progress { position: relative; height: 4px; border-radius: var(--r-pill); background: rgb(250 248 243 / 0.1); overflow: hidden; }
-.progress > i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); border-radius: inherit;
-  background: linear-gradient(90deg, var(--ae-gold), var(--ae-gold-light)); }
-.progress--bad > i { background: var(--state-bad); opacity: 0.8; }
-.progress--ok > i { background: var(--state-ok); }
-.progress--wait > i { background: rgb(250 248 243 / 0.18); }
-.progress--indet > i { transform: translateX(var(--x, 40%)) scaleX(0.3); }
-:is(:root[data-theme="light"], .theme-light) .progress { background: rgb(20 20 19 / 0.08); }
-
-/* ---- Bulle, menu, toast, dialogue ------------------------------------------------------------------------------------ */
-.tip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: var(--r-md); background: rgb(250 248 243 / 0.97);
-  color: var(--ae-obsidian); font-size: 12px; font-weight: 600; white-space: nowrap; box-shadow: 0 12px 28px -14px rgb(0 0 0 / 0.85); }
-.tip .kbd { color: var(--ae-ink-soft); box-shadow: inset 0 0 0 1px rgb(15 15 16 / 0.18); background: rgb(15 15 16 / 0.04); }
-.menu { min-width: 220px; padding: 6px; border-radius: var(--r-lg); background: var(--bg-overlay); box-shadow: var(--e-3); }
-.menu .mi { display: flex; align-items: center; gap: 10px; height: 32px; padding: 0 10px 0 8px; border-radius: var(--r-md); font-size: 13px; color: var(--text-1); }
-.menu .mi .ico { color: var(--text-2); }
-.menu .mi.is-hl { background: var(--accent-tint); color: var(--text-accent); }
-.menu .mi.is-hl .ico { color: var(--accent); }
-.menu .mi .kbd { margin-left: auto; }
-.menu .sep { height: 1px; margin: 5px 8px; background: var(--line-1); }
-.toast { display: flex; align-items: flex-start; gap: 12px; width: 360px; padding: 12px 12px 12px 14px; border-radius: var(--r-lg);
-  background: var(--bg-overlay); box-shadow: var(--e-3); }
-.toast .tt { font-weight: 600; font-size: 13.5px; }
-.toast .tb { font-size: 12.5px; color: var(--text-2); }
-.dialog { width: 440px; padding: 24px; border-radius: var(--r-xl); background: var(--bg-overlay); box-shadow: var(--e-3); }
-
-/* ---- Groupes de réglages (lignes en encart, façon Réglages de Windows 11 / macOS) -------------------------------------- */
-.group { border-radius: var(--r-lg); background: var(--bg-raised); box-shadow: var(--e-1); }
+/* ---- Groupes de réglages (panneau Égide : filet, fond de panneau, reflet) -------------------------------------------- */
+.group { border-radius: var(--eg-r-panel); background: var(--eg-c-surface); background-image: var(--eg-sheen); border: var(--eg-b-fine) solid var(--eg-c-line); }
 .group > .row { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 10px 16px; }
-.group > .row + .row { box-shadow: inset 0 1px 0 var(--line-1); }
-.row .rt { font-size: 13.5px; font-weight: 500; }
-.row .rd { font-size: 12.5px; color: var(--text-2); line-height: 17px; }
+.group > .row + .row { border-top: var(--eg-b-fine) solid var(--eg-c-line); }
+.row .rt { font-size: var(--d-fs-corps); font-weight: 600; }
+.row .rd { font-size: var(--eg-fs-s); color: var(--eg-c-text-2); line-height: 1.4; }
 .row .grow { flex: 1; min-width: 0; }
-.tile { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: var(--r-md); background: rgb(250 248 243 / 0.06); color: var(--text-2); }
-.tile--gold { color: var(--ae-gold); background: var(--accent-tint); }
-:is(:root[data-theme="light"], .theme-light) .tile { background: var(--ae-pearl); color: var(--ae-ink-soft); }
-:is(:root[data-theme="light"], .theme-light) .tile--gold { color: var(--ae-gold-text); background: rgb(212 175 124 / 0.2); }
-.group-title { margin: 0 0 8px 2px; font-size: 13px; font-weight: 600; color: var(--text-2); }
+.tile { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: var(--eg-r-control); background: var(--eg-c-raised); color: var(--eg-c-text-2);
+  border: var(--eg-b-fine) solid var(--eg-c-line); }
+.tile--gold { color: var(--eg-c-accent-text); background: var(--eg-c-accent-soft); border-color: transparent; }
+.group-title { margin: 0 0 8px 2px; font-size: var(--eg-fs-s); font-weight: 600; color: var(--eg-c-text-2); }
+.folder { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; border-radius: var(--eg-r-panel); background: var(--eg-c-surface); border: var(--eg-b-fine) solid var(--eg-c-line); }
+.folder .ff { font-size: var(--d-fs-corps); font-weight: 600; }
+.folder .fp { margin-top: 2px; color: var(--eg-c-text-3); }
 
-/* ---- Sélecteur de dossier --------------------------------------------------------------------------------------------- */
-.folder { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; border-radius: var(--r-lg); background: var(--bg-raised); box-shadow: var(--e-1); }
-.folder .ff { font-size: 14px; font-weight: 600; }
-.folder .fp { margin-top: 2px; color: var(--text-3); }
-
-/* ---- Miniature et carte média (Desktop) ------------------------------------------------------------------------------- */
-.thumb { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r-md); overflow: hidden; background: var(--bg-stage); isolation: isolate; }
-.thumb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(250 248 243 / 0.07); pointer-events: none; }
+/* ---- Miniatures et cartes de médias (le média porte la couleur ; l'interface reste neutre) ----------------------------- */
+.thumb { position: relative; aspect-ratio: 16 / 9; border-radius: var(--eg-r-media); overflow: hidden; background: var(--eg-c-sunken); isolation: isolate; }
 .thumb > img.pic { width: 100%; height: 100%; object-fit: cover; }
-.thumb.portrait > img.pic { object-fit: contain; }
+.thumb.portrait > img.pic { object-fit: contain; background: var(--d-scene); }
 .thumb .wave { position: absolute; inset: 22% 8%; width: 84%; height: 56%; object-fit: fill; opacity: 0.95; }
-.thumb .ph-ico { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); }
-.badge { position: absolute; display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: var(--r-xs);
-  background: rgb(15 15 16 / 0.74); color: var(--ae-ivory); font-size: 11px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
-.badge--fmt { left: 8px; top: 8px; }
-.badge--dur { right: 8px; bottom: 8px; }
-.badge--state { left: 8px; bottom: 8px; padding: 0 6px 0 5px; gap: 5px; }
-.thumb .runline { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgb(250 248 243 / 0.14); }
-.thumb .runline > i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p)); background: var(--ae-gold); }
-.thumb.is-running > img.pic { opacity: 0.55; }
-.thumb.is-missing > img.pic { filter: grayscale(1); opacity: 0.22; }
-.thumb.is-missing::after { box-shadow: none; outline: 1px dashed rgb(250 248 243 / 0.3); outline-offset: -1px; }
-.thumb .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(15 15 16 / 0) 38%, rgb(15 15 16 / 0.82)); }
-.thumb .hoverbar { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 4px; }
-.thumb .playbig { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ae-ivory); color: var(--ae-obsidian); }
-.mcard { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.mcard .mt { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.mcard .mn { font-size: 13.5px; font-weight: 500; }
-.mcard .mx { color: var(--text-3); font-weight: 400; }
-.mcard .mm { margin-top: 3px; font-size: 12px; line-height: 16px; color: var(--text-3); font-variant-numeric: tabular-nums; }
-.mcard.is-selected .thumb { outline: 2px solid var(--accent); outline-offset: 3px; }
-.mcard.is-hover .thumb > img.pic { transform: scale(1.02); }
+.thumb .ph-ico { position: absolute; inset: 0; display: grid; place-items: center; color: var(--eg-c-text-3); }
+.badge { position: absolute; display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: var(--d-r-touche);
+  background: var(--d-voile-media); color: var(--d-sur-media); font: 500 11px/1 var(--eg-f-mono); font-variant-numeric: tabular-nums; }
+.badge--fmt { left: 6px; top: 6px; font-family: var(--eg-f-ui); font-weight: 650; letter-spacing: 0.02em; }
+.badge--dur { right: 6px; bottom: 6px; }
+.badge--state { left: 6px; bottom: 6px; padding: 0 6px 0 5px; gap: 5px; }
+.thumb .runline { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgb(0 0 0 / 0.45); }
+.thumb .runline > i { position: absolute; inset: 0; transform-origin: 0 50%; transform: scaleX(var(--p)); background: var(--eg-c-thread); }
+.thumb.is-running > img.pic { opacity: 0.6; }
+.thumb.is-missing > img.pic { filter: grayscale(1); opacity: 0.25; }
+.thumb.is-missing { outline: 1px dashed var(--eg-c-line-strong); outline-offset: -1px; }
+.thumb .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0) 40%, rgb(0 0 0 / 0.7)); }
+.thumb .hoverbar { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; align-items: center; gap: 4px; }
+.thumb .playbig { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--d-sur-media); color: #141210; }
+.mcard { display: flex; flex-direction: column; gap: 8px; min-width: 0; border-radius: var(--eg-r-media); }
+.mcard .mt { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 0 2px; }
+.mcard .mn { font-size: var(--eg-fs-s); font-weight: 600; }
+.mcard .mx { color: var(--eg-c-text-3); font-weight: 400; }
+.mcard .mm { margin-top: 2px; padding: 0 2px; display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: var(--eg-fs-xs); line-height: 1.35; color: var(--eg-c-text-3); font-variant-numeric: tabular-nums; }
 
-/* Fil d'or (liaison) : plein = relié, pointillé = non relié. Motif repris de la liaison Discord du site (§8). */
-.thread { position: relative; height: 2px; flex: 1; border-radius: 2px; background: linear-gradient(90deg, rgb(212 175 124 / 0.35), var(--ae-gold) 30%, var(--ae-gold) 70%, rgb(212 175 124 / 0.35)); }
-.thread.off { background: none; border-top: 2px dotted rgb(250 248 243 / 0.22); height: 0; }
-.dot-node { width: 8px; height: 8px; border-radius: 50%; background: var(--ae-gold); box-shadow: 0 0 0 3px rgb(212 175 124 / 0.18); flex: none; }
+/* ---- Menu contextuel (React, clavier par aria-activedescendant) : l'allure du menu Égide ----------------------------- */
+.menu { min-width: 220px; padding: 6px; border-radius: var(--eg-r-panel); background: var(--eg-c-raised); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop); }
+.menu .mi { display: flex; align-items: center; gap: 10px; min-height: 32px; padding: 0 10px 0 8px; border-radius: var(--eg-r-control); font-size: var(--eg-fs-s); color: var(--eg-c-text-2); }
+.menu .mi .ico { color: var(--eg-c-text-3); }
+.menu .mi.is-hl { background: var(--eg-c-hover); color: var(--eg-c-text); box-shadow: inset 2px 0 0 var(--eg-c-accent); }
+.menu .mi.is-hl .ico { color: var(--eg-c-accent-text); }
+.menu .mi .kbd { margin-left: auto; }
+.menu .sep { height: 1px; margin: 5px 8px; background: var(--eg-c-line); }
+.tip { display: inline-flex; align-items: center; gap: 8px; max-width: 320px; padding: 6px 9px; border-radius: var(--eg-r-control); background: var(--eg-c-text);
+  color: var(--eg-c-canvas); font-size: var(--eg-fs-xs); font-weight: 600; line-height: 1.35; white-space: nowrap; }
+.tip .kbd { color: var(--eg-c-canvas); border-color: currentColor; opacity: 0.8; }
 
-/* Squelette : bloc calme (le reflet balayant n'est joué que sur Desktop, jamais en mouvement réduit) */
-.skel { border-radius: var(--r-md); background: linear-gradient(100deg, rgb(250 248 243 / 0.04) 30%, rgb(250 248 243 / 0.08) 50%, rgb(250 248 243 / 0.04) 70%); }
+/* ---- Toasts (bas à droite), dialogue (voile, boîte centrée) ----------------------------------------------------------- */
+.toast { display: flex; align-items: flex-start; gap: 10px; width: 360px; max-width: calc(100vw - 32px); padding: 10px 8px 10px 12px; border-radius: var(--eg-r-panel);
+  background: var(--eg-c-raised); color: var(--eg-c-text); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop); }
+.toast .tt { font-weight: 650; font-size: var(--eg-fs-s); }
+.toast .tb { font-size: var(--eg-fs-s); color: var(--eg-c-text-2); }
+.dialog { width: 460px; max-width: calc(100vw - 32px); max-height: calc(100vh - 48px); overflow: auto; padding: 22px; border-radius: var(--eg-r-sheet);
+  background: var(--eg-c-surface); background-image: var(--eg-sheen); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop); }
+
+/* Fil de liaison (plein = relié ; pointillé = non relié) et nœud de liaison. */
+.thread { position: relative; height: var(--eg-b-fil); flex: 1; border-radius: 2px; background: var(--eg-c-thread); }
+.thread.off { background: none; border-top: var(--eg-b-fil) dotted var(--eg-c-line-strong); height: 0; }
+.dot-node { width: 8px; height: 8px; border-radius: 50%; background: var(--eg-c-thread); flex: none; }
+.skel { border-radius: var(--eg-r-control); background: var(--eg-c-hover); }

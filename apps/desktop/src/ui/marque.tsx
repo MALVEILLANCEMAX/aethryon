@@ -1,90 +1,42 @@
-// Marque officielle : chouette (maître dès 32 px, petit logo de 16 à 24 px) et logotype Marcellus en contours. Tracés
-// verrouillés : on n'anime que #eyes et les reflets, par CLASSES CSS posées sur l'élément (clignement 205 ms, regard
-// ± 1,4 / ± 0,98, balayage « processing » ± 1,1 en 2,6 s) : aucun rendu React par mouvement.
-// Nocturne : au-dessus de 24 px, la chouette est ÉCLAIRÉE (ui/chouette.tsx, mêmes tracés, dégradés et reflet) ; le
-// petit logo (≤ 24 px) reste plat pour sa lisibilité ; `plat` force le dessin d'origine.
-import { useEffect, useRef, type Ref } from "react";
+// Marque Égide (DESIGN_SYSTEM.md § 9) : la chouette MAÎTRE uniquement — design/assets/aethryon-master.svg, octet pour
+// octet celle de brand/master — affichée telle quelle dans un <img> : jamais redessinée, recolorée, déformée ni
+// animée. Ses états sont des formes AUTOUR d'elle (CSS d'Égide) : médaille (repos, état vide), veille (chargement :
+// un fil tourne autour, la chouette ne bouge pas ; arrêté en mouvement réduit), sceau (succès : frappé une fois).
+// Logotype : contours vectoriels Marcellus (couleur du texte du thème).
+import type { CSSProperties } from "react";
+import { adresseChouette } from "../lib/egide";
 import { MARQUE } from "./marque-donnees";
-import { mouvementReduit } from "../lib/mouvement";
-import { ChouetteRelief } from "./chouette";
 
-type Variante = "master" | "petit" | "clair";
-
-/** Clin d'œil : relance l'animation CSS `.cligne` (205 ms) sans rendu React (SVG ou chouette en profondeur). */
-export function cligner(svg: Element | null): void {
-  if (!svg || mouvementReduit()) return;
-  svg.classList.remove("cligne");
-  void svg.getBoundingClientRect();
-  svg.classList.add("cligne");
-  window.setTimeout(() => svg.classList.remove("cligne"), 240);
+/** La chouette seule (marque : barres, menus, petites tuiles), sans mouvement. */
+export function Chouette({ taille, className }: { taille: number; className?: string }) {
+  const t = Math.round(taille);
+  return <img className={`eg-chouette${className ? " " + className : ""}`} src={adresseChouette()} width={t} height={t} alt="" draggable={false} decoding="async" />;
 }
 
-/** Regard (unités du dessin), borné à ± 1,4 et ± 0,98 ; transition CSS de 200 ms. */
-export function regarder(svg: Element | null, dx: number, dy: number): void {
-  const yeux = svg?.querySelector<SVGGElement>("#eyes");
-  if (!yeux) return;
-  const x = Math.max(-1.4, Math.min(1.4, dx));
-  const y = Math.max(-0.98, Math.min(0.98, dy));
-  yeux.style.transform = x || y ? `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)` : "";
-}
-
-export function Chouette({ taille, variante, vivante = false, traitement = false, clin = 0, refSvg, plat = false }: {
-  taille: number;
-  variante?: Variante;
-  /** Dessin d'origine sans éclairage (fichiers officiels, comparaisons). */
-  plat?: boolean;
-  /** Clignements et regards occasionnels (un seul grand symbole animé par écran). */
-  vivante?: boolean;
-  /** Balayage des yeux pendant une opération (installation). */
-  traitement?: boolean;
-  /** Incrémenter pour déclencher un clin d'œil (animation de succès). */
-  clin?: number;
-  refSvg?: Ref<SVGSVGElement>;
-}) {
-  const clair = typeof document !== "undefined" && document.documentElement.dataset.theme === "light";
-  const v: Variante = variante ?? (taille <= 24 ? "petit" : clair ? "clair" : "master");
-  const svg = useRef<SVGSVGElement | null>(null);
-
-  useEffect(() => {
-    if (!vivante || mouvementReduit()) return;
-    let actif = true;
-    let t: number | undefined;
-    const suivant = () => {
-      t = window.setTimeout(() => {
-        if (!actif) return;
-        if (document.visibilityState === "visible" && document.hasFocus()) {
-          if (Math.random() < 0.6) cligner(svg.current);
-          else regarder(svg.current, (Math.random() * 2 - 1) * 1.4, (Math.random() * 2 - 1) * 0.98);
-        }
-        suivant();
-      }, 2800 + Math.random() * 3600);
-    };
-    suivant();
-    return () => { actif = false; window.clearTimeout(t); };
-  }, [vivante]);
-
-  useEffect(() => {
-    if (clin) cligner(svg.current);
-  }, [clin]);
-
-  const lier = (el: SVGSVGElement | null) => {
-    svg.current = el;
-    if (typeof refSvg === "function") refSvg(el);
-    else if (refSvg) (refSvg as { current: SVGSVGElement | null }).current = el;
-  };
-  if (!plat && v !== "petit") return <ChouetteRelief taille={taille} refSvg={lier} className={traitement ? "owl--traitement" : undefined} />;
+/** Médaille : la chouette sur une face frappée (état vide, repos du Companion). */
+export function MedailleChouette({ taille = 56, className, style }: { taille?: number; className?: string; style?: CSSProperties }) {
+  const t = Math.max(14, Math.round(taille));
   return (
-    <svg
-      ref={lier}
-      className={`owl${traitement ? " owl--traitement" : ""}`}
-      width={taille}
-      height={taille}
-      viewBox={MARQUE[v].viewBox}
-      role="img"
-      aria-label="AETHRYON"
-      dangerouslySetInnerHTML={{ __html: MARQUE[v].body }}
-    />
+    <span className={`eg-medaille${className ? " " + className : ""}`} style={{ ["--eg-taille" as string]: `${t}px`, ...style }} aria-hidden="true">
+      <Chouette taille={t * 0.58} />
+    </span>
   );
+}
+
+/** Veille (attente réelle > 400 ms) : la médaille immobile, un fil tourne autour. */
+export function VeilleChouette({ taille = 56, libelle }: { taille?: number; libelle?: string }) {
+  const t = Math.max(28, Math.round(taille));
+  return (
+    <span className="eg-veille" style={{ width: t, height: t }} role={libelle ? "img" : undefined} aria-label={libelle} aria-hidden={libelle ? undefined : true}>
+      <svg className="eg-veille-anneau" viewBox="0 0 56 56" aria-hidden="true" focusable="false"><circle cx="28" cy="28" r="26.5" /></svg>
+      <MedailleChouette taille={t * 0.79} />
+    </span>
+  );
+}
+
+/** Sceau de succès : la médaille frappée une fois (420 ms + un reflet) ; posé sans mouvement si réduit. */
+export function SceauChouette({ taille = 44, frappe = true }: { taille?: number; frappe?: boolean }) {
+  return <MedailleChouette taille={taille} className={`eg-sceau${frappe ? " eg-sceau--frappe" : ""}`} />;
 }
 
 /** Logotype « AETHRYON » (Marcellus en contours) : hauteur de boîte = 1,0425 × capitales, largeur = 8,5528 × hauteur. */

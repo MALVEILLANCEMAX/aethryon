@@ -49,7 +49,7 @@ export default function CompteReglages() {
             <div className="row" data-compte="relie">
               <span className="tile tile--gold"><Chouette taille={18} /></span>
               <div className="grow">
-                <div className="rt">{typo(`Relié à ${e.compte?.email ?? "votre compte"}`)}</div>
+                <div className="rt">{typo(`Relié à ${e.compte?.email ?? "ton compte"}`)}</div>
                 <div className="rd">{typo([e.compte?.nom || null, e.relieLe ? `relié ${quand(e.relieLe).toLowerCase()}` : null, e.cleExpireLe ? `accès valable jusqu'au ${dateJour(e.cleExpireLe)}` : null].filter(Boolean).join(" · "))}</div>
                 {e.horsLigne && <div className="rd compte-hors-ligne" role="note">{typo(`Site AETHRYON injoignable : état connu ${e.verifieLe ? quand(e.verifieLe).toLowerCase() : "au dernier lancement"}.`)}</div>}
                 <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
@@ -62,7 +62,7 @@ export default function CompteReglages() {
               <span className="tile"><Icone nom="cloud" taille={16} /></span>
               <div className="grow">
                 <div className="rt">AETHRYON Cloud</div>
-                <div className="rd">{typo(cloudOuvert(e) ? "Sauvegarde temporaire de 30 jours, réservée à l'administrateur : la section Cloud est dans la barre latérale." : sansCloud ?? "État du Cloud inconnu : vérifiez la liaison.")}</div>
+                <div className="rd">{typo(cloudOuvert(e) ? "Sauvegarde temporaire de 30 jours, réservée à l'administrateur : la section Cloud est dans la barre latérale." : sansCloud ?? "État du Cloud inconnu : vérifie la liaison.")}</div>
               </div>
               {cloudOuvert(e) && <Bouton taille="sm" icone="cloud" onClick={() => aller("cloud")}>Ouvrir le Cloud</Bouton>}
             </div>
@@ -71,8 +71,8 @@ export default function CompteReglages() {
           <div className="row row--pile appairage" data-compte="appairage" aria-live="polite">
             <div className="appairage-code" aria-label={typo(`Code de liaison : ${a.codeUtilisateur.split("").join(" ")}`)}>{a.codeUtilisateur}</div>
             <div className="grow">
-              <div className="rt">{a.etat === "autorise" ? "Autorisé : liaison en cours…" : "En attente de votre accord sur le site AETHRYON…"}</div>
-              <div className="rd">{typo(`La page d'accord s'est ouverte dans votre navigateur : vérifiez que le code est le même, puis autorisez. Le code expire à ${heureCourte(a.expireLe)}.`)}</div>
+              <div className="rt">{a.etat === "autorise" ? "Autorisé : liaison en cours…" : "En attente de ton accord sur le site AETHRYON…"}</div>
+              <div className="rd">{typo(`La page d'accord s'est ouverte dans ton navigateur : vérifie que le code est le même, puis autorise. Le code expire à ${heureCourte(a.expireLe)}.`)}</div>
               {a.message && <div className="rd appairage-avis" role="note">{typo(a.message)}</div>}
               <div className="appairage-url">
                 <span className="mono ellipsis" title={a.url}>{a.url}</span>
@@ -87,9 +87,9 @@ export default function CompteReglages() {
           <div className="row" data-compte="non-relie">
             <span className="tile"><Icone nom="link" taille={16} /></span>
             <div className="grow">
-              <div className="rt reg-titre">Relier ce Desktop à votre compte
-                <button type="button" className="reg-aide" aria-label={typo("Aide : vous l'autorisez sur le site AETHRYON, dans votre navigateur ; aucun mot de passe n'est saisi ici. La liaison ouvre l'import musical et, pour l'administrateur, AETHRYON Cloud.")}
-                  data-bulle={typo("Vous l'autorisez sur le site AETHRYON, dans votre navigateur : aucun mot de passe n'est saisi ici. La liaison ouvre l'import musical et, pour l'administrateur, AETHRYON Cloud.")}><Icone nom="info" taille={13} /></button>
+              <div className="rt reg-titre">Relier ce Desktop à ton compte
+                <button type="button" className="reg-aide" aria-label={typo("Aide : tu l'autorises sur le site AETHRYON, dans ton navigateur ; aucun mot de passe n'est saisi ici. La liaison ouvre l'import musical et, pour l'administrateur, AETHRYON Cloud.")}
+                  data-bulle={typo("Tu l'autorises sur le site AETHRYON, dans ton navigateur : aucun mot de passe n'est saisi ici. La liaison ouvre l'import musical et, pour l'administrateur, AETHRYON Cloud.")}><Icone nom="info" taille={13} /></button>
               </div>
               {a && !enAttente && <div className="rd appairage-avis" role="alert">{typo(ETATS_FIN[a.etat] ?? a.message ?? "La liaison n'a pas abouti.")}</div>}
               {!a && e.erreur && <div className="rd appairage-avis" role="alert">{typo(e.erreur)}</div>}
@@ -101,7 +101,7 @@ export default function CompteReglages() {
       {quitter && (
         <Dialogue titre="Déconnecter ce Desktop ?" onFermer={() => setQuitter(false)}
           actions={<><Bouton variante="ghost" onClick={() => setQuitter(false)}>Annuler</Bouton><Bouton variante="danger" disabled={occupe} onClick={async () => { await faire(api.compteDeconnecter, "Déconnexion impossible"); setQuitter(false); }}>Se déconnecter</Bouton></>}>
-          <p>{typo("L'accès de ce Desktop à votre compte est révoqué sur le site et effacé de cet ordinateur : la section Cloud disparaît. Les envois en cours s'arrêtent. Vos médias locaux et vos fichiers du Cloud restent en place.")}</p>
+          <p>{typo("L'accès de ce Desktop à ton compte est révoqué sur le site et effacé de cet ordinateur : la section Cloud disparaît. Les envois en cours s'arrêtent. Tes médias locaux et tes fichiers du Cloud restent en place.")}</p>
         </Dialogue>
       )}
     </section>

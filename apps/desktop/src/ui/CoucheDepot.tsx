@@ -107,7 +107,7 @@ function Calque() {
     const surveiller = !!c && c.fichiers.length === 0 && c.dossiers.some((d) => d.surveillable);
     const refus = s.zone === "bibliotheque" && s.verdict && !s.verdict.acceptable && !s.verdict.enAttente ? s.verdict.raison : null;
     vue = {
-      titre: surveiller ? "Déposez pour surveiller ce dossier" : "Déposez pour ajouter à la bibliothèque",
+      titre: surveiller ? "Dépose pour surveiller ce dossier" : "Dépose pour ajouter à la bibliothèque",
       sous: typo(refus ?? (surveiller ? "Le dossier n'est pas copié : AETHRYON le surveille" : `Copiés dans ${dossierAmical(inst.config.dossierMedias)}`)),
       nombre: !refus && !surveiller && nombre ? nombre : null,
       refus: !!refus,

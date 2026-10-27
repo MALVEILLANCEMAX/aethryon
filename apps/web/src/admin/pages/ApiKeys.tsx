@@ -46,7 +46,7 @@ function Failures() {
               <div className="min-w-0">
                 <h3 className="mb-3 text-[14px] font-medium">Par motif</h3>
                 <HBars
-                  barClass="bg-graphite"
+                  barClass="bg-raised"
                   empty="Aucun refus sur la période."
                   items={reasons.map((x) => ({ key: x.reason, label: <>{AUTH_REASON[x.reason] ?? x.reason} <Mono className="ml-1">{x.reason}</Mono></>, value: x.count, display: fmtNum(x.count) }))}
                 />

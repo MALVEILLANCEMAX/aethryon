@@ -16,7 +16,7 @@ export function StepMarker({ state, n, small = false, label, className }: { stat
       className={cn(
         "grid shrink-0 place-items-center rounded-full border font-semibold transition-[background-color,border-color,color] duration-300 [font-variant-numeric:lining-nums]",
         small ? "size-7 text-[13px]" : "size-9 text-[14px]",
-        state === "done" ? "border-gold bg-gold text-obsidian" : state === "current" ? "border-obsidian bg-obsidian text-ivory shadow-button" : "border-line-strong bg-ivory text-muted",
+        state === "done" ? "border-gold bg-gold text-on-accent" : state === "current" ? "border-thread bg-surface text-fg" : "border-line-strong bg-ivory text-muted",
         className,
       )}
     >
@@ -46,7 +46,7 @@ export function Pips({ used, total, className }: { used: number; total: number; 
         {Array.from({ length: n }, (_, i) => (
           <span key={i}
             style={i >= Math.min(from, used) && i < Math.max(from, used) ? { transitionDelay: `${(used > from ? i - from : from - 1 - i) * 40}ms` } : undefined}
-            className={cn("h-2 min-w-0 flex-1 rounded-full transition-colors duration-340 motion-reduce:transition-none", i < used ? "bg-obsidian" : "bg-sand ring-1 ring-inset ring-line-strong/60")} />
+            className={cn("h-2 min-w-0 flex-1 rounded-full transition-colors duration-340 motion-reduce:transition-none", i < used ? "bg-sunken" : "bg-sand ring-1 ring-inset ring-line-strong/60")} />
         ))}
       </span>
     );
@@ -54,7 +54,7 @@ export function Pips({ used, total, className }: { used: number; total: number; 
   const ratio = n > 0 ? Math.min(1, used / n) : 0;
   return (
     <span aria-hidden className={cn("block h-2 overflow-hidden rounded-full bg-sand", className)}>
-      <span className="block h-full origin-left rounded-full bg-obsidian transition-transform duration-700 ease-[var(--ease-soft)]" style={{ transform: `scaleX(${ratio})` }} />
+      <span className="block h-full origin-left rounded-full bg-sunken transition-transform duration-700 ease-[var(--ease-soft)]" style={{ transform: `scaleX(${ratio})` }} />
     </span>
   );
 }

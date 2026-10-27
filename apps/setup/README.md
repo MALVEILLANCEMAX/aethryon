@@ -1,7 +1,7 @@
 # AETHRYON Setup (Windows installer, beta)
 
 One installer for **AETHRYON Desktop** and the **Premiere Pro panel**: detection, installation, repair, update and
-uninstall, with a five-screen interface. Version **2.0.0-beta.8**.
+uninstall, with a five-screen interface. Version **2.0.0-beta.9**.
 
 Tauri 2 · Rust · React · WebView2.
 
@@ -26,5 +26,5 @@ cargo test -p aethryon-setup-moteur            # engine tests (run on Linux with
 Building the real installer (`scripts/construire.sh`) needs the Desktop build, the CEP extension folder and the
 signing material, all passed explicitly through environment variables; nothing is downloaded or signed implicitly.
 
-Downloads: [AETHRYON-Setup-2.0.0-beta.8.exe](https://raccourci.malvu.fr/downloads/premiere/AETHRYON-Setup-2.0.0-beta.8.exe)
+Downloads: [AETHRYON-Setup-2.0.0-beta.9.exe](https://raccourci.malvu.fr/downloads/premiere/AETHRYON-Setup-2.0.0-beta.9.exe)
 ([SHA256SUMS](https://raccourci.malvu.fr/downloads/premiere/SHA256SUMS)). History: [`CHANGELOG.md`](CHANGELOG.md).

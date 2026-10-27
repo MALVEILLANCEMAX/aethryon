@@ -27,6 +27,8 @@ export interface OwlOptions {
   /** Nom accessible ; absent = décorative. */
   label?: string;
   className?: string;
+  /** 3.9.0 (Égide) : dessin du fichier maître tel quel, à toute taille (jamais le « petit logo » corrigé). */
+  maitre?: boolean;
 }
 
 type Attrs = Record<string, string | number | null | undefined>;
@@ -45,7 +47,7 @@ export const isSmallOwl = (size: number, pad = 0): boolean => size * (64 / (64 +
 export function owlSvg(doc: Document, o: OwlOptions): SVGSVGElement {
   const pad = o.pad ?? 0;
   const surface = o.surface ?? "light";
-  const small = isSmallOwl(o.size, pad);
+  const small = !o.maitre && isSmallOwl(o.size, pad);
   const span = 64 + 2 * pad;
   const svg = el(doc, "svg", {
     viewBox: `${-pad} ${-pad} ${span} ${span}`, width: o.size, height: o.size, fill: "none", focusable: "false",

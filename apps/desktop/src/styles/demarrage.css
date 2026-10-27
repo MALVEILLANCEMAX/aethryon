@@ -1,63 +1,35 @@
 /* =====================================================================================================================
-   Écran de démarrage (index.html #demarrage, lib/demarrage.ts) — direction « Nocturne » : obsidienne, ivoire, or
-   champagne. Chouette et logotype : fichiers officiels de assets/brand, jamais redessinés.
-   Fond plein dès la première image (couleur aussi en ligne dans index.html) ; contenu invisible tant que
-   data-etat="attente". Entrée (visible) : la chouette se matérialise (opacité, échelle 0,94 → 1, flou 6 → 0 px), le
-   logotype puis les étapes suivent à 80 ms d'écart ; 640 ms en tout, sur transform, opacity et filter seulement.
-   Sortie : fondu de tout l'écran (transition, donc interruptible), l'interface est déjà peinte dessous.
-   Mouvement réduit (Windows ou réglage AETHRYON) : fondus seuls, aucune lueur en boucle.
+   Écran de démarrage Égide (index.html #demarrage, lib/demarrage.ts). Couleurs du thème choisi dès la première image
+   (theme-boot.js), la VEILLE d'Égide (la chouette maître immobile sur sa médaille, un fil tourne autour), le logotype
+   en contours et trois étapes RÉELLES (interface chargée, état lu, interface montée) : aucun pourcentage inventé.
+   Entrée (seulement si l'interface tarde plus de 150 ms) : fondu de 320 ms, la veille arrive depuis scale(.96).
+   Sortie : fondu de tout l'écran (transition, interruptible), l'interface est déjà peinte dessous.
+   Mouvement réduit : fondus seuls, l'anneau ne tourne pas.
    ===================================================================================================================== */
 #demarrage {
   position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; padding-bottom: 32px;
-  background: var(--n-nuit-0); color: var(--ae-ivory); cursor: default; user-select: none;
-  transition: opacity 240ms cubic-bezier(0.23, 1, 0.32, 1);
+  background: var(--eg-c-canvas); color: var(--eg-c-text); cursor: default; user-select: none;
+  transition: opacity calc(240ms * var(--eg-motion-scale)) var(--eg-e-out);
 }
 /* Les clics vont au fond : il fait glisser la fenêtre (data-tauri-drag-region="deep"), l'interface n'a pas encore de barre. */
 #demarrage * { pointer-events: none; }
-/* Halo champagne très doux derrière la chouette (même halo que l'icône de l'application). */
-#demarrage::before {
-  content: ""; position: absolute; left: 50%; top: 50%; width: 560px; height: 560px; transform: translate(-50%, -58%);
-  background: radial-gradient(closest-side, rgb(212 175 124 / 0.1), rgb(212 175 124 / 0.072) 22%, rgb(212 175 124 / 0.045) 42%,
-    rgb(212 175 124 / 0.022) 62%, rgb(212 175 124 / 0.008) 80%, rgb(212 175 124 / 0.002) 92%, rgb(212 175 124 / 0)); opacity: 0;
-}
 .dm-centre { position: relative; display: flex; flex-direction: column; align-items: center; }
-.dm-chouette { width: 96px; height: 96px; opacity: 0; }
-.dm-logotype { width: 111px; height: 13px; margin-top: 22px; opacity: 0; }
-.dm-etapes { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 36px; opacity: 0; }
+.dm-veille { width: 80px; height: 80px; opacity: 0; }
+.dm-veille .eg-medaille { --eg-taille: 62px; }
+.dm-logotype { width: 120px; height: 14px; margin-top: 24px; opacity: 0; }
+.dm-etapes { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 32px; opacity: 0; }
 .dm-points { display: flex; gap: 6px; }
-.dm-points > i {
-  position: relative; overflow: hidden; width: 18px; height: 2px; border-radius: 1px;
-  background: rgb(250 248 243 / 0.14); transition: background-color 200ms ease-out;
-}
-.dm-points > i[data-fait] { background: var(--ae-gold); }
-/* Étape en cours : une lueur traverse le trait (mouvement constant : linéaire). */
-.dm-points > i[data-encours]::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgb(227 205 166 / 0), rgb(227 205 166 / 0.9), rgb(227 205 166 / 0));
-  animation: dm-lueur 1200ms linear infinite;
-}
-.dm-libelle { min-height: 16px; font-size: 12px; line-height: 16px; letter-spacing: 0.01em; color: var(--ae-mist); white-space: nowrap; }
+.dm-points > i { width: 18px; height: var(--eg-b-fil); border-radius: 1px; background: var(--eg-c-line-strong); transition: background-color var(--eg-d-moyen) ease; }
+.dm-points > i[data-fait] { background: var(--eg-c-thread); }
+.dm-points > i[data-encours] { background: var(--eg-c-text-3); }
+.dm-libelle { min-height: 16px; font: 500 var(--eg-fs-xs)/16px var(--eg-f-ui); color: var(--eg-c-text-2); white-space: nowrap; }
 
-#demarrage:is([data-etat="visible"], [data-etat="sortie"])::before { animation: dm-fondu 900ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-#demarrage:is([data-etat="visible"], [data-etat="sortie"]) .dm-chouette { animation: dm-chouette 640ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-#demarrage:is([data-etat="visible"], [data-etat="sortie"]) .dm-logotype { animation: dm-monte 480ms cubic-bezier(0.23, 1, 0.32, 1) 80ms both; }
-#demarrage:is([data-etat="visible"], [data-etat="sortie"]) .dm-etapes { animation: dm-fondu 400ms cubic-bezier(0.23, 1, 0.32, 1) 160ms both; }
+#demarrage:is([data-etat="visible"], [data-etat="sortie"]) .dm-veille { animation: dm-entree calc(320ms * var(--eg-motion-scale)) var(--eg-e-out) both; }
+#demarrage:is([data-etat="visible"], [data-etat="sortie"]) :is(.dm-logotype, .dm-etapes) { animation: dm-fondu calc(320ms * var(--eg-motion-scale)) var(--eg-e-out) calc(80ms * var(--eg-motion-scale)) both; }
 #demarrage[data-etat="sortie"] { opacity: 0; }
-#demarrage[data-etat="sortie"] .dm-centre { transform: scale(1.015); transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); }
-
-@keyframes dm-chouette { from { opacity: 0; transform: scale(0.94); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
-@keyframes dm-monte { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@keyframes dm-entree { from { opacity: 0; transform: scale(calc(1 - 0.04 * var(--eg-move))); } to { opacity: 1; transform: none; } }
 @keyframes dm-fondu { from { opacity: 0; } to { opacity: 1; } }
-@keyframes dm-lueur { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 
-/* Mouvement réduit : réglage Windows « Effets d'animation » (dès la première image) ou réglage AETHRYON (après lecture de l'état). */
-:root[data-motion="reduced"] #demarrage { transition-duration: 160ms; }
-:root[data-motion="reduced"] #demarrage:is([data-etat="visible"], [data-etat="sortie"]) :is(.dm-chouette, .dm-logotype, .dm-etapes) { animation: dm-fondu 200ms ease-out both; }
-:root[data-motion="reduced"] #demarrage[data-etat="sortie"] .dm-centre { transform: none; }
-:root[data-motion="reduced"] .dm-points > i[data-encours]::after { animation: none; background: rgb(227 205 166 / 0.45); }
-@media (prefers-reduced-motion: reduce) {
-  :root:not([data-motion="full"]) #demarrage { transition-duration: 160ms; }
-  :root:not([data-motion="full"]) #demarrage:is([data-etat="visible"], [data-etat="sortie"]) :is(.dm-chouette, .dm-logotype, .dm-etapes) { animation: dm-fondu 200ms ease-out both; }
-  :root:not([data-motion="full"]) #demarrage[data-etat="sortie"] .dm-centre { transform: none; }
-  :root:not([data-motion="full"]) .dm-points > i[data-encours]::after { animation: none; background: rgb(227 205 166 / 0.45); }
-}
+/* Mouvement réduit (Windows, thème ou réglage AETHRYON) : l'anneau reste immobile. */
+:root[data-d-reduit="1"] #demarrage .eg-veille-anneau { animation: none; }
+@media (prefers-reduced-motion: reduce) { :root:not([data-eg-motion-explicite="1"]) #demarrage .eg-veille-anneau { animation: none; } }

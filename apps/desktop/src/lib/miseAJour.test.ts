@@ -12,7 +12,7 @@ describe("mise à jour d'AETHRYON Desktop", () => {
     expect(resume({ phase: "telechargement", recherche: R, fait: 420, total: 1000 }, "x").titre).toBe("Téléchargement du setup · 42 %");
     expect(resume({ phase: "a-jour", recherche: { ...R, disponible: false } }, "1.0.0-beta.4").detail).toContain("1.0.0-beta.4");
     expect(resume({ phase: "erreur", erreur: "Site injoignable" }, "x").detail).toBe("Site injoignable");
-    expect(resume({ phase: "inconnu" }, "1.0.0-beta.4").detail).toContain("sans votre clic");
+    expect(resume({ phase: "inconnu" }, "1.0.0-beta.4").detail).toContain("sans ton clic");
   });
 
   it("recherche discrète : un échec ne montre rien ; installer n'est appelé que sur demande", async () => {

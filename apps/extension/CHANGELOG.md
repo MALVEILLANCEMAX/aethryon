@@ -4,6 +4,16 @@ Distribution directe depuis https://raccourci.malvu.fr/extension (ZIP à install
 sur un store. Chaque section `## <version> — AAAA-MM-JJ` alimente `release/latest.json` (scripts/zip.mjs) :
 garder des lignes courtes, en français, qui disent ce qui change pour l'utilisateur.
 
+## 3.9.0 — 2026-10-26
+
+- Nouvelle apparence Égide partout : popup, réglages, page d'accueil, bouton et menu dans les sites, éditeur d'extrait.
+- Popup repensé et plus visuel : la vidéo d'abord, « Vidéo » ou « Passage », les formats en tuiles, et un seul bouton qui devient la progression, puis le sceau quand le fichier est prêt.
+- Six thèmes (Obsidian, Ivory, OLED, Midnight, Minimal, Custom), choisis dans le popup ou les réglages et suivis par le menu des sites.
+- Éditeur de thèmes complet dans les réglages, avec import et export d'un thème vérifié.
+- Le quota du jour tient dans un anneau ; le compte et le catalogue des plateformes s'ouvrent depuis la barre du popup.
+- Catalogue des plateformes avec leur état réel (Wikimedia Commons et Bluesky ouvertes sur le serveur) ; un lien d'une autre plateforme est reconnu et son état est dit.
+- La chouette maître, immobile, signe le chargement, les états vides et les fichiers prêts.
+
 ## 3.8.1 — 2026-10-24
 
 - « Envoyer vers › Premiere Pro » passe par AETHRYON Desktop, sans téléchargement par le navigateur : il convertit la vidéo (ou l'audio choisi) et le panneau AETHRYON l'importe dans Premiere Pro.

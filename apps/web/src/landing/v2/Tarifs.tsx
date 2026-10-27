@@ -11,7 +11,6 @@ import { useCalm, useConfig } from "../../lib/hooks.ts";
 import { inView, reveal, revealGroup } from "../../lib/motion.ts";
 import { OFFRES_MODE, REASSURANCES, REASSURANCES_VENTE } from "../../lib/offres.ts";
 import { PricingCommon, PricingCompare, PricingNote, PricingPlans } from "../../ui/offres/Pricing.tsx";
-import { RetroObject } from "../../ui/retro/RetroObject.tsx";
 import { SectionHead } from "./SectionHead.tsx";
 
 function ReassureIcon({ name }: { name: (typeof REASSURANCES)[number]["icon"] }) {
@@ -50,7 +49,7 @@ export function Tarifs() {
   const vente = OFFRES_MODE === "vente";
   const reassure = vente ? REASSURANCES_VENTE : REASSURANCES;
   return (
-    <section id="tarifs" aria-labelledby="tarifs-title" className="section-light seam tarifs relative overflow-hidden bg-pearl py-24 sm:py-32" data-offres-mode={OFFRES_MODE}>
+    <section id="tarifs" aria-labelledby="tarifs-title" className="tarifs relative border-t border-line py-20 sm:py-24" data-offres-mode={OFFRES_MODE}>
       <div className="container-site relative">
         <div className="tarifs-head">
           <SectionHead id="tarifs-title"
@@ -70,7 +69,6 @@ export function Tarifs() {
         ) : (
           <motion.div variants={revealGroup} {...inView("tarifs-offre")} className="mt-12 grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-6">
             <motion.div variants={reveal} className="quota-visual">
-              <RetroObject kind="sablier" size="md" className="retro-plinth on-light shrink-0" />
               <QuotaMeter />
             </motion.div>
             <PricingPlans context="accueil" only={["free"]} />

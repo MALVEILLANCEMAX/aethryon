@@ -47,7 +47,7 @@ export function CopyField({ value, label, onCopied, onCopyFailed, className }: P
           spellCheck={false}
           autoComplete="off"
           onFocus={(e) => e.currentTarget.select()}
-          className="h-12 min-w-0 flex-1 rounded-[14px] border border-field bg-white/80 px-3.5 font-mono text-[13.5px] tracking-tight text-ink selection:bg-gold-light"
+          className="h-12 min-w-0 flex-1 rounded-[14px] border border-field bg-surface px-3.5 font-mono text-[13.5px] tracking-tight text-ink selection:bg-gold-light"
         />
         <Button variant={state === "copied" ? "secondary" : "primary"} onClick={copy} icon={<CopyCheckIcon done={state === "copied"} size={18} className={state === "copied" ? "text-ok" : undefined} />} className={cn("sm:w-[200px]")}>
           {state === "copied" ? "Jeton copié" : "Copier le jeton"}

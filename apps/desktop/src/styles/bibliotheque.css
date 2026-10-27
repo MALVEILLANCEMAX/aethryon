@@ -1,0 +1,102 @@
+/* =====================================================================================================================
+   AETHRYON Desktop sur Égide — Bibliothèque (médiathèque virtualisée : grille et liste, détails, aperçu au survol) et
+   couverture d'un média sans miniature. Jetons --eg-* seulement ; le média porte la couleur, l'interface reste neutre.
+   ===================================================================================================================== */
+
+/* Couverture d'un média sans miniature (audio, fichier non analysé) : orbes chaudes dérivées du NOM, pictogramme du
+   type ; jamais une fausse image. */
+.couv { position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden; color: var(--eg-c-text);
+  background: radial-gradient(72% 95% at var(--cx, 30%) var(--cy, 30%), hsl(var(--h, 30) 42% 50% / 0.5), transparent 64%),
+    radial-gradient(60% 80% at var(--dx, 80%) var(--dy, 85%), hsl(var(--h2, 210) 34% 40% / 0.42), transparent 66%), linear-gradient(140deg, #1d1915, #0c0b09); }
+.couv .ico { filter: drop-shadow(0 4px 10px rgb(0 0 0 / 0.5)); }
+
+/* ---- Bibliothèque : médiathèque virtualisée ------------------------------------------------------------------------- */
+.bib { display: flex; flex-direction: column; min-width: 0; }
+.bib-titre { display: flex; align-items: flex-end; gap: 16px; margin-top: 10px; }
+.bib-titre .grow { flex: 1; min-width: 0; }
+.bib-titre .sub { margin-top: 4px; font-size: calc(13px * var(--eg-t-scale)); color: var(--eg-c-text-2); }
+.bib-titre .sub b { color: var(--eg-c-text); font-weight: 500; }
+/* Barre d'outils collante: filtres, tri, détails, disposition ; bord de défilement en fondu (pas de filet dur). */
+.bib-outils { position: sticky; top: calc(-1 * var(--page-y)); z-index: 6; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px calc(-1 * var(--page-x)) 0;
+  padding: 10px var(--page-x); background: var(--eg-c-canvas); border-bottom: var(--eg-b-fine) solid transparent; transition: border-color var(--eg-d-court) ease; }
+.bib[data-defile] .bib-outils { border-bottom-color: var(--eg-c-line); }
+.bib-outils .grow { flex: 1; }
+.bib-requete { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 4px 0 11px; border-radius: var(--eg-r-pill); font-size: calc(12.5px * var(--eg-t-scale)); color: var(--eg-c-text-2);
+  background: var(--eg-c-accent-soft); box-shadow: inset 0 0 0 1px var(--eg-c-accent-text); max-width: 320px; }
+.bib-requete b { color: var(--eg-c-text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bib-corps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; margin-top: 14px; align-items: start; }
+.bib[data-details] .bib-corps { grid-template-columns: minmax(0, 1fr) 320px; }
+/* Grille et liste virtualisées : cellules à position calculée (translate), contenu isolé. */
+.bib-grille { position: relative; min-width: 0; outline: none; }
+.bib-cellule { position: absolute; left: 0; top: 0; contain: layout style; }
+.bib-cellule--liste { right: 0; }
+.mcard .thumb { border-radius: var(--eg-r-media); }
+.mcard-media { border-radius: var(--eg-r-media); }
+.mcard .mt { margin-top: 0; }
+.mcard .mm { opacity: 0; transition: opacity var(--eg-d-court) var(--eg-e-out); }
+.mcard:hover .mm, .mcard:focus-visible .mm, .mcard.is-selected .mm, .mcard[data-erreur] .mm { opacity: 1; }
+.mcard { gap: 10px; }
+.mcard-texte { min-width: 0; }
+.mcard .mm { margin-top: 2px; }
+/* Superpositions de la miniature : format (haut gauche), case (haut droite), état (bas gauche), durée (bas droite). */
+.mcard .badge--fmt { z-index: 2; }
+.mcard-case { left: auto; right: 8px; top: 8px; }
+.mcard-pastille { position: absolute; left: 8px; bottom: 8px; z-index: 3; max-width: calc(100% - 64px); transition: opacity var(--eg-d-court) var(--eg-e-out); }
+.mcard-pastille .pill { background: rgb(12 11 9 / 0.82); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+/* Sur une miniature (toujours sombre), les couleurs d'état restent celles du thème sombre, quel que soit le thème. */
+.mcard-pastille { --state-ok: var(--eg-c-ok); --state-bad: var(--eg-c-err); --state-warn: var(--eg-c-warn); --state-run: var(--eg-c-accent-text);
+  --state-idle: var(--eg-c-text-2); --text-3: var(--eg-c-text-3); --line-2: rgb(255 240 220 / 0.14); }
+.mcard:hover .mcard-pastille { opacity: 0; }
+.badge { background: rgb(12 11 9 / 0.76); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+/* Aperçu au survol (vidéos que WebView2 décode) : la vidéo apparaît en fondu dès qu'elle joue, muette. */
+.thumb .pic-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; pointer-events: none;
+  transition: opacity var(--eg-d-moyen) var(--eg-e-out); }
+.thumb .pic-video[data-lecture] { opacity: 1; }
+.thumb.portrait .pic-video { object-fit: contain; }
+.squelette { position: absolute; inset: 0; border-radius: var(--eg-r-media); background: linear-gradient(100deg, var(--eg-c-hover) 30%, var(--eg-c-hover) 50%, var(--eg-c-hover) 70%); }
+/* Liste */
+.bib-liste-tete { display: grid; grid-template-columns: 72px minmax(0, 1fr) 64px 64px 84px 120px 132px 28px; gap: 14px; padding: 0 12px 8px; font-size: calc(11.5px * var(--eg-t-scale)); font-weight: 600;
+  letter-spacing: 0.04em; color: var(--eg-c-text-3); text-transform: uppercase; }
+.lrow { grid-template-columns: 72px minmax(0, 1fr) 64px 64px 84px 120px 132px 28px; height: 60px; border-radius: 12px; }
+.lrow + .lrow { box-shadow: none; }
+.bib-cellule--liste + .bib-cellule--liste .lrow { box-shadow: inset 0 1px 0 var(--eg-c-line); }
+.thumb--liste { width: 72px; height: 40px; border-radius: 8px; }
+.lrow-fmt { font-size: calc(11px * var(--eg-t-scale)); font-weight: 600; letter-spacing: 0.06em; color: var(--eg-c-text-3); }
+/* Panneau de détails */
+.bib-details { position: sticky; top: 52px; display: flex; flex-direction: column; gap: 16px; max-height: calc(100vh - 44px - 96px); overflow: auto; padding: 16px;
+  border-radius: var(--eg-r-panel); background: var(--eg-c-surface); box-shadow: var(--d-ombre-carte); animation: details-entree var(--eg-d-moyen) var(--eg-e-out) backwards; }
+@keyframes details-entree { from { opacity: 0; transform: translateX(8px); } }
+.bib-details[data-instant] { animation: none; }
+.bib-details > * { flex-shrink: 0; }
+.bib-details .thumb { border-radius: 12px; }
+.bib-details h2 { font: var(--eg-f-display-w) calc(19px * var(--eg-t-scale))/25px var(--eg-f-display); color: var(--eg-c-text); overflow-wrap: anywhere; }
+.bib-details .meta { margin-top: 0; }
+.bib-details-actions { display: grid; gap: 8px; }
+.bib-details-actions .row { display: flex; gap: 6px; }
+.bib-details-vide { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 28px 8px; text-align: center; color: var(--eg-c-text-3); font-size: calc(13px * var(--eg-t-scale)); }
+.bib-details-fermer { position: absolute; top: 10px; right: 10px; z-index: 2; }
+.bib-chemin { font-family: var(--eg-f-mono); font-size: calc(11.5px * var(--eg-t-scale)); color: var(--eg-c-text-3); overflow-wrap: anywhere; user-select: text; }
+/* État vide travaillé : la chouette en profondeur, une phrase, deux actions. */
+.bib-vide { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin: 40px auto 0; max-width: 480px; }
+.bib-vide h2 { margin-top: 18px; color: var(--eg-c-text); }
+.bib-vide p { font-size: calc(13.5px * var(--eg-t-scale)); color: var(--eg-c-text-2); line-height: 20px; text-wrap: pretty; }
+
+
+/* ---- Tailles du contenu ------------------------------------------------------------------------------------------- */
+@container (max-width: 980px) {
+  .bib[data-details] .bib-corps { grid-template-columns: minmax(0, 1fr); }
+  .bib[data-details] .bib-details { position: absolute; top: 8px; right: 8px; bottom: 8px; z-index: 25; width: 320px; max-height: none;
+    background: var(--eg-c-raised); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop); }
+}
+@container (max-width: 860px) {
+  .bib-liste-tete, .lrow { grid-template-columns: 72px minmax(0, 1fr) 64px 84px 120px 28px; }
+  .bib-liste-tete .col-fmt, .lrow .lrow-fmt, .bib-liste-tete .col-etat, .lrow .lrow-etat { display: none; }
+}
+@container (max-width: 680px) {
+  .bib-liste-tete, .lrow { grid-template-columns: 72px minmax(0, 1fr) 64px 120px 28px; }
+  .bib-liste-tete .col-taille, .lrow .lrow-taille { display: none; }
+}
+
+/* ---- Mouvement réduit ------------------------------------------------------------------------------------------------ */
+:root[data-d-reduit="1"] :is(.mcard .mm, .thumb .pic-video) { transition: opacity 120ms linear !important; }
+@media (forced-colors: active) { .bib-details { border: 1px solid CanvasText; } }

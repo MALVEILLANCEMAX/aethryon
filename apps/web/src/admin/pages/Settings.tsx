@@ -189,7 +189,7 @@ export default function Settings() {
                 onChange={(e) => set("maintenanceMessage", e.target.value)}
                 aria-invalid={errors.maintenanceMessage ? true : undefined}
                 aria-describedby="maintenance-hint"
-                className="w-full rounded-[12px] border border-field bg-white/75 px-3 py-2.5 text-[15px] leading-relaxed text-ink placeholder:text-muted focus:border-gold-text focus:bg-white focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-text"
+                className="w-full rounded-[12px] border border-field bg-surface px-3 py-2.5 text-[15px] leading-relaxed text-ink placeholder:text-muted focus:border-gold-text focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-text"
                 placeholder="Ex. : maintenance ce soir de 22 h à 22 h 30."
               />
               <p id="maintenance-hint" className={errors.maintenanceMessage ? "mt-1.5 text-[13px] text-bad" : "tabular mt-1.5 text-[13px] text-muted"}>
@@ -239,7 +239,7 @@ export default function Settings() {
           )}
         </Panel>
 
-        <div className={cn("z-10 -mx-4 flex flex-wrap items-center justify-end gap-x-3 gap-y-1.5 border-t border-line bg-ivory/95 px-4 py-2.5 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10", dirty && "sticky bottom-0 shadow-[0_-12px_24px_-20px_rgb(52_40_22/0.35)]")}>
+        <div className={cn("z-10 -mx-4 flex flex-wrap items-center justify-end gap-x-3 gap-y-1.5 border-t border-line bg-ivory/95 px-4 py-2.5 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10", dirty && "sticky bottom-0 shadow-[0_-12px_24px_-20px_rgb(0_0_0/0.35)]")}>
           <p className="w-full text-[13px] text-muted sm:w-auto sm:flex-1" aria-live="polite">{dirty ? `${Object.keys(changes).length} modification${Object.keys(changes).length > 1 ? "s" : ""} non enregistrée${Object.keys(changes).length > 1 ? "s" : ""}.` : "Aucune modification."}</p>
           <Button size="sm" variant="ghost" className="h-11" disabled={!dirty} onClick={() => { setForm(toForm(base)); setErrors({}); setServerError(null); }}>Annuler<span className="hidden sm:inline"> les modifications</span></Button>
           <Button size="sm" type="submit" variant="primary" className="h-11" disabled={!dirty}>Enregistrer</Button>

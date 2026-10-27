@@ -28,6 +28,7 @@ import { displayMode, planDisplay, type Missing } from "./policy.ts";
 import { interpretLoginResponse, interpretSendFailure, interpretStartResponse, isTrustedSender, parseTabMessage } from "./protocol.ts";
 import { createScheduler } from "./scheduler.ts";
 import { watchSyncSettings } from "./settings.ts";
+import { chargerApparence, chargerPolice, definirPolicePage } from "./apparence.ts";
 import { JobStore } from "./store.ts";
 import type { Theme } from "./theme.ts";
 import { eventSource, navigationApiSource, watchUrl } from "./url-watcher.ts";
@@ -111,7 +112,20 @@ export function startContentScript(adapter: PlatformAdapter): void {
       if (!lc.check()) return;
       saveSettings({ panelPosition: p }).catch(() => {});
     },
+    // Égide : police d'interface du menu, demandée au service worker à la première ouverture (content/common/apparence.ts).
+    police: () => {
+      if (!lc.check()) return;
+      chargerPolice(doc, async () => {
+        try {
+          const res = (await chrome.runtime.sendMessage({ type: "egide.police" })) as { ok?: boolean; data?: unknown } | undefined;
+          return res?.ok === true && typeof res.data === "string" && res.data.length < 200_000 ? res.data : null;
+        } catch {
+          return null;
+        }
+      });
+    },
   };
+  definirPolicePage(adapter.fontFamily);
 
   // V3.5 : capacités du serveur et du compte (Tools ouvert, plateforme en pause), demandées au service worker à
   // l'ouverture d'un menu et gardées 30 s ; sans réponse : dernier état connu (au départ : tout permis, le serveur
@@ -330,8 +344,9 @@ export function startContentScript(adapter: PlatformAdapter): void {
         /* ignoré */
       }
     });
-    getSettings().then(
-      lc.wrap((s: Settings) => {
+    // Égide : la préférence d'apparence est lue AVANT la première commande (aucun changement de thème sous les yeux).
+    Promise.all([getSettings(), chargerApparence()]).then(
+      lc.wrap(([s]: [Settings, void]) => {
         settings = s;
         settingsChanged();
       }),

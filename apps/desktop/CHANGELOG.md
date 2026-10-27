@@ -3,6 +3,16 @@
 Chaque section « ## <version> — AAAA-MM-JJ » donne les notes de l'annonce de mise à jour
 (`downloads/desktop/latest.json`, écrite par `web/scripts/latest-desktop.py`).
 
+## 1.3.0-beta.1 — 2026-10-26
+
+- Nouvelle apparence « Égide », commune au site et à l'extension : la navigation à gauche, la conversion au centre et « Le fil » de tes transferts à droite (masquable), titres en Marcellus, icônes redessinées.
+- Six thèmes (Obsidian, Ivory, OLED, Midnight, Minimal, Custom) et un éditeur dans Paramètres › Apparence : accent, fonds, arrondis, densité, taille du texte, animations ; aperçu immédiat, contrastes vérifiés, import et export (Copier, Télécharger), réinitialisation. Le thème s'applique dès l'ouverture, écran de démarrage et menu de la zone de notification compris.
+- « Coller un lien » reconnaît la plateforme et dit son état réel (en ligne, en préparation, indisponible, non prise en charge) ; Bluesky et Wikimedia Commons se convertissent aussi depuis AETHRYON Desktop, en MP4 ou en MP3 (Wikimedia : auteur, licence et source écrits dans le fichier).
+- Le fil : chaque transfert avec son étape, les octets reçus et le débit réels ; Pause, Reprendre et Annuler pour les conversions lancées depuis AETHRYON Desktop, aussi au clavier (Espace, Suppr).
+- La chouette d'AETHRYON garde son dessin officiel : une médaille au repos, un fil qui tourne autour pendant un traitement, un sceau à la réussite ; plus de 3D.
+- Animations plus légères ; « Réduire les animations » et le réglage de Windows sont respectés partout.
+- Toutes les fonctions restent : bibliothèque et AETHRYON Index, Musique, Cloud, glisser-déposer vers Premiere Pro, mises à jour en un clic. L'extension navigateur 3.8.1 et le panneau AETHRYON 2.0.1 pour Premiere Pro ne changent pas.
+
 ## 1.2.0-beta.2 — 2026-10-25
 
 - L'assistant d'installation et de réparation reconnaît le panneau AETHRYON pour Premiere Pro installé par AETHRYON Setup : « Panneau AETHRYON 2.0.1 installé », au lieu de « Paquet absent · paquet du panneau absent ».

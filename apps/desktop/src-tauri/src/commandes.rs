@@ -42,6 +42,16 @@ pub fn fenetre_prete(app: AppHandle, e: State<EtatApp>) {
     crate::zone::prechauffer(&app);
 }
 
+/// Égide : fond natif de la fenêtre principale = fond (« canvas ») du thème appliqué, pour qu'un agrandissement ou un
+/// redimensionnement ne montre jamais une bande d'une autre couleur avant que WebView2 repeigne. Seulement une couleur
+/// `#RRGGBB` (la préférence elle-même reste dans le stockage local de WebView2, lue par theme-boot.js).
+#[tauri::command]
+pub fn fenetre_fond(app: AppHandle, couleur: String) -> R<()> {
+    let c = aethryon_noyau::config::couleur_hex(&couleur).ok_or("couleur refusée")?;
+    let w = app.get_webview_window("main").ok_or("fenêtre absente")?;
+    w.set_background_color(Some(tauri::window::Color(c[0], c[1], c[2], 255))).map_err(|e| e.to_string())
+}
+
 /// Boutons de légende dessinés : `reduire`, `agrandir` (bascule), `fermer` (réduit dans la zone de notification).
 #[tauri::command]
 pub fn fenetre(app: AppHandle, action: String) -> R<()> {

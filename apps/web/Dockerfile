@@ -25,9 +25,9 @@ ARG CONTROL_CENTER=1
 ARG INDEXING=0
 RUN test "$CONTROL_CENTER" = 1 -o "$CONTROL_CENTER" = 0 || { echo "CONTROL_CENTER doit valoir 0 ou 1" >&2; exit 1; }
 RUN test "$INDEXING" = 1 -o "$INDEXING" = 0 || { echo "INDEXING doit valoir 0 ou 1" >&2; exit 1; }
-# Identité maître par défaut ; VITE_MASCOT=vector reconstruit l'exploration C3 archivée (vite.config.ts).
+# Identité : la tête maître seule (VITE_MASCOT=master ; l'exploration C3 « vector » est retirée depuis Égide).
 ARG VITE_MASCOT=master
-RUN test "$VITE_MASCOT" = master -o "$VITE_MASCOT" = vector || { echo "VITE_MASCOT doit valoir master ou vector" >&2; exit 1; }
+RUN test "$VITE_MASCOT" = master || { echo "VITE_MASCOT : seule la tête maître existe (Égide)" >&2; exit 1; }
 # Aperçu seulement : ALLOW_LEGAL_PLACEHOLDERS=1 accepte des informations légales « À compléter » (refusées sinon).
 ARG ALLOW_LEGAL_PLACEHOLDERS=0
 # Ce que fait réellement le bot Discord en production (src/lib/discord.ts) : décrit tel quel dans /conditions et

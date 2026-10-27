@@ -71,7 +71,7 @@ function QuotaEditor({ d, global, onSubmit }: { d: Detail; global: Quotas["globa
     if (!summary.length) { setErrors({ daily: "Aucun changement à enregistrer." }); return; }
     onSubmit({ kind: "quota", body, summary });
   };
-  const radio = "size-5 accent-[#0f0f10]";
+  const radio = "size-5 accent-[var(--eg-c-accent)]";
   return (
     <form onSubmit={submit} noValidate className="space-y-5">
       <fieldset>

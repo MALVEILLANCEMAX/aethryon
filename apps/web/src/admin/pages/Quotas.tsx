@@ -125,7 +125,7 @@ export default function Quotas() {
             const series = [{ key: "conversions", label: "Conversions", ...SERIES.gold }, { key: "users", label: "Comptes actifs", ...SERIES.graphite }];
             return (
               <>
-                <Legend kind="line" series={[{ key: "c", label: "Conversions", swatch: "bg-gold-text" }, { key: "u", label: "Comptes actifs", swatch: "bg-graphite" }]} />
+                <Legend kind="line" series={[{ key: "c", label: "Conversions", swatch: "bg-gold-text" }, { key: "u", label: "Comptes actifs", swatch: "bg-raised" }]} />
                 <div className="mt-3">
                   <LineChart
                     area={false}

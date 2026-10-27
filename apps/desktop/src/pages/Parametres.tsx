@@ -1,16 +1,18 @@
-// Paramètres (Nocturne-2) : catégories claires — une navigation collante à gauche (elle suit la lecture), les réglages
-// à droite, regroupés en cartes. Les explications ne sont plus écrites en permanence : un « i » à côté du titre les
-// donne au survol ou au focus (bulle), et le lecteur d'écran les lit. TOUTES les options d'avant sont là : compte
-// (liaison par code, chargé à la demande), thème, mouvement, présence de la chouette, dossier des médias,
+// Paramètres : neuf catégories — une navigation collante à gauche (elle suit la lecture), les réglages à droite,
+// regroupés en panneaux Égide. Les explications ne sont pas écrites en permanence : un « i » à côté du titre les donne
+// au survol ou au focus (bulle), et le lecteur d'écran les lit. Apparence : les six thèmes et l'ÉDITEUR d'Égide
+// (creerEditeurThemes : aperçu immédiat, 27 contrastes, import, export Copier + Télécharger, réinitialisation, gardé sur
+// cet appareil ; lib/apparence.ts). TOUTES les options d'avant sont là : compte
+// (liaison par code, chargé à la demande), mouvement, présence de la chouette, dossier des médias,
 // surveillance, autres dossiers surveillés, Premiere Pro (chutier d'import, réparer), notifications, démarrage,
 // mises à jour (« Rechercher », « Mettre à jour » : jamais sans clic ; lib/miseAJour.ts), journaux, rapport, licences,
 // réparer, désinstaller.
-import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import "../styles/parametres.css";
 import { useMagasin } from "../lib/magasin";
 import { dossierAmical, taille, typo } from "../lib/format";
 import { api, messageErreur } from "../lib/api";
-import type { Animations, Chutier, Theme } from "../lib/types";
+import type { Animations, Chutier } from "../lib/types";
 import { Bouton, BoutonIcone, Icone, Interrupteur, Segmente } from "../ui/base";
 import { Dialogue, useToast } from "../ui/superpositions";
 import { Chouette } from "../ui/marque";
@@ -24,13 +26,39 @@ import type { NomIcone } from "../ui/traces";
 import { Aide } from "../ui/Aide";
 import { scannerDisponible } from "../lib/scanner";
 import { ReglagesIndex } from "../index/ReglagesIndex";
+import { creerEditeurThemes, regionToasts } from "../lib/egide";
+import { nomThemeApplique, persistance, surTheme } from "../lib/apparence";
 
 const CompteReglages = lazy(() => import("./CompteReglages"));
 
+/** Région des notifications de l'éditeur (une seule pour toute la session). */
+let regionEditeur: HTMLDivElement | null = null;
+
+/** L'éditeur de thèmes d'Égide, monté dans la page (fonctions DOM du socle, nettoyées au démontage). */
+function EditeurApparence() {
+  const hote = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = hote.current;
+    if (!el) return;
+    if (!regionEditeur) {
+      regionEditeur = regionToasts();
+      regionEditeur.setAttribute("aria-label", "Notifications de l'apparence");
+    }
+    const e = creerEditeurThemes(el, { persistance, toasts: regionEditeur });
+    return () => e.detruire();
+  }, []);
+  return <div ref={hote} className="reg-editeur" />;
+}
+
+/** Nom du thème appliqué, suivi en direct (éditeur, Annuler, réinitialisation). */
+function useNomTheme(): string {
+  return useSyncExternalStore(surTheme, nomThemeApplique);
+}
+
 const PHRASES_PRESENCE: Record<Presence, string> = {
-  discrete: "Discrète : elle réagit aux transferts, aux réussites et aux erreurs.",
-  expressive: "Expressive : elle réagit plus souvent et propose des astuces.",
-  muette: "Muette : dessin fixe, aucune astuce ; l'état reste écrit à côté.",
+  discrete: "Discrète : autour de sa médaille, la chouette signale les transferts, les réussites et les erreurs.",
+  expressive: "Expressive : elle signale plus souvent et propose des astuces.",
+  muette: "Muette : médaille fixe, aucune astuce ; l'état reste écrit à côté.",
 };
 
 interface Categorie { id: string; titre: string; icone: NomIcone }
@@ -99,8 +127,11 @@ function MisesAJour({ version, panneau }: { version: string; panneau: string }) 
 export default function Parametres({ onReparer }: { onReparer: () => void }) {
   const { inst, modifierConfig, rafraichir, aller } = useMagasin();
   const { presence, definirPresence } = useCompanion();
+  const theme = useNomTheme();
   const toast = useToast();
   const [licences, setLicences] = useState(false);
+  const [textesPolices, setTextesPolices] = useState<readonly (readonly [string, string])[] | null>(null);
+  useEffect(() => { if (licences && !textesPolices) void import("../lib/licencesPolices").then((m) => setTextesPolices(m.TEXTES_POLICES)).catch(() => {}); }, [licences, textesPolices]);
   const [desinstaller, setDesinstaller] = useState(false);
   const [webview, setWebview] = useState<string | null>(null);
   const [active, setActive] = useState("compte");
@@ -199,10 +230,14 @@ export default function Parametres({ onReparer }: { onReparer: () => void }) {
 
           <Categorie c={cat("apparence")}>
             <div className="group">
-              <Reglage icone="theme" titre="Thème" commande={<Segmente<Theme> libelle="Thème" valeur={c.theme} onChange={(v) => modifierConfig({ theme: v })} options={[{ id: "systeme", libelle: "Système" }, { id: "clair", libelle: "Clair" }, { id: "sombre", libelle: "Sombre" }]} />} />
-              <Reglage icone="motion" titre="Réduire les animations" aide="Système : suit « Effets d'animation » de Windows. Oui : aucun déplacement ni boucle, fondus courts seulement."
+              <Reglage icone="theme" titre="Thème" aide="Six thèmes, ou le tien : l'aperçu change tout de suite, « Appliquer » le garde sur cet appareil (fenêtre, écran de démarrage et menu de la zone de notification)."
+                commande={<span className="eg-pastille" data-ton="accent">{theme}</span>} />
+            </div>
+            <EditeurApparence />
+            <div className="group">
+              <Reglage icone="motion" titre="Réduire les animations" aide="Système : suit le thème et « Effets d'animation » de Windows. Oui : aucun déplacement ni boucle, fondus courts seulement. Non : le thème décide, même si Windows réduit les animations."
                 commande={<Segmente<Animations> libelle="Réduire les animations" valeur={c.reduireAnimations} onChange={(v) => modifierConfig({ reduireAnimations: v })} options={[{ id: "systeme", libelle: "Système" }, { id: "oui", libelle: "Oui" }, { id: "non", libelle: "Non" }]} />} />
-              <Reglage icone={<Chouette taille={16} />} titre="Présence de la chouette" aide="Comment la chouette d'AETHRYON accompagne votre travail." pile reglage="presence">
+              <Reglage icone={<Chouette taille={16} />} titre="Présence de la chouette" aide="Comment la chouette d'AETHRYON accompagne ton travail." pile reglage="presence">
                 <Segmente<Presence> libelle="Présence de la chouette" valeur={presence} onChange={definirPresence} options={[{ id: "discrete", libelle: "Discrète" }, { id: "expressive", libelle: "Expressive" }, { id: "muette", libelle: "Muette" }]} />
                 <div className="rd rd--choix" aria-live="polite">{typo(PHRASES_PRESENCE[presence])}</div>
               </Reglage>
@@ -211,7 +246,7 @@ export default function Parametres({ onReparer }: { onReparer: () => void }) {
 
           <Categorie c={cat("medias")}>
             <div className="group">
-              <Reglage icone={<Icone nom="folder" taille={16} />} titre="Dossier des médias" aide="Les fichiers convertis et importés y arrivent ; vos fichiers ne sont jamais déplacés."
+              <Reglage icone={<Icone nom="folder" taille={16} />} titre="Dossier des médias" aide="Les fichiers convertis et importés y arrivent ; tes fichiers ne sont jamais déplacés."
                 commande={<Bouton taille="sm" onClick={async () => { const d = await choisir("Dossier des médias AETHRYON"); if (d) await modifierConfig({ dossierMedias: d }); }}>Modifier…</Bouton>}>
                 <div className="rd reg-chemin"><b>{dossierAmical(c.dossierMedias)}</b><span className="mono ellipsis" title={c.dossierMedias}>{c.dossierMedias}</span></div>
               </Reglage>
@@ -238,7 +273,7 @@ export default function Parametres({ onReparer }: { onReparer: () => void }) {
 
           <Categorie c={cat("premiere")}>
             <div className="group">
-              <Reglage icone="import" titre="Chutier d'import" aide="Chutier où le panneau range les médias importés depuis AETHRYON. L'import n'est jamais automatique : il part toujours d'une demande de votre part." pile>
+              <Reglage icone="import" titre="Chutier d'import" aide="Chutier où le panneau range les médias importés depuis AETHRYON. L'import n'est jamais automatique : il part toujours d'une demande de ta part." pile>
                 <Segmente<Chutier> libelle="Chutier d'import" valeur={c.chutierParDefaut} onChange={(v) => modifierConfig({ chutierParDefaut: v })}
                   options={[{ id: "aethryon", libelle: "AETHRYON" }, { id: "selection", libelle: "Chutier sélectionné" }, { id: "racine", libelle: "Racine" }]} />
               </Reglage>
@@ -257,7 +292,7 @@ export default function Parametres({ onReparer }: { onReparer: () => void }) {
 
           <Categorie c={cat("demarrage")}>
             <div className="group">
-              <Reglage icone="power" titre="Lancer au démarrage de Windows" aide="AETHRYON démarre réduit dans la zone de notification et suit vos transferts."
+              <Reglage icone="power" titre="Lancer au démarrage de Windows" aide="AETHRYON démarre réduit dans la zone de notification et suit tes transferts."
                 commande={<Interrupteur libelle="Lancer au démarrage de Windows" actif={c.demarrageAuto} onChange={(v) => modifierConfig({ demarrageAuto: v })} />} />
             </div>
           </Categorie>
@@ -270,15 +305,15 @@ export default function Parametres({ onReparer }: { onReparer: () => void }) {
 
           <Categorie c={cat("maintenance")}>
             <div className="group">
-              <Reglage icone={<Chouette taille={18} />} titre={`AETHRYON Desktop ${inst.version}`} aide="Inter, Playfair Display, Marcellus : SIL OFL 1.1"
+              <Reglage icone={<Chouette taille={18} />} titre={`AETHRYON Desktop ${inst.version}`} aide="Marcellus, Hanken Grotesk, Geist Mono : SIL OFL 1.1"
                 commande={<Bouton taille="sm" variante="ghost" onClick={() => setLicences(true)}>Licences</Bouton>} />
               <Reglage icone="log" titre="Journaux locaux" aide="Gardés 14 jours sur cet ordinateur. Rien n'est envoyé.">
                 <div className="rd">{typo(`${nbJ} fichier${nbJ > 1 ? "s" : ""} · ${taille(octets)}`)}</div>
                 <div className="reg-boutons"><Bouton taille="sm" onClick={() => api.ouvrirDossier("journaux")}>Ouvrir le dossier</Bouton><Bouton taille="sm" variante="ghost" onClick={exporter}>Exporter un rapport…</Bouton></div>
               </Reglage>
-              <Reglage icone="repair" titre="Réparer l'installation" aide="Réinstalle le panneau et les composants, garde vos médias."
+              <Reglage icone="repair" titre="Réparer l'installation" aide="Réinstalle le panneau et les composants, garde tes médias."
                 commande={<Bouton taille="sm" icone="repair" onClick={onReparer}>Réparer</Bouton>} />
-              <Reglage icone="trash" titre="Désinstaller AETHRYON" aide={`Vos médias restent dans ${dossierAmical(c.dossierMedias)}.`}
+              <Reglage icone="trash" titre="Désinstaller AETHRYON" aide={`Tes médias restent dans ${dossierAmical(c.dossierMedias)}.`}
                 commande={<Bouton taille="sm" variante="danger" onClick={() => setDesinstaller(true)}>Désinstaller…</Bouton>} />
             </div>
           </Categorie>
@@ -288,13 +323,19 @@ export default function Parametres({ onReparer }: { onReparer: () => void }) {
       {licences && (
         <Dialogue titre="Licences" large onFermer={() => setLicences(false)} actions={<Bouton variante="primary" onClick={() => setLicences(false)}>Fermer</Bouton>}>
           <dl className="licences">{LICENCES.map(([n, l]) => <div key={n}><dt>{n}</dt><dd>{typo(l)}</dd></div>)}</dl>
+          {textesPolices && (
+            <details className="licences-ofl">
+              <summary>Textes complets des licences des polices (SIL OFL 1.1)</summary>
+              {textesPolices.map(([n, t]) => <section key={n} aria-label={`Licence ${n}`}><h3>{n}</h3><pre className="mono">{t}</pre></section>)}
+            </details>
+          )}
           <p className="t-small c3" style={{ marginTop: 12 }}>{typo(`WebView2 ${webview ?? "non lu"}. Aucune bibliothèque FFmpeg n'est livrée : miniatures et durées viennent du WebView2 et de la lecture des en-têtes MP4.`)}</p>
         </Dialogue>
       )}
       {desinstaller && (
         <Dialogue titre="Désinstaller AETHRYON ?" onFermer={() => setDesinstaller(false)}
           actions={<><Bouton variante="ghost" onClick={() => setDesinstaller(false)}>Annuler</Bouton><Bouton variante="danger" onClick={async () => { try { await api.lancerDesinstalleur(); } catch (e) { toast({ etat: "erreur", titre: "Désinstalleur introuvable", texte: messageErreur(e) }); } setDesinstaller(false); }}>Ouvrir le désinstalleur</Bouton></>}>
-          <p>{typo("Le désinstalleur retire le panneau de Premiere Pro, les clés de la liaison navigateur et le démarrage automatique. Il vous demandera si vous gardez vos médias.")}</p>
+          <p>{typo("Le désinstalleur retire le panneau de Premiere Pro, les clés de la liaison navigateur et le démarrage automatique. Il te demandera si tu gardes tes médias.")}</p>
         </Dialogue>
       )}
     </div>

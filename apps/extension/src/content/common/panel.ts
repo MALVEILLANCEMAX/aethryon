@@ -9,7 +9,8 @@ import type { Target } from "./adapter.ts";
 import { Control, type ControlHooks } from "./control.ts";
 import { h, isolateEvents, setAttr, setText } from "./dom.ts";
 import { clampToViewport, defaultPanelPosition, isOffscreen, resolvePanelPosition, type Point, type Size } from "./geometry.ts";
-import { PANEL_CSS } from "./styles.ts";
+import { CONTROL_CSS, PANEL_CSS } from "./styles.ts";
+import { racineEgide } from "./apparence.ts";
 import { T } from "./strings.ts";
 import type { Theme } from "./theme.ts";
 
@@ -49,7 +50,6 @@ export class FloatingPanel {
     this.theme = theme;
     const d = hooks.doc;
     this.host = d.createElement(PANEL_TAG);
-    const root = this.host.attachShadow({ mode: "closed" });
     this.grip = h(d, "button", { class: "grip", attrs: { type: "button", "aria-label": T.panelMove, title: T.panelMove } });
     this.titleEl = h(d, "span", { class: "ptitle" });
     this.info = h(d, "div", { class: "info" }, [
@@ -60,7 +60,8 @@ export class FloatingPanel {
     this.panel = h(d, "div", { class: "panel", attrs: { role: "region", "aria-label": T.panelRegion } }, [this.grip, this.info, this.slot]);
     this.wrap = h(d, "div", { class: "aeth", attrs: { "data-theme": theme } }, [this.panel]);
     this.wrap.style.setProperty("--font", hooks.fontFamily);
-    root.append(h(d, "style", { text: PANEL_CSS }), this.wrap);
+    // Égide : racine Shadow DOM fermée du socle (feuille adoptée, thème de l'utilisateur), comme la commande intégrée.
+    racineEgide(this.host, CONTROL_CSS, PANEL_CSS).enveloppe.append(this.wrap);
     isolateEvents(this.host);
 
     // Déplacement (souris, stylet, doigt)

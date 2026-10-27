@@ -61,12 +61,17 @@ export function classifySender(sender: chrome.runtime.MessageSender | undefined,
  * AETHRYON » de la page, réponse réduite à { connected }) et l'ouverture de la page d'accueil (notice).
  * Jamais : compte, déconnexion, accord, réglages.
  */
+/** Police d'interface du menu injecté (Égide : Hanken Grotesk variable, OFL, copiée de design/fonts par la construction). */
+export const POLICE_UI = "egide/fonts/hanken-grotesk-latin-wght-normal.woff2";
+
 const CONTENT_ALLOWED: ReadonlySet<BgRequest["type"]> = new Set([
   "job.start", "job.retry", "job.cancel", "jobs.list", "auth.login", "welcome.open", "frame.save", "thumb.save", "tools.open",
   // V3.5 : capacités (Tools ouvert, plateformes en pause : rien du compte) ; « Afficher » d'un fichier de CET onglet.
   "caps.get", "download.show",
   // 3.6.0 : limites des extraits annoncées par le serveur, et le reste du quota du jour (deux nombres, rien d'autre).
   "limits.get",
+  // 3.9.0 (Égide) : police d'interface du menu (fichier de l'extension, identique pour tous ; rien du compte).
+  "egide.police",
 ]);
 
 /** Réponse (non fiable) d'un content script à « frame.grab » → forme vérifiée, ou null. */
@@ -553,6 +558,49 @@ export function createWorker(opts: WorkerOptions = {}) {
    * et seulement après l'accord sur la notice (aucune requête avant).
    */
   let pauses: { at: number; platforms: string[] } | null = null;
+  /**
+   * 3.9.0 (Égide) : police d'interface du menu injecté. Une racine Shadow DOM ne charge pas de @font-face, et un fichier
+   * de l'extension n'est lisible par une page que s'il est exposé (web_accessible_resources, jamais ajouté : la page
+   * pourrait alors détecter l'extension). Le service worker lit donc le fichier empaqueté et l'envoie en base 64 au
+   * content script, qui le déclare par FontFace. Gardée en mémoire tant que le service worker vit.
+   */
+  let police: Promise<string> | null = null;
+  function policeEgide(): Promise<string> {
+    police ??= (async () => {
+      const r = await fetchFn(chrome.runtime.getURL(POLICE_UI));
+      if (!r.ok) throw new Error("police");
+      const b = new Uint8Array(await r.arrayBuffer());
+      let bin = "";
+      for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode(...b.subarray(i, i + 0x8000));
+      return btoa(bin);
+    })().catch((e: unknown) => { police = null; throw e; });
+    return police;
+  }
+
+  /**
+   * 3.9.0 : disponibilité RÉELLE des plateformes (GET <API>/platforms, route publique : aucune clé, rien du compte),
+   * pour le catalogue du popup (une plateforme « prête à ouvrir » n'est utilisable que si le serveur la dit disponible).
+   * Aucune requête avant l'accord sur la notice ; gardée 5 min ; sans réponse : null (le popup montre le catalogue seul).
+   */
+  let plateformesCache: { at: number; dispo: Record<string, boolean> } | null = null;
+  async function plateformes(): Promise<Record<string, boolean> | null> {
+    if (!(await consented())) return null;
+    if (plateformesCache && Date.now() - plateformesCache.at < 5 * 60_000) return plateformesCache.dispo;
+    try {
+      const res = await http(fetchFn, `${API_BASE}/platforms`, { method: "GET", timeoutMs: 5_000 });
+      const list = res.status === 200 && isObj(res.body) && Array.isArray(res.body.plateformes) ? res.body.plateformes : null;
+      if (!list) return plateformesCache?.dispo ?? null;
+      const dispo: Record<string, boolean> = {};
+      for (const p of list.slice(0, 200)) {
+        if (isObj(p) && typeof p.id === "string" && /^[a-z0-9_]{1,40}$/.test(p.id) && typeof p.disponible === "boolean") dispo[p.id] = p.disponible;
+      }
+      plateformesCache = { at: Date.now(), dispo };
+      return dispo;
+    } catch {
+      return plateformesCache?.dispo ?? null;
+    }
+  }
+
   async function caps(): Promise<{ tools: boolean; paused: string[] }> {
     const auth = await getAuth();
     const cached = auth ? await readAccountCache(auth) : null;
@@ -698,6 +746,10 @@ export function createWorker(opts: WorkerOptions = {}) {
         return caps();
       case "limits.get":
         return limits();
+      case "egide.police":
+        return policeEgide();
+      case "platforms.get":
+        return plateformes();
       case "player":
         if (who.kind !== "page") return fail("unsupported", MSG.internal);
         return player(req);

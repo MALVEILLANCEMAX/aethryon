@@ -1,4 +1,10 @@
-// Banc « Nocturne » : coque, Accueil, Bibliothèque et chouette. Chromium (Playwright), application construite (dist/),
+// Banc « Nocturne », ADAPTÉ à Égide (lot 2, 2026-10-26) : coque, Accueil, Bibliothèque et chouette. Les fonctions
+// essayées sont les mêmes ; seules les attentes VISUELLES de la direction Nocturne, remplacées volontairement par
+// Égide, ont changé (LOT2.md § essais) : chouette 3D → chouette maître dans sa médaille (veille, sceau) ; transition de
+// page au clic → aucune animation du contenu (seul l'indicateur glisse) ; fil d'Ariane de l'en-tête → section
+// courante lue dans la navigation (aria-current) ; présentation « Vos médias » → « Coller un lien » ; transferts de
+// l'Accueil → « Le fil » ; thème clair (config.theme « clair ») → thème Égide Ivory.
+// Chromium (Playwright), application construite (dist/),
 // MAQUETTE de l'API Tauri (e2e/maquette-tauri.js). Les captures prouvent l'INTERFACE ; rien ici n'est WebView2 ni un
 // vrai Windows (NON DÉMONTRÉ). Les images par seconde sont des PLANCHERS (Chromium sans GPU, SwiftShader).
 // Usage : npm run build && node e2e/nocturne.mjs   (SORTIE : dossier des captures ; PLAYWRIGHT_CORE : module)
@@ -137,6 +143,8 @@ async function cadence(p, faire) {
   });
 }
 const fluide = (r) => r.p95 <= 17.5 && !r.longues.some((x) => x > 50);
+/** Section courante (navigation, aria-current) ; « Aperçu » quand l'aperçu d'un média est ouvert. */
+const SECTION = `(document.querySelector('.nav a[aria-current="page"] .lbl')?.textContent || (document.querySelector(".pv") ? "Aperçu" : null))`;
 
 /** Capture de la chouette AVEC son orbite et son halo (boîte élargie de 45 % de chaque côté). */
 async function capturerChouette(p, nom, selecteur = ".acc-chouette .c3d") {
@@ -150,70 +158,70 @@ async function capturerChouette(p, nom, selecteur = ".acc-chouette .c3d") {
 // ======================================================================================================================
 // 1. Accueil : présentation, chouette, chiffres réels, derniers médias, état de Premiere discret
 // ======================================================================================================================
-await essai("Accueil : présentation, chouette en profondeur, chiffres RÉELS, derniers médias, Premiere dans l'en-tête", async () => {
+await essai("Accueil : « Coller un lien », chiffres RÉELS, derniers médias, Premiere dans la barre, le fil à droite, une seule chouette", async () => {
   const s = await ouvrir({ compte: "utilisateur" });
   await s.p.waitForTimeout(500);
-  const r = await s.p.evaluate(() => ({
+  const r = await s.p.evaluate((SEC) => ({
     titre: document.querySelector(".acc-titre")?.textContent,
-    chouette: document.querySelector(".acc-chouette .c3d")?.dataset.apparence,
-    plans: document.querySelectorAll(".acc-chouette .c3d-plan").length,
     stats: [...document.querySelectorAll(".acc-stat")].map((b) => [b.querySelector(".acc-stat-n").textContent, b.querySelector(".acc-stat-l").textContent]),
     recents: document.querySelectorAll(".acc-carte").length,
     cols: getComputedStyle(document.querySelector(".acc-recents")).gridTemplateColumns.split(" ").length,
     premiere: document.querySelector(".puce-etat")?.dataset.ton,
-    fil: document.querySelector(".fil b")?.textContent,
-    nicheFixe: !document.querySelector(".niche .companion")?.hasAttribute("data-anime"),
+    fil: eval(SEC),
+    chouettes: [...document.querySelectorAll(".companion")].length,
+    maitre: [...document.querySelectorAll("img.eg-chouette")].every((i) => /aethryon-master/.test(i.getAttribute("src") ?? "")),
     nicheVisible: !document.querySelector(".niche-boite")?.hasAttribute("data-masquee"),
-    animees: document.querySelectorAll(".companion[data-anime]").length,
-    encours: document.querySelector(".acc-encours-texte")?.textContent,
-  }));
+    enCours: document.querySelectorAll('.colonne-fil .tache[data-etat="cours"]').length,
+    resume: document.querySelector(".fil-resume")?.textContent,
+  }), SECTION);
   await capturer(s.p, "accueil-1280x800");
   await s.p.locator(".acc-hero").screenshot({ path: join(sortie, "accueil-presentation.png") });
   await fermer(s);
   const attendus = [["11", "Dans la bibliothèque"], ["7", "Vidéos"], ["2", "Pistes audio"], ["2", "Images"]];
-  return { ok: /Vos médias/.test(r.titre) && r.plans === 4 && r.chouette === "telechargement" && JSON.stringify(r.stats) === JSON.stringify(attendus) && r.recents === r.cols && r.premiere === "ok" && r.fil === "Accueil" && r.nicheFixe && r.nicheVisible && r.animees === 1 && /2\stransferts\sen cours · 51/.test(r.encours ?? ""), ...r };
+  return { ok: /Coller un lien/.test(r.titre) && JSON.stringify(r.stats) === JSON.stringify(attendus) && r.recents === r.cols && r.premiere === "ok" && r.fil === "Accueil" && r.chouettes === 1 && r.maitre && r.nicheVisible && r.enCours === 2 && /en cours/.test(r.resume ?? ""), ...r };
 });
 
-await essai("Coller un lien : plateforme reconnue, conversion EXISTANTE appelée, réaction de réussite ; refus : réaction d'erreur distincte", async () => {
+await essai("Coller un lien : plateforme reconnue (état réel), conversion EXISTANTE appelée, sceau de réussite ; refus : erreur distincte", async () => {
   const s = await ouvrir({ compte: "utilisateur" });
   const champ = s.p.getByLabel("Lien de la vidéo à convertir");
   await champ.click();
-  await s.p.waitForTimeout(250);
-  const regard = await s.p.evaluate(() => document.querySelector(".acc-chouette #eyes")?.style.transform || "");
   await champ.fill("https://www.youtube.com/watch?v=aethryon");
+  await s.p.waitForSelector(".acc-plateforme");
   const puce = await s.p.locator(".acc-plateforme").textContent();
+  const etat = await s.p.locator(".pf-etat").textContent();
   await capturer(s.p, "accueil-coller-un-lien", { element: ".acc-hero" });
   await s.p.getByRole("button", { name: "Convertir" }).click();
   await s.p.waitForSelector(".toast .tt");
   await s.p.waitForTimeout(120);
   const ok = await s.p.evaluate(() => ({
     toast: document.querySelector(".toast .tt")?.textContent, appel: window.__maquette.appels.includes("convertir_lien"),
-    niche: document.querySelector(".niche-texte")?.textContent, apparence: document.querySelector(".acc-chouette .c3d")?.dataset.apparence, champ: document.querySelector(".acc-lien input")?.value,
+    niche: document.querySelector(".niche-texte")?.textContent, etat: document.querySelector(".niche .companion")?.dataset.etat, sceau: !!document.querySelector(".niche .eg-sceau"), champ: document.querySelector(".acc-lien input")?.value,
   }));
-  await capturerChouette(s.p, "chouette-reussite");
+  await s.p.locator(".niche").screenshot({ path: join(sortie, "chouette-reussite.png") });
   await fermer(s);
   const e = await ouvrir({ compte: "utilisateur", conversionRefusee: "Quota du jour atteint : réessayez demain ou passez à l'offre annuelle." });
   await e.p.getByLabel("Lien de la vidéo à convertir").fill("https://www.tiktok.com/@aethryon/video/1");
+  await e.p.waitForSelector(".acc-plateforme");
   await e.p.getByRole("button", { name: "Convertir" }).click();
   await e.p.waitForSelector(".toast[role=alert]");
   await e.p.waitForTimeout(150);
-  const ko = await e.p.evaluate(() => ({ toast: document.querySelector(".toast[role=alert] .tb")?.textContent, apparence: document.querySelector(".acc-chouette .c3d")?.dataset.apparence, regard: document.querySelector(".acc-chouette #eyes")?.style.transform, halo: getComputedStyle(document.querySelector(".acc-chouette .c3d-halo--erreur")).opacity }));
-  await e.p.waitForTimeout(700);
-  await capturerChouette(e.p, "chouette-erreur");
+  const ko = await e.p.evaluate(() => ({ toast: document.querySelector(".toast[role=alert] .tb")?.textContent, etat: document.querySelector(".niche .companion")?.dataset.etat, note: document.querySelector(".acc-note--erreur")?.textContent }));
+  await e.p.locator(".niche").screenshot({ path: join(sortie, "chouette-erreur.png") });
   await capturer(e.p, "accueil-conversion-refusee");
   await fermer(e);
-  return { ok: /translate/.test(regard) && puce === "YouTube" && /Conversion lancée/.test(ok.toast ?? "") && ok.appel && /Conversion lancée/.test(ok.niche ?? "") && ok.apparence === "reussite" && ok.champ === ""
-    && /Quota/.test(ko.toast ?? "") && ko.apparence === "erreur" && /translate/.test(ko.regard ?? "") && Number(ko.halo) > 0.5, regard, puce, ok, ko };
+  return { ok: /YouTube/.test(puce ?? "") && /En ligne/.test(etat ?? "") && /Conversion lancée/.test(ok.toast ?? "") && ok.appel && /Conversion lancée/.test(ok.niche ?? "") && ok.etat === "success" && ok.sceau && ok.champ === ""
+    && /Quota/.test(ko.toast ?? "") && ko.etat === "error" && /Quota/.test(ko.note ?? ""), puce, etat, ok, ko };
 });
 
 await essai("Compte non relié : rien n'est envoyé, « Relier mon compte » mène à Paramètres", async () => {
   const s = await ouvrir({ compte: "non-relie" });
   await s.p.getByLabel("Lien de la vidéo à convertir").fill("https://x.com/a/status/1");
-  const puce = await s.p.locator(".acc-plateforme").textContent();
+  await s.p.waitForSelector(".acc-plateforme");
+  const puce = (await s.p.locator(".acc-plateforme").textContent())?.trim();
   await capturer(s.p, "accueil-non-relie", { element: ".acc-hero" });
   await s.p.getByRole("button", { name: "Relier mon compte" }).click();
   await s.p.waitForTimeout(350);
-  const r = await s.p.evaluate(() => ({ fil: document.querySelector(".fil b")?.textContent, appel: window.__maquette.appels.includes("convertir_lien") }));
+  const r = await s.p.evaluate((SEC) => ({ fil: eval(SEC), appel: window.__maquette.appels.includes("convertir_lien") }), SECTION);
   await fermer(s);
   return { ok: puce === "X" && r.fil === "Paramètres" && !r.appel, puce, ...r };
 });
@@ -222,11 +230,11 @@ await essai("Chiffres de l'Accueil : chaque tuile ouvre la Bibliothèque FILTRÉ
   const s = await ouvrir();
   await s.p.locator(".acc-stat", { hasText: "Vidéos" }).click();
   await s.p.waitForTimeout(350);
-  const filtre = await s.p.evaluate(() => ({ fil: document.querySelector(".fil b")?.textContent, presse: document.querySelector(".bib-outils .seg button[aria-pressed=true]")?.textContent, cartes: [...document.querySelectorAll(".mcard")].every((c) => !/\.(mp3|wav|png|gif)$/.test(c.querySelector(".mn")?.textContent ?? "")) }));
+  const filtre = await s.p.evaluate((SEC) => ({ fil: eval(SEC), presse: document.querySelector(".bib-outils .seg button[aria-pressed=true]")?.textContent, cartes: [...document.querySelectorAll(".mcard")].every((c) => !/\.(mp3|wav|png|gif)$/.test(c.querySelector(".mn")?.textContent ?? "")) }), SECTION);
   await aller(s.p, "accueil");
   await s.p.locator(".acc-carte").first().click();
   await s.p.waitForTimeout(350);
-  const apercu = await s.p.evaluate(() => ({ pv: !!document.querySelector(".pv"), fil: document.querySelector(".fil b")?.textContent }));
+  const apercu = await s.p.evaluate((SEC) => ({ pv: !!document.querySelector(".pv"), fil: eval(SEC) }), SECTION);
   await fermer(s);
   return { ok: filtre.fil === "Bibliothèque" && /^Vidéos/.test(filtre.presse ?? "") && filtre.cartes && apercu.pv && apercu.fil === "Aperçu", filtre, apercu };
 });
@@ -234,54 +242,39 @@ await essai("Chiffres de l'Accueil : chaque tuile ouvre la Bibliothèque FILTRÉ
 await essai("Accueil vide : invitation travaillée, aucune donnée inventée (0 partout)", async () => {
   const s = await ouvrir({ vide: true });
   await s.p.waitForTimeout(400);
-  const r = await s.p.evaluate(() => ({ stats: [...document.querySelectorAll(".acc-stat-n")].map((n) => n.textContent), vide: document.querySelector(".acc-vide h2")?.textContent, chouette: document.querySelector(".acc-chouette .c3d")?.dataset.apparence, encours: !!document.querySelector(".acc-encours") }));
+  const r = await s.p.evaluate(() => ({ stats: [...document.querySelectorAll(".acc-stat-n")].map((n) => n.textContent), vide: document.querySelector(".acc-vide h2")?.textContent, chouette: document.querySelector(".acc-vide .companion")?.dataset.etat, medaille: !!document.querySelector(".acc-vide .eg-medaille img.eg-chouette"), fil: document.querySelector(".fil-vide b")?.textContent }));
   await capturer(s.p, "accueil-vide");
-  await capturerChouette(s.p, "chouette-repos");
+  await s.p.locator(".acc-vide").screenshot({ path: join(sortie, "chouette-repos.png") });
   await fermer(s);
-  return { ok: r.stats.every((n) => n === "0") && /premiers médias/.test(r.vide ?? "") && r.chouette === "repos" && !r.encours, ...r };
+  return { ok: r.stats.every((n) => n === "0") && /premiers médias/.test(r.vide ?? "") && r.chouette === "idle" && r.medaille && /Rien dans le fil/.test(r.fil ?? ""), ...r };
 });
 
 // ======================================================================================================================
 // 2. Chouette : apparences, une seule boucle, chargement, mouvement réduit et « Muette »
 // ======================================================================================================================
-await essai("Chouette : repos = UNE boucle (respiration) ; chargement = comète ; suivi du pointeur ; pause hors de la vue", async () => {
+await essai("Chouette (Égide) : maître immobile dans sa médaille ; repos = aucune boucle ; traitement = la veille (un fil tourne AUTOUR) ; une seule chouette", async () => {
   const s = await ouvrir({ vide: true, delaiPanneau: 6000 });
   await s.p.waitForTimeout(500);
   const boucles = () => s.p.evaluate(() => document.getAnimations().filter((a) => a.effect?.getTiming?.().iterations === Infinity && a.playState === "running").map((a) => a.animationName ?? a.id ?? "?"));
   const repos = await boucles();
-  const { x, y } = await centre(s.p.locator(".acc-chouette"));
-  await s.p.mouse.move(x - 300, y - 120, { steps: 4 });
-  await s.p.mouse.move(x + 60, y - 40, { steps: 8 });
-  await s.p.waitForTimeout(600);
-  const pivot = await s.p.evaluate(() => document.querySelector(".acc-chouette .c3d-pivot").style.transform);
-  await capturerChouette(s.p, "chouette-attention-pointeur");
-  await s.p.mouse.move(5, 790);
   // Chargement : un envoi vers Premiere attend la réponse du panneau (6 s dans cette maquette).
   await aller(s.p, "bibliotheque");
-  await aller(s.p, "accueil");
   await s.p.evaluate(() => window.__maquette.modifier((e) => { e.enAttente = ["essai"]; }));
   await s.p.waitForTimeout(500);
-  const chargement = await s.p.evaluate(() => ({ apparence: document.querySelector(".acc-chouette .c3d")?.dataset.apparence, boucle: document.querySelector(".acc-chouette .c3d")?.dataset.boucle }));
+  const chargement = await s.p.evaluate(() => ({ etat: document.querySelector(".companion")?.dataset.etat, veille: !!document.querySelector(".companion .eg-veille"), chouettes: document.querySelectorAll("img.eg-chouette").length - document.querySelectorAll(".barre-marque img, .barre img").length,
+    immobile: [...document.querySelectorAll("img.eg-chouette")].every((i) => getComputedStyle(i).animationName === "none" && i.getAnimations().length === 0) }));
   const bouclesChargement = await boucles();
-  await capturerChouette(s.p, "chouette-chargement");
-  await s.p.evaluate(() => window.__maquette.modifier((e) => { e.enAttente = []; }));
-  // Hors de la vue : la page défile, l'animation se met en pause.
-  // (on allonge la page de l'essai pour que la chouette sorte entièrement de la vue)
-  await s.p.evaluate(() => { document.querySelector(".acc").style.paddingBottom = "1400px"; const pg = document.querySelector(".page"); pg.scrollTop = pg.scrollHeight; });
-  await s.p.waitForTimeout(400);
-  const pause = await s.p.evaluate(() => ({ attribut: document.querySelector(".acc-chouette .c3d")?.hasAttribute("data-pause"), etat: document.getAnimations().filter((a) => a.effect?.getTiming?.().iterations === Infinity).map((a) => a.playState) }));
+  await s.p.locator(".companion").first().screenshot({ path: join(sortie, "chouette-chargement.png") });
   await fermer(s);
-  return { ok: repos.length === 2 && repos.every((n) => /souffle/.test(n)) && /rotateX/.test(pivot) && chargement.apparence === "chargement" && chargement.boucle === "comete" && bouclesChargement.length >= 1 && bouclesChargement.every((n) => /tourne|regard-orbite/.test(n))
-    && pause.attribut && pause.etat.every((x) => x === "paused"), repos, pivot, chargement, bouclesChargement, pause };
+  return { ok: repos.length === 0 && chargement.etat === "processing" && chargement.veille && chargement.immobile && bouclesChargement.length >= 1 && bouclesChargement.every((n) => /eg-tourne|d-indet|d-fil-indet/.test(n)), repos, chargement, bouclesChargement };
 });
 
-await essai("Mouvement réduit (Windows) : dessin fixe, aucune boucle, page en fondu sans déplacement", async () => {
+await essai("Mouvement réduit (Windows, puis réglage « Oui ») : médaille fixe, aucune boucle, contenu sans animation", async () => {
   const s = await ouvrir({}, { reduit: true });
   await s.p.waitForTimeout(400);
   const r = await s.p.evaluate(() => ({
-    anime: document.querySelector(".acc-chouette .c3d")?.hasAttribute("data-anime"), boucle: document.querySelector(".acc-chouette .c3d")?.dataset.boucle,
+    anime: document.querySelector(".niche .companion")?.hasAttribute("data-anime"), reduit: document.documentElement.getAttribute("data-d-reduit"),
     infinies: document.getAnimations().filter((a) => a.effect?.getTiming?.().iterations === Infinity && a.playState === "running").length,
-    arc: !!document.querySelector(".acc-chouette .c3d-arc"),
   }));
   await s.p.locator('a[data-section="bibliotheque"]').click();
   const page = await s.p.evaluate(() => { const a = document.querySelector(".entree-section").getAnimations()[0]; return a ? { nom: a.animationName, duree: a.effect.getTiming().duration } : null; });
@@ -293,9 +286,9 @@ await essai("Mouvement réduit (Windows) : dessin fixe, aucune boucle, page en f
   // Réglage AETHRYON « Réduire les animations : Oui » sans réglage système.
   const t = await ouvrir({}, { avant: () => { const o = window.__TAURI_INTERNALS__; const i = o.invoke; o.invoke = async (c, a) => { const r = await i(c, a); if (c === "etat") r.config.reduireAnimations = "oui"; return r; }; } });
   await t.p.waitForTimeout(400);
-  const reglage = await t.p.evaluate(() => ({ motion: document.documentElement.dataset.motion, anime: document.querySelector(".acc-chouette .c3d")?.hasAttribute("data-anime"), infinies: document.getAnimations().filter((a) => a.effect?.getTiming?.().iterations === Infinity && a.playState === "running").length }));
+  const reglage = await t.p.evaluate(() => ({ motion: document.documentElement.getAttribute("data-eg-motion"), reduit: document.documentElement.getAttribute("data-d-reduit"), anime: document.querySelector(".niche .companion")?.hasAttribute("data-anime"), infinies: document.getAnimations().filter((a) => a.effect?.getTiming?.().iterations === Infinity && a.playState === "running").length }));
   await fermer(t);
-  return { ok: r.anime === false && r.boucle === "aucune" && r.infinies === 0 && r.arc && page?.nom === "apparait" && reglage.motion === "reduced" && reglage.anime === false && reglage.infinies === 0, r, page, reglage };
+  return { ok: r.anime === false && r.reduit === "1" && r.infinies === 0 && page === null && reglage.motion === "reduite" && reglage.reduit === "1" && reglage.anime === false && reglage.infinies === 0, r, page, reglage };
 });
 
 await essai("Présence « Muette » : dessin fixe partout, l'état reste écrit", async () => {
@@ -309,25 +302,25 @@ await essai("Présence « Muette » : dessin fixe partout, l'état reste écrit"
 // ======================================================================================================================
 // 3. Coque : navigation, transitions, Ctrl K, en-tête
 // ======================================================================================================================
-await essai("Coque : transition de page au CLIC seulement (Ctrl 1-7 instantané), surbrillance glissante, Ctrl K, recherche → Bibliothèque", async () => {
+await essai("Coque : contenu sans animation, l'indicateur glisse au CLIC seulement (Ctrl 1-7 instantané), Ctrl K, recherche → Bibliothèque", async () => {
   const s = await ouvrir({ compte: "utilisateur" });
   await s.p.locator('a[data-section="transferts"]').click();
   const clic = await s.p.evaluate(() => ({ instant: document.querySelector(".page").hasAttribute("data-instant"), anim: document.querySelector(".entree-section").getAnimations().map((a) => a.animationName), ind: document.querySelector(".nav-ind").getAnimations().length }));
   await s.p.waitForTimeout(350);
   await s.p.keyboard.press("Control+2");
-  const clavier = await s.p.evaluate(() => ({ instant: document.querySelector(".page").hasAttribute("data-instant"), anim: document.querySelector(".entree-section").getAnimations().length, ind: document.querySelector(".nav-ind").getAnimations().length, fil: document.querySelector(".fil b")?.textContent, nav: document.querySelector(".nav").hasAttribute("data-instant") }));
+  const clavier = await s.p.evaluate((SEC) => ({ instant: document.querySelector(".page").hasAttribute("data-instant"), anim: document.querySelector(".entree-section").getAnimations().length, ind: document.querySelector(".nav-ind").getAnimations().length, fil: eval(SEC), nav: document.querySelector(".nav").hasAttribute("data-instant") }), SECTION);
   await s.p.keyboard.press("Control+1");
   await s.p.keyboard.press("Control+k");
   const focus = await s.p.evaluate(() => document.activeElement?.id);
   await s.p.keyboard.type("coucher");
   await s.p.waitForTimeout(300);
-  const recherche = await s.p.evaluate(() => ({ fil: document.querySelector(".fil b")?.textContent, requete: document.querySelector(".bib-requete")?.textContent, cartes: document.querySelectorAll(".mcard").length }));
+  const recherche = await s.p.evaluate((SEC) => ({ fil: eval(SEC), requete: document.querySelector(".bib-requete")?.textContent, cartes: document.querySelectorAll(".mcard").length }), SECTION);
   await capturer(s.p, "coque-recherche");
   await s.p.keyboard.press("ArrowDown");
   const premiere = await s.p.evaluate(() => document.activeElement?.classList.contains("mcard"));
   const entete = await s.p.evaluate(() => ({ avatar: document.querySelector(".avatar")?.textContent, puces: [...document.querySelectorAll(".puce-etat")].map((b) => [b.dataset.ton, b.getAttribute("aria-label")]) }));
   await fermer(s);
-  return { ok: !clic.instant && clic.anim.includes("entree-page") && clavier.instant && clavier.anim === 0 && clavier.nav && clavier.fil === "Bibliothèque" && focus === "recherche-globale" && recherche.fil === "Bibliothèque" && /«\s*coucher\s*»\s*·\s*7\s*résultats/.test(recherche.requete ?? "") && premiere && entete.avatar === "L" && entete.puces[0][0] === "ok", clic, clavier, focus, recherche, premiere, entete };
+  return { ok: !clic.instant && clic.anim.length === 0 && clic.ind === 1 && clavier.instant && clavier.anim === 0 && clavier.nav && clavier.fil === "Bibliothèque" && focus === "recherche-globale" && recherche.fil === "Bibliothèque" && /«\s*coucher\s*»\s*·\s*7\s*résultats/.test(recherche.requete ?? "") && premiere && entete.avatar === "L" && entete.puces[0][0] === "ok", clic, clavier, focus, recherche, premiere, entete };
 });
 
 // ======================================================================================================================
@@ -425,11 +418,11 @@ await essai("20 000 médias : grille VIRTUALISÉE (peu de nœuds), fin atteinte 
   return { ok: debut.cartes < 120 && debut.noeuds < 2500 && pendant < 120 && fin.pos === "20011" && fin.visible && /20\s*011\s*sélectionnés/.test((tout ?? "").replace(/ /g, " ")) && recherche.cartes === 12 && fluide(perf), debut, perf, pendant, fin, tout, recherche };
 });
 
-await essai("Bibliothèque vide : la chouette en profondeur, une phrase, des actions réelles", async () => {
+await essai("Bibliothèque vide : la médaille de la chouette, une phrase, des actions réelles", async () => {
   const s = await ouvrir({ vide: true });
   await aller(s.p, "bibliotheque");
   await s.p.waitForTimeout(400);
-  const r = await s.p.evaluate(() => ({ titre: document.querySelector(".bib-vide h2")?.textContent, chouette: !!document.querySelector(".bib-vide .c3d"), nicheMasquee: document.querySelector(".niche-boite")?.hasAttribute("data-masquee"), boutons: [...document.querySelectorAll(".bib-vide .vide-actions button")].map((b) => b.textContent) }));
+  const r = await s.p.evaluate(() => ({ titre: document.querySelector(".bib-vide h2")?.textContent, chouette: !!document.querySelector(".bib-vide .companion .eg-medaille"), nicheMasquee: document.querySelector(".niche-boite")?.hasAttribute("data-masquee"), boutons: [...document.querySelectorAll(".bib-vide .vide-actions button")].map((b) => b.textContent) }));
   await capturer(s.p, "bibliotheque-vide");
   await fermer(s);
   return { ok: /vide/.test(r.titre ?? "") && r.chouette && r.nicheMasquee && r.boutons.length >= 2, ...r };
@@ -461,18 +454,18 @@ await essai("Aucun défilement horizontal ni élément coupé de 900 × 640 à 2
   return { ok, resultats: ok ? resultats.map((r) => r.taille) : resultats };
 });
 
-await essai("Thème clair : coque, Accueil et Bibliothèque lisibles (jetons clairs)", async () => {
+await essai("Thème clair d'avant (config « clair ») → Ivory d'Égide une fois : coque, Accueil et Bibliothèque lisibles", async () => {
   const s = await ouvrir({ theme: "clair", compte: "utilisateur" }, { theme: "light" });
   await s.p.waitForTimeout(300);
-  const r = await s.p.evaluate(() => ({ theme: document.documentElement.dataset.theme, fond: getComputedStyle(document.querySelector(".win")).backgroundColor, hero: getComputedStyle(document.querySelector(".acc-hero")).backgroundColor === "rgb(255, 253, 249)" }));
+  const r = await s.p.evaluate(() => ({ theme: document.documentElement.getAttribute("data-eg-theme"), fond: getComputedStyle(document.querySelector(".win")).backgroundColor, panneau: getComputedStyle(document.querySelector(".conv-panneau")).backgroundColor }));
   await capturer(s.p, "accueil-clair");
   await aller(s.p, "bibliotheque");
   await capturer(s.p, "bibliotheque-clair");
   await fermer(s);
-  return { ok: r.theme === "light" && r.hero, ...r };
+  return { ok: r.theme === "ivory" && r.fond === "rgb(250, 248, 243)" && r.panneau === "rgb(243, 238, 229)", ...r };
 });
 
-await essai("Cadence (plancher headless) : respiration et suivi du pointeur de la chouette, transitions de page", async () => {
+await essai("Cadence (plancher headless) : repos, survol de l'Accueil, changements de section", async () => {
   const s = await ouvrir({ vide: true });
   await s.p.waitForTimeout(300);
   const respiration = await cadence(s.p, () => s.p.waitForTimeout(2000));
@@ -487,8 +480,7 @@ await essai("Cadence (plancher headless) : respiration et suivi du pointeur de l
 await essai("Zoom ×2 de la chouette (états réels) pour la revue visuelle", async () => {
   const s = await ouvrir({}, { dpr: 2, reduit: true });
   await s.p.waitForTimeout(300);
-  await capturerChouette(s.p, "chouette-telechargement-x2");
-  await s.p.locator(".side-marque").screenshot({ path: join(sortie, "marque-barre-x2.png") });
+  await s.p.locator(".barre-marque").screenshot({ path: join(sortie, "marque-barre-x2.png") });
   await s.p.locator(".niche").screenshot({ path: join(sortie, "niche-x2.png") });
   await fermer(s);
   return { ok: true };

@@ -66,7 +66,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
 const ICON = { success: IconCheck, info: IconInfo, error: IconAlert } as const;
 const TONE = {
-  success: "text-obsidian bg-gold ring-gold/40",
+  success: "text-on-accent bg-gold ring-gold/40",
   info: "text-gold-text bg-gold/15 ring-gold/35",
   error: "text-bad bg-bad-bg ring-bad/25",
 } as const;

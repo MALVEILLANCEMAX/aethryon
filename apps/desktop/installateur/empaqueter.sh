@@ -29,7 +29,8 @@ cp "$CIBLE/aethryon-desktop.exe" "$CIBLE/WebView2Loader.dll" "$E/"
 cp "$PANNEAU_CCX" "$E/panneau/aethryon-premiere.ccx"
 SHA=$(sha256sum "$E/panneau/aethryon-premiere.ccx" | cut -d' ' -f1)
 printf '{\n  "chemin": "aethryon-premiere.ccx",\n  "version": "%s",\n  "versionManifeste": "%s",\n  "sha256": "%s"\n}\n' "$PANNEAU_VERSION" "$PANNEAU_VERSION_MANIFESTE" "$SHA" > "$E/panneau/panneau.json"
-cp "$SRC/src/assets/fonts/LICENSE-Inter.txt" "$SRC/src/assets/fonts/LICENSE-PlayfairDisplay.txt" "$E/licences/"
+# Polices Égide (Marcellus, Hanken Grotesk, Geist Mono, OFL) : licences du paquet design/fonts, montées par construire.sh.
+cp /egide-polices/LICENSE-marcellus.txt /egide-polices/LICENSE-hanken-grotesk.txt /egide-polices/LICENSE-geist-mono.txt "$E/licences/"
 cp "$SRC/installateur/LICENCES-TIERS.txt" "$E/licences/"
 DEF=(-DVERSION="$VERSION" -DVERSION_WINDOWS="$VERSION_WINDOWS" -DETAGE="$E" -DSORTIE="$SORTIE/AETHRYON-Desktop-Setup-$VERSION.exe")
 [ -n "${SIGNER:-}" ] && DEF+=(-DSIGNER="$SIGNER")

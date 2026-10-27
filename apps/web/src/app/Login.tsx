@@ -14,7 +14,6 @@ import { ApiError } from "../lib/api.ts";
 import { useConfig, useDocumentTitle, useMe } from "../lib/hooks.ts";
 import { safeReturnPath } from "../lib/safe.ts";
 import { DUR, EASE } from "../lib/motion.ts";
-import { AethryonMascot } from "../ui/brand/AethryonMascot.tsx";
 import { isStaticBoot } from "../lib/prerender.ts";
 import { OwlMark } from "../ui/brand/OwlMark.tsx";
 import { GoogleG, IconAlert, IconInfo, IconLock } from "../ui/Icon.tsx";
@@ -79,12 +78,11 @@ export default function Login() {
     }
   };
   const discordOn = cfg.data?.discordLogin === true;
-  const owl = state === "loading" || state === "discord" || pwState === "loading" ? "processing" : state === "error" || pwError ? "error" : "idle";
 
   return (
     <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(50%_45%_at_70%_35%,rgb(233_224_208/0.6),transparent_70%)]" />
-      <div className="container-site grid items-center justify-items-center gap-12 lg:grid-cols-[minmax(0,460px)_minmax(0,380px)] lg:justify-center lg:gap-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10" />
+      <div className="container-site grid items-center justify-items-center gap-12">
         <motion.div
           initial={isStaticBoot() ? false : { opacity: 0, y: 16 }} // page pré-rendue : déjà affichée
           animate={{ opacity: 1, y: 0 }}
@@ -117,7 +115,7 @@ export default function Login() {
               onClick={go}
               disabled={state === "loading" || state === "discord" || !!googleOff || cfg.loading}
               aria-busy={state === "loading" || undefined}
-              className="relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-line-strong bg-white text-[16.5px] font-medium text-[#1f1f1f] shadow-card transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-px hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+              className="relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-[#747775] bg-[#fff] text-[16.5px] font-medium text-[#1f1f1f] shadow-card transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-px hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {state === "loading" ? (
@@ -191,11 +189,6 @@ export default function Login() {
             <p>Seuls ton e-mail vérifié, ton nom et ton mot de passe haché sont gardés ; aucun accès à ton compte Google. <Link to="/confidentialite" className="text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text">Confidentialité</Link></p>
           </div>
         </motion.div>
-        <div className="relative hidden w-full max-w-[380px] lg:block">
-          <div aria-hidden className="arch-line absolute inset-x-[8%] bottom-[7%] top-[3%] bg-[linear-gradient(180deg,rgb(244_239_231/0.9),rgb(250_248_243/0))]" />
-          <div aria-hidden className="floor-shadow absolute bottom-[4.5%] left-1/2 h-[7%] w-[58%] -translate-x-1/2" />
-          <AethryonMascot state={owl} size={380} look={-1} className="relative w-full" />
-        </div>
       </div>
     </section>
   );

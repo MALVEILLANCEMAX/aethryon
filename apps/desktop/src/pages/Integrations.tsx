@@ -119,7 +119,7 @@ export default function Integrations({ onReparer }: { onReparer: () => void }) {
     : ["missing", l.statut === "inconnu" ? "Non vérifiable ici" : "Introuvable"];
   const phrasePremiere = l.statut === "connecte"
     ? (b?.projetOuvert && b.projet ? `Panneau ouvert dans ${b.projet}.prproj : les imports arrivent dans « ${nomChutier} ».` : "Panneau ouvert ; aucun projet n'est ouvert dans Premiere Pro.")
-    : l.statut === "panneau-ferme" ? `${inst.panneauCep?.libelle ?? "Le panneau est installé"} : ouvrez-le dans Premiere Pro › Fenêtre › Extensions › AETHRYON.`
+    : l.statut === "panneau-ferme" ? `${inst.panneauCep?.libelle ?? "Le panneau est installé"} : ouvre-le dans Premiere Pro › Fenêtre › Extensions › AETHRYON.`
     : l.statut === "panneau-absent" ? "Premiere Pro est présent ; le panneau AETHRYON n'est pas installé : AETHRYON Setup l'installe."
     : l.statut === "incompatible" ? "Le panneau demande Premiere Pro 25.6 ou plus récent."
     : l.statut === "inconnu" ? "La détection de Premiere Pro ne fonctionne que sous Windows."
@@ -146,7 +146,7 @@ export default function Integrations({ onReparer }: { onReparer: () => void }) {
       </dl>
       <ul className="int-verifs">
         <Verif ok={p?.compatible ?? null} titre="Version de Premiere Pro" detail={p?.compatible ? `Premiere ${versionCourte(p.version)} : 25.6 ou plus récent` : p?.compatible === false ? "Premiere 25.6 ou plus récent requis" : "Version de Premiere non vérifiée"} />
-        <Verif ok={l.statut === "connecte" && !!b?.projetOuvert} titre="Import dans le projet actif" detail={l.statut === "connecte" ? (b?.projetOuvert ? "Projet ouvert ; confirmé par le panneau à chaque import" : "Ouvrez un projet dans Premiere") : "Quand le panneau est ouvert"} />
+        <Verif ok={l.statut === "connecte" && !!b?.projetOuvert} titre="Import dans le projet actif" detail={l.statut === "connecte" ? (b?.projetOuvert ? "Projet ouvert ; confirmé par le panneau à chaque import" : "Ouvre un projet dans Premiere") : "Quand le panneau est ouvert"} />
         <Verif ok={inst.creativeCloud.upia ? true : null} titre="Creative Cloud Desktop" detail={inst.creativeCloud.upia ? "Présent : installe et met à jour Premiere Pro" : "Introuvable ; le panneau AETHRYON n'en dépend pas"} />
         <Verif ok={glisser ? true : null} titre="Glisser-déposer vers le projet et la timeline" detail={glisser ? `Premiere ${versionCourte(p?.version)} le permet ; activé par le panneau` : `Premiere 27.0 ou plus récent${p?.version ? " · s'activera après mise à jour" : ""}`} />
       </ul>
@@ -155,7 +155,7 @@ export default function Integrations({ onReparer }: { onReparer: () => void }) {
           {typo(p ? `Vérifié à l'instant : ${p.exe}${p.version ? `, version ${p.version}` : ", version illisible"}.` : `Vérifié à l'instant : Premiere Pro introuvable (${inst.premiere.cherche.slice(0, 2).join(" ; ")}).`)}
         </p>
       )}
-      <p className="int-texte">{typo("Le panneau et AETHRYON Desktop échangent par des fichiers de votre profil Windows. Aucun port réseau n'est ouvert : aucune page web ne peut s'y connecter et aucun jeton n'est exposé. L'import n'est jamais automatique.")}</p>
+      <p className="int-texte">{typo("Le panneau et AETHRYON Desktop échangent par des fichiers de ton profil Windows. Aucun port réseau n'est ouvert : aucune page web ne peut s'y connecter et aucun jeton n'est exposé. L'import n'est jamais automatique.")}</p>
       <div className="int-actions int-actions--details">
         <Bouton taille="sm" variante="ghost" icone="settings" onClick={() => setReglages(true)}>Paramètres d'import</Bouton>
         <Bouton taille="sm" variante="ghost" icone="folder" onClick={() => void api.ouvrirDossier("racine")}>Ouvrir le dossier du canal</Bouton>
@@ -195,16 +195,16 @@ export default function Integrations({ onReparer }: { onReparer: () => void }) {
           )} />
         <Carte statut={relie ? "relie" : "non-relie"} titre="Compte AETHRYON" icone={<Pictogramme nom="user" />} etat={relie ? (compte?.horsLigne ? "warn" : "ok") : "quiet"}
           libelleEtat={relie ? (compte?.horsLigne ? "Relié · hors ligne" : "Relié") : "Non relié"}
-          phrase={relie ? `Relié à ${compte?.compte?.email ?? "votre compte"}.` : "Relier ce Desktop ouvre l'import musical et, pour l'administrateur, AETHRYON Cloud."}
+          phrase={relie ? `Relié à ${compte?.compte?.email ?? "ton compte"}.` : "Relier ce Desktop ouvre l'import musical et, pour l'administrateur, AETHRYON Cloud."}
           actions={relie ? <Bouton taille="sm" icone="settings" onClick={gererCompte}>Gérer le compte</Bouton> : <Bouton taille="sm" variante="primary" icone="link" onClick={gererCompte}>Relier ce Desktop…</Bouton>}
           details={(
             <p className="int-texte">{typo(relie
               ? [compte?.compte?.nom || null, compte?.relieLe ? `relié ${quand(compte.relieLe).toLowerCase()}` : null, compte?.verifieLe ? `vérifié ${quand(compte.verifieLe).toLowerCase()}` : null, "La clé reste dans le coffre de Windows (DPAPI), jamais dans l'interface."].filter(Boolean).join(" · ")
-              : "Vous l'autorisez sur le site AETHRYON, dans votre navigateur : aucun mot de passe n'est saisi ici.")}</p>
+              : "Tu l'autorises sur le site AETHRYON, dans ton navigateur : aucun mot de passe n'est saisi ici.")}</p>
           )} />
         {relie && (
           <Carte statut={cloud ? "ouvert" : "ferme"} titre="AETHRYON Cloud" icone={<Pictogramme nom="cloud" />} etat={cloud ? "ok" : "quiet"} libelleEtat={cloud ? "Ouvert" : "Indisponible"}
-            phrase={cloud ? "Sauvegarde temporaire de 30 jours, réservée à l'administrateur." : raisonSansCloud(compte) ?? "État du Cloud inconnu : vérifiez la liaison."}
+            phrase={cloud ? "Sauvegarde temporaire de 30 jours, réservée à l'administrateur." : raisonSansCloud(compte) ?? "État du Cloud inconnu : vérifie la liaison."}
             actions={cloud ? <Bouton taille="sm" icone="cloud" onClick={() => aller("cloud")}>Ouvrir le Cloud</Bouton> : undefined}
             details={cloud ? <p className="int-texte">{typo("Même espace pour les vidéos et la musique ; vérification par le serveur avant « Sauvegardé ». Une copie téléchargée sur ce PC n'est jamais supprimée.")}</p> : undefined} />
         )}
@@ -214,15 +214,15 @@ export default function Integrations({ onReparer }: { onReparer: () => void }) {
       {confirmer && (
         <Dialogue titre="Retirer l'ancien panneau UXP ?" onFermer={() => setConfirmer(false)}
           actions={<><Bouton variante="ghost" onClick={() => setConfirmer(false)}>Annuler</Bouton><Bouton variante="danger" disabled={retrait} onClick={desinstaller}>{retrait ? "Désinstallation…" : "Désinstaller"}</Bouton></>}>
-          <p>{typo("Creative Cloud retire l'ancien plugin UXP « AETHRYON » de la bêta 1. Le panneau AETHRYON actuel (extension CEP posée par AETHRYON Setup), vos médias et AETHRYON Desktop restent en place.")}</p>
+          <p>{typo("Creative Cloud retire l'ancien plugin UXP « AETHRYON » de la bêta 1. Le panneau AETHRYON actuel (extension CEP posée par AETHRYON Setup), tes médias et AETHRYON Desktop restent en place.")}</p>
         </Dialogue>
       )}
       {reglages && (
         <Dialogue titre="Paramètres d'import" onFermer={() => setReglages(false)} actions={<Bouton variante="primary" onClick={() => setReglages(false)}>Terminé</Bouton>}>
-          <p style={{ marginBottom: 14 }}>{typo("Chutier où le panneau range les médias que vous importez depuis AETHRYON.")}</p>
+          <p style={{ marginBottom: 14 }}>{typo("Chutier où le panneau range les médias que tu importes depuis AETHRYON.")}</p>
           <Segmente<Chutier> libelle="Chutier d'import" valeur={chutier} onChange={(v) => modifierConfig({ chutierParDefaut: v })}
             options={[{ id: "aethryon", libelle: "AETHRYON" }, { id: "selection", libelle: "Chutier sélectionné" }, { id: "racine", libelle: "Racine" }]} />
-          <p className="t-small c3" style={{ marginTop: 12 }}>{typo("L'import n'est jamais automatique : il part toujours d'une demande de votre part.")}</p>
+          <p className="t-small c3" style={{ marginTop: 12 }}>{typo("L'import n'est jamais automatique : il part toujours d'une demande de ta part.")}</p>
         </Dialogue>
       )}
     </div>

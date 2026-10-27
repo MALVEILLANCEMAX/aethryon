@@ -272,8 +272,27 @@ fn message_ecriture(dossier: &Path, e: &std::io::Error) -> String {
     }
 }
 
+/// Égide : couleur `#RRGGBB` → [r, g, b] (fond natif de la fenêtre, commande `fenetre_fond`) ; tout le reste est refusé.
+pub fn couleur_hex(s: &str) -> Option<[u8; 3]> {
+    let h = s.strip_prefix('#')?;
+    if h.len() != 6 || !h.bytes().all(|b| b.is_ascii_hexdigit()) {
+        return None;
+    }
+    let v = |i: usize| u8::from_str_radix(&h[i..i + 2], 16).ok();
+    Some([v(0)?, v(2)?, v(4)?])
+}
+
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn couleur_hex_seulement_rrggbb() {
+        assert_eq!(super::couleur_hex("#101113"), Some([0x10, 0x11, 0x13]));
+        assert_eq!(super::couleur_hex("#FAF8f3"), Some([0xfa, 0xf8, 0xf3]));
+        for mauvais in ["", "#fff", "101113", "#1011134", "#10111g", "url(x)", "#10 113", "red"] {
+            assert_eq!(super::couleur_hex(mauvais), None, "{mauvais}");
+        }
+    }
+
     use super::*;
     use serde_json::json;
 

@@ -127,8 +127,7 @@ export function Today({ quota, live, mascot, replayKey, status }: Props) {
 
         {/* Dernière conversion : état réel, suivi en direct */}
         <div className="flex items-start gap-4 px-5 py-5 sm:gap-5 sm:px-7 sm:py-6" data-derniere="">
-          <div className="relative w-[84px] shrink-0 sm:w-[120px]">
-            <div aria-hidden className="floor-shadow absolute bottom-[4%] left-1/2 h-[8%] w-[60%] -translate-x-1/2" />
+          <div className="relative shrink-0">
             <AethryonMascot state={mascot} size={120} replayKey={replayKey} look={1} className="relative w-full" />
           </div>
           <div className="min-w-0 flex-1">

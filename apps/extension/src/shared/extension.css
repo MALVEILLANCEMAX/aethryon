@@ -1,0 +1,189 @@
+/* AETHRYON — feuille commune des pages de l'extension (popup, réglages, accueil), en Égide (3.9.0).
+   Liée APRÈS egide/genere/egide.css (jetons --eg-*, six thèmes, polices OFL, composants .eg-*) et AVANT la feuille de la
+   page. Aucune couleur, aucun rayon ni aucune durée en dur : tout vient des jetons du thème choisi. Mouvement :
+   transform et opacity seulement, survols derrière (hover: hover) and (pointer: fine), appui scale(.97), mouvement
+   réduit respecté par les jetons (--eg-motion-scale, --eg-move). Les classes historiques (.btn, .seg-opt, .hint…) sont
+   gardées : les trois pages et leurs essais les emploient ; elles ont ici l'allure des composants Égide. */
+
+:root { scrollbar-color: var(--eg-c-line-strong) transparent; }
+/* Chrome injecte dans les pages d'extension une feuille SANS couche (body { font-family: system-ui ; font-size: 75% }) :
+   elle l'emporte sur la base Égide, rangée dans @layer base. La police et la taille d'Égide sont donc redites ici, hors
+   couche (constaté au lot 3 : sans cette règle, le popup s'affichait en DejaVu Sans). */
+body.eg-page { font-family: var(--eg-f-ui); font-size: var(--eg-fs-m); line-height: var(--eg-lh-body); }
+/* Remise à zéro DANS la couche « base » d'Égide : elle ne passe jamais devant les composants .eg-* (couche
+   « components ») ; hors couche, « button { color: inherit } » effaçait la couleur du bouton principal de l'éditeur. */
+@layer base {
+  body { margin: 0; }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+  ul, ol { padding: 0; }
+  img, svg { display: block; }
+  a { color: inherit; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+}
+[hidden] { display: none !important; }
+
+.sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tabular { font-variant-numeric: tabular-nums; }
+.display { font-family: var(--eg-f-display); font-weight: var(--eg-f-display-w); letter-spacing: var(--eg-f-display-ls); line-height: 1.12; }
+.mono { font-family: var(--eg-f-mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- Boutons : principal (l'or, une fois par vue), secondaire, discret, danger ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--eg-h-ctl); padding: 0 14px;
+  border-radius: var(--eg-r-control); border: var(--eg-b-fine) solid transparent; background: none; color: inherit;
+  font-family: var(--eg-f-ui); font-weight: 600; font-size: var(--eg-fs-s); line-height: 1.2; white-space: nowrap; cursor: pointer;
+  text-decoration: none; -webkit-tap-highlight-color: transparent; user-select: none;
+  transition: transform var(--eg-d-micro) var(--eg-e-out), background-color var(--eg-d-court) ease, border-color var(--eg-d-court) ease, color var(--eg-d-court) ease;
+}
+.btn:active:not(:disabled) { transform: scale(calc(1 - .03 * var(--eg-move))); }
+.btn svg { flex: none; }
+.btn-primary { background: var(--eg-c-accent); color: var(--eg-c-on-accent); }
+.btn-secondary { background: var(--eg-c-raised); color: var(--eg-c-text); border-color: var(--eg-c-control); }
+.btn-quiet { color: var(--eg-c-text-2); padding: 0 10px; }
+.btn-danger { background: var(--eg-c-err-soft); color: var(--eg-c-err); border-color: var(--eg-c-err); }
+.btn-sm { min-height: 32px; padding: 0 11px; gap: 6px; font-size: var(--eg-fs-xs); }
+.btn-lg { min-height: 44px; font-size: var(--eg-fs-m); padding: 0 18px; }
+.btn-block { width: 100%; }
+.btn:disabled, .btn[aria-disabled="true"] { background: var(--eg-c-sunken); color: var(--eg-c-text-3); border-color: var(--eg-c-line-strong); cursor: default; }
+.btn[aria-busy="true"] { cursor: progress; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:not(:disabled):hover { background: var(--eg-c-accent-hover); }
+  .btn-secondary:not(:disabled):hover { border-color: var(--eg-c-text-3); }
+  .btn-quiet:not(:disabled):hover { background: var(--eg-c-hover); color: var(--eg-c-text); }
+  .btn-danger:not(:disabled):hover { background: var(--eg-c-err); color: var(--eg-c-canvas); }
+}
+/* attente indéterminée dans un bouton : le méandre Égide (sans chouette), immobile en mouvement réduit */
+.spinner { width: 14px; height: 14px; flex: none; border-radius: 50%; border: 1.6px solid currentColor; border-right-color: transparent; animation: ext-tourne calc(900ms * max(var(--eg-motion-scale), .01)) linear infinite; }
+@keyframes ext-tourne { to { transform: rotate(360deg); } }
+:is([data-eg-motion="reduite"], [data-eg-motion="aucune"]) .spinner { animation: none; border-right-color: currentColor; opacity: .6; }
+
+/* ---------- Liens ---------- */
+.link { color: var(--eg-c-accent-text); font-weight: 600; text-decoration: underline; text-decoration-color: var(--eg-c-line-strong); text-underline-offset: 3px; cursor: pointer; }
+@media (hover: hover) and (pointer: fine) { .link:hover { text-decoration-color: currentColor; } }
+.link-icon { display: inline-grid; }
+
+/* ---------- Segments (choix exclusifs en boutons radio : flèches au clavier) ---------- */
+.seg {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; padding: 2px; border-radius: var(--eg-r-control);
+  background: var(--eg-c-sunken); border: var(--eg-b-fine) solid var(--eg-c-control); min-width: 0;
+}
+.seg-opt { position: relative; display: grid; min-width: 0; cursor: pointer; }
+.seg-opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.seg-opt > span {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: var(--eg-h-seg); padding: 0 10px; min-width: 0;
+  border-radius: max(0px, calc(var(--eg-r-control) - 2px)); color: var(--eg-c-text-2); font-size: var(--eg-fs-s); font-weight: 600; white-space: nowrap;
+  transition: background-color var(--eg-d-court) ease, color var(--eg-d-court) ease;
+}
+.seg-opt > span > svg { flex: none; }
+.seg-opt input:checked + span { background: var(--eg-c-raised); color: var(--eg-c-text); box-shadow: 0 0 0 1px var(--eg-c-line-strong); }
+.seg-opt input:focus-visible + span { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: 1px; }
+.seg-opt input:disabled { cursor: default; }
+.seg-opt input:disabled + span { color: var(--eg-c-text-3); }
+@media (hover: hover) and (pointer: fine) { .seg-opt input:not(:checked):not(:disabled):hover + span { background: var(--eg-c-hover); color: var(--eg-c-text); } }
+.seg-fixed { flex: none; }
+
+/* ---------- Liste déroulante ---------- */
+.select { position: relative; display: inline-grid; min-width: 0; }
+.select select {
+  appearance: none; min-height: var(--eg-h-seg); padding: 0 30px 0 10px; border-radius: var(--eg-r-control); border: var(--eg-b-fine) solid var(--eg-c-control);
+  background: var(--eg-c-surface); color: var(--eg-c-text); font-size: var(--eg-fs-s); font-weight: 600; cursor: pointer; min-width: 0; width: 100%;
+}
+.select select:focus-visible { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
+.select svg { position: absolute; right: 8px; top: 50%; translate: 0 -50%; pointer-events: none; color: var(--eg-c-text-2); }
+.select select:disabled { color: var(--eg-c-text-3); background: var(--eg-c-sunken); cursor: default; }
+.select-fixed { width: 168px; }
+
+/* ---------- Messages ---------- */
+.hint, .note { display: flex; align-items: flex-start; gap: 8px; color: var(--eg-c-text-2); font-size: var(--eg-fs-xs); line-height: 1.45; }
+.hint svg, .note svg, .notice svg { flex: none; margin-top: 1px; }
+.notice {
+  display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: var(--eg-r-control);
+  background: var(--eg-c-accent-soft); color: var(--eg-c-text); font-size: var(--eg-fs-xs); line-height: 1.45;
+}
+.notice[data-tone="bad"] { background: var(--eg-c-err-soft); color: var(--eg-c-text); }
+.notice[data-tone="bad"] svg { color: var(--eg-c-err); }
+.form-error { color: var(--eg-c-err); font-size: var(--eg-fs-xs); font-weight: 600; line-height: 1.45; }
+.form-error:empty, .login-status:empty { display: none; }
+.badge {
+  display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; white-space: nowrap;
+  font-size: 11.5px; font-weight: 600; color: var(--eg-c-text-2); border: var(--eg-b-fine) solid var(--eg-c-line-strong);
+}
+.badge[data-tone="ok"] { color: var(--eg-c-ok); }
+.badge[data-tone="bad"] { color: var(--eg-c-err); }
+.badge[data-tone="gold"] { color: var(--eg-c-accent-text); }
+
+/* ---------- Surfaces ---------- */
+.card { border-radius: var(--eg-r-panel); background: var(--eg-c-surface); background-image: var(--eg-sheen); border: var(--eg-b-fine) solid var(--eg-c-line); }
+
+/* ---------- Marque : la chouette maître (fichier tel quel) et le nom en Marcellus ---------- */
+.brand-mark { display: inline-flex; align-items: center; gap: 9px; font-family: var(--eg-f-marque); letter-spacing: .24em; font-size: 13px; color: var(--eg-c-text); white-space: nowrap; }
+.brand-mark .eg-chouette { width: 22px; height: 22px; }
+
+/* ---------- Connexion, notice, déconnexion (popup, réglages, accueil) ---------- */
+.login, .gate { display: grid; gap: 8px; }
+.login-status { color: var(--eg-c-text-2); font-size: var(--eg-fs-xs); }
+.login-actions:empty { display: none; }
+.logout { display: grid; }
+.logout > .btn { justify-self: start; }
+.confirm { display: grid; gap: 8px; padding: 12px; border-radius: var(--eg-r-control); background: var(--eg-c-err-soft); }
+.confirm-q { font-weight: 650; font-size: var(--eg-fs-s); }
+.confirm .hint { color: var(--eg-c-text); }
+.confirm-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.identity { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.avatar {
+  display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--eg-c-accent-soft); color: var(--eg-c-accent-text); font-weight: 700; font-size: 14px; box-shadow: inset 0 0 0 1px var(--eg-c-line-strong);
+}
+.identity-text { display: grid; min-width: 0; }
+.identity-name { font-weight: 650; font-size: var(--eg-fs-s); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.identity-email { color: var(--eg-c-text-2); font-size: var(--eg-fs-xs); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- Avis de nouvelle version (popup : compact ; réglages : complet) ---------- */
+.update { display: grid; gap: 8px; padding: 10px 12px; }
+.update-head { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.update-icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--eg-c-accent-soft); color: var(--eg-c-accent-text); }
+.update-title { font-size: var(--eg-fs-s); font-weight: 650; }
+.update-date, .update-how { color: var(--eg-c-text-2); font-size: var(--eg-fs-xs); }
+.update-notes { display: grid; gap: 4px; padding-left: 18px; color: var(--eg-c-text-2); font-size: var(--eg-fs-xs); list-style: disc; }
+.update-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.update-steps { display: grid; gap: 4px; list-style: none; font-size: var(--eg-fs-xs); color: var(--eg-c-text-2); }
+.update-step { display: flex; align-items: center; gap: 8px; }
+.update-step-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.6px solid var(--eg-c-line-strong); flex: none; }
+.update-step[data-state="en-cours"] { color: var(--eg-c-text); font-weight: 600; }
+.update-step[data-state="en-cours"] .update-step-dot { border-color: var(--eg-c-thread); background: radial-gradient(circle, var(--eg-c-thread) 40%, transparent 45%); }
+.update-step[data-state="fait"] .update-step-dot { background: var(--eg-c-ok); border-color: var(--eg-c-ok); }
+.update-step[data-state="erreur"] .update-step-dot { border-color: var(--eg-c-err); background: var(--eg-c-err-soft); }
+.update-path { display: block; padding: 6px 8px; border-radius: var(--eg-r-control); background: var(--eg-c-sunken); font-family: var(--eg-f-mono); font-size: 11.5px; overflow-wrap: anywhere; }
+.update-how-to { list-style: decimal; }
+.update-copied { color: var(--eg-c-ok); font-size: var(--eg-fs-xs); font-weight: 600; }
+.update details > summary { cursor: pointer; color: var(--eg-c-text-2); font-size: var(--eg-fs-xs); font-weight: 600; }
+
+/* ---------- Interrupteur (case à cocher role="switch") ---------- */
+.switch {
+  appearance: none; position: relative; flex: none; width: 44px; height: 26px; margin: 0; border-radius: 999px; cursor: pointer;
+  background: var(--eg-c-sunken); border: var(--eg-b-fine) solid var(--eg-c-control); transition: background-color var(--eg-d-court) ease, border-color var(--eg-d-court) ease;
+}
+.switch::after {
+  content: ""; position: absolute; left: 2px; top: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--eg-c-text-2);
+  transition: transform var(--eg-d-court) var(--eg-e-out), background-color var(--eg-d-court) ease;
+}
+.switch:checked { background: var(--eg-c-accent); border-color: var(--eg-c-accent); }
+.switch:checked::after { transform: translateX(18px); background: var(--eg-c-on-accent); }
+.switch:focus-visible { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
+.switch:disabled { cursor: default; opacity: .55; }
+
+/* ---------- Doigt : cibles de 44 px ---------- */
+@media (pointer: coarse) {
+  .btn, .btn-sm { min-height: 44px; }
+  .seg-opt > span, .select select { min-height: 44px; }
+}
+.btn-label:empty { display: none; }
+/* « Retour » : le chevron du jeu Égide, retourné (le jeu n'a qu'une flèche vers la droite) */
+.btn[data-action="back"] svg { transform: scaleX(-1); }
+/* Mouvement réduit du SYSTÈME : le socle arrête ses boucles (veille, méandre) depuis le lot 3 ; ici, les mêmes règles pour
+   les éléments propres à l'extension (roue d'attente des boutons, fil indéterminé et fil du popup), sauf choix explicite
+   dans un thème personnel. */
+@media (prefers-reduced-motion: reduce) {
+  :is(.spinner, .progress-fill):not([data-eg-motion-explicite="1"] *) { animation: none !important; }
+  .progress-fill:not([data-eg-motion-explicite="1"] *) { transition: none; }
+}

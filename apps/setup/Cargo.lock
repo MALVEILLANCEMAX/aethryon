@@ -20,7 +20,7 @@ dependencies = [
 
 [[package]]
 name = "aethryon-setup"
-version = "2.0.0-beta.8"
+version = "2.0.0-beta.9"
 dependencies = [
  "aethryon-setup-moteur",
  "embed-resource",
@@ -30,7 +30,7 @@ dependencies = [
 
 [[package]]
 name = "aethryon-setup-moteur"
-version = "2.0.0-beta.8"
+version = "2.0.0-beta.9"
 dependencies = [
  "aethryon-archive-extension",
  "base64 0.22.1",
@@ -45,7 +45,7 @@ dependencies = [
 
 [[package]]
 name = "aethryon-setup-ui"
-version = "2.0.0-beta.8"
+version = "2.0.0-beta.9"
 dependencies = [
  "aethryon-setup-moteur",
  "serde",

@@ -262,7 +262,7 @@ export function Apercu({ id }: { id: string }) {
   if (!m) {
     return (
       <div className="vide">
-        <h2 className="t-display-m">Ce média n'est plus dans la bibliothèque</h2>
+        <h1 className="t-display-m">Ce média n'est plus dans la bibliothèque</h1>
         <div className="vide-actions"><Bouton onClick={() => ouvrirApercu(null)}>Retour à la bibliothèque</Bouton></div>
       </div>
     );
@@ -301,7 +301,7 @@ export function Apercu({ id }: { id: string }) {
           </div>
         </div>
         <aside className="insp">
-          <div className="it"><h2 className="t-display-m" title={`${m.nom}.${m.ext}`}>{m.nom}</h2></div>
+          <div className="it"><h1 className="t-display-m" title={`${m.nom}.${m.ext}`}>{m.nom}</h1></div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 10 }}>
             <Pastille etat={etat} grande />
             <span className="t-small c3">{etat === "imported" ? typo(`Importé${imp?.projet ? ` dans ${imp.projet}` : ""}${imp?.chutier ? ` · chutier ${imp.chutier}` : ""}`) : dispo ? "Pas encore importé" : m.etat === "en-cours" ? "Fichier encore en réception" : m.etat === "introuvable" ? "Déplacé, renommé ou supprimé" : m.erreur}</span>
@@ -335,8 +335,7 @@ export function Apercu({ id }: { id: string }) {
             {m.type === "image" && <><dt>Définition</dt><dd>{definition(m.largeur, m.hauteur) ?? "Non mesurée"}</dd></>}
             {m.type !== "image" && <><dt>Audio</dt><dd>{codec(m.codecAudio) ?? (m.type === "video" ? "Aucune piste ou non mesuré" : "Non mesuré")}</dd></>}
             {m.duree && m.type !== "image" ? <><dt>Débit</dt><dd>{typo(`${nombre(Math.round((m.taille * 8) / m.duree / 1000))} kbit/s en moyenne`)}</dd></> : null}
-            <span className="sep" />
-            <dt>Taille</dt><dd>{taille(m.taille)} <span className="c3">({nombre(m.taille)} octets)</span></dd>
+            <dt className="sep-avant">Taille</dt><dd className="sep-avant">{taille(m.taille)} <span className="c3">({nombre(m.taille)} octets)</span></dd>
             <dt>Ajouté</dt><dd>{typo(`${quandPhrase(m.ajouteLe).replace(/^./, (c) => c.toUpperCase())} · ${origine}`)}</dd>
             {m.origine.titre && <><dt>Titre</dt><dd>{m.origine.titre}</dd></>}
             <dt>Dossier</dt><dd className="mono ellipsis" style={{ fontSize: 11.5 }} title={dossier}>{dossier}</dd>

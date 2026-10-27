@@ -1,7 +1,7 @@
 {
   "name": "aethryon-desktop",
   "private": true,
-  "version": "1.2.0-beta.2",
+  "version": "1.3.0-beta.1",
   "license": "Apache-2.0",
   "type": "module",
   "description": "AETHRYON Desktop — interface (React + TypeScript, WebView2 via Tauri 2)",

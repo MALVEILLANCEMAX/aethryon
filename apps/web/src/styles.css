@@ -1,256 +1,152 @@
 @import "tailwindcss";
-@import "@fontsource-variable/inter/wght.css";
-@import "@fontsource-variable/playfair-display/wght.css";
 @import "./visuel-v2.css";
 @import "./qualite.css";
 @import "./premium.css";
 @import "./outils.css";
 
-/* Proposition « chouette vectorielle » : ses sources ne participent pas à la détection des classes (les
-   composants vectoriels n'emploient que des classes déjà présentes) ; la construction par défaut reste
-   identique à la précédente. */
-@source not "./design";
-@source not "./ui/brand/athena";
-@source not "../scripts/export-owl-svgs.mjs";
-@source not "../scripts/tokens.mjs";
+/* Sources exclues de la détection des classes : le socle Égide (ses classes .eg-* sont dans egide.css) et les outils. */
+@source not "./egide";/* AETHRYON — Égide (direction artistique validée le 2026-10-26, docs/design/EGIDE-V2.md) : TOUTES les couleurs, les
+   familles et les rayons du site viennent des jetons --eg-* du socle (design/, copie src/egide), donc du thème choisi
+   (Obsidian par défaut, Ivory, OLED, Midnight, Minimal, Custom). « inline » : chaque utilitaire lit la variable Égide
+   là où il est employé (un sous-arbre .eg-scope à ses propres jetons, comme les aperçus de thème, est respecté).
+   Les noms historiques (ink, gold, ivory…) sont des ALIAS des rôles Égide : plus aucune ancienne valeur. Les tons
+   « nuit » (obsidian, night, graphite, mist) n'existent plus : Égide n'a pas de contrepoint, tout suit le thème. */
 
-/* AETHRYON — système de marque (docs/DESIGN.md). Référence : brand/aethryon-kit (planche officielle).
-   Ivoire lumineux, obsidienne pour le texte et les contrepoints sombres, or champagne en accent rare.
-   Contrastes vérifiés (WCAG AA) : voir les commentaires des jetons de texte. */
-@theme {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Playfair Display Variable", "Iowan Old Style", Georgia, serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+@theme inline {
+  --font-sans: var(--eg-f-ui);
+  --font-display: var(--eg-f-display);
+  --font-mono: var(--eg-f-mono);
 
-  /* Surfaces claires */
-  --color-ivory: #faf8f3;       /* fond principal (planche : Ivory) */
-  --color-pearl: #f4efe7;       /* surface posée sur l'ivoire (cartes) */
-  --color-sand: #e9e0d0;        /* surfaces secondaires, survols (planche : Sand) */
-  --color-beige: #d9d1c4;       /* séparations marquées (planche : Beige) */
-  --color-line: #e2d8c9;        /* filets fins décoratifs */
-  --color-line-strong: #cfbfa7; /* filets des contrôles (aperçu du kit) */
-  --color-field: #9a8e7c;       /* bord des champs : ≥ 3:1 sur ivoire (WCAG 1.4.11) */
-  /* Texte sur clair */
-  --color-ink: #141413;         /* 17,4:1 sur ivoire */
-  --color-ink-soft: #4a463f;    /* 8,8:1 */
-  --color-muted: #6b6459;       /* 5,5:1 sur ivoire, 5,1:1 sur perle — éviter sur sable */
-  --color-gold-text: #7a5f38;   /* or lisible : 5,6:1 sur ivoire, 4,55:1 sur sable */
-  /* Sombres */
-  --color-obsidian: #0f0f10;    /* planche : Obsidian */
-  --color-night: #18181a;       /* surface posée sur l'obsidienne */
-  --color-graphite: #2a2a2e;    /* planche : Graphite */
-  --color-night-line: #2e2c29;  /* filets sur sombre */
-  --color-mist: #b3a999;        /* texte secondaire sur sombre : 8,3:1 sur obsidienne */
-  /* Or */
-  --color-gold: #d4af7c;        /* planche : Antique Gold — accent, jamais du texte sur ivoire (1,9:1) */
-  --color-gold-light: #e3cda6;  /* reflets */
-  /* Sémantique (tons chauds, AA sur ivoire et sur leur fond) */
-  --color-ok: #2f6b47;
-  --color-ok-bg: #e6efe6;
-  --color-warn: #8a5a12;
-  --color-warn-bg: #f5e9d2;
-  --color-bad: #a3372b;
-  --color-bad-bg: #f6e3de;
+  /* Rôles Égide (noms du socle) */
+  --color-canvas: var(--eg-c-canvas);
+  --color-surface: var(--eg-c-surface);
+  --color-raised: var(--eg-c-raised);
+  --color-sunken: var(--eg-c-sunken);
+  --color-hover: var(--eg-c-hover);
+  --color-control: var(--eg-c-control);
+  --color-fg: var(--eg-c-text);
+  --color-fg-2: var(--eg-c-text-2);
+  --color-fg-3: var(--eg-c-text-3);
+  --color-accent: var(--eg-c-accent);
+  --color-accent-hover: var(--eg-c-accent-hover);
+  --color-on-accent: var(--eg-c-on-accent);
+  --color-accent-text: var(--eg-c-accent-text);
+  --color-accent-soft: var(--eg-c-accent-soft);
+  --color-thread: var(--eg-c-thread);
+  --color-err: var(--eg-c-err);
+  --color-err-soft: var(--eg-c-err-soft);
+  --color-ok-soft: var(--eg-c-ok-soft);
+  --color-focus: var(--eg-c-focus);
 
-  --radius-chip: 10px;
-  --radius-control: 14px;
-  --radius-card: 22px;
-  --radius-panel: 28px;
-  --radius-device: 48px;
+  /* Alias historiques → rôles Égide (contrastes garantis : DESIGN_SYSTEM.md § 3.2 ; fonds d'état mesurés, LOT1.md) */
+  --color-ivory: var(--eg-c-canvas);
+  --color-pearl: var(--eg-c-surface);
+  --color-white: var(--eg-c-raised);
+  --color-sand: var(--eg-c-sunken);
+  --color-beige: var(--eg-c-line-strong);
+  --color-line: var(--eg-c-line);
+  --color-line-strong: var(--eg-c-line-strong);
+  --color-field: var(--eg-c-control);
+  --color-ink: var(--eg-c-text);
+  --color-ink-soft: var(--eg-c-text-2);
+  --color-muted: var(--eg-c-text-3);
+  --color-gold-text: var(--eg-c-accent-text);
+  --color-gold: var(--eg-c-accent);
+  --color-gold-light: var(--eg-c-accent-hover);
+  --color-ok: var(--eg-c-ok);
+  --color-ok-bg: var(--eg-c-sunken);   /* ok / creux ≥ 5,0:1 sur les six thèmes (ok / fond de succès : 4,49 en Ivory) */
+  --color-warn: var(--eg-c-warn);
+  --color-warn-bg: var(--eg-c-sunken); /* avertissement / creux ≥ 4,7:1 */
+  --color-bad: var(--eg-c-err);
+  --color-bad-bg: var(--eg-c-err-soft);
+
+  /* Rayons liés au réglage du thème (un seul : --eg-r-panel) */
+  --radius-chip: var(--eg-r-control);
+  --radius-control: var(--eg-r-control);
+  --radius-card: var(--eg-r-panel);
+  --radius-panel: var(--eg-r-sheet);
+  --radius-device: 44px;
 
   --text-display: clamp(2.6rem, 1.75rem + 3.6vw, 4.9rem);
   --text-display--line-height: 1.02;
-  --text-display--letter-spacing: -0.018em;
-  --text-title: clamp(2.05rem, 1.55rem + 2.1vw, 3.35rem);
-  --text-title--line-height: 1.07;
-  --text-title--letter-spacing: -0.012em;
-  --text-lead: clamp(1.1rem, 1.04rem + 0.32vw, 1.3rem);
-  --text-lead--line-height: 1.58;
+  --text-display--letter-spacing: -0.016em;
+  --text-title: clamp(1.9rem, 1.5rem + 1.7vw, 2.9rem);
+  --text-title--line-height: 1.08;
+  --text-title--letter-spacing: -0.01em;
+  --text-lead: clamp(1.06rem, 1.02rem + 0.24vw, 1.2rem);
+  --text-lead--line-height: 1.55;
 
-  --ease-soft: cubic-bezier(0.22, 0.8, 0.26, 1);
-  --ease-calm: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-exit: cubic-bezier(0.32, 0, 0.67, 0);
-  --default-transition-duration: 180ms;
-  --default-transition-timing-function: cubic-bezier(0.22, 0.8, 0.26, 1);
+  /* Courbes et durées Égide (MOTION_GUIDELINES.md § 2) */
+  --ease-soft: var(--eg-e-out);
+  --ease-calm: var(--eg-e-move);
+  --ease-exit: var(--eg-e-out);
+  --default-transition-duration: var(--eg-d-court);
+  --default-transition-timing-function: var(--eg-e-out);
 
-  /* Micro-ombres chaudes (lumière diffuse venant du haut, comme sur la mascotte) */
-  --shadow-card: 0 1px 2px rgb(52 40 22 / 0.05), 0 12px 32px -20px rgb(52 40 22 / 0.24);
-  --shadow-raised: 0 2px 6px rgb(52 40 22 / 0.06), 0 30px 64px -30px rgb(52 40 22 / 0.34);
-  --shadow-button: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 1px rgb(15 15 16 / 0.28), 0 12px 24px -14px rgb(15 15 16 / 0.7);
-  --shadow-float: 0 1px 0 rgb(255 255 255 / 0.7) inset, 0 24px 60px -28px rgb(15 15 16 / 0.42), 0 0 0 1px rgb(15 15 16 / 0.05);
-  --shadow-night: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 30px 70px -30px rgb(0 0 0 / 0.9);
+  --shadow-card: var(--eg-shadow-1);
+  --shadow-raised: var(--eg-shadow-pop);
+  --shadow-button: none;
+  --shadow-float: var(--eg-shadow-pop);
 }
 
 @layer base {
   html {
-    background: var(--color-ivory);
-    color-scheme: light;
+    background: var(--eg-c-canvas);
+    color-scheme: var(--eg-color-scheme);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    scroll-padding-top: 96px;
-    --focus: var(--color-gold-text);
+    scroll-padding-top: 88px;
   }
   body {
     min-width: 320px;
-    background: var(--color-ivory);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    font-size: 17px;
-    line-height: 1.6;
-    font-feature-settings: "cv11", "ss01";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 1.55;
+    font-feature-settings: "ss01";
   }
   h1, h2, h3, h4 { text-wrap: balance; }
   p, li, dd { text-wrap: pretty; }
-  ::selection { background: var(--color-gold-light); color: var(--color-ink); }
-  :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
-  .noscript { padding: 24px; max-width: 40rem; }
+  :focus-visible { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto !important; }
   }
+  @media (forced-colors: active) {
+    :focus-visible { outline-color: Highlight; }
+  }
 }
 
-@layer components {
-  /* Titre principal de page (h1 des pages internes et de l'espace personnel) : UNE seule échelle,
-     36 → 48 px, au lieu des cinq tailles constatées à l'audit (34, 36, 38, 44, 48 px). */
+@layer components {/* Titre principal de page (h1 des pages internes et de l'espace) : Marcellus, une seule échelle. */
+
+  
   .page-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 1.85rem + 1.6vw, 3rem);
+    font-family: var(--eg-f-display);
+    font-weight: var(--eg-f-display-w);
+    letter-spacing: var(--eg-f-display-ls);
+    font-size: clamp(2.1rem, 1.75rem + 1.5vw, 2.85rem);
     line-height: 1.08;
-    letter-spacing: -0.014em;
-    font-weight: 500;
     text-wrap: balance;
   }
   .container-site {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1240px;
     margin-inline: auto;
-    padding-inline: 20px;
+    padding-inline: max(16px, 4vw);
   }
-  @media (min-width: 640px) { .container-site { padding-inline: 32px; } }
+  @media (min-width: 1440px) { .container-site { padding-inline: 32px; } }/* Titres : la famille d'affichage du thème (Marcellus ; Hanken 640 en « Sobre »). */
 
-  /* Contrepoint sombre : texte ivoire, focus et sélection adaptés. */
-  .section-night {
-    background: var(--color-obsidian);
-    color: var(--color-ivory);
-    --focus: var(--color-gold);
-  }
-  .section-night ::selection { background: var(--color-gold); color: var(--color-obsidian); }
+  
+  .font-display { font-family: var(--eg-f-display); font-weight: var(--eg-f-display-w); letter-spacing: var(--eg-f-display-ls); }/* Logotype : capitales espacées, comme la planche officielle. */
 
-  /* Titre éditorial (Playfair Display) */
-  .font-display { font-family: var(--font-display); font-optical-sizing: auto; }
-
-  /* Logotype : capitales espacées, comme la planche officielle. */
-  .wordmark {
-    font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    /* l'espacement ajoute un blanc après la dernière lettre : on le compense pour centrer */
-    margin-right: -0.24em;
-  }
-
-  /* Chiffres nets (statistiques) : alignés et à chasse fixe, y compris en Playfair Display. */
   .tabular { font-variant-numeric: lining-nums tabular-nums; }
-
-  /* Arche fine (élément graphique de la planche) : niche discrète derrière la mascotte du héros. */
-  .arch-line {
-    border: 1px solid rgb(207 191 167 / 0.85);
-    border-bottom: 0;
-    border-radius: 999px 999px 0 0;
-  }
-  .floor-shadow {
-    background: radial-gradient(closest-side, rgb(52 40 22 / 0.2), rgb(52 40 22 / 0.06) 55%, transparent 75%);
-  }
-}
-
-/* ------------------------------------------------------------------------------------------------
+}/* ------------------------------------------------------------------------------------------------
    Mascotte (composant AethryonMascot) : la tête maître animée par ses propres éléments. Mouvements GLOBAUX
    de la tête (respiration, inclinaison, rebond) sur .mascot-owl-motion, pivot près de la pointe de
    l'écusson ; balayage du regard (processing) sur le groupe des yeux ; clignement et clin d'œil dans
    OwlMark. En pause hors écran / onglet masqué ; immobile si l'utilisateur réduit les animations.
    ------------------------------------------------------------------------------------------------ */
-.mascot-owl { display: inline-grid; place-items: center; vertical-align: middle; max-width: 100%; }
-.mascot-owl-motion { display: block; max-width: 100%; transform-origin: 50% 84%; }
-.mascot-owl-svg { display: block; max-width: 100%; height: auto; }
-.mascot-owl[data-look="1"] { --look: 1; }
-.mascot-owl[data-look="-1"] { --look: -1; }
-.mascot-owl[data-state="idle"] .mascot-owl-motion { animation: owl-breathe 4200ms ease-in-out infinite; }
-.mascot-owl[data-state="curious"] .mascot-owl-motion { animation: owl-attend 700ms cubic-bezier(0.2, 0.75, 0.25, 1) both; }
-.mascot-owl[data-state="processing"] .mascot-owl-motion { animation: owl-concentrate 2200ms ease-in-out infinite; }
-.mascot-owl[data-state="processing"] .owl-eyes { animation: owl-scan 2600ms ease-in-out infinite; }
-.mascot-owl[data-state="success"] .mascot-owl-motion { animation: owl-celebrate 820ms cubic-bezier(0.22, 0.7, 0.3, 1) both; }
-.mascot-owl[data-state="error"] .mascot-owl-motion { animation: owl-doubt 900ms cubic-bezier(0.2, 0.75, 0.25, 1) both; }
-.mascot-owl[data-paused="true"] .mascot-owl-motion,
-.mascot-owl[data-paused="true"] .owl-eyes { animation-play-state: paused; }
 
-@keyframes owl-breathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-0.55%) scale(1.006); }
-}
-/* --look : -1 (vers la gauche), 1 (vers la droite) : la tête s'incline vers ce que l'utilisateur vise. */
-@keyframes owl-attend {
-  0% { transform: rotate(0); }
-  55% { transform: rotate(calc(4deg * var(--look, -1))); }
-  100% { transform: rotate(calc(2.6deg * var(--look, -1))); }
-}
-@keyframes owl-concentrate {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-0.35%); }
-}
-@keyframes owl-celebrate {
-  0% { transform: translateY(0) scale(1); }
-  24% { transform: translateY(1%) scale(0.99); }
-  57% { transform: translateY(-3%) scale(1.012); }
-  80% { transform: translateY(0.3%) scale(1); }
-  100% { transform: translateY(0) scale(1); }
-}
-@keyframes owl-doubt {
-  0% { transform: rotate(0) translateY(0); }
-  35% { transform: rotate(calc(-3.2deg * var(--look, -1))) translateY(0.5%); }
-  65% { transform: rotate(calc(-1.6deg * var(--look, -1))) translateY(0.2%); }
-  100% { transform: rotate(calc(-2.2deg * var(--look, -1))) translateY(0.35%); }
-}
-/* Regard qui balaie (concentration) : translation du groupe des yeux, 1,1 unité de part et d'autre. */
-@keyframes owl-scan {
-  0%, 100% { translate: -1.1px 0.25px; }
-  50% { translate: 1.1px 0.25px; }
-}
-
-/* Tête vectorielle (OwlMark) : les yeux sont de vrais éléments séparés du SVG → clignement honnête. */
-.owl-eyes { transform-box: fill-box; transform-origin: 50% 55%; transition: translate 220ms var(--ease-soft); }
-.owl-mark[data-blink="true"] .owl-eyes { animation: owl-blink 205ms ease-in-out 1; }
-@keyframes owl-blink {
-  0% { scale: 1 1; }
-  34% { scale: 1 0.08; }
-  51% { scale: 1 0.08; }
-  100% { scale: 1 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mascot-owl-motion, .owl-gaze-head .owl-head { animation: none !important; transform: none !important; }
-  .owl-mark .owl-eyes { animation: none !important; transition: none; }
-}
-
-/* Logotype vectoriel (BrandLogo) : couleur selon le fond. */
-.wordmark-svg { flex-shrink: 0; }
-.wordmark-svg--ink { fill: var(--color-ink); }
-.wordmark-svg--ivory { fill: var(--color-ivory); }
-
-/* ------------------------------------------------------------------------------------------------
-   Chouette du héros (composant OwlGaze) : la tête maître dans l'arche de l'orbite (74 % de large). Elle en
-   occupe 70 %, sa pointe posée sur l'ombre ; respiration lente de la tête entière (pivot sur la pointe).
-   ------------------------------------------------------------------------------------------------ */
-.owl-gaze-head { position: absolute; left: 50%; top: 24%; width: 70%; height: 70%; translate: -50% 0; }
-.owl-gaze-head .owl-head { transform-box: fill-box; transform-origin: 50% 100%; animation: owl-breathe 4200ms ease-in-out infinite; }
-
-/* ------------------------------------------------------------------------------------------------
-   Pré-rendu (ui/ByDevice) : le HTML statique ne connaît pas l'appareil ; il contient les deux variantes
-   et la bonne est affichée ici, avec les MÊMES critères que lib/device.ts (bureau : pointeur fin qui
-   survole, hors appareils tactiles d'Apple). L'application, une fois démarrée, n'écrit que la bonne.
-   ------------------------------------------------------------------------------------------------ */
+/* Pré-rendu (ui/ByDevice) : le HTML statique ne connaît pas l'appareil ; il contient les deux variantes et la bonne est
+   affichée ici, avec les MÊMES critères que lib/device.ts (bureau : pointeur fin qui survole, hors appareils tactiles
+   d'Apple). L'application, une fois démarrée, n'écrit que la bonne. */
 [data-device="desktop"] { display: none; }
 @media (hover: hover) and (pointer: fine) {
   @supports not (-webkit-touch-callout: none) {
@@ -261,40 +157,15 @@
 @supports (-webkit-touch-callout: none) {
   [data-device="not-apple-touch"] { display: none; }
 }
-/* Pré-rendu : contenu écrit dans le HTML pour les robots et les lecteurs sans JavaScript (réponses de la
-   FAQ et de l'aide, autres solutions), masqué ici ; sans-js.css (chargée dans <noscript>) l'affiche. */
+/* Pré-rendu : contenu écrit dans le HTML pour les robots et les lecteurs sans JavaScript (réponses de la FAQ et de l'aide,
+   toutes les catégories du catalogue), masqué ici ; sans-js.css (chargée dans <noscript>) l'affiche. */
 [data-sans-js] { display: none; }
 
-/* Squelette : pulsation FINIE (11 cycles de 1,8 s, environ 20 s), puis repos ; décalage de 90 ms d'un bloc à
-   l'autre par :nth-child (aucun style posé par JS : propre au pré-rendu). Jamais de mouvement perpétuel. */
+/* Squelette : pulsation FINIE (11 cycles de 1,8 s, environ 20 s), puis repos ; décalage de 90 ms d'un bloc à l'autre.
+   Jamais de mouvement perpétuel. */
 @keyframes pulse-finite { 50% { opacity: 0.45; } }
 .pulse-finite { animation: pulse-finite 1.8s ease-in-out 11; }
 .pulse-finite:nth-child(2) { animation-delay: 90ms; }
 .pulse-finite:nth-child(3) { animation-delay: 180ms; }
 .pulse-finite:nth-child(4) { animation-delay: 270ms; }
 @media (prefers-reduced-motion: reduce) { .pulse-finite { animation: none; } }
-
-/* Maquettes des solutions (landing/solutions/Mockups.tsx) : remplacement d'un état par le suivant (message du bot
-   modifié) ; uniquement après une lecture, jamais au chargement pré-rendu ni en mouvement réduit. */
-.mock-swap { animation: mock-swap 280ms var(--ease-soft) both; }
-@keyframes mock-swap { from { opacity: 0.35; transform: translateY(2px); } to { opacity: 1; transform: none; } }
-/* Au changement d'onglet ([data-entered], Solutions.tsx), une démonstration unique par maquette. */
-[data-entered] .mock-sheet { animation: mock-rise 460ms var(--ease-soft) both; }
-[data-entered] .mock-dim { animation: mock-fade 300ms ease-out 360ms both; }
-[data-entered] .mock-pop { transform-origin: 50% 0; animation: mock-pop 380ms var(--ease-soft) 480ms both; }
-[data-entered] .mock-pop-br { transform-origin: 100% 100%; animation-delay: 260ms; }
-[data-entered] .mock-draw { animation: mock-draw 320ms var(--ease-soft) 780ms both; }
-[data-entered] .mock-pop-br .mock-draw { animation-delay: 560ms; }
-[data-entered] .mock-fill { transform-origin: 0 50%; animation: mock-fill 700ms var(--ease-soft) 200ms both; }
-[data-entered] .mock-row { animation: mock-row 360ms var(--ease-soft) both; }
-[data-entered] .mock-row:nth-child(1) { animation-delay: 260ms; }
-[data-entered] .mock-row:nth-child(2) { animation-delay: 340ms; }
-[data-entered] .mock-row:nth-child(3) { animation-delay: 420ms; }
-.mock-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
-@keyframes mock-rise { from { transform: translateY(26%); } to { transform: none; } }
-@keyframes mock-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes mock-pop { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
-@keyframes mock-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes mock-fill { from { transform: scaleX(0); } to { transform: none; } }
-@keyframes mock-row { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .mock-swap, [data-entered] .mock-sheet, [data-entered] .mock-dim, [data-entered] .mock-pop, [data-entered] .mock-draw, [data-entered] .mock-fill, [data-entered] .mock-row { animation: none; } }

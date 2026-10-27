@@ -21,21 +21,21 @@ export function Badge({ children, tone = "neutral", className }: { children: Rea
     ok: "bg-ok-bg text-ok ring-ok/20",
     warn: "bg-warn-bg text-warn ring-warn/20",
     bad: "bg-bad-bg text-bad ring-bad/20",
-    night: "bg-white/[0.06] text-mist ring-white/10",
+    night: "bg-hover text-fg-2 ring-line",
   };
   return <span className={cn("inline-flex h-6 items-center gap-1.5 rounded-full px-2.5 text-[12.5px] font-medium ring-1 ring-inset", t[tone], className)}>{children}</span>;
 }
 
 /** Emplacement de chargement : pulsation FINIE (≈ 20 s, styles.css .pulse-finite), puis repos. */
 export function Skeleton({ className, night = false }: { className?: string; night?: boolean }) {
-  return <div aria-hidden className={cn("pulse-finite rounded-[10px]", night ? "bg-white/[0.06]" : "bg-sand/70", className)} />;
+  return <div aria-hidden className={cn("pulse-finite rounded-[10px]", night ? "bg-hover" : "bg-sand/70", className)} />;
 }
 
 export function Card({ children, className, as: Tag = "div", night = false }: { children: ReactNode; className?: string; as?: "div" | "section" | "article"; night?: boolean }) {
   return (
     <Tag className={cn(
       "rounded-[22px] border",
-      night ? "border-night-line bg-night text-ivory shadow-night" : "border-line bg-pearl/60 shadow-card",
+      night ? "border-line bg-surface text-fg shadow-raised" : "border-line bg-pearl/60 shadow-card",
       className,
     )}>
       {children}
@@ -50,7 +50,7 @@ export function TextInput({ label, hint, id, className, ...rest }: { label: stri
       <label htmlFor={inputId} className="text-sm font-medium text-ink-soft">{label}</label>
       <input
         id={inputId}
-        className="mt-2 h-12 w-full rounded-[14px] border border-field bg-white/70 px-3.5 text-[16px] text-ink placeholder:text-muted transition-colors focus:border-gold-text focus:bg-white focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-text"
+        className="mt-2 h-12 w-full rounded-[14px] border border-field bg-surface px-3.5 text-[16px] text-ink placeholder:text-muted transition-colors focus:border-gold-text focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-text"
         {...rest}
       />
       {hint && <p className="mt-1.5 text-[13.5px] text-muted">{hint}</p>}

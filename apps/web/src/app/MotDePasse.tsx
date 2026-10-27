@@ -86,7 +86,7 @@ export function NouveauMotDePasse() {
   if (state === "invalid") {
     return (
       <CompteCarte data="nouveau-mdp-invalide" title="Ce lien n'est plus valable" lead="Un lien de mot de passe sert une seule fois et une heure au plus. Demande-en un nouveau.">
-        <Link to="/mot-de-passe" className="inline-flex h-12 items-center rounded-full bg-obsidian px-6 text-[15.5px] font-medium text-ivory">Recevoir un nouveau lien</Link>
+        <Link to="/mot-de-passe" className="inline-flex h-12 items-center rounded-full bg-sunken px-6 text-[15.5px] font-medium text-fg">Recevoir un nouveau lien</Link>
       </CompteCarte>
     );
   }
@@ -94,7 +94,7 @@ export function NouveauMotDePasse() {
     return (
       <CompteCarte data="nouveau-mdp-fait" title="Mot de passe enregistré" lead="Tes autres sessions ont été fermées par sécurité. Connecte-toi avec ton nouveau mot de passe.">
         <FormNote tone="ok" icon={<IconCheck size={18} />}>C'est fait{NB}: ce mot de passe sert dès maintenant.</FormNote>
-        <Link to="/connexion" className="mt-6 inline-flex h-12 items-center rounded-full bg-obsidian px-6 text-[15.5px] font-medium text-ivory" data-nouveau-mdp-connexion="">Se connecter</Link>
+        <Link to="/connexion" className="mt-6 inline-flex h-12 items-center rounded-full bg-sunken px-6 text-[15.5px] font-medium text-fg" data-nouveau-mdp-connexion="">Se connecter</Link>
       </CompteCarte>
     );
   }

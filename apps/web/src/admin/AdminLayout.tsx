@@ -3,6 +3,7 @@
 // Le rôle est vérifié ici pour l'AFFICHAGE seulement (GET /api/admin/me) : la vraie protection est côté
 // serveur (garde /api/admin/*, rôle relu en base) et nginx (auth_request avant de servir /admin).
 import { Suspense, useEffect, useRef, useState, type ComponentType, type MouseEvent } from "react";
+import { ThemeMenu } from "../ui/egide/ThemeMenu.tsx";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
 import { motion } from "motion/react";
 import { cn } from "../lib/cn.ts";
@@ -45,7 +46,7 @@ function SideNav({ me, marker, onNavigate }: { me: AdminMe; marker: string; onNa
         <Link to="/admin" onClick={onNavigate} className="inline-flex min-h-11 items-center" aria-label="AETHRYON, vue d'ensemble du Control Center">
           <BrandLogo size="sm" tone="ivory" />
         </Link>
-        <p className="mt-1.5 text-[11.5px] font-medium uppercase tracking-[0.2em] text-gold">Control Center</p>
+        <p className="mt-1.5 text-[13px] font-semibold text-accent-text">Control Center</p>
       </div>
       <nav aria-label="Control Center" className="flex-1 overflow-y-auto px-3">
         <ul className="space-y-0.5">
@@ -57,7 +58,7 @@ function SideNav({ me, marker, onNavigate }: { me: AdminMe; marker: string; onNa
                 onClick={onNavigate}
                 className={({ isActive }) => cn(
                   "relative flex min-h-11 items-center gap-3 rounded-[12px] px-3.5 text-[14.5px] transition-colors",
-                  isActive ? "bg-white/[0.07] text-ivory" : "text-mist hover:bg-white/[0.04] hover:text-ivory",
+                  isActive ? "bg-hover text-fg" : "text-fg-2 hover:bg-hover hover:text-fg",
                 )}
               >
                 {({ isActive }) => (
@@ -72,17 +73,19 @@ function SideNav({ me, marker, onNavigate }: { me: AdminMe; marker: string; onNa
           ))}
         </ul>
       </nav>
-      <div className="border-t border-night-line px-4 py-4">
+      <div className="border-t border-line px-4 py-4">
         <div className="flex items-center gap-3 px-1">
           <Monogram name={me.name || me.email} admin size={36} />
-          <div className="min-w-0">
-            <p className="truncate text-[14px] font-medium text-ivory">{me.name || "Administrateur"}</p>
-            <p className="truncate text-[12.5px] text-mist">{me.email}</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[14px] font-medium text-fg">{me.name || "Administrateur"}</p>
+            <p className="truncate text-[12.5px] text-fg-2">{me.email}</p>
           </div>
+          {/* Thème (Égide) : le même choix que sur le site et dans l'espace, gardé sur cet appareil. */}
+          <ThemeMenu />
         </div>
         <div className="mt-3 grid grid-cols-2 gap-1.5">
-          <Link to="/dashboard" onClick={onNavigate} className="flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-white/12 text-[13px] text-mist transition-colors hover:border-white/25 hover:text-ivory">Mon espace</Link>
-          <Link to="/" onClick={onNavigate} className="flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-white/12 text-[13px] text-mist transition-colors hover:border-white/25 hover:text-ivory"><IconHome size={15} />Le site</Link>
+          <Link to="/dashboard" onClick={onNavigate} className="flex min-h-11 items-center justify-center gap-1.5 rounded-control border border-line-strong text-[13px] text-fg-2 transition-colors hover:border-control hover:text-fg">Mon espace</Link>
+          <Link to="/" onClick={onNavigate} className="flex min-h-11 items-center justify-center gap-1.5 rounded-control border border-line-strong text-[13px] text-fg-2 transition-colors hover:border-control hover:text-fg"><IconHome size={15} />Le site</Link>
         </div>
       </div>
     </div>
@@ -111,11 +114,11 @@ function MobileDrawer({ open, onClose, me }: { open: boolean; onClose: () => voi
       onCancel={(e) => { e.preventDefault(); onClose(); }}
       onClose={onClose}
       onClick={(e) => { if (e.target === ref.current) onClose(); }}
-      className="m-0 h-dvh max-h-dvh w-[min(300px,86vw)] max-w-none bg-transparent p-0 backdrop:bg-obsidian/55 lg:hidden"
+      className="m-0 h-dvh max-h-dvh w-[min(300px,86vw)] max-w-none bg-transparent p-0 backdrop:bg-[var(--eg-scrim)] lg:hidden"
     >
       {open && (
-        <motion.div initial={{ x: -28, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: DUR.component, ease: EASE.soft }} className="section-night relative h-full shadow-night">
-          <button type="button" onClick={onClose} aria-label="Fermer le menu" className="absolute right-3 top-5 z-10 grid size-11 place-items-center rounded-full text-mist transition-colors hover:bg-white/[0.06] hover:text-ivory">
+        <motion.div initial={{ x: -28, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: DUR.component, ease: EASE.soft }} className="bg-surface text-fg relative h-full shadow-raised">
+          <button type="button" onClick={onClose} aria-label="Fermer le menu" className="absolute right-3 top-5 z-10 grid size-11 place-items-center rounded-full text-fg-2 transition-colors hover:bg-hover hover:text-fg">
             <IconClose size={19} />
           </button>
           <SideNav me={me} marker="admin-nav-drawer" onNavigate={onClose} />
@@ -152,8 +155,8 @@ function GuardScreen({ kind, onRetry }: { kind: "login" | "forbidden" | "error";
   return (
     <main id="admin-contenu" tabIndex={-1} className="grid min-h-dvh place-items-center bg-ivory px-4 py-16 focus:outline-none">
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: DUR.reveal, ease: EASE.soft }} className="w-full max-w-[460px] rounded-[28px] border border-line bg-pearl/60 p-7 text-center shadow-raised sm:p-9">
-        <span className="mx-auto grid size-14 place-items-center rounded-full bg-obsidian text-gold"><IconLock size={24} /></span>
-        <p className="mt-5 text-[12px] font-medium uppercase tracking-[0.2em] text-gold-text">Control Center</p>
+        <span className="mx-auto grid size-14 place-items-center rounded-full bg-sunken text-gold"><IconLock size={24} /></span>
+        <p className="mt-5 text-[13px] font-semibold text-accent-text">Control Center</p>
         <h1 className="font-display mt-2 text-[30px] font-medium leading-tight">{content.title}</h1>
         <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">{content.text}</p>
         <div className="mt-7 flex flex-col justify-center gap-2.5 sm:flex-row">
@@ -183,8 +186,8 @@ export function AdminBoot() {
   return (
     <div aria-busy="true" className="min-h-dvh bg-ivory lg:pl-[264px]">
       <span className="sr-only" role="status">Chargement du Control Center…</span>
-      <div className="fixed inset-y-0 left-0 hidden w-[264px] bg-obsidian lg:block" />
-      <div className="h-14 bg-obsidian lg:hidden" />
+      <div className="fixed inset-y-0 left-0 hidden w-[264px] bg-sunken lg:block" />
+      <div className="h-14 bg-sunken lg:hidden" />
       <div className="mx-auto max-w-[1320px] px-4 py-8 sm:px-6 lg:px-10"><ContentFallback /></div>
     </div>
   );
@@ -206,23 +209,23 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-dvh bg-ivory">
-      <a href="#admin-contenu" onClick={skipTo} className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[80] focus:rounded-full focus:bg-gold focus:px-5 focus:py-3 focus:text-obsidian">Aller au contenu</a>
+      <a href="#admin-contenu" onClick={skipTo} className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[80] focus:rounded-full focus:bg-gold focus:px-5 focus:py-3 focus:text-on-accent">Aller au contenu</a>
 
       {/* ≥ 1024 px : barre latérale fixe */}
-      <aside className="section-night fixed inset-y-0 left-0 z-30 hidden w-[264px] border-r border-night-line lg:block">
+      <aside className="bg-surface text-fg fixed inset-y-0 left-0 z-30 hidden w-[264px] border-r border-line lg:block">
         <SideNav me={me.data} marker="admin-nav-desktop" />
       </aside>
 
       {/* < 1024 px : barre supérieure + tiroir */}
-      <header className="section-night sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-night-line px-2 pt-[env(safe-area-inset-top)] lg:hidden">
-        <button type="button" onClick={() => setOpen(true)} aria-label="Ouvrir le menu du Control Center" aria-expanded={open} className="grid size-11 place-items-center rounded-full text-mist transition-colors hover:bg-white/[0.06] hover:text-ivory">
+      <header className="bg-surface text-fg sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-line px-2 pt-[env(safe-area-inset-top)] lg:hidden">
+        <button type="button" onClick={() => setOpen(true)} aria-label="Ouvrir le menu du Control Center" aria-expanded={open} className="grid size-11 place-items-center rounded-full text-fg-2 transition-colors hover:bg-hover hover:text-fg">
           <IconMenu size={20} />
         </button>
         <Link to="/admin" className="flex min-h-11 items-center gap-2 rounded-full px-1" aria-label="Control Center, vue d'ensemble">
           <OwlMark size={24} surface="dark" />
-          <span className="text-[11.5px] font-medium uppercase tracking-[0.18em] text-gold">Control Center</span>
+          <span className="text-[13px] font-semibold text-accent-text">Control Center</span>
         </Link>
-        <span aria-hidden className="ml-auto truncate pr-2 text-[13.5px] text-mist">{currentLabel(pathname)}</span>
+        <span aria-hidden className="ml-auto truncate pr-2 text-[13.5px] text-fg-2">{currentLabel(pathname)}</span>
       </header>
       <MobileDrawer open={open} onClose={() => setOpen(false)} me={me.data} />
 

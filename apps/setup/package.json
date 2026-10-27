@@ -1,7 +1,7 @@
 {
   "name": "aethryon-setup",
   "private": true,
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "license": "Apache-2.0",
   "type": "module",
   "description": "AETHRYON Setup — interface (React + TypeScript, WebView2 via Tauri 2)",

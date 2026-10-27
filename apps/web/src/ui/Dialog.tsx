@@ -49,7 +49,7 @@ export function Dialog({ open, onClose, title, description, children, footer, di
       aria-labelledby={titleId}
       onCancel={(e) => { e.preventDefault(); if (dismissible) onClose(); }}
       onClick={(e) => { if (dismissible && e.target === ref.current) onClose(); }}
-      className={cn("m-auto max-h-[calc(100dvh-32px)] overflow-visible bg-transparent p-0 text-ink backdrop:bg-obsidian/55",
+      className={cn("m-auto max-h-[calc(100dvh-32px)] overflow-visible bg-transparent p-0 text-ink backdrop:bg-[var(--eg-scrim)]",
         wide ? "w-[min(760px,calc(100vw-24px))]" : "w-[min(520px,calc(100vw-24px))]")}
     >
       <AnimatePresence onExitComplete={closed}>

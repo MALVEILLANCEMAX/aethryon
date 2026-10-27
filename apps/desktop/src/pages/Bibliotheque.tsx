@@ -119,7 +119,7 @@ function Details({ cible, multi, racine, instant, onFermer, onAction }: {
     return (
       <aside className="bib-details" data-instant={instant ? "" : undefined} aria-label="Détails">
         <BoutonIcone className="bib-details-fermer" nom="close" libelle="Fermer le panneau de détails" taille="sm" onClick={onFermer} />
-        <div className="bib-details-vide"><Icone nom="panel" taille={26} /><p>{typo("Choisissez un média : ses détails s'affichent ici.")}</p></div>
+        <div className="bib-details-vide"><Icone nom="panel" taille={26} /><p>{typo("Choisis un média : ses détails s'affichent ici.")}</p></div>
       </aside>
     );
   }
@@ -132,7 +132,7 @@ function Details({ cible, multi, racine, instant, onFermer, onAction }: {
       <BoutonIcone className="bib-details-fermer" nom="close" libelle="Fermer le panneau de détails" taille="sm" onClick={onFermer} />
       <Miniature m={m} racine={racine} />
       <div>
-        <h2>{m.nom}<span className="c3" style={{ fontFamily: "var(--font-ui)", fontSize: 13 }}>.{m.ext}</span></h2>
+        <h2>{m.nom}<span className="c3" style={{ fontFamily: "var(--eg-f-ui)", fontSize: 13 }}>.{m.ext}</span></h2>
         <div style={{ marginTop: 8 }}><Pastille etat={etatAffiche(m, inst.imports.imports)} /></div>
       </div>
       <div className="bib-details-actions">
@@ -394,7 +394,7 @@ export function Bibliotheque() {
     else if (id === "importer") {
       const ok = c.filter((x) => x.etat === "disponible" && !scanne(x));
       if (ok.length) await importer(ok.map((x) => x.id));
-      if (ok.length < c.length && c.some(scanne)) toast({ etat: "info", titre: "Médias scannés non importés", texte: "Le panneau Premiere importe les médias des dossiers surveillés : « Surveiller ce dossier » les rend importables, ou glissez-les dans Premiere." });
+      if (ok.length < c.length && c.some(scanne)) toast({ etat: "info", titre: "Médias scannés non importés", texte: "Le panneau Premiere importe les médias des dossiers surveillés : « Surveiller ce dossier » les rend importables, ou glisse-les dans Premiere." });
     }
     else if (id === "surveiller" && m.indexe) {
       try {
@@ -652,7 +652,7 @@ export function Bibliotheque() {
               <div className="vide bib-vide">
                 <Companion lieu="vide" taille={132} />
                 <h2 className="t-display-m">La bibliothèque est vide</h2>
-                <p>{typo(`Déposez des fichiers sur la fenêtre ou dans « ${dossierAmical(inst.config.dossierMedias)} », envoyez-les depuis l'extension AETHRYON, ou ajoutez-les ici.`)}</p>
+                <p>{typo(`Dépose des fichiers sur la fenêtre ou dans « ${dossierAmical(inst.config.dossierMedias)} », envoie-les depuis l'extension AETHRYON, ou ajoute-les ici.`)}</p>
                 <div className="vide-actions">
                   <Bouton variante="primary" icone="plus" onClick={ajouterFichiers}>Ajouter des fichiers…</Bouton>
                   <Bouton icone="folder" onClick={() => api.ouvrirDossier("medias")}>Ouvrir le dossier</Bouton>

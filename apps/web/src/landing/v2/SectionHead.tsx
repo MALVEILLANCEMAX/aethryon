@@ -16,7 +16,7 @@ export function SectionHead({ id, title, lead, center = false, tone = "light", c
   return (
     <motion.header variants={revealGroup} {...inView(`tete-${id}`)} className={cn("max-w-[42rem]", center && "mx-auto text-center", className)}>
       <motion.h2 variants={reveal} id={id} className="font-display text-title font-medium">{title}</motion.h2>
-      {lead && <motion.p variants={reveal} className={cn("mt-4 text-[17px] leading-relaxed sm:text-lead", tone === "dark" ? "text-mist" : "text-ink-soft")}>{lead}</motion.p>}
+      {lead && <motion.p variants={reveal} className={cn("mt-4 text-[17px] leading-relaxed sm:text-lead", tone === "dark" ? "text-fg-2" : "text-ink-soft")}>{lead}</motion.p>}
     </motion.header>
   );
 }

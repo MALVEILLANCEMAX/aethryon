@@ -83,14 +83,22 @@ test("autonome et propre : manifeste + tout le nécessaire ; ni sources, ni cart
   const names = entries.map((e) => e.name);
   for (const need of ["manifest.json", "background.js", "content/youtube.js", "content/tiktok.js", "content/x.js", "popup/popup.html", "popup/popup.js", "popup/popup.css",
     "options/options.html", "options/options.js", "options/options.css", "welcome/welcome.html", "welcome/welcome.js", "welcome/welcome.css",
-    "assets/icons/icon-16.png", "assets/icons/icon-32.png", "assets/icons/icon-48.png", "assets/icons/icon-128.png", "assets/fonts/inter.woff2",
-    "assets/fonts/playfair.woff2", "assets/fonts/LICENSE-Inter.txt", "assets/fonts/LICENSE-PlayfairDisplay.txt"]) {
+    "assets/icons/icon-16.png", "assets/icons/icon-32.png", "assets/icons/icon-48.png", "assets/icons/icon-128.png",
+    // Égide (paquet design/, lot 3) : feuille du document (minifiée), démarrage du thème sans flash, polices OFL avec leurs
+    // licences, chouette maître, feuille commune des pages. Plus d'Inter ni de Playfair (remplacées).
+    "egide/genere/egide.css", "egide/genere/theme-boot.js", "egide/extension.css", "egide/aethryon-master.svg",
+    "egide/fonts/marcellus-latin-400-normal.woff2", "egide/fonts/hanken-grotesk-latin-wght-normal.woff2",
+    "egide/fonts/geist-mono-latin-wght-normal.woff2", "egide/fonts/LICENSE-marcellus.txt", "egide/fonts/LICENSE-hanken-grotesk.txt",
+    "egide/fonts/LICENSE-geist-mono.txt"]) {
     assert.ok(names.includes(need), `fichier attendu : ${need}`);
   }
-  assert.equal(names.length, 22, `aucun fichier en trop : ${names.join(", ")}`);
+  assert.equal(names.length, 28, `aucun fichier en trop : ${names.join(", ")}`);
+  assert.ok(!names.some((n) => /inter|playfair/i.test(n)), "anciennes polices retirées");
+  // La chouette maître est le fichier de brand/master, octet pour octet.
+  assert.ok(entries.find((e) => e.name === "egide/aethryon-master.svg").data.equals(readFileSync(join(ROOT, "../../packages/brand/master/aethryon-master.svg"))), "chouette maître");
   for (const e of entries) {
     assert.doesNotMatch(e.name, /\.(ts|map|mjs)$|tests?\/|src\/|\.keys|node_modules/, e.name);
-    if (/\.(js|html|css|json)$/.test(e.name)) {
+    if (/\.(js|html|css|json|svg)$/.test(e.name)) {
       const t = e.data.toString("utf8");
       // Aucune trace de développement : adresses et libellés de préproduction, cartes de sources, domaines de test,
       // identifiant de développement, clé privée, chemins de la machine de construction, journal de débogage.
@@ -116,13 +124,13 @@ test("autonome et propre : manifeste + tout le nécessaire ; ni sources, ni cart
   }
 });
 
-test("manifeste : identifiant stable necpohicddjeaeaaomaakehcbccapabg, version 3.8.1, permissions minimales exactes", () => {
+test("manifeste : identifiant stable necpohicddjeaeaaomaakehcbccapabg, version 3.9.0, permissions minimales exactes", () => {
   const m = JSON.parse(readZip(A.zip).find((e) => e.name === "manifest.json").data.toString("utf8"));
   assert.equal(extensionIdFromKey(m.key), RELEASE_ID);
   assert.equal(RELEASE_ID, "necpohicddjeaeaaomaakehcbccapabg");
   assert.equal(m.name, "AETHRYON");
   assert.equal(m.version, pkg.version);
-  assert.equal(m.version, "3.8.1");
+  assert.equal(m.version, "3.9.0");
   assert.equal(m.manifest_version, 3);
   assert.deepEqual(m.permissions, ["storage", "downloads", "identity", "alarms", "activeTab"]);
   // 3.5.2 : nativeMessaging facultative (lien local avec AETHRYON Desktop, demandée au choix « Premiere Pro »).

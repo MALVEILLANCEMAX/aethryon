@@ -1,8 +1,9 @@
 // Racine : premier lancement (ou --assistant, --reparer, « Réparer ») → parcours d'installation en 960 × 640 ;
-// sinon l'application. Thème et « Réduire les animations » suivent la configuration (Système = Windows).
+// sinon l'application. Thème : Égide (lib/apparence.ts, préférence de l'appareil, posée avant le premier rendu) ;
+// « Réduire les animations » suit la configuration (Système = Windows).
 import { lazy, Suspense, useEffect, useState } from "react";
 import { api, evenements } from "./lib/api";
-import { appliquerMouvement, appliquerTheme } from "./lib/mouvement";
+import { appliquerAnimations, reprendreAncienTheme } from "./lib/apparence";
 import type { Instantane } from "./lib/types";
 import { FournisseurMagasin, useMagasin } from "./lib/magasin";
 import { FournisseurToasts } from "./ui/superpositions";
@@ -55,23 +56,17 @@ function Precharge() {
 }
 
 function Apparence({ inst }: { inst: Instantane | null }) {
-  const theme = inst?.config.theme ?? "systeme";
+  const ancien = inst?.config.theme;
   const anim = inst?.config.reduireAnimations ?? "systeme";
-  useEffect(() => {
-    appliquerTheme(theme);
-    appliquerMouvement(anim);
-    const m = matchMedia("(prefers-color-scheme: light)");
-    const f = () => appliquerTheme(theme);
-    m.addEventListener("change", f);
-    return () => m.removeEventListener("change", f);
-  }, [theme, anim]);
+  useEffect(() => { appliquerAnimations(anim); }, [anim]);
+  // Une seule fois par appareil : l'ancien réglage « Thème » (Clair / Sombre / Système) devient le thème Égide de départ.
+  useEffect(() => { if (ancien) reprendreAncienTheme(ancien); }, [ancien]);
   return null;
 }
 
 function Application({ initial }: { initial: Instantane }) {
   const [mode, setMode] = useState<Mode | null>(null);
   const { inst, rafraichir } = useMagasin();
-  if (inst) appliquerTheme(inst.config.theme);
 
   useEffect(() => {
     api.modeLancement().then((m) => {
@@ -100,7 +95,7 @@ function Application({ initial }: { initial: Instantane }) {
     <>
       <Apparence inst={inst} />
       {mode && mode !== "app" && inst && (
-        <Assistant key={mode} inst={inst} reparation={mode === "reparer"} onTerminer={() => { rafraichir(); setMode("app"); }} />
+        <main className="inst-hote"><Assistant key={mode} inst={inst} reparation={mode === "reparer"} onTerminer={() => { rafraichir(); setMode("app"); }} /></main>
       )}
       {mode === "app" && (
         <>

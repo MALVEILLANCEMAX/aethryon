@@ -210,10 +210,10 @@ export function etatDock(e: EtatFlux, inst: Instantane | null, finales: Readonly
   if (!glisserEnCours) return null;
   const ids = e.glisser?.ids ?? e.survol.classement?.medias ?? [];
   if (inst && !inst.liaison.connecte) {
-    return { etat: "invalide", titre: "Premiere Pro n'est pas connecté", sousTitre: "Ouvrez le panneau AETHRYON dans Premiere Pro", horloge: true, accepte: false, op: null, envoi: null };
+    return { etat: "invalide", titre: "Premiere Pro n'est pas connecté", sousTitre: "Ouvre le panneau AETHRYON dans Premiere Pro", horloge: true, accepte: false, op: null, envoi: null };
   }
   if (inst?.liaison.panneau && inst.liaison.panneau.projetOuvert === false) {
-    return { etat: "invalide", titre: "Aucun projet ouvert", sousTitre: "Ouvrez un projet dans Premiere Pro", accepte: false, op: null, envoi: null };
+    return { etat: "invalide", titre: "Aucun projet ouvert", sousTitre: "Ouvre un projet dans Premiere Pro", accepte: false, op: null, envoi: null };
   }
   if (inst && ids.some((id) => inst.index.medias.find((m) => m.id === id)?.etat !== "disponible")) {
     return { etat: "invalide", titre: "Ce média n'est pas encore prêt", sousTitre: null, accepte: false, op: null, envoi: null };

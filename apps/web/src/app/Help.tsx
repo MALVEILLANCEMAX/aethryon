@@ -154,7 +154,7 @@ export default function Help() {
               <form onSubmit={check} className="mt-3">
                 <label htmlFor="help-check" className="text-[14.5px] text-ink-soft">Colle ton jeton : il n'est ni affiché ni conservé.</label>
                 <div className="mt-2 flex gap-2">
-                  <input id="help-check" type="password" autoComplete="off" spellCheck={false} placeholder="ytc_…" value={secret} onChange={(e) => setSecret(e.target.value)} className="h-12 min-w-0 flex-1 rounded-[14px] border border-field bg-white/70 px-3.5 font-mono text-[15px] placeholder:text-muted" />
+                  <input id="help-check" type="password" autoComplete="off" spellCheck={false} placeholder="ytc_…" value={secret} onChange={(e) => setSecret(e.target.value)} className="h-12 min-w-0 flex-1 rounded-[14px] border border-field bg-surface px-3.5 font-mono text-[15px] placeholder:text-muted" />
                   <Button type="submit" variant="secondary" disabled={secret.trim().length < 10}>Vérifier</Button>
                 </div>
                 <p className="mt-3 min-h-[22px] text-[15px]" aria-live="polite">{result}</p>

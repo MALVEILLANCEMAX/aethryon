@@ -1,24 +1,23 @@
-// Companion (D-SPEC §B.6) : UN hôte pour toute l'application, UNE seule chouette animée à la fois. Lieux : la niche
-// de la barre latérale (par défaut), la présentation de l'Accueil (`accueil`), un état vide (`vide`) ou le calque de
-// dépôt (`depot`), qui PRENNENT la présence. Vide et dépôt masquent la niche en fondu ; l'Accueil la laisse visible,
-// fixe (sa phrase d'état reste la seule région annoncée). Nocturne : dès 72 px, la chouette est en profondeur
-// (ui/chouette.tsx : mêmes tracés, éclairés, sur quatre plans) avec ses apparences repos, attention, chargement,
-// analyse, téléchargement (progression réelle), réussite et erreur. Aucun son.
+// Companion (D-SPEC §B.6, Égide § 9) : UN hôte pour toute l'application, UNE seule chouette à la fois. Lieux : la niche
+// de la barre latérale (par défaut), l'Accueil (`accueil`), un état vide (`vide`) ou le calque de dépôt (`depot`), qui
+// PRENNENT la présence (la niche se masque en fondu ; l'Accueil la laisse visible, fixe). Égide : la chouette maître
+// n'est jamais animée ni redessinée ; l'état se lit AUTOUR d'elle — médaille (repos, astuce), veille (traitement : un
+// fil tourne autour), sceau frappé (réussite), anneau terre cuite (erreur), anneau d'or (un glisser survole). Les
+// états viennent toujours de faits réels (lib/companion.ts). Aucun son, aucune 3D.
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useMagasin } from "../lib/magasin";
-import { flux, useFluxChoix } from "../lib/fluxVue";
+import { useFluxChoix } from "../lib/fluxVue";
 import { useSignalMusique } from "../lib/musiqueSignal";
 import { envoisActifs, useTransfertsCloud } from "../lib/compte";
 import { mouvementReduit } from "../lib/mouvement";
 import {
-  apparenceDe, astuceUnParUn, detecter, ecrirePresence, etatCompanion, intervalleClignement, lirePresence, memoriser, progressionTransferts,
+  astuceUnParUn, detecter, ecrirePresence, etatCompanion, lirePresence, memoriser,
   type Cible, type EtatChouette, type EvtLocal, type Presence, type SortieCompanion,
 } from "../lib/companion";
 import { pluriel, typo } from "../lib/format";
 import type { Instantane } from "../lib/types";
-import { Chouette, cligner, regarder } from "./marque";
-import { BoutonIcone, Icone } from "./base";
-import { Chouette3D } from "./chouette";
+import { MedailleChouette, SceauChouette, VeilleChouette } from "./marque";
+import { BoutonIcone } from "./base";
 
 export type Lieu = "niche" | "accueil" | "vide" | "depot";
 /** Activité en cours signalée par un module (AETHRYON Index : « scan »). */
@@ -30,7 +29,6 @@ interface ContexteCompanion {
   presence: Presence;
   definirPresence: (p: Presence) => void;
   prendre: (l: Lieu) => () => void;
-  enregistrer: (el: Element | null) => void;
   proposerAstuce: (cle: string, texte: string) => void;
   fermerAstuce: (toujours: boolean) => void;
   aller: (c: Cible) => void;
@@ -64,7 +62,6 @@ export function FournisseurCompanion({ children }: { children: ReactNode }) {
   const [externes, setExternes] = useState<ActiviteExterne[]>([]);
   const vues = useRef(new Set<string>());
   const avant = useRef<Instantane | null>(null);
-  const svg = useRef<Element | null>(null);
   const operations = useFluxChoix((e) => e.operations);
   const survol = useFluxChoix((e) => e.survol.actif);
   const reduit = mouvementReduit();
@@ -160,33 +157,6 @@ export function FournisseurCompanion({ children }: { children: ReactNode }) {
     return () => window.clearTimeout(t);
   }, [astuce]);
 
-  // Réussite : clin d'œil puis reflets, une fois par déclencheur.
-  useEffect(() => {
-    if (!sortie.animee || sortie.etat !== "success") return;
-    const s = svg.current;
-    cligner(s);
-    s?.classList.remove("reflets");
-    const t = window.setTimeout(() => s?.classList.add("reflets"), 120);
-    const u = window.setTimeout(() => s?.classList.remove("reflets"), 560);
-    return () => { window.clearTimeout(t); window.clearTimeout(u); };
-  }, [sortie.cle, sortie.animee]);
-
-  // Clignement au repos : UNE minuterie, seulement fenêtre visible et au premier plan.
-  useEffect(() => {
-    if (!sortie.animee || !["idle", "curious", "hint"].includes(sortie.etat)) return;
-    let t: number | undefined;
-    const boucle = () => {
-      const d = intervalleClignement(presence, Math.random());
-      if (d == null) return;
-      t = window.setTimeout(() => {
-        if (document.visibilityState === "visible" && document.hasFocus()) cligner(svg.current);
-        boucle();
-      }, d);
-    };
-    boucle();
-    return () => window.clearTimeout(t);
-  }, [sortie.animee, sortie.etat, presence]);
-
   const prendre = useCallback((l: Lieu) => {
     setLieux((x) => [...x, l]);
     return () => setLieux((x) => { const i = x.lastIndexOf(l); return i < 0 ? x : [...x.slice(0, i), ...x.slice(i + 1)]; });
@@ -197,7 +167,6 @@ export function FournisseurCompanion({ children }: { children: ReactNode }) {
     sortie, hote, presence,
     definirPresence: (p) => { ecrirePresence(p); setPresence(p); },
     prendre,
-    enregistrer: (el) => { svg.current = el; },
     proposerAstuce: proposer,
     fermerAstuce: (toujours) => {
       if (toujours) { try { localStorage.setItem("aethryon.astuces.off", "1"); } catch { /* session seulement */ } }
@@ -215,57 +184,29 @@ const VIDE = {
   transferts: [], index: { medias: [] }, liaison: { connecte: false, age: null, panneau: null }, resultats: [], enAttente: [],
 } as unknown as Instantane;
 
-/** La chouette dans un lieu. Un lieu autre que la niche prend la présence tant qu'il est affiché. Dès 72 px : en
- *  profondeur. La niche, quand l'Accueil a la présence, montre la chouette FIXE (une seule animée à la fois). */
-export function Companion({ lieu, taille, etat: force, zoneSuivi, regard, hochement }: {
+/** La chouette dans un lieu (au plus 72 px : Égide ne grossit jamais la mascotte). Un lieu autre que la niche prend la
+ *  présence tant qu'il est affiché ; la niche, quand l'Accueil a la présence, montre la médaille FIXE. */
+export function Companion({ lieu, taille, etat: force }: {
   lieu: Lieu;
   taille: number;
   /** État imposé par le lieu (calque de dépôt : Curious). */
   etat?: EtatChouette;
-  /** Zone où la chouette suit le pointeur (présentation de l'Accueil). */
-  zoneSuivi?: React.RefObject<HTMLElement>;
-  /** Regard imposé (vers le champ « Coller un lien » quand il a le focus). */
-  regard?: { x: number; y: number } | null;
-  /** Hochement de tête (lien reconnu). */
-  hochement?: number;
 }) {
   const c = useCompanion();
-  const { inst } = useMagasin();
   const { prendre } = c;
-  const local = useRef<Element | null>(null);
   useLayoutEffect(() => (lieu === "niche" ? undefined : prendre(lieu)), [lieu, prendre]);
   const actif = c.hote === lieu;
   const etat = force ?? c.sortie.etat;
-  // Curious : le regard suit le pointeur du glisser, écrit directement dans le DOM (une fois par image, sans React).
-  useEffect(() => {
-    if (!actif || etat !== "curious" || !c.sortie.animee) return;
-    const fin = flux.abonner((e) => {
-      const s = local.current;
-      const p = e.survol.position;
-      if (!s || !p) return regarder(s, 0, 0);
-      const r = s.getBoundingClientRect();
-      const dx = (p.x - (r.left + r.width / 2)) / 120;
-      const dy = (p.y - (r.top + r.height / 2)) / 120;
-      regarder(s, dx * 1.4, dy * 0.98);
-    });
-    return () => { fin(); regarder(local.current, 0, 0); };
-  }, [actif, etat, c.sortie.animee]);
   const fixe = !actif && lieu === "niche" && c.hote === "accueil";
   if (!actif && !fixe) return null;
-  if (taille >= 72) {
-    const apparence = force === "curious" ? "attention" : apparenceDe({ etat, cle: c.sortie.cle });
-    return (
-      <span className="companion companion--3d" data-etat={etat} data-anime={c.sortie.animee ? "" : undefined} style={{ width: taille, height: taille }} aria-hidden="true">
-        <Chouette3D taille={taille} apparence={apparence} anime={c.sortie.animee} cle={c.sortie.cle} zoneSuivi={zoneSuivi} regard={regard} hochement={hochement}
-          progression={apparence === "telechargement" && inst ? progressionTransferts(inst) : null}
-          refRacine={(el) => { local.current = el; c.enregistrer(el); }} />
-      </span>
-    );
-  }
+  const t = Math.min(72, Math.round(taille));
+  const e = fixe ? "idle" : etat;
+  const anime = !fixe && c.sortie.animee;
   return (
-    <span className="companion" data-etat={fixe ? "idle" : etat} data-anime={!fixe && c.sortie.animee ? "" : undefined} style={{ width: taille, height: taille }} aria-hidden="true">
-      <span className="companion-halo" />
-      <Chouette taille={taille} refSvg={fixe ? undefined : (el) => { local.current = el; c.enregistrer(el); }} />
+    <span className="companion" data-etat={e} data-anime={anime ? "" : undefined} style={{ width: t, height: t }} aria-hidden="true">
+      {e === "processing" && anime ? <VeilleChouette taille={t} />
+        : e === "success" && anime ? <SceauChouette key={c.sortie.cle} taille={t} />
+        : <MedailleChouette taille={e === "processing" ? t : Math.round(t * 0.86)} />}
     </span>
   );
 }
@@ -286,11 +227,11 @@ export function Niche({ etroit }: { etroit: boolean }) {
         </div>
       )}
       <button type="button" className="niche" data-etat={c.sortie.etat} onClick={() => c.aller(c.sortie.cible)} title={etroit ? c.sortie.texte : undefined} tabIndex={masquee ? -1 : undefined}>
-        <span className="niche-figure"><Companion lieu="niche" taille={28} /></span>
+        <span className="niche-figure"><Companion lieu="niche" taille={30} /></span>
         <span className={`niche-texte${etroit ? " cache" : ""}`} role="status" aria-live="polite">
           {c.sortie.etat === "hint" && c.hote === "niche"
             ? <span key={c.sortie.cle} className="niche-ligne">Astuce<span className="cache">{typo(` : ${c.sortie.texte}`)}</span></span>
-            : <span key={c.sortie.cle} className="niche-ligne">{typo(c.sortie.texte)}{c.sortie.etat === "idle" && <Icone nom="sparkle" taille={11} className="niche-eclat" />}</span>}
+            : <span key={c.sortie.cle} className="niche-ligne">{typo(c.sortie.texte)}</span>}
         </span>
       </button>
     </div>

@@ -150,6 +150,9 @@ export function forDestination(job: Pick<StoredJob, "dest">, error: JobError): J
 
 /** 3.8.1 : état final d'un envoi relayé à AETHRYON Desktop (autre que « importe ») → erreur montrée telle quelle. */
 export function relayError(s: Pick<RelayStatus, "etat" | "message">): JobError {
+  // 3.9.0 : Desktop trop ancien (son hôte ne connaît pas `envoyer-premiere`) : code à part, le popup propose « Mettre à
+  // jour AETHRYON Desktop » (lien vers la page d'installation du site).
+  if (s.message === MSG.desktopOutdated) return jobError("desktop_outdated", MSG.desktopOutdated, false);
   switch (s.etat) {
     case "premiere-absent":
       return jobError("premiere_absent", s.message ?? MSG.premiereClosed, false);

@@ -1,28 +1,46 @@
-// Composants de base (DESIGN-SYSTEM.md §6), transposés des fonctions de rendu des maquettes (sources/js/ui.js).
-// L'élément natif est toujours dessous (button, input, role="switch") : clavier et lecteurs d'écran inchangés.
-import { useLayoutEffect, useRef, useState, type ButtonHTMLAttributes, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
-import { TRACES, type NomIcone } from "./traces";
+// Composants de base sur Égide (lot 2) : mêmes signatures qu'avant pour toutes les pages, rendu par les composants du
+// socle (design/css/composants.css) : .eg-btn (principal, secondaire, discret, icône), .eg-touche, .eg-pastille,
+// .eg-interrupteur, .eg-seg, le fil (.eg-fil) et le méandre (attente sans chouette). L'élément natif est toujours
+// dessous (button, input, role="switch") : clavier et lecteurs d'écran inchangés.
+// Icônes : le jeu Égide (design/src/icones.ts, grille 24, trait 1,6) dès qu'une icône y a son équivalent ; les autres
+// gardent leur tracé d'origine (même grille, même trait) — aucune marque tierce dessinée.
+import type { ButtonHTMLAttributes, CSSProperties, KeyboardEvent, ReactNode } from "react";
+import { ICONES, type NomIcone as NomEgide } from "../lib/egide";
+import { TRACES, type NomIcone as NomTrace } from "./traces";
+
+export type NomIcone = NomTrace | NomEgide;
+
+/** Équivalents Égide des icônes d'avant (mêmes sens, jeu commun aux plateformes). */
+const EGIDE: Partial<Record<NomTrace, NomEgide>> = {
+  home: "convertir", library: "biblio", transfers: "fil", link: "lien", settings: "reglages", search: "cherche", sort: "trier", grid: "grille",
+  list: "liste", play: "lecture", pause: "pause", monitor: "fenetre", import: "importer", download: "convertir", folder: "dossier", reveal: "dossier",
+  copy: "copier", external: "ouvrir", convert: "convertir", check: "ok", close: "croix", alert: "alerte", info: "info", clock: "horloge",
+  retry: "retour", film: "video", audio: "son", image: "image", log: "fichier", theme: "theme", "chevron-down": "bas", "chevron-right": "chevron",
+  plus: "plus", "picto-montage": "chutier", "picto-browser": "navigateur", note: "musique", user: "compte", paste: "coller",
+};
+
+const estEgide = (n: string): n is NomEgide => Object.prototype.hasOwnProperty.call(ICONES, n);
 
 export function Icone({ nom, taille = 18, className, style }: { nom: NomIcone; taille?: number; className?: string; style?: CSSProperties }) {
-  return (
-    <svg
-      className={`ico${className ? " " + className : ""}`}
-      width={taille}
-      height={taille}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={(32 / taille).toFixed(2)}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      style={style}
-      dangerouslySetInnerHTML={{ __html: TRACES[nom] }}
-    />
-  );
+  const e = estEgide(nom) ? nom : EGIDE[nom as NomTrace];
+  const commun = {
+    className: `ico${className ? " " + className : ""}`, width: taille, height: taille, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor",
+    strokeWidth: taille <= 14 ? 2 : 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true, focusable: false, style,
+  };
+  if (e) {
+    const formes = ICONES[e] as readonly (readonly [string, Readonly<Record<string, string>>])[];
+    return <svg {...commun}>{formes.map(([Tag, a], i) => { const T = Tag as "path"; return <T key={i} {...(a as Record<string, string>)} />; })}</svg>;
+  }
+  return <svg {...commun} dangerouslySetInnerHTML={{ __html: TRACES[nom as NomTrace] }} />;
+}
+
+/** Méandre d'Égide : attente indéterminée SANS chouette, dans un bouton ou une ligne. */
+export function Meandre() {
+  return <svg className="eg-meandre" viewBox="0 0 22 14" aria-hidden="true" focusable="false"><path d="M1 13V1h20v12H6V6h10v4h-5" /></svg>;
 }
 
 type Variante = "primary" | "secondary" | "ghost" | "danger";
+const VARIANTES: Record<Variante, string> = { primary: "eg-btn--principal", secondary: "eg-btn--secondaire", ghost: "eg-btn--discret", danger: "eg-btn--danger" };
 
 export function Bouton({ variante = "secondary", taille, icone, kbd, chevron, bloc, occupe, className, children, ...rest }: {
   variante?: Variante;
@@ -31,16 +49,16 @@ export function Bouton({ variante = "secondary", taille, icone, kbd, chevron, bl
   kbd?: string;
   chevron?: boolean;
   bloc?: boolean;
-  /** Action en cours (état « chargement ») : anneau qui tourne à la place de l'icône, aria-busy. */
+  /** Action en cours (état « chargement ») : le méandre à la place de l'icône, aria-busy. */
   occupe?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
-  const cls = ["btn", `btn--${variante}`, taille ? `btn--${taille}` : "", bloc ? "btn--block" : "", occupe ? "is-occupe" : "", className ?? ""].filter(Boolean).join(" ");
+  const cls = ["eg-btn", VARIANTES[variante], taille === "sm" ? "eg-btn--petit" : taille === "lg" ? "eg-btn--grand" : "", bloc ? "eg-btn--bloc" : "", className ?? ""].filter(Boolean).join(" ");
   return (
     <button type="button" className={cls} aria-busy={occupe || undefined} {...rest}>
-      {occupe ? <IconeEtat etat="running" taille={taille === "sm" ? 14 : 16} /> : icone && <Icone nom={icone} taille={taille === "sm" ? 16 : 18} />}
+      {occupe ? <Meandre /> : icone && <Icone nom={icone} taille={taille === "sm" ? 15 : 17} />}
       {children}
-      {kbd && <span className="kbd" style={{ marginLeft: 4 }}>{kbd}</span>}
-      {chevron && <Icone nom="chevron-down" taille={16} />}
+      {kbd && <span className="eg-touche" aria-hidden="true">{kbd}</span>}
+      {chevron && <Icone nom="chevron-down" taille={15} />}
     </button>
   );
 }
@@ -53,7 +71,7 @@ export function BoutonIcone({ nom, libelle, taille, surMedia, actif, className, 
   actif?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>) {
   const t = taille === "sm" ? 16 : taille === "xs" ? 14 : 18;
-  const cls = ["iconbtn", taille ? `iconbtn--${taille}` : "", surMedia ? "iconbtn--onmedia" : "", actif ? "is-active" : "", className ?? ""].filter(Boolean).join(" ");
+  const cls = ["eg-btn eg-btn--icone", taille === "sm" ? "eg-btn--petit" : taille === "xs" ? "eg-btn--xs" : "", surMedia ? "eg-btn--sur-media" : "", actif ? "eg-btn--actif" : "", className ?? ""].filter(Boolean).join(" ");
   return (
     <button type="button" className={cls} aria-label={libelle} data-bulle={libelle} {...rest}>
       <Icone nom={nom} taille={t} />
@@ -62,7 +80,7 @@ export function BoutonIcone({ nom, libelle, taille, surMedia, actif, className, 
 }
 
 export function Kbd({ children }: { children: ReactNode }) {
-  return <span className="kbd">{children}</span>;
+  return <span className="eg-touche">{children}</span>;
 }
 
 export type EtatPastille = "available" | "running" | "imported" | "missing" | "error" | "ok" | "warn" | "quiet";
@@ -85,18 +103,20 @@ export function IconeEtat({ etat, pct = 0, taille = 12 }: { etat: EtatPastille; 
   }
   if (etat === "imported" || etat === "ok") return <svg width={s} height={s} viewBox="0 0 12 12" aria-hidden="true"><path d="M2.4 6.4l2.4 2.4 4.9-5.3" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   if (etat === "missing") return <svg width={s} height={s} viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.25" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="1.9 1.6" /></svg>;
-  if (etat === "error" || etat === "warn") return <svg width={s} height={s} viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor" /><path d="M6 3.4v3.2M6 8.4v.2" stroke="#0f0f10" strokeWidth="1.5" strokeLinecap="round" /></svg>;
+  if (etat === "error" || etat === "warn") return <svg width={s} height={s} viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.6" fill="none" stroke="currentColor" strokeWidth="1.5" /><path d="M6 3.6v2.9M6 8.3v.1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>;
   return null;
 }
 
 const LIBELLES: Record<string, string> = { available: "Disponible", running: "En cours", imported: "Importé", missing: "Introuvable", error: "Erreur" };
+const TONS: Record<EtatPastille, string> = { available: "neutre", running: "accent", imported: "ok", ok: "ok", missing: "neutre", error: "err", warn: "warn", quiet: "neutre" };
 
+/** Pastille d'état Égide : ton (sens) + pictogramme (forme) + mot. */
 export function Pastille({ etat, libelle, pct, grande, icone = true }: { etat: EtatPastille; libelle?: string; pct?: number | null; grande?: boolean; icone?: boolean }) {
   let texte = libelle ?? LIBELLES[etat] ?? "";
-  if (etat === "running" && pct != null && !libelle) texte = `En cours · ${Math.round(pct)} %`;
+  if (etat === "running" && pct != null && !libelle) texte = `En cours · ${Math.round(pct)} %`;
   return (
-    <span className={`pill pill--${etat}${grande ? " pill--lg" : ""}`}>
-      {icone && etat !== "quiet" && etat !== "ok" && <IconeEtat etat={etat} pct={pct ?? 0} taille={grande ? 13 : 12} />}
+    <span className={`eg-pastille${grande ? "" : " eg-pastille--petite"}`} data-ton={TONS[etat]} data-etat={etat} data-forme={etat === "missing" ? "pointilles" : undefined}>
+      {icone && etat !== "quiet" && <IconeEtat etat={etat} pct={pct ?? 0} taille={grande ? 13 : 12} />}
       {texte}
     </span>
   );
@@ -111,7 +131,7 @@ export function Interrupteur({ actif, onChange, libelle, disabled, raison }: { a
       aria-label={libelle}
       title={disabled ? raison : undefined}
       disabled={disabled}
-      className={`switch${actif ? " on" : ""}`}
+      className="eg-interrupteur"
       onClick={() => onChange(!actif)}
     />
   );
@@ -123,26 +143,19 @@ export interface OptionSegment<T extends string> {
   n?: number;
 }
 
-/** Contrôle segmenté : la pastille glisse (ressort « glide ») ; flèches gauche et droite au clavier. */
+/** Segments Égide (2 à 4 choix exclusifs) : aria-pressed, flèches gauche et droite au clavier. */
 export function Segmente<T extends string>({ options, valeur, onChange, libelle }: { options: OptionSegment<T>[]; valeur: T; onChange: (v: T) => void; libelle: string }) {
-  const boite = useRef<HTMLDivElement>(null);
-  const [ind, setInd] = useState<{ x: number; l: number } | null>(null);
-  useLayoutEffect(() => {
-    const b = boite.current?.querySelector<HTMLButtonElement>(`button[data-id="${valeur}"]`);
-    if (b) setInd({ x: b.offsetLeft, l: b.offsetWidth });
-  }, [valeur, options.map((o) => o.libelle + (o.n ?? "")).join("|")]);
-  const clavier = (e: KeyboardEvent) => {
+  const clavier = (e: KeyboardEvent<HTMLDivElement>) => {
     const i = options.findIndex((o) => o.id === valeur);
     const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
     if (!d) return;
     e.preventDefault();
     const n = options[(i + d + options.length) % options.length];
     onChange(n.id);
-    boite.current?.querySelector<HTMLButtonElement>(`button[data-id="${n.id}"]`)?.focus();
+    e.currentTarget.querySelector<HTMLButtonElement>(`button[data-id="${n.id}"]`)?.focus();
   };
   return (
-    <div className="seg seg--anime" role="group" aria-label={libelle} ref={boite} onKeyDown={clavier}>
-      {ind && <i className="seg-ind" style={{ transform: `translateX(${ind.x - 3}px)`, width: ind.l }} aria-hidden="true" />}
+    <div className="eg-seg seg" role="group" aria-label={libelle} onKeyDown={clavier}>
       {options.map((o) => (
         <button key={o.id} type="button" data-id={o.id} aria-pressed={o.id === valeur} tabIndex={o.id === valeur ? 0 : -1} onClick={() => onChange(o.id)}>
           {o.libelle}
@@ -153,11 +166,18 @@ export function Segmente<T extends string>({ options, valeur, onChange, libelle 
   );
 }
 
-export function Progression({ valeur, variante, libelle }: { valeur: number | null; variante?: "bad" | "ok" | "wait"; libelle: string }) {
+/**
+ * Le fil d'Égide : la piste, le ruban et le nœud de tête glissent en translateX (interpolation linéaire de 260 ms entre
+ * deux mesures RÉELLES, aucune progression inventée). Valeur inconnue : la piste seule et un court ruban qui passe.
+ */
+export function Progression({ valeur, variante, libelle, epais }: { valeur: number | null; variante?: "bad" | "ok" | "wait"; libelle: string; epais?: boolean }) {
+  const p = valeur == null ? 0 : Math.max(0, Math.min(1, valeur));
   const indet = valeur == null && variante !== "wait";
+  const decale = { transform: `translateX(${((p - 1) * 100).toFixed(2)}%)` };
   return (
     <div
-      className={`progress${variante ? " progress--" + variante : ""}${indet ? " progress--indet" : ""}`}
+      className={`eg-fil eg-fil--d${epais ? " eg-fil--epais" : ""}${variante ? " eg-fil--" + variante : ""}${indet ? " eg-fil--indet" : ""}`}
+      data-p={p === 0 ? "0" : undefined}
       role="progressbar"
       aria-label={libelle}
       aria-valuemin={0}
@@ -165,12 +185,13 @@ export function Progression({ valeur, variante, libelle }: { valeur: number | nu
       aria-valuenow={valeur != null ? Math.round(valeur * 100) : undefined}
       aria-valuetext={libelle}
     >
-      <i style={{ ["--p" as string]: valeur ?? 0 }} />
+      <div className="eg-fil-piste"><div className="eg-fil-run" style={indet ? undefined : decale} /></div>
+      {!indet && <div className="eg-fil-tete" style={decale} />}
     </div>
   );
 }
 
-/** Fil d'or : plein = relié ; pointillé = non relié. */
+/** Fil de liaison : plein = relié ; pointillé = non relié. */
 export function Fil({ relie }: { relie: boolean }) {
   return <div className={`thread${relie ? "" : " off"}`} />;
 }

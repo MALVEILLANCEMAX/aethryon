@@ -45,11 +45,10 @@ function genreDe(v: VolumeIndex): string {
 function CarteVolume({ v, coche, onBasculer }: { v: VolumeIndex; coche: boolean; onBasculer: () => void }) {
   const occ = occupation(v);
   const nom = libelleVolume(v);
-  const faits = [genreDe(v), v.systemeFichiers, v.taille ? `${taille(v.libre ?? 0)} libres sur ${taille(v.taille)}` : null].filter(Boolean).join(" · ");
   const indexe = v.indexe.fichiers ? `${pluriel(v.indexe.fichiers, "média indexé", "médias indexés")}${v.indexe.dernierScan ? ` · ${quand(v.indexe.dernierScan).toLowerCase()}` : ""}` : "Jamais scanné";
   return (
     <button type="button" className="sc-volume" aria-pressed={coche} disabled={!v.disponible} onClick={onBasculer} data-icone={iconeVolume(v)}
-      aria-label={typo(`${nom}, ${faits}${v.disponible ? `, ${indexe}` : `, indisponible : ${v.message ?? ""}`}`)} title={!v.disponible ? v.message ?? undefined : undefined}>
+      title={!v.disponible ? v.message ?? undefined : undefined}>
       <span className="sc-volume-tete">
         <span className="sc-volume-picto"><PictoVolume v={iconeVolume(v)} /></span>
         <span className="sc-coche" aria-hidden="true">{coche && <Icone nom="check" taille={14} />}</span>
@@ -297,7 +296,7 @@ export default function EcranScanner({ onFermer }: { onFermer: () => void }) {
         <BoutonIcone nom="chevron-left" libelle="Retour" taille="sm" onClick={onFermer} />
         <div className="grow">
           <h1 className="t-display-l">Scanner mes disques</h1>
-          <p className="sub">{typo("AETHRYON Index trouve vos vidéos, sons et images sur ce PC ; rien n'est déplacé ni modifié.")}</p>
+          <p className="sub">{typo("AETHRYON Index trouve tes vidéos, sons et images sur ce PC ; rien n'est déplacé ni modifié.")}</p>
         </div>
         <Bouton taille="sm" variante="ghost" icone="settings" onClick={reglagesIndex}>Réglages de l'index</Bouton>
         {!p && !fin && <span className="sc-tete-chouette"><Companion lieu="vide" taille={88} /></span>}

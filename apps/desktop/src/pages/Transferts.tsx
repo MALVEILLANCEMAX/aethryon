@@ -15,28 +15,10 @@ import { Companion } from "../ui/Companion";
 import { Menu, useToast, type ElementMenu } from "../ui/superpositions";
 import { estAujourdhui, heureCourte, pluriel, taille, typo } from "../lib/format";
 import { api, messageErreur } from "../lib/api";
-import type { Instantane, Media, Transfert } from "../lib/types";
+import { bilan, lignesDe, mesures, PLATEFORMES, type Ligne } from "../lib/transfertsVue";
 import { Bouton, BoutonIcone, Icone, IconeEtat } from "../ui/base";
 import { Miniature } from "../ui/Miniature";
 import { Couverture } from "../ui/Couverture";
-
-interface Ligne {
-  cle: string;
-  nom: string;
-  media: Media | null;
-  transfert: Transfert | null;
-}
-
-const PLATEFORMES: Record<string, string> = { youtube: "YouTube", tiktok: "TikTok", x: "X" };
-
-function nomMedia(m: Media) {
-  return `${m.nom}.${m.ext}`;
-}
-
-/** Débit lisible (« 3,2 Mo/s ») : seulement une mesure du cœur, jamais une estimation. */
-export function debit(octetsParSeconde: number | null | undefined): string | null {
-  return octetsParSeconde && octetsParSeconde > 0 ? `${taille(octetsParSeconde)}/s` : null;
-}
 
 /** Cinq nœuds reliés par des connecteurs ; l'état est aussi écrit en texte (aria-label et libellés). */
 function VuePipeline({ p }: { p: Pipeline }) {
@@ -58,45 +40,6 @@ function VuePipeline({ p }: { p: Pipeline }) {
       ))}
     </ol>
   );
-}
-
-/** Ce qui est mesuré pour une ligne active : fraction (ou null), octets, débit, étape lisible. */
-function mesures(l: Ligne) {
-  const t = l.transfert;
-  const m = l.media;
-  if (!t) {
-    return { frac: null, etape: "Téléchargement du navigateur", octets: m ? `${taille(m.taille)} reçus · taille finale inconnue` : null, vitesse: null, pause: false };
-  }
-  const pause = !!t.pause && t.etat === "telechargement";
-  const frac = t.etat === "telechargement" || t.etat === "conversion" ? t.progression ?? null : null;
-  const etape = t.etat === "attente" ? "En attente" : t.etat === "conversion" ? "Conversion sur le serveur" : pause ? "En pause" : "Réception du fichier";
-  const octets = t.recus != null && t.etat === "telechargement"
-    ? (t.total ? `${taille(t.recus)} sur ${taille(t.total)}` : `${taille(t.recus)} reçus`)
-    : t.etat === "telechargement" && m ? `${taille(m.taille)} reçus` : null;
-  return { frac, etape, octets, vitesse: pause || t.etat !== "telechargement" ? null : debit(t.vitesse), pause };
-}
-
-/** Bilan réel des transferts actifs, pour l'en-tête : moyenne des progressions connues, débit et octets cumulés. */
-function bilan(actives: Ligne[]) {
-  const connues = actives.map((l) => mesures(l).frac).filter((f): f is number => f != null);
-  const vitesse = actives.reduce((s, l) => s + (l.transfert && !l.transfert.pause && l.transfert.etat === "telechargement" ? l.transfert.vitesse ?? 0 : 0), 0);
-  const recus = actives.reduce((s, l) => s + (l.transfert?.etat === "telechargement" ? l.transfert.recus ?? 0 : 0), 0);
-  return { moyenne: connues.length ? connues.reduce((a, b) => a + b, 0) / connues.length : null, vitesse: debit(vitesse), recus: recus > 0 ? taille(recus) : null };
-}
-
-function lignesDe(inst: Instantane): Ligne[] {
-  const parNom = new Map(inst.index.medias.map((m) => [nomMedia(m).toLowerCase(), m]));
-  const lignes: Ligne[] = inst.transferts.map((t) => ({
-    cle: `t-${t.id}`,
-    nom: t.fichierAttendu ?? t.titre ?? "Transfert",
-    transfert: t,
-    media: (t.chemin ? inst.index.medias.find((m) => m.chemin === t.chemin) : null) ?? (t.fichierAttendu ? parNom.get(t.fichierAttendu.toLowerCase()) ?? null : null),
-  }));
-  const relies = new Set(lignes.map((l) => l.media?.id).filter(Boolean));
-  for (const m of inst.index.medias) {
-    if (m.etat === "en-cours" && !relies.has(m.id)) lignes.push({ cle: `m-${m.id}`, nom: nomMedia(m), media: m, transfert: null });
-  }
-  return lignes;
 }
 
 function Vignette({ l, racine, pct }: { l: Ligne; racine: string; pct?: number | null }) {
@@ -279,7 +222,7 @@ export default function Transferts() {
         <div className="vide xfp-vide">
           <Companion lieu="vide" taille={120} />
           <h2 className="t-display-m">Aucun transfert en cours</h2>
-          <p>{typo("Collez un lien dans l'Accueil, ou choisissez « Envoyer vers : Premiere Pro » dans l'extension : le fichier arrive ici, puis dans la bibliothèque.")}</p>
+          <p>{typo("Colle un lien dans l'Accueil, ou choisis « Envoyer vers : Premiere Pro » dans l'extension : le fichier arrive ici, puis dans la bibliothèque.")}</p>
           <div className="vide-actions"><Bouton variante="primary" icone="paste" onClick={() => aller("accueil")}>Coller un lien</Bouton></div>
         </div>
       ) : (

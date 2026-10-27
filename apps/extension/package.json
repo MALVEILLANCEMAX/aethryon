@@ -1,7 +1,7 @@
 {
   "name": "aethryon-extension",
   "private": true,
-  "version": "3.8.1",
+  "version": "3.9.0",
   "license": "Apache-2.0",
   "description": "Extension navigateur AETHRYON (Chrome, Edge, Brave ; Manifest V3), distribuée directement depuis raccourci.malvu.fr : télécharger en MP4 ou MP3 les vidéos YouTube, TikTok et X, en faire un extrait, un GIF, une image ou les ouvrir dans AETHRYON Tools, avec son compte AETHRYON.",
   "type": "module",

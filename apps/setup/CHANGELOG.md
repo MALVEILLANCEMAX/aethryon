@@ -1,5 +1,10 @@
 # AETHRYON Setup — journal des versions
 
+## 2.0.0-beta.9 — 2026-10-26
+
+- AETHRYON Desktop 1.3.0-beta.1 « Égide » : nouvelle apparence commune au site et à l'extension, six thèmes et un éditeur de thèmes, « Le fil » des transferts à droite, catalogue des plateformes au collage d'un lien (Bluesky et Wikimedia Commons aussi convertibles depuis le Desktop).
+- Extension navigateur 3.8.1 (archive publiée, identique) et extension CEP 2.0.1 inchangées.
+
 ## 2.0.0-beta.8 — 2026-10-25
 
 - AETHRYON Desktop 1.2.0-beta.2 : son assistant reconnaît le panneau AETHRYON 2.0.1 posé par ce setup (il cherchait encore l'ancien paquet UXP) et propose « Réparer avec AETHRYON Setup » s'il manque.

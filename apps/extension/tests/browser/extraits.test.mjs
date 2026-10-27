@@ -563,7 +563,7 @@ describe("export : contrat du serveur, étapes réelles, annulation, erreurs", (
 });
 
 describe("popup : même éditeur, lecteur de l'onglet piloté par le service worker", () => {
-  test("popup 380 px : instant du lecteur, champs, export, avancement ; aucun débordement ; clair et sombre", { timeout: 90_000 }, async () => {
+  test("popup 360 px (Égide) : instant du lecteur, champs, export, avancement ; aucun débordement ; Ivory et Obsidian", { timeout: 90_000 }, async () => {
     fake.state.clipScenario = "measured";
     const w = await openWatch({ durationS: 600, at: 12.5 });
     // L'onglet YouTube est « l'onglet actif » vu par le service worker (le popup ouvert dans un onglet de test le serait sinon).
@@ -582,11 +582,11 @@ describe("popup : même éditeur, lecteur de l'onglet piloté par le service wor
       globalThis.__target = target;
     });
     const page = await b.context.newPage();
-    await page.setViewportSize({ width: 380, height: 600 });
+    await page.setViewportSize({ width: 360, height: 600 });
     const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto(`chrome-extension://${EXTENSION_ID}/popup/popup.html`);
-    await page.locator(".seg-opt", { hasText: "Extrait" }).click();
+    await page.locator(".seg-opt", { hasText: "Passage" }).click(); // Égide : « Vidéo / Passage »
     await page.waitForSelector(".ce .tl-h-start");
     await page.waitForFunction(() => /^Lecteur 0:12\.5$/.test(document.querySelector(".ce-now")?.textContent ?? ""), null, { timeout: 5_000 });
     assert.equal(await page.inputValue(".ce-f-start input"), "00:00:12.500");
@@ -602,9 +602,10 @@ describe("popup : même éditeur, lecteur de l'onglet piloté par le service wor
     await page.click(".ce-mark-end");
     await page.waitForFunction(() => document.querySelector(".ce-f-end input")?.value === "00:00:09.000", null, { timeout: 5_000 });
     const layout = await page.evaluate(() => ({ overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth, width: document.body.getBoundingClientRect().width }));
-    assert.deepEqual(layout, { overflowX: 0, width: 380 });
+    assert.deepEqual(layout, { overflowX: 0, width: 360 });
     for (const scheme of ["light", "dark"]) {
-      await page.emulateMedia({ colorScheme: scheme });
+      // Égide : le thème est un choix de l'utilisateur (Ivory, Obsidian), plus le schéma de couleurs du système.
+      await page.evaluate((t) => document.documentElement.setAttribute("data-eg-theme", t), scheme === "light" ? "ivory" : "obsidian");
       await page.waitForTimeout(400);
       await page.locator(".ce").scrollIntoViewIfNeeded();
       const file = join(OUT, `popup-extrait-${scheme === "light" ? "clair" : "sombre"}.png`);

@@ -27,6 +27,7 @@ import type { PagePlayer } from "./player.ts";
 import type { JobStore, Slot } from "./store.ts";
 import type { PlayerSnapshot } from "../../extrait/editor.ts";
 import { CONTROL_CSS } from "./styles.ts";
+import { racineEgide } from "./apparence.ts";
 import { M, T, kbps, triggerAria, videoCount, videoN } from "./strings.ts";
 import type { Theme } from "./theme.ts";
 
@@ -69,6 +70,8 @@ export interface ControlHooks {
   saveToolbar?(collapsed: boolean): void;
   /** 3.5.1 : destination choisie dans le menu (réglage mémorisé, le même que dans le popup et les réglages). */
   saveDestination?(dest: Destination): void;
+  /** 3.9.0 (Égide) : police d'interface du menu, demandée à la première ouverture (content/common/apparence.ts). */
+  police?(): void;
 }
 
 export type QuickAction =
@@ -82,7 +85,8 @@ type Row = "video" | "audio" | "clip" | "frame" | "thumb" | "tools";
 /** Tête maître sur la pastille obsidienne : dessin exact (fond sombre), petit logo jusqu'à 24 px. */
 const OWL_PX: Record<Variant, number> = { bar: 18, round: 26, x: 16, quote: 16, panel: 18, toolbar: 16 };
 function owlFor(doc: Document, variant: Variant): SVGSVGElement {
-  return owlSvg(doc, { size: OWL_PX[variant] ?? 18, surface: "dark" });
+  // Égide : la chouette maître telle quelle (dessin du fichier maître, aucune variante), sans pastille.
+  return owlSvg(doc, { size: OWL_PX[variant] ?? 18, surface: "dark", maitre: true });
 }
 
 /** Durée pendant laquelle le bouton affiche « Enregistré » / « Échec » avant de revenir à « Télécharger ». */
@@ -158,6 +162,8 @@ export class Control {
   private listening = false;
   private destroyed = false;
   private groupSeq = 0;
+  /** Dernière interaction dans le menu : pointeur (vrai) ou clavier (faux). */
+  private pointerNav = false;
   private readonly onMove = () => {
     if (this.moveRaf) return;
     this.moveRaf = this.hooks.win.requestAnimationFrame(() => {
@@ -247,8 +253,10 @@ export class Control {
 
     this.pausedEl = h(d, "p", { class: "paused", attrs: { role: "note" } });
     this.videoGroup = this.group(T.video);
-    const row = (name: Row, icon: MenuIcon, text: string, sub?: string) => {
-      const b = h(d, "button", { class: `row r-${name}`, attrs: { type: "button", "data-row": name } }, [
+    // Égide (3.9.0) : Vidéo et Audio en deux grandes tuiles ; Extrait, Image, Miniature et Tools en quatre petites tuiles
+    // (icône et un mot ; le nom complet est le nom accessible, qui CONTIENT le mot visible, et l'infobulle).
+    const row = (name: Row, icon: MenuIcon, text: string, sub?: string, aria?: string) => {
+      const b = h(d, "button", { class: `row r-${name}`, attrs: { type: "button", "data-row": name, ...(aria ? { "aria-label": aria, title: aria } : {}) } }, [
         h(d, "span", { class: "r-ico" }, [menuIcon(d, icon, 16)]),
         h(d, "span", { class: "r-txt" }, [h(d, "span", { class: "r-label", text }), ...(sub ? [h(d, "span", { class: "r-sub", text: sub })] : [])]),
       ]);
@@ -259,10 +267,10 @@ export class Control {
     this.rows = {
       video: row("video", "download", M.rowVideo),
       audio: row("audio", "audio", M.rowAudio),
-      clip: row("clip", "scissors", M.rowClip),
-      frame: row("frame", "image", M.rowFrame, M.rowFrameSub),
+      clip: row("clip", "scissors", M.tileClip, undefined, M.rowClip),
+      frame: row("frame", "image", M.tileFrame, undefined, `${M.rowFrame} (${M.rowFrameSub})`),
       thumb: row("thumb", "thumb", M.rowThumb),
-      tools: row("tools", "tools", M.rowTools),
+      tools: row("tools", "tools", M.tileTools, undefined, M.rowTools),
     };
     this.rows.video.querySelector(".r-txt")!.append(this.rowValue.video);
     this.rows.audio.querySelector(".r-txt")!.append(this.rowValue.audio);
@@ -342,7 +350,7 @@ export class Control {
 
     this.pop = h(d, "div", { class: "pop", attrs: { id: popId, popover: "auto", role: "dialog", "aria-label": T.dialogLabel, "data-view": "main" } }, [
       h(d, "div", { class: "head" }, [
-        h(d, "span", { class: "disc" }, [owlSvg(d, { size: 16, surface: "dark" })]),
+        h(d, "span", { class: "disc" }, [owlSvg(d, { size: 18, surface: "dark", maitre: true })]),
         h(d, "span", { class: "brand", text: T.brand }),
         h(d, "span", { class: "plat" }, [platformIcon(d, hooks.platform, 12), h(d, "span", { text: PLATFORM_LABEL[hooks.platform] })]),
       ]),
@@ -370,7 +378,8 @@ export class Control {
     });
 
     this.invoker(this.trigger, "main");
-    this.pop.addEventListener("keydown", (e) => this.onKey(e));
+    this.pop.addEventListener("keydown", (e) => { this.pointerNav = false; this.onKey(e); });
+    this.pop.addEventListener("pointerdown", () => { this.pointerNav = true; });
     this.pop.addEventListener("beforetoggle", (e) => {
       if ((e as ToggleEvent).newState === "open") this.prepare();
       else this.pop.removeAttribute("data-placed");
@@ -518,6 +527,7 @@ export class Control {
 
   /** Avant l'ouverture : présélection, lignes possibles, vue demandée. */
   private prepare(): void {
+    this.hooks.police?.();
     if (!this.touched && !this.display.busy) this.choice = { ...initialChoice(this.hooks.settings()), index: this.choice.index };
     this.renderChoices();
     this.renderRows();
@@ -545,7 +555,8 @@ export class Control {
       const on = name === view;
       el.hidden = !on;
       el.classList.remove("in-fwd", "in-back");
-      if (on && prev !== view && this.isOpen()) {
+      // Glissement de la sous-vue seulement au pointeur : jamais d'animation pour une action au clavier (→, Échap, Entrée).
+      if (on && prev !== view && this.isOpen() && this.pointerNav) {
         void el.offsetWidth; // relance l'entrée
         el.classList.add(backward ? "in-back" : "in-fwd");
       }
@@ -984,6 +995,10 @@ export class Control {
     setAttr(this.el, "data-busy", d.busy ? "" : null);
     setAttr(this.el, "data-indeterminate", d.busy && d.progress === null ? "" : null);
     this.el.style.setProperty("--p", `${d.progress ?? 0}%`);
+    // Égide : la progression se dessine par transform (scaleX) écrit sur le ruban lui-même (jamais par la largeur, ni
+    // par une variable posée sur un parent, qui recalculerait les styles de tous ses enfants).
+    const ruban = `scaleX(${Math.min(1, Math.max(0, (d.progress ?? 0) / 100))})`;
+    for (const i of [this.meter.firstElementChild, this.trigger.querySelector(".mini > i")]) (i as HTMLElement | null)?.style.setProperty("transform", d.busy && d.progress === null ? "" : ruban);
 
     let revealStatus = false;
     if (d.phase === "idle") {
@@ -1073,14 +1088,17 @@ export class InlineHost {
   private sizeRef: Element | null = null;
   private compactBelow = 0;
   private lastParent: Element | null = null;
+  private readonly liberer: () => void;
 
   constructor(hooks: ControlHooks, target: Target, theme: Theme) {
     const d = hooks.doc;
     this.host = d.createElement(HOST_TAG);
     this.host.setAttribute("data-variant", target.variant);
-    const root = this.host.attachShadow({ mode: "closed" });
+    // Égide : racine Shadow DOM fermée du socle (feuille adoptée, jetons sur .eg-racine, thème de l'utilisateur).
+    const { enveloppe, liberer } = racineEgide(this.host, CONTROL_CSS);
+    this.liberer = liberer;
     this.control = new Control(hooks, target, target.variant, theme);
-    root.append(h(d, "style", { text: CONTROL_CSS }), this.control.el);
+    enveloppe.append(this.control.el);
     isolateEvents(this.host);
     this.watchSize(target);
   }
@@ -1119,6 +1137,7 @@ export class InlineHost {
     this.ro?.disconnect();
     this.ro = null;
     this.control.destroy();
+    this.liberer();
     this.host.remove();
   }
 

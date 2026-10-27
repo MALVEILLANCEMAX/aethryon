@@ -9,7 +9,7 @@ import { OwlMark } from "../ui/brand/OwlMark.tsx";
 export function CompteCarte({ title, lead, children, data }: { title: string; lead?: ReactNode; children: ReactNode; data: string }) {
   return (
     <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36" data-compte={data}>
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(50%_45%_at_50%_30%,rgb(233_224_208/0.6),transparent_70%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10" />
       <div className="container-site flex justify-center">
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: DUR.reveal, ease: EASE.soft }}

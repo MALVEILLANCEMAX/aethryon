@@ -3,7 +3,7 @@
 A Windows companion app: a media library that indexes your AETHRYON downloads and chosen folders, transfers announced
 by the browser extension, one-click updates of the extension, and the bridge to the **Premiere Pro panel**.
 
-Tauri 2 · Rust core (`noyau/`) · React · version **1.2.0-beta.2** · distributed inside AETHRYON Setup.
+Tauri 2 · Rust core (`noyau/`) · React · version **1.3.0-beta.1** · distributed inside AETHRYON Setup.
 
 <p align="center">
   <img src="../../assets/screenshots/desktop-library.png" alt="AETHRYON Desktop library (sample data, test harness)" width="720"><br>

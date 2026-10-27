@@ -36,7 +36,7 @@ function Jauge({ q }: { q: QuotaCloud }) {
         <i className="cl-barre-sauve" style={{ transform: `scaleX(${j.sauve})` }} />
         <i className="cl-barre-reserve" style={{ transform: `translateX(${j.sauve * 100}%) scaleX(${j.reserve})` }} />
       </div>
-      {j.niveau !== "normal" && <p className="cl-jauge-avis" role="note">{typo(j.niveau === "plein" ? "Cloud plein : supprimez des fichiers pour faire de la place. Rien n'est supprimé avant son expiration." : "Cloud presque plein : pensez à supprimer les fichiers dont vous n'avez plus besoin.")}</p>}
+      {j.niveau !== "normal" && <p className="cl-jauge-avis" role="note">{typo(j.niveau === "plein" ? "Cloud plein : supprime des fichiers pour faire de la place. Rien n'est supprimé avant son expiration." : "Cloud presque plein : pense à supprimer les fichiers dont tu n'as plus besoin.")}</p>}
     </section>
   );
 }
@@ -164,7 +164,7 @@ export default function Cloud() {
     try {
       const r = await api.cloudSupprimer(o.id);
       setASupprimer(null);
-      toast({ etat: "ok", titre: r.objet.statut === "suppression_en_attente" ? "Suppression en cours" : "Supprimé du Cloud", texte: r.objet.statut === "suppression_en_attente" ? "L'accès est déjà révoqué ; le stockage confirmera la suppression." : `« ${o.nom} » : toutes ses versions sont effacées. Votre copie locale n'est pas touchée.` });
+      toast({ etat: "ok", titre: r.objet.statut === "suppression_en_attente" ? "Suppression en cours" : "Supprimé du Cloud", texte: r.objet.statut === "suppression_en_attente" ? "L'accès est déjà révoqué ; le stockage confirmera la suppression." : `« ${o.nom} » : toutes ses versions sont effacées. Ta copie locale n'est pas touchée.` });
       void charger();
     } catch (x) {
       toast({ etat: "erreur", titre: "Suppression impossible", texte: erreurLisible((x as { code?: string })?.code, messageErreur(x)) });
@@ -295,8 +295,8 @@ export default function Cloud() {
       {liste && liste.items.length === 0 && !filtre && (
         <div className="vide cl-vide">
           <Companion lieu="vide" taille={72} />
-          <h2 className="t-display-m">Votre Cloud est vide.</h2>
-          <p>{typo(`Glissez un média de la bibliothèque sur « Cloud », dans la barre latérale, ou choisissez « Sauvegarder dans le Cloud » dans son menu. Chaque fichier y reste ${retention} jours, puis disparaît de lui-même ; votre copie locale ne bouge pas.`)}</p>
+          <h2 className="t-display-m">Ton Cloud est vide.</h2>
+          <p>{typo(`Glisse un média de la bibliothèque sur « Cloud », dans la barre latérale, ou choisis « Sauvegarder dans le Cloud » dans son menu. Chaque fichier y reste ${retention} jours, puis disparaît de lui-même ; ta copie locale ne bouge pas.`)}</p>
           <div className="vide-actions"><Bouton taille="sm" icone="library" onClick={() => aller("bibliotheque")}>Ouvrir la bibliothèque</Bouton></div>
         </div>
       )}
@@ -312,7 +312,7 @@ export default function Cloud() {
       {aSupprimer && (
         <Dialogue titre={typo(`Supprimer « ${aSupprimer.nom} » du Cloud ?`)} onFermer={() => setASupprimer(null)}
           actions={<><Bouton variante="ghost" onClick={() => setASupprimer(null)}>Annuler</Bouton><Bouton variante="danger" onClick={() => void supprimer(aSupprimer)} disabled={occupe === aSupprimer.id}>Supprimer</Bouton></>}>
-          <p>{typo("Le fichier est supprimé définitivement du Cloud, avec toutes ses versions, et libère sa place. Les liens temporaires déjà copiés cessent de fonctionner. Votre copie locale n'est jamais touchée.")}</p>
+          <p>{typo("Le fichier est supprimé définitivement du Cloud, avec toutes ses versions, et libère sa place. Les liens temporaires déjà copiés cessent de fonctionner. Ta copie locale n'est jamais touchée.")}</p>
         </Dialogue>
       )}
     </>

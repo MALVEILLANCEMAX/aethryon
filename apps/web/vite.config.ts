@@ -2,22 +2,35 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { existsSync, readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 
-// Identité : la tête maître (brand/master, logo du propriétaire validé le 2026-10-11) est le comportement par
-// défaut, sans extension. VITE_MASCOT=vector reconstruit l'EXPLORATION C3 archivée (piste non retenue) : les
-// modules ui/brand/OwlGaze.tsx et OwlMark.tsx sont alors résolus vers ui/brand/athena (même API).
+// Identité : la tête maître (brand/master, logo du propriétaire validé le 2026-10-11), seule chouette du site depuis Égide
+// (lot 1) ; l'exploration vectorielle C3 (VITE_MASCOT=vector), refusée, est retirée du code.
 const MASCOT = process.env.VITE_MASCOT ?? "master";
-if (!["master", "vector"].includes(MASCOT)) throw new Error(`VITE_MASCOT doit valoir master ou vector (reçu : ${MASCOT})`);
-function vectorExploration(): Plugin {
-  const swap: Record<string, string> = { "/src/ui/brand/OwlGaze.tsx": "athena/AthenaGaze.tsx", "/src/ui/brand/OwlMark.tsx": "athena/AthenaMark.tsx" };
+if (MASCOT !== "master") throw new Error(`VITE_MASCOT : seule la tête maître existe depuis Égide (reçu : ${MASCOT})`);
+
+// Égide (paquet design/, copie src/egide par `node ../../packages/design/scripts/build.mjs --sync`) : script de démarrage du thème,
+// EXTERNE (CSP script-src 'self' : aucun script en ligne), chargé de façon bloquante en tête de <head> avant les
+// feuilles, haché dans /assets/ (cache immuable de nginx, archive des anciennes versions). Il ne fait rien sans
+// préférence enregistrée (Obsidian vient de la feuille) ; sinon il pose le thème choisi AVANT le premier rendu.
+function egideThemeBoot(): Plugin {
+  const source = readFileSync(new URL("./src/egide/genere/theme-boot.js", import.meta.url), "utf8");
+  const fichier = `assets/theme-boot-${createHash("sha256").update(source).digest("hex").slice(0, 10)}.js`;
   return {
-    name: "aethryon-c3-exploration",
-    enforce: "pre",
-    async resolveId(source, importer, options) {
-      if (!/(^|\/)Owl(Gaze|Mark)\.tsx$/.test(source)) return null;
-      const r = await this.resolve(source, importer, { ...options, skipSelf: true });
-      const key = r && Object.keys(swap).find((k) => r.id.endsWith(k));
-      return key ? r!.id.replace(/Owl(Gaze|Mark)\.tsx$/, swap[key]!) : null;
+    name: "egide-theme-boot",
+    configureServer(server) {
+      server.middlewares.use(`/${fichier}`, (_req, res) => { res.setHeader("Content-Type", "text/javascript"); res.end(source); });
+    },
+    transformIndexHtml: {
+      order: "post",
+      handler(html) {
+        const sortie = html.replace(/(<meta name="viewport"[^>]*>)/, `$1\n    <script src="/${fichier}"></script>`);
+        if (sortie === html) throw new Error("egide-theme-boot : <meta name=\"viewport\"> introuvable dans index.html");
+        return sortie;
+      },
+    },
+    generateBundle() {
+      this.emitFile({ type: "asset", fileName: fichier, source });
     },
   };
 }
@@ -35,7 +48,7 @@ const EXTENSION_RELEASE = EXTENSION_DOWNLOAD === "1" ? readFileSync(LATEST, "utf
 // Deux builds (npm run build) : le site (dist/) puis le rendu statique des pages publiques
 // (`vite build --ssr src/entry-static.tsx` → .prerender/, lu par scripts/prerender.mjs, jamais servi).
 export default defineConfig(({ isSsrBuild }) => ({
-  plugins: [react(), tailwindcss(), ...(MASCOT === "vector" ? [vectorExploration()] : [])],
+  plugins: [react(), tailwindcss(), ...(isSsrBuild ? [] : [egideThemeBoot()])],
   publicDir: isSsrBuild ? false : "public",
   define: { "import.meta.env.VITE_EXTENSION_RELEASE": JSON.stringify(EXTENSION_RELEASE) },
   build: {

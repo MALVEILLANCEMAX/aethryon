@@ -115,7 +115,11 @@ export function quotedContext(handle: string | null): string {
 export const M = {
   rowVideo: "Télécharger la vidéo",
   rowAudio: "Extraire l’audio",
-  rowClip: "Extrait rapide…",
+  rowClip: "Extrait rapide",
+  // Égide (3.9.0) : mots visibles des petites tuiles du menu (le nom complet reste le nom accessible).
+  tileClip: "Extrait",
+  tileFrame: "Image",
+  tileTools: "Tools",
   rowFrame: "Image de la vidéo",
   rowFrameSub: "PNG, sur cet appareil",
   rowThumb: "Miniature",

@@ -405,7 +405,7 @@ export default function Keys() {
           <p className="mt-1.5 text-[15px] text-ink-soft">Encore actif ? Colle-le ici : il n'est ni affiché ni gardé.</p>
           <form onSubmit={check} className="mt-4 flex flex-col gap-3 sm:flex-row">
             <label htmlFor="check" className="sr-only">Jeton à vérifier</label>
-            <input id="check" type="password" autoComplete="off" spellCheck={false} placeholder="ytc_…" value={checkValue} onChange={(e) => setCheckValue(e.target.value)} className="h-12 min-w-0 rounded-[14px] border border-field bg-white/70 px-3.5 font-mono text-[15px] placeholder:text-muted sm:flex-1" />
+            <input id="check" type="password" autoComplete="off" spellCheck={false} placeholder="ytc_…" value={checkValue} onChange={(e) => setCheckValue(e.target.value)} className="h-12 min-w-0 rounded-[14px] border border-field bg-surface px-3.5 font-mono text-[15px] placeholder:text-muted sm:flex-1" />
             <Button type="submit" variant="secondary" disabled={checkValue.trim().length < 10}>Vérifier</Button>
           </form>
           <p className="mt-3 min-h-[22px] text-[15px]" aria-live="polite">{checkResult}</p>

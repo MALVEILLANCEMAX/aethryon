@@ -25,8 +25,8 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
     <li className="start-step">
       <span className="start-step-num">{n}</span>
       <div className="min-w-0">
-        <p className="text-[15.5px] font-semibold text-ivory">{title}</p>
-        <div className="mt-2 flex flex-wrap items-center gap-2 text-[13px] text-mist">{children}</div>
+        <p className="text-[15.5px] font-semibold text-fg">{title}</p>
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-[13px] text-fg-2">{children}</div>
       </div>
     </li>
   );
@@ -84,7 +84,7 @@ export default function Commencer() {
               onClick={go}
               disabled={state === "loading" || closed || googleOff || cfg.loading}
               aria-busy={state === "loading" || undefined}
-              className="relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-line-strong bg-white text-[16.5px] font-medium text-[#1f1f1f] shadow-card transition-[translate,box-shadow] duration-200 hover:-translate-y-px hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+              className="relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-[#747775] bg-[#fff] text-[16.5px] font-medium text-[#1f1f1f] shadow-card transition-[translate,box-shadow] duration-200 hover:-translate-y-px hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
               data-commencer-google=""
             >
               {state === "loading"
@@ -131,7 +131,7 @@ export default function Commencer() {
         </motion.div>
 
         <div className="relative lg:pt-6">
-          <h2 className="font-display text-[clamp(2rem,1.5rem+2vw,3rem)] font-medium leading-[1.05] text-ivory">Du compte au premier fichier.</h2>
+          <h2 className="font-display text-[clamp(2rem,1.5rem+2vw,3rem)] font-medium leading-[1.05] text-fg">Du compte au premier fichier.</h2>
           <ol className="mt-8 grid gap-3" aria-label="Étapes">
             <Step n={1} title="Ton compte AETHRYON"><span className="start-chip"><IconCheck size={13} />{emailOn ? "Google ou e-mail" : "Google, un clic"}</span></Step>
             <Step n={2} title="Ton appareil">

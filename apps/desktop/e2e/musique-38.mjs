@@ -256,7 +256,7 @@ await essai("Spotify : lien détecté, « Titre identifié », AUCUN import, « 
   const detecte = await s.p.locator(".mu-detecte").textContent();
   await s.p.getByRole("button", { name: "Analyser" }).click();
   await s.p.waitForSelector(".mu-fiche");
-  const t = await s.p.evaluate(() => ({ etat: document.querySelector(".mu-fiche .mu-etat")?.textContent, boutons: [...document.querySelectorAll(".mu-fiche-actions .btn")].map((b) => b.textContent.trim()), restr: document.querySelector(".mu-restrictions")?.textContent }));
+  const t = await s.p.evaluate(() => ({ etat: document.querySelector(".mu-fiche .mu-etat")?.textContent, boutons: [...document.querySelectorAll(".mu-fiche-actions .eg-btn")].map((b) => b.textContent.trim()), restr: document.querySelector(".mu-restrictions")?.textContent }));
   await s.p.getByRole("button", { name: "Lecteur officiel" }).click();
   await s.p.waitForSelector(".mu-officiel iframe");
   await s.p.waitForTimeout(400);
@@ -274,7 +274,7 @@ await essai("Apple Music : « Aperçu de 30 s » TOUJOURS avec « Ouvrir dans Ap
   await s.p.locator(".mu-universel input").fill("https://music.apple.com/fr/album/essai/1?i=2");
   await s.p.getByRole("button", { name: "Analyser" }).click();
   await s.p.waitForSelector(".mu-apercu");
-  const t = await s.p.evaluate(() => ({ libelle: document.querySelector(".mu-apercu .mu-sur")?.textContent, voisin: document.querySelector(".mu-apercu .btn")?.textContent.trim(), audio: !!document.querySelector(".mu-apercu audio[controls]"), importer: [...document.querySelectorAll(".mu-fiche-actions .btn")].some((b) => /Importer/.test(b.textContent)) }));
+  const t = await s.p.evaluate(() => ({ libelle: document.querySelector(".mu-apercu .mu-sur")?.textContent, voisin: document.querySelector(".mu-apercu .eg-btn")?.textContent.trim(), audio: !!document.querySelector(".mu-apercu audio[controls]"), importer: [...document.querySelectorAll(".mu-fiche-actions .eg-btn")].some((b) => /Importer/.test(b.textContent)) }));
   await capturer(s.p, "06-fiche-apple-apercu");
   await fermer(s);
   return { ok: t.libelle === "Aperçu de 30 s" && t.voisin === "Ouvrir dans Apple Music" && t.audio && !t.importer, t };
@@ -305,8 +305,8 @@ await essai("Internet Archive : « Téléchargeable », choix des fichiers, impo
   const etat = await s.p.locator(".mu-fiche .mu-etat").textContent();
   await s.p.locator(".mu-piste-fiche input[type=checkbox]").nth(1).check();
   await capturer(s.p, "08-fiche-archive-choix");
-  const bouton = await s.p.locator(".mu-fiche-actions .btn--primary").textContent();
-  await s.p.locator(".mu-fiche-actions .btn--primary").click();
+  const bouton = await s.p.locator(".mu-fiche-actions .eg-btn--principal").textContent();
+  await s.p.locator(".mu-fiche-actions .eg-btn--principal").click();
   await s.p.waitForFunction(() => [...document.querySelectorAll(".mu-import")].some((x) => x.dataset.etape === "telechargement"), null, { timeout: 6000 });
   const pendant = await s.p.evaluate(() => [...document.querySelectorAll(".mu-import")].map((x) => ({ etape: x.dataset.etape, texte: x.querySelector(".mu-import-etat").textContent, barre: x.querySelector(".mu-barre i")?.style.transform })));
   const niche = await s.p.evaluate(() => document.querySelector(".niche-boite")?.textContent ?? "");
@@ -330,11 +330,11 @@ await essai("fichier audio direct : import impossible sans la déclaration de dr
   await s.p.locator(".mu-universel input").fill("https://exemple.fr/sons/ambiance-libre.mp3");
   await s.p.getByRole("button", { name: "Analyser" }).click();
   await s.p.waitForSelector(".mu-attest");
-  const avant = await s.p.locator(".mu-fiche-actions .btn--primary").isDisabled();
+  const avant = await s.p.locator(".mu-fiche-actions .eg-btn--principal").isDisabled();
   await capturer(s.p, "11-fichier-direct-declaration");
   await s.p.locator(".mu-attest input").check();
-  const apres = await s.p.locator(".mu-fiche-actions .btn--primary").isDisabled();
-  await s.p.locator(".mu-fiche-actions .btn--primary").click();
+  const apres = await s.p.locator(".mu-fiche-actions .eg-btn--principal").isDisabled();
+  await s.p.locator(".mu-fiche-actions .eg-btn--principal").click();
   await s.p.waitForTimeout(300);
   const corps = await s.p.evaluate(() => window.__maquette.imports?.[0]);
   await fermer(s);
@@ -347,10 +347,10 @@ await essai("annulation d'un import en cours ; échec de vérification montré t
   await onglet(s.p, "Importer");
   await s.p.locator(".mu-universel input").fill("https://archive.org/details/essai-satie");
   await s.p.getByRole("button", { name: "Analyser" }).click();
-  await s.p.waitForSelector(".mu-fiche-actions .btn--primary");
-  await s.p.locator(".mu-fiche-actions .btn--primary").click();
-  await s.p.waitForSelector(".mu-import .btn");
-  await s.p.locator(".mu-import .btn", { hasText: "Annuler" }).click();
+  await s.p.waitForSelector(".mu-fiche-actions .eg-btn--principal");
+  await s.p.locator(".mu-fiche-actions .eg-btn--principal").click();
+  await s.p.waitForSelector(".mu-import .eg-btn");
+  await s.p.locator(".mu-import .eg-btn", { hasText: "Annuler" }).click();
   await s.p.waitForFunction(() => document.querySelector(".mu-import")?.dataset.etape === "annule", null, { timeout: 4000 });
   await fermer(s);
   const e = await ouvrir({ importEchec: true });
@@ -358,8 +358,8 @@ await essai("annulation d'un import en cours ; échec de vérification montré t
   await onglet(e.p, "Importer");
   await e.p.locator(".mu-universel input").fill("https://archive.org/details/essai-satie");
   await e.p.getByRole("button", { name: "Analyser" }).click();
-  await e.p.waitForSelector(".mu-fiche-actions .btn--primary");
-  await e.p.locator(".mu-fiche-actions .btn--primary").click();
+  await e.p.waitForSelector(".mu-fiche-actions .eg-btn--principal");
+  await e.p.locator(".mu-fiche-actions .eg-btn--principal").click();
   await e.p.waitForFunction(() => document.querySelector(".mu-import")?.dataset.etape === "echec", null, { timeout: 5000 });
   const msg = await e.p.locator(".mu-import .mu-petit.bad").textContent();
   await capturer(e.p, "12-import-echec-integrite");
@@ -477,7 +477,7 @@ await essai("Cloud (administrateur) : morceau sauvegardé écouté par lien sign
   await s.p.waitForSelector(".mu-cloud-ligne");
   const lignes = await s.p.locator(".mu-cloud-ligne").allTextContents();
   await capturer(s.p, "22-cloud-musique-expire");
-  await s.p.locator(".mu-cloud-ligne[data-dispo] .btn", { hasText: "Écouter" }).click();
+  await s.p.locator(".mu-cloud-ligne[data-dispo] .eg-btn", { hasText: "Écouter" }).click();
   await s.p.waitForSelector(".mu-mini");
   await s.p.waitForTimeout(1500);
   const t = enSecondes(await position(s.p));
@@ -485,7 +485,7 @@ await essai("Cloud (administrateur) : morceau sauvegardé écouté par lien sign
   const note = await s.p.locator(".mu-visu-note").textContent();
   await s.p.keyboard.press("Escape");
   await s.p.waitForTimeout(300);
-  await s.p.locator(".mu-cloud-ligne:not([data-dispo]) .btn", { hasText: "Réimporter" }).click();
+  await s.p.locator(".mu-cloud-ligne:not([data-dispo]) .eg-btn", { hasText: "Réimporter" }).click();
   await s.p.waitForSelector(".mu-fiche");
   const champ = await s.p.locator(".mu-universel input").inputValue();
   await fermer(s);

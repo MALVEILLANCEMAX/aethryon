@@ -52,7 +52,7 @@ etape "Interface : dépendances, essais, construction"
 etape "Conteneur jetable"
 docker rm -f "$C" >/dev/null 2>&1 || true
 docker run -d --name "$C" --memory 3g --memory-swap 3g --cpus 4 --cpu-shares 256 --pids-limit 4096 \
-  -v "$ICI":/src -v "$TRAVAIL/cible":/cible -v "$TRAVAIL/registre":/usr/local/cargo/registry \
+  -v "$ICI":/src -v "$(dirname "$DEPOT")/packages/design/fonts":/egide-polices:ro -v "$TRAVAIL/cible":/cible -v "$TRAVAIL/registre":/usr/local/cargo/registry \
   -v "$TRAVAIL/sortie":/sortie -v "$TRAVAIL/panneau":/panneau:ro -e CARGO_TARGET_DIR=/cible -e CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-2}" \
   -e CARGO_TERM_COLOR=never rust:1-bookworm sleep infinity >/dev/null
 echo "étiquettes : $(docker inspect "$C" --format '{{json .Config.Labels}}')"

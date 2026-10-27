@@ -146,7 +146,7 @@ export const Timeline = forwardRef<TimelineHandle, Props>(function Timeline(p, r
         r.fillRect(Math.round(x), major ? rh - 9 : rh - 5, 1, major ? 9 : 5);
       }
       r.fillStyle = "rgba(179,169,153,0.95)";
-      r.font = "500 10.5px 'Inter Variable', system-ui, sans-serif";
+      r.font = "500 10.5px 'Hanken Grotesk', system-ui, sans-serif";
       r.textBaseline = "top";
       for (let t = Math.floor(t0 / step) * step; t <= t1 + step; t += step) {
         const x = (t / d) * total - left;

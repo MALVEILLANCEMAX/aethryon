@@ -99,7 +99,7 @@ export default function Securite() {
               <div role="tablist" aria-label="Période" className="flex gap-1.5">
                 {PERIODS.map((p) => (
                   <button key={p.id} role="tab" aria-selected={period === p.id} type="button" onClick={() => setPeriod(p.id)}
-                    className={`min-h-10 rounded-full px-4 text-[14px] transition-colors ${period === p.id ? "bg-obsidian text-ivory" : "border border-line text-ink-soft hover:border-line-strong"}`}>
+                    className={`min-h-10 rounded-full px-4 text-[14px] transition-colors ${period === p.id ? "bg-sunken text-fg" : "border border-line text-ink-soft hover:border-line-strong"}`}>
                     {p.label}
                   </button>
                 ))}

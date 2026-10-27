@@ -144,7 +144,7 @@ function Scene({ onFermer }: { onFermer: () => void }) {
           {l.erreur && <p className="mu-erreur" role="alert">{typo(l.erreur)}</p>}
         </div>
         <section className="mu-scene-droite" aria-label="File d'attente">
-          <div className="mu-scene-tete"><h3 className="sec-label">À suivre</h3><button type="button" className="btn btn--ghost btn--sm" onClick={L.vider}>Vider la file</button></div>
+          <div className="mu-scene-tete"><h3 className="sec-label">À suivre</h3><button type="button" className="eg-btn eg-btn--discret eg-btn--petit" onClick={L.vider}>Vider la file</button></div>
           <FileAttente l={l} />
         </section>
       </div>

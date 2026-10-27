@@ -26,7 +26,7 @@ function Pochette({ url, titre, taille }: { url: string | null | undefined; titr
   const [ko, setKo] = useState(false);
   if (url && !ko) return <img src={url} alt="" width={taille} height={taille} onError={() => setKo(true)} className="shrink-0 rounded-[14px] object-cover shadow-card ring-1 ring-line musique-poch" style={{ width: taille, height: taille }} />;
   return (
-    <span aria-hidden className="grid shrink-0 place-items-center rounded-[14px] bg-obsidian font-display text-ivory/80 ring-1 ring-line" style={{ width: taille, height: taille, fontSize: Math.max(14, taille * 0.34) }}>
+    <span aria-hidden className="grid shrink-0 place-items-center rounded-[14px] bg-sunken font-display text-fg-2 ring-1 ring-line" style={{ width: taille, height: taille, fontSize: Math.max(14, taille * 0.34) }}>
       {(titre.trim()[0] ?? "♪").toUpperCase()}
     </span>
   );
@@ -51,7 +51,7 @@ function SuiviImport({ imp, onAnnuler }: { imp: ImportVue; onAnnuler: () => void
       {imp.etat === "echec" && <p className="mt-2 flex gap-2 text-[14.5px] text-ink"><IconAlert size={16} className="mt-0.5 shrink-0 text-bad" />{imp.erreur?.detail ?? "L'import n'a pas abouti."}</p>}
       {imp.etat === "termine" && imp.fichier && (
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <a href={imp.fichier.url} download className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-4 text-[15px] font-medium text-ivory transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text">
+          <a href={imp.fichier.url} download className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-4 text-[15px] font-medium text-fg transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text">
             <IconDownload size={17} />Télécharger le fichier
           </a>
           <p className="text-[14px] text-ink-soft">{[imp.licence?.nom, imp.cloud ? `Cloud${NB}: ${imp.cloud.libelle}` : null, imp.disponibleJusquA ? `disponible jusqu'à ${new Date(imp.disponibleJusquA).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}` : null].filter(Boolean).join(" · ")}</p>
@@ -111,7 +111,7 @@ function FicheVue({ fiche, onImporter }: { fiche: Fiche; onImporter: (corps: Rec
       {p.ecouter && <div className="mt-6"><audio controls preload="none" src={p.ecouter.url} className="w-full" aria-label={`Écouter «${NB}${fiche.titre ?? ""}${NB}»`} /></div>}
       {officiel && p.lecteurOfficiel && (
         <div className="mt-6">
-          <iframe title={`Lecteur officiel ${p.plateforme}`} src={p.lecteurOfficiel.url} height={p.lecteurOfficiel.hauteur} loading="lazy" className="block w-full rounded-[18px] border-0 bg-obsidian" allow="encrypted-media" referrerPolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" />
+          <iframe title={`Lecteur officiel ${p.plateforme}`} src={p.lecteurOfficiel.url} height={p.lecteurOfficiel.hauteur} loading="lazy" className="block w-full rounded-[18px] border-0 bg-sunken" allow="encrypted-media" referrerPolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" />
           {p.lecteurOfficiel.note && <p className="mt-2 text-[13.5px] text-muted">{p.lecteurOfficiel.note}</p>}
         </div>
       )}
@@ -223,7 +223,7 @@ export default function Musique() {
               <span className="sr-only">Lien d'un morceau, d'un album, d'une playlist ou d'un fichier audio</span>
               <IconLink size={18} className="pointer-events-none absolute left-4 text-muted" />
               <input type="url" inputMode="url" spellCheck={false} autoComplete="off" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…"
-                className="h-13 w-full rounded-[16px] border border-field bg-white/70 pl-11 pr-36 text-[16px] text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
+                className="h-13 w-full rounded-[16px] border border-field bg-surface pl-11 pr-36 text-[16px] text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
               {det && <span className={`absolute right-3 rounded-full px-3 py-1 text-[13px] font-semibold ${det.refuse ? "bg-bad-bg text-bad" : "bg-gold/15 text-gold-text"}`}>{det.nom}</span>}
             </label>
             <Button type="submit" variant="primary" className="h-13" loading={analyse} disabled={!url.trim() || analyse}>Analyser</Button>

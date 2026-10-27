@@ -120,7 +120,7 @@ export default function Analytics() {
           <Gate r={r} skeleton={<Skeleton className="h-40" />}>
             {(x) => measured("durationByPlatform") ? (
               <>
-                <Legend series={[{ key: "avg", label: "Moyenne", swatch: "bg-gold" }, { key: "p90", label: "90e centile", swatch: "bg-graphite" }]} />
+                <Legend series={[{ key: "avg", label: "Moyenne", swatch: "bg-gold" }, { key: "p90", label: "90e centile", swatch: "bg-raised" }]} />
                 <HBars
                   className="mt-4"
                   markerLabel="90e centile"

@@ -1,24 +1,10 @@
-// « Réduire les animations » : Système (réglage Windows « Effets d'animation », relayé par prefers-reduced-motion),
-// Oui ou Non. L'attribut data-motion de <html> porte le choix ; les jetons CSS raccourcissent les durées.
-import type { Animations } from "./types";
-
-export function appliquerMouvement(choix: Animations): void {
-  const r = document.documentElement;
-  if (choix === "oui") r.dataset.motion = "reduced";
-  else if (choix === "non") r.dataset.motion = "full";
-  else delete r.dataset.motion;
-}
-
+// Mouvement réduit, vu du code du Desktop : `data-d-reduit` sur <html>, posé par lib/apparence.ts d'après le thème Égide
+// (intensité « réduite » ou « aucune »), le réglage de Windows (« Effets d'animation », relayé par WebView2) et le réglage
+// « Réduire les animations » d'AETHRYON (Système / Oui / Non). Avant la pose (premier script) : le système décide.
 export function mouvementReduit(): boolean {
   if (typeof document === "undefined") return true;
-  const m = document.documentElement.dataset.motion;
-  if (m === "reduced") return true;
-  if (m === "full") return false;
+  const d = document.documentElement.getAttribute("data-d-reduit");
+  if (d === "1") return true;
+  if (d === "0") return false;
   return typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-/** Thème : « systeme » suit Windows (prefers-color-scheme), sinon clair ou sombre. */
-export function appliquerTheme(theme: "systeme" | "clair" | "sombre"): void {
-  const clair = theme === "clair" || (theme === "systeme" && typeof matchMedia === "function" && matchMedia("(prefers-color-scheme: light)").matches);
-  document.documentElement.dataset.theme = clair ? "light" : "dark";
 }

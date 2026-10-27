@@ -30,7 +30,6 @@ import { Skeleton } from "../ui/bits.tsx";
 import { Alert } from "../ui/Alert.tsx";
 import { Button } from "../ui/Button.tsx";
 import { useToast } from "../ui/Toasts.tsx";
-import { RetroObject } from "../ui/retro/RetroObject.tsx";
 import { PageHeader } from "./common.tsx";
 
 const NB = " ";
@@ -234,7 +233,6 @@ export default function Abonnement() {
         </div>
         <div className="abo-quota" data-abo-quota={q ? q.used : undefined}>
           <div className="abo-quota-row">
-            <RetroObject kind="sablier" size="sm" className="retro-plinth abo-sablier" />
             {q ? <QuotaRing used={q.used} limit={q.limit} /> : <Skeleton night className="size-[148px] rounded-full" />}
           </div>
           <p className="abo-quota-note">{q?.exhausted ? "Quota du jour atteint." : "Aujourd'hui."} Repart à minuit, heure de Paris.</p>

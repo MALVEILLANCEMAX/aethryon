@@ -1,12 +1,12 @@
-// Film de lancement AETHRYON 3.5 (motion design, 38,5 s, 1 080p à 60 i/s ; rendu déterministe, projet
-// <projet du film, non publié>) placé DANS le héros, sous le champ « colle un lien », comme la démonstration de
-// ton-piston.com : cadre arrondi posé sur l'obsidienne, lecture automatique MUETTE en boucle quand le film est à
+// Film de lancement AETHRYON 3.5, « Le Passage » (motion design, 38,5 s, 1 080p à 60 i/s ; œuvre du propriétaire).
+// Égide v2 : sa propre section, juste sous le héros (la scène y montre le parcours) ;
+// cadre posé sur le thème, lecture automatique MUETTE en boucle quand le film est à
 // l'écran, bouton « Activer le son ». Jamais de lecture hors de l'écran (page immobile, DESIGN.md §12), jamais de son
 // automatique. Mouvement réduit : l'affiche (la carte finale du film) et un bouton de lecture, rien ne part seul.
 // Son : voix du propriétaire, musique et effets originaux composés pour le film (livraison/son/LICENCES-SON.md).
 import { useEffect, useRef, useState } from "react";
 import { useCalm } from "../../lib/hooks.ts";
-import { IconPause, IconPlay } from "../../ui/Icon.tsx";
+import { Icone } from "../../ui/egide/Egide.tsx";
 
 function SoundIcon({ on }: { on: boolean }) {
   return (
@@ -66,7 +66,7 @@ export function Film() {
   };
 
   return (
-    <div ref={box} id="demo" className="film-frame" data-film="">
+    <div ref={box} className="film-frame" data-film="">
       <video
         ref={video}
         className="film-video"
@@ -84,7 +84,7 @@ export function Film() {
       </video>
       <div className="film-controls">
         <button type="button" onClick={toggle} className="film-btn" aria-label={playing ? "Mettre le film en pause" : "Lire le film"} data-film-play="">
-          {playing ? <IconPause size={16} /> : <IconPlay size={16} />}
+          <Icone nom={playing ? "pause" : "lecture"} />
         </button>
         <button type="button" onClick={sound} className="film-btn film-sound" aria-pressed={!muted} data-film-son="">
           <SoundIcon on={!muted} />

@@ -45,7 +45,7 @@ export const ANNONCES: readonly Annonce[] = [
       { titre: "Installation guidée", texte: "Un installateur pour installer, réparer, mettre à jour ou désinstaller." },
     ],
     lien: { to: "/#solutions", label: "En savoir plus" },
-    telechargement: { href: "/downloads/premiere/AETHRYON-Setup-2.0.0-beta.8.exe", label: "Télécharger pour Windows" },
+    telechargement: { href: "/downloads/premiere/AETHRYON-Setup-2.0.0-beta.9.exe", label: "Télécharger pour Windows" },
     note: "Windows 11 et Premiere Pro 25.6 ou plus récent. L'installateur n'est pas encore signé : Windows affiche un avertissement avant de l'ouvrir.",
   },
   {

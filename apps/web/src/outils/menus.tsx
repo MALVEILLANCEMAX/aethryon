@@ -31,7 +31,7 @@ export const PortalTarget = createContext<HTMLElement | null>(null);
 
 // ---- touches -----------------------------------------------------------------------------------------------------
 
-/** Flèches dessinées : « ← » et « → » manquent à la police du site (sous-ensemble latin d'Inter) ; la police de secours
+/** Flèches dessinées : « ← » et « → » manquent à la police du site (sous-ensemble latin de Hanken Grotesk) ; la police de secours
  *  du système les montrait parfois comme de simples tirets, sans direction. */
 const ARROWS: Record<string, { d: string; label: string }> = {
   "←": { d: "M19 12H5M10.5 6.5 5 12l5.5 5.5", label: "Flèche gauche" },

@@ -1,13 +1,16 @@
 <!doctype html>
-<html lang="fr" class="options">
+<html lang="fr" class="options" data-eg-theme="obsidian">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
   <title>Réglages · AETHRYON</title>
+  <!-- Égide : thème choisi posé avant le premier rendu (script externe), socle, feuille commune, feuille de la page. -->
+  <script src="../egide/genere/theme-boot.js"></script>
+  <link rel="stylesheet" href="../egide/genere/egide.css">
+  <link rel="stylesheet" href="../egide/extension.css">
   <link rel="stylesheet" href="options.css">
 </head>
-<body>
+<body class="eg-page">
   <header class="opt-bar">
     <div class="opt-bar-inner">
       <p id="brand" class="brand"></p>
@@ -21,6 +24,16 @@
       <h1 class="display">Réglages</h1>
       <p class="lead">Ces réglages s'appliquent à ce navigateur. Chaque changement est enregistré aussitôt.</p>
     </div>
+
+    <section class="group" aria-labelledby="t-theme" id="apparence">
+      <h2 id="t-theme" class="group-title">Apparence</h2>
+      <div class="card">
+        <fieldset id="themes" class="themes-grid" aria-describedby="d-theme"><legend class="sr-only">Thème de l'extension</legend></fieldset>
+        <p class="row-foot" id="d-theme">Le popup, ces réglages et le bouton dans les sites suivent ce thème (gardé dans le stockage synchronisé du navigateur).</p>
+        <button id="editor-toggle" class="btn btn-secondary btn-sm editor-toggle" type="button" aria-expanded="false" aria-controls="editor-host">Personnaliser un thème</button>
+        <div id="editor-host" class="editor-host"></div>
+      </div>
+    </section>
 
     <section class="group" aria-labelledby="t-buttons">
       <h2 id="t-buttons" class="group-title">Boutons dans les sites</h2>

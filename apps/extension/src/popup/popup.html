@@ -1,33 +1,36 @@
 <!doctype html>
-<html lang="fr" class="popup">
+<html lang="fr" class="popup" data-eg-theme="obsidian">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
   <title>AETHRYON</title>
+  <!-- Égide : thème choisi posé AVANT le premier rendu (script externe, permis par la CSP des pages), puis le socle
+       (jetons, six thèmes, polices OFL, composants), la feuille commune des pages et celle du popup. -->
+  <script src="../egide/genere/theme-boot.js"></script>
+  <link rel="stylesheet" href="../egide/genere/egide.css">
+  <link rel="stylesheet" href="../egide/extension.css">
   <link rel="stylesheet" href="popup.css">
 </head>
-<body>
+<body class="eg-page">
   <header class="bar">
     <h1 id="brand" class="brand"></h1>
     <p id="conn" class="conn" hidden><span class="dot" aria-hidden="true"></span><span id="conn-label"></span></p>
-    <button id="open-settings" class="icon-btn" type="button" aria-label="Réglages" title="Réglages"></button>
+    <span id="quota-ring" class="quota-ring" hidden></span>
+    <nav class="bar-actions" aria-label="Popup AETHRYON">
+      <button id="open-account" class="icon-btn" type="button" hidden aria-pressed="false"></button>
+      <button id="open-theme" class="icon-btn" type="button" aria-pressed="false" aria-label="Thème" title="Thème"></button>
+      <button id="open-settings" class="icon-btn" type="button" aria-label="Réglages" title="Réglages"></button>
+    </nav>
   </header>
-  <div id="scroll" class="scroll">
-    <main id="main" aria-busy="true">
-      <p class="sr-only" role="status">Chargement…</p>
-      <div class="skeleton" aria-hidden="true">
-        <div class="sk sk-strip"></div>
-        <div class="sk sk-card"></div>
-        <div class="sk sk-line"></div>
-      </div>
-    </main>
-    <footer class="foot">
-      <p class="foot-meta"><span id="version">Version</span><span aria-hidden="true" class="sep">·</span><a id="help-link" class="link" href="#">Aide<span class="sr-only"> (nouvel onglet)</span></a></p>
-      <p class="foot-note">Compatible avec YouTube, TikTok et X — sans affiliation.</p>
-      <p id="rights" class="foot-note foot-rights"></p>
-    </footer>
-  </div>
+  <main id="main" aria-busy="true">
+    <p class="sr-only" role="status">Chargement…</p>
+  </main>
+  <footer class="foot">
+    <span id="version">Version</span>
+    <a id="help-link" class="foot-link" href="#">Aide<span class="sr-only"> (nouvel onglet)</span></a>
+    <button id="rights-toggle" class="foot-link" type="button" aria-expanded="false" aria-controls="rights">Droits</button>
+    <p id="rights" class="foot-rights" hidden></p>
+  </footer>
   <script src="popup.js"></script>
 </body>
 </html>

@@ -1,203 +1,103 @@
-// Navigation AETHRYON (docs/DESIGN.md §5) : une pilule FLOTTANTE dès le haut de page, qui prend la teinte de la
-// section qu'elle survole (verre obsidienne sur les sections sombres, ivoire sur les claires), se masque en
-// descendant et réapparaît en remontant. Au centre, une lueur suit le lien survolé et un trait d'or glisse sous la
-// section où l'on se trouve (accueil : suivi du défilement ; ailleurs : la page). Deux actions distinctes :
-// « Se connecter » (compte existant, /connexion) et « Commencer » (création du compte, /commencer), magnétique.
-import { useEffect, useId, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router";
-import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
+// Navigation AETHRYON, Égide v2 : une barre posée sur le fond du thème (64 px, filet fin dès qu'on a défilé), la marque
+// (chouette maître + logotype), cinq liens, le sélecteur de thème, « Se connecter » (compte existant, /connexion) et
+// « Commencer » (création, /commencer) en secondaire : l'or est réservé à l'action principale de la page. Sous 760 px :
+// marque, thème et menu (liste ancrée qui s'ouvre depuis son bouton ; Échap ou un toucher dehors la ferme).
+// Aucune animation au défilement ni au survol hors couleur (MOTION_GUIDELINES.md § 3).
+import { useEffect, useId, useRef, useState } from "react";
+import { Link, useLocation } from "react-router";
 import { cn } from "../lib/cn.ts";
 import { useMe } from "../lib/hooks.ts";
-import { DUR, EASE, SPRING } from "../lib/motion.ts";
-import { BrandLogo } from "./brand/BrandLogo.tsx";
-import { IconArrowRight } from "./Icon.tsx";
-import { MenuIcon } from "./IconMorph.tsx";
-import { ButtonLink } from "./Button.tsx";
-import { Magnetic } from "./Magnetic.tsx";
+import { choisirThemeSite, THEMES, useThemeActif } from "../lib/apparence.ts";
 import { TARIFS_LABEL } from "../lib/offres.ts";
+import { Chouette, Icone } from "./egide/Egide.tsx";
+import { ThemeMenu } from "./egide/ThemeMenu.tsx";
 
-// Pages dont le haut est obsidienne : teinte sombre dès le premier rendu (pré-rendu compris), avant toute mesure.
-const DARK_TOP = new Set(["/", "/commencer", "/outils"]);
-const LINKS = [
-  { to: "/#demo", label: "Démo", section: "demo" },
+const LIENS = [
   { to: "/#surfaces", label: "Produit", section: "surfaces" },
+  { to: "/#plateformes", label: "Plateformes", section: "plateformes" },
   { to: "/outils", label: "Tools", section: null },
   { to: "/#tarifs", label: TARIFS_LABEL, section: "tarifs" },
   { to: "/aide", label: "Aide", section: null },
 ] as const;
-const SPY = LINKS.flatMap((l) => (l.section ? [l.section] : []));
-/** Hauteur de lecture sous la barre : la teinte est celle de la section qui passe à cette ligne. */
-const PROBE_Y = 36;
-
-/** Teinte de la section sous la barre et section courante de l'accueil, relues au défilement (une fois par image). */
-function useWhere(pathname: string) {
-  const [dark, setDark] = useState(DARK_TOP.has(pathname));
-  const [section, setSection] = useState<string | null>(null);
-  useEffect(() => {
-    let raf = 0;
-    const read = () => {
-      raf = 0;
-      const tones = document.querySelectorAll<HTMLElement>(".hero-night, .section-night, [data-tone=dark]");
-      let d = false;
-      for (const el of tones) {
-        const r = el.getBoundingClientRect();
-        if (r.top <= PROBE_Y && r.bottom > PROBE_Y) { d = true; break; }
-      }
-      setDark(d);
-      if (pathname !== "/") { setSection(null); return; }
-      const line = window.innerHeight * 0.38;
-      let cur: string | null = null;
-      for (const id of SPY) {
-        const r = document.getElementById(id)?.getBoundingClientRect();
-        if (r && r.top <= line && r.bottom > line) cur = id;
-      }
-      setSection(cur);
-    };
-    const queue = () => { if (!raf) raf = requestAnimationFrame(read); };
-    read();
-    window.addEventListener("scroll", queue, { passive: true });
-    window.addEventListener("resize", queue);
-    // Les sections de l'accueil arrivent avec les blocs paresseux : une relecture quand le DOM change de taille.
-    const ro = new ResizeObserver(queue);
-    ro.observe(document.body);
-    return () => { window.removeEventListener("scroll", queue); window.removeEventListener("resize", queue); ro.disconnect(); if (raf) cancelAnimationFrame(raf); };
-  }, [pathname]);
-  return { dark, section };
-}
 
 export function Nav() {
-  const { scrollY } = useScroll();
-  const calm = useReducedMotion();
-  const [top, setTop] = useState(true);
-  const [hidden, setHidden] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [hover, setHover] = useState<string | null>(null);
   const me = useMe();
-  const signedIn = !!me.data && !me.error;
+  const connecte = !!me.data && !me.error;
   const { pathname, hash } = useLocation();
-  const { dark: overDark, section } = useWhere(pathname);
+  const [ouvert, setOuvert] = useState(false);
+  const [defile, setDefile] = useState(false);
   const menuId = useId();
-  useMotionValueEvent(scrollY, "change", (y) => {
-    const prev = scrollY.getPrevious() ?? 0;
-    setTop(y < 24);
-    setHidden(!calm && y > 480 && y > prev + 4 && !open);
-    if (y < prev - 4) setHidden(false);
-  });
-  useEffect(() => { setOpen(false); }, [pathname, hash]);
+  const bouton = useRef<HTMLButtonElement>(null);
+  const liste = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setOuvert(false); }, [pathname, hash]);
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-  // Section courante : suivie au défilement sur l'accueil (l'ancre de l'adresse ne compte qu'au tout début).
-  const isActive = (l: (typeof LINKS)[number]) =>
-    l.section ? pathname === "/" && (section ? section === l.section : hash === `#${l.section}`) : pathname.startsWith(l.to);
-  const dark = overDark && !open;
-  const tone = dark ? "dark" : "light";
+    const lire = () => setDefile(window.scrollY > 8);
+    lire();
+    window.addEventListener("scroll", lire, { passive: true });
+    return () => window.removeEventListener("scroll", lire);
+  }, []);
+  useEffect(() => {
+    if (!ouvert) return;
+    liste.current?.querySelector<HTMLElement>("a")?.focus();
+    const touche = (e: KeyboardEvent) => { if (e.key === "Escape") { setOuvert(false); bouton.current?.focus(); } };
+    const dehors = (e: PointerEvent) => { const t = e.target as Node; if (!liste.current?.contains(t) && !bouton.current?.contains(t)) setOuvert(false); };
+    window.addEventListener("keydown", touche);
+    document.addEventListener("pointerdown", dehors, true);
+    return () => { window.removeEventListener("keydown", touche); document.removeEventListener("pointerdown", dehors, true); };
+  }, [ouvert]);
+
+  const themeActif = useThemeActif();
+  const actif = (l: (typeof LIENS)[number]) => (l.section ? pathname === "/" && hash === `#${l.section}` : pathname.startsWith(l.to));
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-[max(10px,env(safe-area-inset-top))]">
-      <motion.nav
-        aria-label="Navigation principale"
-        animate={{ y: hidden ? -96 : 0 }}
-        transition={SPRING.soft}
-        className="nav-shell"
-        data-tone={tone}
-        data-top={top && !open ? "" : undefined}
-      >
-        <Link to="/" className="flex min-h-11 items-center rounded-full px-1.5" aria-label="AETHRYON, accueil">
-          <BrandLogo size="sm" blink tone={dark ? "ivory" : "ink"} />
-        </Link>
-        <div className="nav-links hidden md:flex" onPointerLeave={() => setHover(null)}>
-          {LINKS.map((l) => {
-            const active = isActive(l);
-            return (
-              <NavLink key={l.to} to={l.to} className="nav-link" data-active={active ? "" : undefined} onPointerEnter={() => setHover(l.to)} onFocus={() => setHover(l.to)} onBlur={() => setHover(null)}>
-                {hover === l.to && <motion.span layoutId="nav-lamp" aria-hidden className="nav-lamp" transition={SPRING.glide} />}
-                <span className="relative">{l.label}</span>
-                {active && <motion.span layoutId="nav-active" aria-hidden className="nav-tick" transition={SPRING.glide} />}
-              </NavLink>
-            );
-          })}
+    <header className={cn("s-tete", defile && "is-defile")}>
+      <nav aria-label="Navigation principale" className="s-tete-barre">
+        <Link to="/" className="s-tete-marque eg-marque" aria-label="AETHRYON, accueil"><Chouette taille={26} /><span aria-hidden="true">AETHRYON</span></Link>
+        <div className="s-tete-liens">
+          {LIENS.map((l) => (
+            <Link key={l.to} to={l.to} className="s-tete-lien" aria-current={actif(l) ? "page" : undefined}>{l.label}</Link>
+          ))}
         </div>
-        <div className="flex items-center gap-1.5">
-          {signedIn ? (
-            <ButtonLink to="/dashboard" variant={dark ? "light" : pathname.startsWith("/dashboard") ? "secondary" : "primary"} size="sm" className="hidden h-11 min-[360px]:inline-flex">Mon espace</ButtonLink>
+        <div className="s-tete-d">
+          <ThemeMenu />
+          {connecte ? (
+            <Link to="/dashboard" className="eg-btn eg-btn--secondaire s-tete-cta">Mon espace</Link>
           ) : (
             <>
-              {/* Compte existant : action discrète (lien) ; nouveau venu : bouton plein, magnétique. */}
-              <Link to="/connexion" className="nav-link hidden sm:inline-flex" data-nav-connexion="">Se connecter</Link>
-              {/* Sous 360 px, la barre ne garde que le logo et le menu : l'action est en tête du menu. */}
-              <Magnetic className="hidden min-[360px]:inline-flex">
-                <ButtonLink to="/commencer" variant={dark ? "light" : "primary"} size="sm" className="h-11 px-4" data-nav-commencer="">Commencer</ButtonLink>
-              </Magnetic>
+              <Link to="/connexion" className="eg-btn eg-btn--discret s-tete-cnx" data-nav-connexion="">Se connecter</Link>
+              <Link to="/commencer" className="eg-btn eg-btn--secondaire s-tete-cta" data-nav-commencer="">Commencer</Link>
             </>
           )}
-          <button
-            type="button"
-            className="nav-burger md:hidden"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={open}
-            aria-controls={menuId}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <MenuIcon open={open} size={20} />
+          <button ref={bouton} type="button" className="eg-btn eg-btn--icone s-tete-menu" aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={ouvert} aria-controls={menuId} onClick={() => setOuvert((v) => !v)}>
+            <Icone nom={ouvert ? "croix" : "menu"} />
           </button>
         </div>
-      </motion.nav>
-      <AnimatePresence>
-        {/* Voile derrière le menu mobile : la page s'efface, le menu ne se confond plus avec son contenu ; un toucher
-            sur le voile referme le menu (Échap aussi). Sous la barre et le menu (z négatif dans l'en-tête). */}
-        {open && (
-          <motion.div
-            key="voile"
-            aria-hidden
-            data-menu-voile=""
-            onClick={() => setOpen(false)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: DUR.micro } }}
-            transition={{ duration: DUR.component, ease: EASE.soft }}
-            className="pointer-events-auto fixed inset-0 z-[-1] bg-obsidian/35 md:hidden"
-          />
-        )}
-        {open && (
-          <motion.div
-            key="menu"
-            id={menuId}
-            initial={{ opacity: 0, y: -10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98, transition: { duration: DUR.micro } }}
-            transition={{ duration: DUR.component, ease: EASE.soft }}
-            className="pointer-events-auto absolute inset-x-3 top-[calc(max(10px,env(safe-area-inset-top))+70px)] origin-top rounded-[28px] border border-line bg-ivory p-2 shadow-raised md:hidden"
-          >
-            <motion.ul initial="hidden" animate="shown" variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.04 } } }}>
-              <motion.li variants={{ hidden: { opacity: 0, y: -4 }, shown: { opacity: 1, y: 0 } }} className="p-1.5 min-[360px]:hidden">
-                {signedIn
-                  ? <ButtonLink to="/dashboard" variant="primary" className="w-full" onClick={() => setOpen(false)}>Mon espace</ButtonLink>
-                  : <ButtonLink to="/commencer" variant="primary" className="w-full" onClick={() => setOpen(false)}>Commencer</ButtonLink>}
-              </motion.li>
-              {LINKS.map((l) => (
-                <motion.li key={l.to} variants={{ hidden: { opacity: 0, y: -4 }, shown: { opacity: 1, y: 0 } }}>
-                  <Link to={l.to} onClick={() => setOpen(false)} className={cn("nav-menu-item", isActive(l) && "is-current")} aria-current={isActive(l) ? "location" : undefined}>
-                    {l.label}
-                    <IconArrowRight size={18} className="text-gold-text" />
-                  </Link>
-                </motion.li>
-              ))}
-              {!signedIn && (
-                <motion.li variants={{ hidden: { opacity: 0, y: -4 }, shown: { opacity: 1, y: 0 } }}>
-                  <Link to="/connexion" onClick={() => setOpen(false)} className="nav-menu-item sm:hidden">
-                    Se connecter
-                    <IconArrowRight size={18} className="text-gold-text" />
-                  </Link>
-                </motion.li>
-              )}
-            </motion.ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </nav>
+      {ouvert && (
+        <div ref={liste} id={menuId} className="s-tete-liste">
+          <ul>
+            {LIENS.map((l) => (
+              <li key={l.to}><Link to={l.to} onClick={() => setOuvert(false)} aria-current={actif(l) ? "page" : undefined}>{l.label}<Icone nom="chevron" taille="s" /></Link></li>
+            ))}
+            {connecte
+              ? <li><Link to="/dashboard" onClick={() => setOuvert(false)}>Mon espace<Icone nom="chevron" taille="s" /></Link></li>
+              : <>
+                  <li><Link to="/connexion" onClick={() => setOuvert(false)}>Se connecter<Icone nom="chevron" taille="s" /></Link></li>
+                  <li><Link to="/commencer" onClick={() => setOuvert(false)}>Commencer<Icone nom="chevron" taille="s" /></Link></li>
+                </>}
+          </ul>
+          {/* Téléphone étroit : le choix du thème est ici (le bouton de la barre laisse la place à l'action). */}
+          <div className="s-tete-themes" role="group" aria-label="Thème">
+            {THEMES.map((t) => (
+              <button key={t.id} type="button" aria-pressed={themeActif === t.id} onClick={() => void choisirThemeSite(t.id)}>
+                <span className="egw-pastille-theme eg-scope" data-eg-theme={t.id === "custom" ? undefined : t.id} data-custom={t.id === "custom" ? "" : undefined} aria-hidden="true" />{t.nom}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

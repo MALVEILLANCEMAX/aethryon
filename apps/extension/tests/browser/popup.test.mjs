@@ -1,4 +1,7 @@
 // Tests navigateur du POPUP et de la page de RÉGLAGES (Chromium réel, extension de développement chargée).
+// 3.9.0 (Égide) : popup v2 (360 px, sans défilement, la vidéo d'abord, formats en tuiles, un bouton qui devient la
+// progression puis le sceau ; compte, thème et plateformes en vues), thèmes Égide (Obsidian par défaut, Ivory pour le
+// second passage d'axe : le thème est un choix de l'utilisateur, plus le schéma de couleurs du système).
 //   npm run build:dev && node --test tests/browser/popup.test.mjs      (SKIP_BUILD=1 : pas de reconstruction)
 //
 // Ce qui est RÉEL : Chromium et l'extension construite (pages, CSS, polices, mascotte, CSP du manifeste),
@@ -74,10 +77,11 @@ const bodyText = (page) => page.evaluate(() => document.body.innerText);
 const has = async (page, sel) => (await page.locator(sel).count()) > 0;
 
 /** Accessibilité (axe, clair ET sombre), typographie, CSP, console, requêtes externes ; captures des deux thèmes. */
-async function audit(page, errors, name, { full = false } = {}) {
+async function audit(page, errors, name, { full = false, defile = false } = {}) {
   const problems = [];
+  // Égide : le thème est un CHOIX (Obsidian par défaut) ; second passage en Ivory (thème clair officiel).
   for (const scheme of ["light", "dark"]) {
-    await page.emulateMedia({ colorScheme: scheme });
+    await page.evaluate((t) => document.documentElement.setAttribute("data-eg-theme", t), scheme === "light" ? "ivory" : "obsidian");
     await page.waitForTimeout(450); // fondus et transitions de couleur terminés (≤ 320 ms)
     // Machine chargée : on attend en plus la fin réelle des transitions (pas la respiration infinie de la chouette,
     // ni une animation en pause — la chouette sous le pli du popup est mise en pause et ne finirait jamais).
@@ -91,14 +95,18 @@ async function audit(page, errors, name, { full = false } = {}) {
     report.screenshots.push(await shoot(page, `${name}-${label}`));
     if (full) report.screenshots.push(await shootFull(page, `${name}-${label}-complet`));
   }
-  await page.emulateMedia({ colorScheme: "light" });
-  // Popup : contrôles d'au moins 32 px de haut, 380 px de large, 600 px de haut au plus (défilement interne).
+  await page.evaluate(() => document.documentElement.setAttribute("data-eg-theme", "obsidian"));
+  // Popup : contrôles d'au moins 32 px de haut, 360 px de large, 600 px de haut au plus, SANS défilement (Égide).
   // Réglages : cibles d'au moins 24 px (WCAG 2.5.8), aucun débordement horizontal.
   const isPopup = await page.evaluate(() => document.documentElement.classList.contains("popup"));
   const l = await layout(page, isPopup ? 32 : 24);
   if (l.small.length) problems.push(`${name} cibles trop petites ${JSON.stringify(l.small)}`);
   if (l.overflowX > 0) problems.push(`${name} débordement horizontal ${l.overflowX}px`);
-  if (isPopup && (l.width !== 380 || l.height > 600)) problems.push(`${name} dimensions du popup ${l.width}×${l.height}`);
+  if (isPopup && (l.width !== 360 || l.height > 600)) problems.push(`${name} dimensions du popup ${l.width}×${l.height}`);
+  if (isPopup && !defile) {
+    const mesure = await page.evaluate(() => { const m = document.querySelector("main"); return m ? m.scrollHeight - m.clientHeight : 0; });
+    if (mesure > 1) problems.push(`${name} défilement de ${mesure}px`);
+  }
   const typo = await typography(page);
   report.typography.push({ name, typo });
   if (typo.length) problems.push(`${name} typographie ${JSON.stringify(typo)}`);
@@ -110,9 +118,11 @@ async function audit(page, errors, name, { full = false } = {}) {
 }
 
 const savedShown = (page) => page.evaluate(() => /Enregistr/i.test(document.body.innerText));
-/** État de la mascotte (src/mascot : idle, curious, processing, success, error). */
-const mood = (page) => page.evaluate(() => document.querySelector(".mascot-owl")?.dataset.state ?? null);
-const waitMood = (page, m) => page.waitForFunction((x) => document.querySelector(".mascot-owl")?.dataset.state === x, m, { timeout: 5000 });
+/** Égide : la chouette maître (une par vue) et son état réel (idle, curious, processing, success, error). */
+const mood = (page) => page.evaluate(() => document.querySelector(".p-chouette")?.dataset.state ?? null);
+const waitMood = (page, m) => page.waitForFunction((x) => document.querySelector(".p-chouette")?.dataset.state === x, m, { timeout: 5000 });
+/** Ouvre une vue de la barre (compte, thème). */
+const openView = async (page, id) => { await page.locator(`#${id}`).click(); await page.waitForSelector(".view-title"); };
 const lastStart = async (page) => (await sent(page)).filter((m) => m.type === "job.start").at(-1);
 
 // ---- construction ---------------------------------------------------------------------------------
@@ -135,14 +145,12 @@ test("non connecté : invitation à se connecter, téléchargement désactivé e
   const { page, errors } = await popup({ responses: { "popup.init": init({ account: DISCONNECTED }) } });
   await waitText(page, "#conn-label", "Non connecté");
   assert.equal(await text(page, "#hero-title"), "Connecte-toi");
-  assert.equal(await text(page, ".hero-text"), `Connecte l'extension à ton compte AETHRYON${NB}: même compte et même quota que le raccourci iPhone.`);
+  assert.equal(await text(page, ".hero-text"), "Même compte et même quota que sur le site.");
   assert.ok(await page.locator("[data-action=login]").isEnabled());
   assert.equal(await page.locator("[data-action=login]").textContent(), "Se connecter à AETHRYON");
-  const start = page.locator("[data-action=start]");
-  assert.ok(await start.isDisabled(), "Télécharger désactivé");
-  assert.equal(await start.getAttribute("aria-describedby"), "convert-hint");
-  assert.equal(await text(page, "#convert-hint"), "Connecte-toi pour télécharger cette vidéo.");
-  assert.ok(await page.locator('input[name="fmt"]').first().isDisabled(), "format désactivé");
+  // Égide : peu de texte, une seule action (se connecter) ; aucun réglage ni bouton de téléchargement inactif.
+  assert.equal(await page.locator("[data-action=start]").count(), 0, "pas de bouton Télécharger avant la connexion");
+  assert.equal(await page.locator('input[name="fmt"]').count(), 0, "pas de formats avant la connexion");
   assert.equal(await has(page, "#account"), false, "pas de section compte");
   assert.equal(await mood(page), "idle");
   // La vidéo de l'onglet reste visible : l'utilisateur voit ce qu'il pourra télécharger.
@@ -163,9 +171,10 @@ test("connexion : attente honnête pendant la fenêtre AETHRYON, puis compte aff
   assert.equal(await text(page, ".login-status"), `Une fenêtre AETHRYON s'ouvre${NB}: connecte-toi, puis autorise l'extension.`);
   report.screenshots.push(await shoot(page, "popup-connexion-en-cours-clair"));
   await waitText(page, "#conn-label", "Connecté");
-  const types = (await sent(page)).map((m) => m.type);
+  // (Égide : la disponibilité des plateformes, platforms.get, est lue à part après l'accord ; elle ne compte pas ici.)
+  const types = (await sent(page)).map((m) => m.type).filter((t) => t !== "platforms.get");
   assert.deepEqual(types, ["popup.init", "auth.login", "popup.init"]);
-  assert.deepEqual((await sent(page))[1], { type: "auth.login" });
+  assert.deepEqual((await sent(page)).find((m) => m.type === "auth.login"), { type: "auth.login" });
   assert.equal(await page.evaluate(() => document.activeElement?.dataset.action), "start", "focus sur Télécharger");
   assert.deepEqual(errors, []);
   await page.close();
@@ -200,7 +209,8 @@ test("connecté + vidéo YouTube : carte, miniature sûre sans décalage, préf�
   // Préférences du compte (settings) : MP4 et 1080p présélectionnés ; débit masqué.
   assert.ok(await page.locator('input[name="fmt"][value="mp4"]').isChecked());
   assert.equal(await page.locator("#quality").inputValue(), "1080");
-  assert.equal(await text(page, 'label[for="quality"]'), "Qualité");
+  assert.equal(await text(page, ".tuile-select .field-label"), "Qualité");
+  assert.equal(await page.locator("#quality").getAttribute("aria-label"), "Qualité");
   assert.ok(await page.locator("#quality").isVisible());
   assert.equal(await page.locator("#bitrate").isVisible(), false);
   assert.equal(await page.locator("#quality option").allTextContents().then((t) => t.join(",")), "Auto,2160p,1440p,1080p,720p,480p,360p");
@@ -217,7 +227,8 @@ test("connecté + vidéo YouTube : carte, miniature sûre sans décalage, préf�
 
 test("3.5.1 : destination Premiere Pro — choix mémorisé, explication jusqu'au premier envoi, job.start avec dest ; Téléchargements inchangé", async () => {
   await ext.sw.evaluate(() => chrome.storage.sync.clear());
-  const { page, errors } = await popup({ responses: { "popup.init": init(), "job.start": ok(QUEUED) }, permissions: { grant: true, initiallyGranted: true } });
+  // Le travail de cette vidéo prend la place du bouton : une réponse « done » libère le formulaire pour le second envoi.
+  const { page, errors } = await popup({ responses: { "popup.init": init(), "job.start": ok({ ...DONE, dest: "premiere" }) }, permissions: { grant: true, initiallyGranted: true } });
   await waitText(page, "#conn-label", "Connecté");
   const sync = () => page.evaluate(async () => (await chrome.storage.sync.get("settings")).settings ?? {});
   assert.ok(await page.locator('input[name="dest"][value="downloads"]').isChecked(), "Téléchargements par défaut");
@@ -226,12 +237,14 @@ test("3.5.1 : destination Premiere Pro — choix mémorisé, explication jusqu'a
   assert.equal(await page.locator('#quality option[value="best"]').textContent(), "Auto");
   await page.locator('label.seg-opt:has(input[name="dest"][value="premiere"])').click();
   assert.ok(await page.locator('input[name="dest"][value="premiere"]').isChecked());
-  assert.equal(await text(page, "#dest-note span"), "Le fichier arrive dans AETHRYON Desktop et dans le panneau AETHRYON de Premiere, prêt à importer.");
-  assert.equal(await page.locator('#quality option[value="best"]').textContent(), "Auto (jusqu'à 1080p)");
+  // 3.8.1 : AETHRYON Desktop convertit et importe (texte changé par b0f407f ; l'essai était resté sur l'ancien : périmé).
+  assert.equal(await text(page, "#dest-note span"), "AETHRYON Desktop convertit la vidéo, l'enregistre dans sa bibliothèque et l'importe dans Premiere Pro.");
+  assert.equal(await page.locator('#quality option[value="best"]').textContent(), "Auto (≤ 1080p)");
+  assert.equal(await text(page, "[data-action=start] .btn-label"), "Importer dans Premiere Pro", "le bouton dit où va le fichier");
   await page.waitForFunction(async () => (await chrome.storage.sync.get("settings")).settings?.destination === "premiere");
   await audit(page, errors, "popup-premiere");
   await page.locator("[data-action=start]").click();
-  await waitText(page, ".job-status-text", "En file d'attente");
+  await waitText(page, ".job-status-text", "Importé dans Premiere Pro");
   assert.deepEqual(await lastStart(page), { type: "job.start", url: YT.url, fmt: "mp4", quality: "1080", title: YT.title, dest: "premiere" });
   await page.waitForFunction(async () => (await chrome.storage.sync.get("settings")).settings?.premiereHintSeen === true);
   assert.equal(await page.locator("#dest-note").isVisible(), true, "toujours lisible dans ce popup ; plus montrée au prochain");
@@ -260,7 +273,8 @@ test("3.5.2 : « Premiere Pro » demande DANS le geste le lien avec AETHRYON Des
   assert.deepEqual(c.permRequest[0].req, { permissions: ["nativeMessaging"] });
   assert.equal(c.permRequest[0].userActivation, true, "demande faite dans le geste de l'utilisateur");
   await page.locator("#dest-link").waitFor({ state: "visible" });
-  assert.equal(await text(page, "#dest-link-text"), `Pour suivre l'envoi dans AETHRYON Desktop, autorise le lien local${NB}; sans lui, le fichier arrive quand même dans Téléchargements › AETHRYON.`);
+  // 3.8.1 : texte changé par b0f407f (essai périmé jusqu'ici).
+  assert.equal(await text(page, "#dest-link-text"), `Pour envoyer vers Premiere Pro, autorise le lien local avec AETHRYON Desktop${NB}: c'est lui qui convertit et importe.`);
   assert.ok(await page.locator('input[name="dest"][value="premiere"]').isChecked(), "refus : la destination reste Premiere Pro");
   assert.equal(await page.locator(".form-error").first().textContent(), "", "aucune erreur affichée");
   await audit(page, errors, "popup-premiere-autoriser");
@@ -276,11 +290,13 @@ test("3.5.2 : « Premiere Pro » demande DANS le geste le lien avec AETHRYON Des
   await li.waitFor();
   assert.equal(await li.locator(".job-note").textContent(), "Installe AETHRYON Desktop pour suivre l'envoi");
   assert.equal(await li.locator(".job-status").getAttribute("data-tone"), "ok");
-  assert.equal(await li.locator(".job-status-text").textContent(), "Enregistré dans Téléchargements › AETHRYON");
+  assert.equal(await li.locator(".job-status-text").textContent(), "Importé dans Premiere Pro");
   await pushJob(ext, { ...DONE, key: "premiere-suivi-1", dest: "premiere", desktop: "suivi", updatedAt: NOW + 5 });
   await page.locator('li.job[data-key="premiere-suivi-1"]').waitFor();
   assert.equal(await page.locator('li.job[data-key="premiere-suivi-1"] .job-note').count(), 0, "suivi : aucune ligne de plus");
-  await audit(page, errors, "popup-premiere-desktop-absent");
+  // État chargé (explication du premier envoi vers Premiere Pro + deux envois terminés, chacun avec sa ligne « Installe
+  // AETHRYON Desktop ») : le popup peut défiler ici, l'action et le résultat restent en haut. Mesuré : 53 px.
+  await audit(page, errors, "popup-premiere-desktop-absent", { defile: true });
   await page.close();
   await ext.sw.evaluate(() => chrome.storage.sync.clear());
 });
@@ -288,10 +304,14 @@ test("3.5.2 : « Premiere Pro » demande DANS le geste le lien avec AETHRYON Des
 test("clavier seul : MP3 aux flèches, débit au clavier, Entrée sur Télécharger → job.start (bitrate seulement)", async () => {
   const { page } = await popup({ responses: { "popup.init": init(), "job.start": ok(job({ fmt: "mp3", quality: undefined, bitrate: 320 })) } });
   await waitText(page, "#conn-label", "Connecté");
+  await page.keyboard.press("Tab"); // Égide : Compte
+  await page.keyboard.press("Tab"); // Thème
   await page.keyboard.press("Tab"); // Réglages
-  await page.keyboard.press("Tab"); // V3 : groupe « Vidéo entière / Extrait » (Vidéo entière cochée)
+  await page.keyboard.press("Tab"); // groupe « Vidéo / Passage » (Vidéo cochée)
   let f = await focusInfo(page);
   assert.deepEqual([f.type, f.value], ["radio", "download"]);
+  await page.keyboard.press("Tab"); // outil rapide : Image
+  await page.keyboard.press("Tab"); // outil rapide : Miniature
   await page.keyboard.press("Tab"); // groupe Format (MP4 coché)
   f = await focusInfo(page);
   assert.equal(f.type, "radio");
@@ -301,7 +321,7 @@ test("clavier seul : MP3 aux flèches, débit au clavier, Entrée sur Téléchar
   assert.ok(await page.locator('input[name="fmt"][value="mp3"]').isChecked(), "MP3 choisi au clavier");
   assert.ok(await page.locator("#bitrate").isVisible());
   assert.equal(await page.locator("#quality").isVisible(), false);
-  assert.equal(await text(page, 'label[for="bitrate"]'), "Débit");
+  assert.equal(await text(page, ".tuile-select .field-label"), "Débit");
   assert.deepEqual(await page.locator("#bitrate option").allTextContents(), [`128${NB}kbit/s`, `192${NB}kbit/s`, `320${NB}kbit/s`]);
   await page.keyboard.press("Tab");
   f = await focusInfo(page);
@@ -327,29 +347,30 @@ test("clavier seul : ordre de tabulation logique, anneaux visibles partout, Rég
   const { page } = await popup({ responses: { "popup.init": init({ jobs: [DONE] }) } });
   await waitText(page, "#conn-label", "Connecté");
   const seen = [];
-  for (let i = 0; i < 11; i++) {
+  for (let i = 0; i < 15; i++) {
     await page.keyboard.press("Tab");
     const f = await focusInfo(page);
     assert.ok(f, `élément focalisé à l'étape ${i + 1}`);
     assert.ok(f.ring, `anneau visible : ${JSON.stringify(f)}`);
     seen.push(focusId(f));
   }
-  // V3 : vidéo entière ou extrait, puis les outils rapides (image, miniature) après « Télécharger ».
-  // 3.5.1 : la destination (Téléchargements | Premiere Pro) juste avant « Télécharger ».
-  assert.deepEqual(seen, ["open-settings", "radio:download", "radio:mp4", "quality", "radio:downloads", "start", "frame", "thumb", "show", "dismiss", "Tableau de bord (nouvel onglet)"]);
+  // Égide : barre (compte, thème, réglages), Vidéo / Passage et les outils rapides en icônes sur la même ligne, formats,
+  // qualité, destination ; le fichier prêt de cette vidéo (sceau) à la place du bouton avec ses actions (Afficher, Retirer,
+  // Nouveau), puis « Télécharger » encore, et le pied (Aide, Droits).
+  assert.deepEqual(seen, ["open-account", "open-theme", "open-settings", "radio:download", "frame", "thumb", "radio:mp4", "quality", "radio:downloads", "show", "dismiss", "hero-new", "start", "help-link", "rights-toggle"]);
   await page.keyboard.press("Shift+Tab");
-  assert.equal((await focusInfo(page)).action, "dismiss");
-  // Lumière focus : obsidienne sur ivoire (thème clair).
-  assert.equal((await focusInfo(page)).ringColor, "rgb(15, 15, 16)");
+  assert.equal((await focusInfo(page)).id, "help-link");
+  // Anneau de focus Égide (non personnalisable) : or clair sur Obsidian.
+  assert.equal((await focusInfo(page)).ringColor, "rgb(226, 197, 142)");
   // Réglages ouverts au clavier.
   await page.locator("#open-settings").focus();
   await page.keyboard.press("Enter");
   assert.equal((await calls(page)).options, 1);
-  // Thème sombre : anneau or.
-  await page.emulateMedia({ colorScheme: "dark" });
+  // Thème Ivory : anneau bronze.
+  await page.evaluate(() => document.documentElement.setAttribute("data-eg-theme", "ivory"));
   await page.locator("#open-settings").focus();
   await page.keyboard.press("Tab");
-  assert.equal((await focusInfo(page)).ringColor, "rgb(212, 175, 124)");
+  assert.equal((await focusInfo(page)).ringColor, "rgb(122, 95, 56)");
   await page.close();
 });
 
@@ -380,7 +401,10 @@ test("suivi en direct (vrais messages job.update du service worker) : 42 % → 6
   assert.equal(await bar.getAttribute("aria-valuemax"), "100");
   assert.ok(await has(page, "li.job [data-action=cancel]"));
   assert.equal(await savedShown(page), false);
-  assert.equal(await mood(page), "processing");
+  // Égide : le bouton est devenu la progression (le nœud « en cours », le fil), les choix se résument en une ligne.
+  assert.equal(await page.locator("#hero-slot li.job .eg-noeud[data-etat=cours]").count(), 1);
+  assert.equal(await page.locator("[data-action=start]").isVisible(), false);
+  assert.equal(await text(page, ".convert-summary"), "MP4 · 1080p → Téléchargements");
   assert.equal(await text(page, "#companion-line"), "Conversion en cours sur le serveur…");
   assert.equal(await page.locator("#companion-line").getAttribute("aria-live"), "polite");
   await audit(page, errors, "popup-conversion-42");
@@ -402,9 +426,10 @@ test("suivi en direct (vrais messages job.update du service worker) : 42 % → 6
   assert.equal(await has(page, "li.job [role=progressbar]"), false);
   assert.equal(await has(page, "li.job [data-action=cancel]"), false);
   assert.equal(await page.evaluate(() => document.activeElement?.dataset.action), "show", "le focus passe à « Afficher »");
+  // Égide : le sceau (chouette maître sur sa médaille) se frappe une fois, à la vraie fin ; le bouton revient.
   await waitMood(page, "success");
-  // clin d'œil (vrai mouvement des yeux) peu après la vraie fin
-  await page.waitForFunction(() => document.querySelector(".mascot-owl .owl-mark")?.dataset.blink === "true", null, { timeout: 3000 });
+  assert.equal(await page.locator("#hero-slot .eg-sceau.eg-sceau--frappe img.eg-chouette").count(), 1);
+  assert.equal(await page.locator("[data-action=start]").isVisible(), true);
   assert.equal(await text(page, "#companion-line"), "Fichier enregistré dans Téléchargements.");
   await page.locator("li.job [data-action=show]").click();
   assert.deepEqual((await calls(page)).downloads, [17]);
@@ -453,7 +478,8 @@ test("erreur réessayable : message, « Réessayer » (job.retry) ; erreur défi
   assert.equal(await final.locator("[data-action=retry]").count(), 0, "pas de « Réessayer » si l'erreur n'est pas réessayable");
   assert.equal(await final.locator(".job-title").textContent(), "x.com/aethryon_demo/status/1790637656616943991", "sans titre : lien lisible");
   assert.equal(await savedShown(page), false);
-  assert.equal(await mood(page), "error");
+  // Égide : le fil dit l'état par son nœud (anneau rouge), sans chouette dans une liste.
+  assert.equal(await page.locator("li.job .eg-noeud[data-etat=err]").count(), 2);
   assert.equal(await text(page, "#companion-line"), "Le dernier téléchargement a échoué.");
   await audit(page, errors, "popup-erreur");
 
@@ -486,13 +512,16 @@ test("action refusée par le service worker : message lisible dans la ligne du j
 });
 
 test("compte : quota, conversions en cours, liens du site (chrome.tabs.create), 5 entrées récentes avec états", async () => {
-  const { page } = await popup({ responses: { "popup.init": init() } });
+  const { page, errors } = await popup({ responses: { "popup.init": init() } });
   await waitText(page, "#conn-label", "Connecté");
+  // Égide : le compte est une vue ouverte depuis la barre (initiale), la vue principale reste à la vidéo.
+  await openView(page, "open-account");
+  assert.equal(await page.locator("#open-account").getAttribute("aria-pressed"), "true");
   assert.equal(await text(page, ".identity-name"), "Camille Martin");
   assert.equal(await text(page, ".identity-email"), "camille.martin@example.com");
   assert.equal(await text(page, "#quota-text"), "3 conversions restantes sur 10");
-  assert.ok(await has(page, ".meter"));
-  assert.match(await bodyText(page), /En cours sur le serveur\s+1 conversion/);
+  assert.ok(await has(page, ".account-quota .quota-ring"));
+  assert.match(await bodyText(page), /En cours sur le serveur\s*:\s*1 conversion/);
   assert.equal(await page.locator(".recent li").count(), 5, "5 entrées au plus");
   assert.deepEqual(await page.locator(".recent .badge").allTextContents(), ["En cours", "Terminée", "Échec", "Terminée", "Non démarrée"]);
   // Historique : pictogrammes neutres v3 (« x » du serveur = X), aucun pour une source inconnue ; jamais de logo de marque.
@@ -505,18 +534,25 @@ test("compte : quota, conversions en cours, liens du site (chrome.tabs.create), 
   await page.getByRole("link", { name: "Aide (nouvel onglet)" }).click();
   assert.deepEqual((await calls(page)).tabs, [`${SITE}/dashboard`, `${SITE}/dashboard/activite`, `${SITE}/aide`]);
   assert.equal(page.url().startsWith("chrome-extension://"), true, "le popup ne navigue pas");
+  await audit(page, errors, "popup-compte");
+  // Retour : la vue principale, focus rendu au bouton du compte.
+  await page.locator("[data-action=back]").click();
+  await page.waitForSelector("#media");
+  assert.equal(await page.evaluate(() => document.activeElement?.id), "open-account");
   await page.close();
 });
 
 test("quota illimité et infos du compte non actualisées", async () => {
   const { page, errors } = await popup({ responses: { "popup.init": init({ account: UNLIMITED, jobs: [DONE] }) } });
   await waitText(page, "#conn-label", "Connecté");
+  assert.equal(await text(page, "#quota-ring b"), "∞", "anneau illimité dans la barre");
+  await openView(page, "open-account");
   assert.equal(await text(page, "#quota-text"), "Illimité aucune limite quotidienne");
   assert.equal(await has(page, ".meter"), false, "pas de jauge sans limite");
   assert.equal(await has(page, "#quota-reset"), false);
   assert.equal(await text(page, ".identity-name"), "admin@example.com");
   assert.equal(await text(page, ".account .note"), "Infos du compte non actualisées");
-  assert.match(await bodyText(page), /En cours sur le serveur\s+Aucune conversion/);
+  assert.match(await bodyText(page), /En cours sur le serveur\s*:\s*aucune conversion/);
   await audit(page, errors, "popup-illimite", { full: true });
   await page.close();
 });
@@ -524,6 +560,7 @@ test("quota illimité et infos du compte non actualisées", async () => {
 test("déconnexion : confirmation en ligne, Échap annule, confirmation → auth.logout puis écran de connexion", async () => {
   const { page } = await popup({ responses: { "popup.init": [init(), init({ account: DISCONNECTED })], "auth.logout": ok(null) } });
   await waitText(page, "#conn-label", "Connecté");
+  await openView(page, "open-account");
   await page.locator("[data-action=logout]").click();
   await page.waitForSelector(".confirm");
   assert.equal(await text(page, "#logout-q"), `Se déconnecter de ce navigateur${NB}?`);
@@ -546,9 +583,9 @@ test("aucune vidéo sur l'onglet (état B) : indication de la page, illustration
   const hint = "Sur le fil X, utilise le bouton AETHRYON sous la publication qui contient la vidéo.";
   const { page, errors } = await popup({ responses: { "popup.init": init({ detected: null, pageHint: hint }) } });
   await waitText(page, "#conn-label", "Connecté");
-  assert.equal(await text(page, ".empty-title"), "Aucune vidéo détectée");
+  assert.equal(await text(page, ".empty-title"), "Aucune vidéo ici");
   assert.equal(await text(page, ".empty-text"), hint);
-  assert.ok(await has(page, ".empty-art"));
+  assert.ok(await has(page, ".empty .p-chouette .eg-medaille img.eg-chouette"), "état vide : la médaille (chouette maître)");
   assert.equal(await page.locator("[data-action=start]").count(), 0, "rien à télécharger : pas de bouton inactif");
   assert.ok(await page.locator("#paste-url").isVisible(), "V3 : coller le lien d'une vidéo");
   assert.equal(await text(page, "#companion-line"), "Aucun téléchargement pour l'instant.");
@@ -557,7 +594,7 @@ test("aucune vidéo sur l'onglet (état B) : indication de la page, illustration
 
   // Sans indication : texte générique.
   const p2 = await popup({ responses: { "popup.init": init({ detected: null }) } });
-  await waitText(p2.page, ".empty-text", "Ouvre une vidéo YouTube, TikTok ou X dans cet onglet");
+  await waitText(p2.page, ".empty-text", "Ouvre une vidéo YouTube, TikTok ou X, ou colle un lien.");
   await p2.page.close();
 });
 
@@ -589,18 +626,21 @@ test("service worker injoignable : message honnête et « Réessayer » qui rech
   await page.close();
 });
 
-test("mouvement réduit : la mascotte change d'état sans aucune animation (ni respiration, ni clin d'œil, ni regard)", async () => {
+test("mouvement réduit : la chouette ne bouge jamais ; le sceau apparaît sans déplacement, le fil saute sans glisser", async () => {
   const { page } = await popup({ responses: { "popup.init": init({ jobs: [DOWNLOADING] }) } }, { reducedMotion: "reduce" });
-  await waitMood(page, "processing");
+  await page.waitForSelector("#hero-slot li.job .progress");
+  const fil = await page.evaluate(() => getComputedStyle(document.querySelector(".progress-fill")).transitionDuration);
+  assert.equal(fil, "0s", "progression par sauts");
   await pushJob(ext, DONE);
   await waitMood(page, "success");
-  await page.waitForTimeout(1200); // le clin d'œil aurait lieu à 650 ms
-  const motion = await page.evaluate(() => {
-    const m = document.querySelector(".mascot-owl-motion");
-    const eyes = document.querySelector(".mascot-owl .owl-eyes");
-    return { animation: getComputedStyle(m).animationName, eyes: getComputedStyle(eyes).animationName, blink: document.querySelector(".mascot-owl .owl-mark")?.dataset.blink ?? null, translate: eyes.style.translate };
+  const sceau = await page.evaluate(() => {
+    const s = document.querySelector(".eg-sceau");
+    const img = s.querySelector("img.eg-chouette");
+    return { move: getComputedStyle(document.documentElement).getPropertyValue("--eg-move").trim(), imgAnim: getComputedStyle(img).animationName, imgTransform: getComputedStyle(img).transform };
   });
-  assert.deepEqual(motion, { animation: "none", eyes: "none", blink: null, translate: "" });
+  assert.equal(sceau.move, "0", "aucun déplacement (frappe sans échelle ni rotation)");
+  assert.equal(sceau.imgAnim, "none", "la chouette elle-même n'est jamais animée");
+  assert.equal(sceau.imgTransform, "none");
   await page.close();
 });
 
@@ -633,10 +673,14 @@ test("réglages : rendu des 8 sections, valeurs par défaut, accessibilité clai
   await page.setViewportSize({ width: 760, height: 900 });
   await waitText(page, "#account-body", "Camille Martin");
   const titles = await page.locator("h2.group-title").allTextContents();
-  assert.deepEqual(titles, ["Boutons dans les sites", "Format par défaut", "Envoyer vers", "Qualité MP4", "Débit MP3", "Extraits et outils rapides", "Panneau flottant", "Notifications", "Compte", "Données et confidentialité"]);
+  assert.deepEqual(titles, ["Apparence", "Boutons dans les sites", "Format par défaut", "Envoyer vers", "Qualité MP4", "Débit MP3", "Extraits et outils rapides", "Panneau flottant", "Notifications", "Compte", "Données et confidentialité"]);
   // 3.5.1 : destination, Téléchargements par défaut ; Premiere Pro expliqué (dossier, format).
   assert.ok(await page.locator('input[name="destination"][value="downloads"]').isChecked());
-  assert.match(await text(page, "#d-dest"), /Téléchargements › AETHRYON/);
+  // 3.8.1 : AETHRYON Desktop convertit et importe (essai périmé jusqu'ici : il attendait le texte de la 3.5).
+  assert.match(await text(page, "#d-dest"), /AETHRYON Desktop convertit la vidéo/);
+  // Égide : les six thèmes, Obsidian choisi par défaut ; l'éditeur se monte à la demande.
+  assert.deepEqual(await page.locator("#themes input[name=theme]").evaluateAll((l) => l.map((i) => `${i.value}${i.checked ? "*" : ""}`)), ["obsidian*", "ivory", "oled", "midnight", "minimal", "custom"]);
+  assert.equal(await page.locator("#editor-host").innerHTML(), "");
   assert.equal(await page.locator("h1").textContent(), "Réglages");
   assert.ok(await page.locator("#inline-buttons").isChecked());
   for (const p of ["youtube", "tiktok", "twitter"]) assert.ok(await page.locator(`#pf-${p}`).isChecked());
@@ -693,7 +737,7 @@ test("réglages : chaque changement est enregistré aussitôt (storage.sync) ave
   assert.equal((await stored(page)).destination, "premiere");
   await page.waitForFunction(() => window.__calls.permRequest.some((r) => r.req.permissions?.[0] === "nativeMessaging" && r.userActivation === true));
   await page.locator("#dest-link-row").waitFor({ state: "visible" });
-  assert.match(await text(page, "#d-dest-link"), /^Pour suivre l'envoi dans AETHRYON Desktop, autorise le lien local/);
+  assert.match(await text(page, "#d-dest-link"), /^Pour envoyer vers Premiere Pro, autorise le lien local avec AETHRYON Desktop/);
   assert.equal(await page.locator("#dest-allow").isVisible(), true);
   await clearSaved(page);
   await page.locator(".seg-dest .seg-opt", { hasText: "Téléchargements" }).click();
@@ -800,14 +844,14 @@ test("réglages au clavier : interrupteurs à la barre d'espace, ordre logique, 
   const { page } = await options(OPT());
   await waitText(page, "#account-body", "Camille Martin");
   const seen = [];
-  for (let i = 0; i < 19; i++) {
+  for (let i = 0; i < 21; i++) {
     await page.keyboard.press("Tab");
     const f = await focusInfo(page);
     assert.ok(f?.ring, `anneau visible : ${JSON.stringify(f)}`);
     seen.push(focusId(f));
   }
-  // V3 : durée et placement de l'extrait (groupes radio), outils rapides dans les pages ; 3.5.1 : destination.
-  assert.deepEqual(seen, ["inline-buttons", "pf-youtube", "pf-tiktok", "pf-twitter", "radio:mp4", "radio:downloads", "quality", "bitrate", "radio:30", "radio:after", "page-tools", "floating-panel", "panel-reset", "notifications", "logout", "keys-link", "consent-withdraw", "privacy-link", "help-link"]);
+  // Égide : l'apparence d'abord (groupe des six thèmes, éditeur) ; V3 : durée et placement de l'extrait ; 3.5.1 : destination.
+  assert.deepEqual(seen, ["radio:obsidian", "editor-toggle", "inline-buttons", "pf-youtube", "pf-tiktok", "pf-twitter", "radio:mp4", "radio:downloads", "quality", "bitrate", "radio:30", "radio:after", "page-tools", "floating-panel", "panel-reset", "notifications", "logout", "keys-link", "consent-withdraw", "privacy-link", "help-link"]);
   // Interrupteur au clavier : focus sur le premier, Espace → enregistré.
   await page.locator("#inline-buttons").focus();
   await page.keyboard.press("Space");
@@ -830,7 +874,7 @@ test("déconnecté par le serveur : motif exact (administrateur, expiration, « 
     const login = page.locator("[data-action=login]");
     assert.equal(await login.getAttribute("aria-describedby"), "auth-notice", "motif lu au focus du bouton");
     assert.ok(await login.isEnabled());
-    assert.ok(await page.locator("[data-action=start]").isDisabled());
+    assert.equal(await page.locator("[data-action=start]").count(), 0, "rien à télécharger avant la reconnexion");
     assert.equal(await mood(page), "curious");
     if (notice === LOST_ADMIN) {
       await audit(page, errors, name);
@@ -914,12 +958,13 @@ test("densité 1x (écran standard) : popup connecté, motif de déconnexion, co
 });
 
 test("quota visible sans défiler : restant / limite et heure de remise à zéro EN HAUT ; quota atteint → téléchargement désactivé et expliqué ; illimité ; hors ligne : jamais bloqué", async () => {
-  // 3 restantes sur 10 : bandeau en haut du popup, bien au-dessus de la ligne de flottaison (popup de 600 px)
+  // 3 restantes sur 10 : Égide, l'anneau de la barre (en haut, toujours visible), et sa phrase pour les lecteurs d'écran.
   let { page, errors } = await popup({ responses: { "popup.init": init() } });
   await waitText(page, "#quota-text", "3 conversions restantes sur 10");
-  const box = await page.locator("#quota").boundingBox();
-  assert.ok(box && box.y < 80 && box.y + box.height < 200, `bandeau du quota en haut (${JSON.stringify(box)})`);
-  assert.equal(await text(page, ".strip-num"), "3");
+  const box = await page.locator("#quota-ring").boundingBox();
+  assert.ok(box && box.y < 48 && box.height >= 28, `anneau du quota dans la barre (${JSON.stringify(box)})`);
+  assert.equal(await text(page, "#quota-ring b"), "3");
+  assert.equal(await page.locator("#quota-ring").getAttribute("aria-label"), "3 conversions restantes sur 10 aujourd'hui. Remise à zéro à 00:00.");
   assert.equal(await text(page, "#quota-reset"), "Remise à zéro à 00:00");
   assert.ok(await page.locator("[data-action=start]").isEnabled());
   await page.close();
@@ -953,8 +998,8 @@ test("statut honnête : publique depuis le 2026-10-18 (plus de « bêta ») ; bu
   assert.doesNotMatch(await bodyText(page), /publiée?|Chrome Web Store/i);
   await page.close();
   const m = JSON.parse(readFileSync(join(DIST, "manifest.json"), "utf8"));
-  assert.equal(m.version_name, "3.8.1 (préproduction)");
-  assert.equal(m.version, "3.8.1");
+  assert.equal(m.version_name, "3.9.0 (préproduction)");
+  assert.equal(m.version, "3.9.0");
   assert.doesNotMatch(readFileSync(join(DIST, "popup", "popup.js"), "utf8"), /bêta/);
 });
 
@@ -966,8 +1011,8 @@ test("notice pas encore acceptée : carte « Bienvenue », connexion et téléch
   await waitText(page, "#hero-title", "Bienvenue");
   assert.equal(await text(page, "#conn-label"), "Non connecté");
   assert.equal(await page.locator("[data-action=login]").count(), 0, "pas de connexion avant l'accord");
-  assert.ok(await page.locator("[data-action=start]").isDisabled());
-  assert.equal(await text(page, "#convert-hint"), `Accepte d'abord la notice sur les données${NB}: rien n'est envoyé avant.`);
+  assert.equal(await page.locator("[data-action=start]").count(), 0, "rien à télécharger avant l'accord");
+  assert.equal(await text(page, ".hero-text"), `Lis ce que l'extension fait de tes données, puis accepte${NB}: rien ne part avant.`);
   assert.equal(await page.locator("#jobs").isVisible(), false);
   assert.match(await text(page, "#rights"), /installation hors store ne change rien aux conditions de YouTube, TikTok et X/);
   // Rien ne part avant l'accord, pas même la miniature (serveurs d'images des plateformes) : pictogramme seul.
@@ -1101,8 +1146,9 @@ test("accueil : installation confirmée (version réelle), épinglage lu dans Ch
     },
   });
   await waitText(page, "#w-title", "L'extension AETHRYON est installée");
-  assert.match(await text(page, "#w-lead"), /^Version 3\.8\.0, chargée par ton navigateur\./);
-  assert.equal(await text(page, "#w-version"), "Version 3.8.1 · préproduction");
+  // Version du manifeste (essai périmé avant le lot 3 : il attendait encore la 3.8.0 après la 3.8.1).
+  assert.match(await text(page, "#w-lead"), /^Version 3\.9\.0, chargée par ton navigateur\./);
+  assert.equal(await text(page, "#w-version"), "Version 3.9.0 · préproduction");
   assert.equal(await page.locator("#epingler").getAttribute("data-state"), "current");
   await waitText(page, "#pin-status", "pas encore épinglée");
   // notice : la même que les réglages, et le rappel des droits
@@ -1179,9 +1225,9 @@ test("réglages : notice non acceptée → compte verrouillé ; accord retiré a
   await r.page.close();
 });
 
-test("fenêtre étroite (320 et 400 px) : réglages et accueil sans débordement, cibles ≥ 24 px, axe clair et sombre, aucune violation CSP ; popup toujours 380 px", async () => {
+test("fenêtre étroite (320 et 400 px) : réglages et accueil sans débordement, cibles ≥ 24 px, axe Obsidian et Ivory, aucune violation CSP ; popup toujours 360 px", async () => {
   // Les réglages et l'accueil s'ouvrent dans un onglet : ils doivent tenir dans une fenêtre réduite. Le popup, lui,
-  // a une largeur fixe de 380 px (Chrome dimensionne sa fenêtre sur son contenu) : vérifié par audit() partout.
+  // a une largeur fixe de 360 px (Égide ; Chrome dimensionne sa fenêtre sur son contenu) : vérifié par audit() partout.
   for (const width of [320, 400]) {
     const o = await openPage(ext, "options/options.html", OPT());
     await o.page.setViewportSize({ width, height: 900 });

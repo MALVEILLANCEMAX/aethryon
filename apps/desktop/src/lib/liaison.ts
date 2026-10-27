@@ -44,7 +44,7 @@ export function liaison(i: Instantane): Liaison {
   }
   if (!p) {
     if (i.plateforme !== "windows") return { statut: "inconnu", version: null, titre: "Non vérifiable", detail: "Détection possible sous Windows seulement", relie: false };
-    return { statut: "introuvable", version: null, titre: "Premiere Pro introuvable", detail: "Installez Premiere Pro 25.6 ou plus récent", relie: false };
+    return { statut: "introuvable", version: null, titre: "Premiere Pro introuvable", detail: "Installe Premiere Pro 25.6 ou plus récent", relie: false };
   }
   if (p.compatible === false) {
     return { statut: "incompatible", version, titre: "Version trop ancienne", detail: "Le panneau demande Premiere Pro 25.6 ou plus récent", relie: false };
@@ -52,7 +52,7 @@ export function liaison(i: Instantane): Liaison {
   if (!panneauInstalle) {
     return { statut: "panneau-absent", version, titre: "Panneau non installé", detail: "« Réparer avec AETHRYON Setup » l'installe", relie: false };
   }
-  return { statut: "panneau-ferme", version, titre: "Panneau fermé", detail: "Ouvrez Premiere Pro, puis le panneau AETHRYON", relie: false };
+  return { statut: "panneau-ferme", version, titre: "Panneau fermé", detail: "Ouvre Premiere Pro, puis le panneau AETHRYON", relie: false };
 }
 
 export interface Activite {

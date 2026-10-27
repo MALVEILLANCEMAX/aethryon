@@ -1,172 +1,106 @@
-/* AETHRYON — page de réglages (onglet). Le système de marque (jetons, polices, boutons, contrôles,
-   badges, tête maître, mascotte, mouvement réduit) vient du popup : une seule source. Ici : mise en page,
-   interrupteurs et notice sur les données. */
-@import url("../popup/popup.css");
+/* AETHRYON — page de réglages (onglet), en Égide (3.9.0). Feuilles liées avant celle-ci : egide/genere/egide.css (jetons,
+   six thèmes, polices, composants, éditeur de thèmes) et egide/extension.css (boutons, segments, interrupteurs…). Ici :
+   mise en page, lignes de réglage, apparence, notice sur les données. Marges ≥ 16 px à toute largeur. */
 
 html.options { scroll-padding-top: 80px; }
-.options body { font-size: 15px; line-height: 1.55; }
 
 /* En-tête */
-.opt-bar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 95%, transparent);
-  backdrop-filter: saturate(1.4) blur(16px);
-}
-.opt-bar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  max-width: 720px;
-  min-height: 60px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
+.opt-bar { position: sticky; top: 0; z-index: 10; border-bottom: var(--eg-b-fine) solid var(--eg-c-line); background: var(--eg-c-surface); }
+.opt-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 760px; min-height: 60px; margin: 0 auto; padding: 0 max(16px, 3vw); }
 .options .brand { display: flex; align-items: center; margin: 0; }
+.options .brand .eg-chouette { width: 26px; height: 26px; }
 
 /* « Enregistré » : discret, n'apparaît qu'après un changement. */
 .save-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 30px;
-  margin: 0;
-  padding: 0 12px;
-  border-radius: var(--radius-control);
-  background: var(--ok-bg);
-  color: var(--ok);
-  font-size: 13px;
-  font-weight: 600;
-  opacity: 0;
-  transform: translateY(-3px);
-  transition: opacity var(--dur-comp) var(--ease-soft), transform var(--dur-comp) var(--ease-soft);
+  display: inline-flex; align-items: center; gap: 6px; min-height: 30px; margin: 0; padding: 0 12px; border-radius: var(--eg-r-control);
+  background: var(--eg-c-surface); border: var(--eg-b-fine) solid var(--eg-c-ok); color: var(--eg-c-ok); font-size: var(--eg-fs-xs); font-weight: 600;
+  opacity: 0; transform: translateY(calc(-3px * var(--eg-move)));
+  transition: opacity var(--eg-d-court) var(--eg-e-out), transform var(--eg-d-court) var(--eg-e-out);
 }
 .save-status[data-show="true"] { opacity: 1; transform: none; }
-.save-status[data-tone="bad"] { background: var(--bad-bg); color: var(--bad); }
+.save-status[data-tone="bad"] { background: var(--eg-c-err-soft); border-color: var(--eg-c-err); color: var(--eg-c-err); }
 .save-status:empty { padding: 0; }
 
 /* Contenu */
-.opt-main { max-width: 720px; margin: 0 auto; padding: 36px 24px 8px; }
-.opt-intro { margin-bottom: 30px; }
-.opt-intro .display { margin: 0; font-size: 40px; }
-.lead { max-width: 52ch; margin: 10px 0 0; color: var(--ink-soft); font-size: 16px; }
+.opt-main { max-width: 760px; margin: 0 auto; padding: 36px max(16px, 3vw) 8px; }
+.opt-intro { margin-bottom: 28px; }
+.opt-intro .display { font-size: var(--eg-fs-d-m); }
+.lead { max-width: 52ch; margin-top: 10px; color: var(--eg-c-text-2); font-size: var(--eg-fs-m); }
 
-.group { margin-top: 26px; }
-.group-title {
-  margin: 0 0 10px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
+.group { margin-top: 28px; }
+.group-title { margin: 0 0 10px 4px; font-family: var(--eg-f-display); font-weight: var(--eg-f-display-w); letter-spacing: var(--eg-f-display-ls); font-size: var(--eg-fs-l); color: var(--eg-c-text); }
 .rows { padding: 4px 0; }
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  min-height: 60px;
-  padding: 14px 20px;
-}
-.row + .row { border-top: 1px solid var(--line); }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 60px; padding: 14px 20px; }
+.row + .row { border-top: var(--eg-b-fine) solid var(--eg-c-line); }
 .row-block { display: block; }
 .row-text { flex: 1; min-width: 0; }
-.row-label { display: block; margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
-.row-desc { margin: 3px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+.row-label { display: block; font-size: var(--eg-fs-m); font-weight: 600; color: var(--eg-c-text); }
+.row-desc { margin-top: 3px; font-size: var(--eg-fs-s); color: var(--eg-c-text-2); }
 p.row-desc.row-text { margin: 0; }
 .row-sub { min-height: 52px; padding-top: 10px; padding-bottom: 10px; }
 .row-sub .row-label { flex: 1; font-weight: 500; }
-.pf-icon { display: inline-grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: 9px; background: var(--bg); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
-.row-sub:has(.switch:disabled) .row-label, .row-sub:has(.switch:disabled) .pf-icon { opacity: 0.55; }
-.row-foot { margin: 0; padding: 4px 20px 14px; font-size: 13px; color: var(--muted); }
+.pf-icon { display: inline-grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: var(--eg-r-control); background: var(--eg-c-raised); color: var(--eg-c-text); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+.row-sub:has(.switch:disabled) .row-label { color: var(--eg-c-text-3); }
+.row-foot { padding: 4px 20px 14px; font-size: var(--eg-fs-xs); color: var(--eg-c-text-2); }
 .row-foot:empty { display: none; }
-.row-foot[data-tone="bad"] { color: var(--bad); font-weight: 500; }
+.row-foot[data-tone="bad"] { color: var(--eg-c-err); font-weight: 600; }
 .seg-fixed { flex: none; width: 250px; }
-.seg-fixed.seg-dest { width: 300px; }
+.seg-fixed.seg-dest { width: 310px; }
 .select-fixed { flex: none; width: 190px; }
 
-/* Interrupteur (case à cocher native, rôle « switch ») */
-.switch {
-  position: relative;
-  flex: none;
-  width: 46px;
-  height: 28px;
-  margin: 0;
-  border-radius: var(--radius-control);
-  background: var(--surface-2);
-  box-shadow: inset 0 0 0 1px var(--field);
-  appearance: none;
-  cursor: pointer;
-  transition: background-color var(--dur-micro) var(--ease-soft), box-shadow var(--dur-micro) var(--ease-soft);
-}
-.switch::before {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--switch-thumb);
-  box-shadow: var(--switch-thumb-shadow);
-  transition: transform var(--dur-micro) var(--ease-soft), background-color var(--dur-micro) ease;
-}
-.switch:checked { background: var(--primary-bg); box-shadow: none; }
-.switch:checked::before { transform: translateX(18px); background: var(--primary-fg); }
-.switch:disabled { cursor: not-allowed; opacity: 0.45; }
-.switch[aria-busy="true"] { cursor: progress; }
-@media (prefers-color-scheme: dark) {
-  .switch::before { background: var(--ink-soft); }
-  .switch:checked::before { background: var(--primary-fg); }
-}
+/* Apparence : les six thèmes, puis l'éditeur (aperçu immédiat, 27 contrastes, import et export validés) */
+.themes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 16px 20px; border: 0; }
+.theme-opt { position: relative; display: grid; cursor: pointer; }
+.theme-opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.theme-card { display: grid; gap: 8px; padding: 10px; border-radius: var(--eg-r-control); border: var(--eg-b-fine) solid var(--eg-c-line-strong); background: var(--eg-c-raised); transition: border-color var(--eg-d-court) ease, transform var(--eg-d-micro) var(--eg-e-out); }
+.theme-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; height: 64px; border-radius: max(calc(var(--eg-r-control) - 2px), 2px); background: var(--eg-c-canvas); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+.theme-preview i { border-radius: 4px; background: var(--eg-c-surface); }
+.theme-preview i:nth-child(2) { background: var(--eg-c-accent); }
+.theme-preview i:nth-child(3) { grid-column: 1 / -1; background: var(--eg-c-thread); height: 3px; align-self: end; }
+.theme-name { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-weight: 600; font-size: var(--eg-fs-s); color: var(--eg-c-text); }
+.theme-opt .tick { color: var(--eg-c-accent-text); opacity: 0; transition: opacity var(--eg-d-court) ease; }
+.theme-opt input:checked + .theme-card { border-color: var(--eg-c-accent-text); box-shadow: inset 0 0 0 .5px var(--eg-c-accent-text); }
+.theme-opt input:checked + .theme-card .tick { opacity: 1; }
+.theme-opt input:focus-visible + .theme-card { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
+.theme-opt input:active + .theme-card { transform: scale(calc(1 - .02 * var(--eg-move))); }
+@media (hover: hover) and (pointer: fine) { .theme-opt input:not(:checked):hover + .theme-card { border-color: var(--eg-c-text-3); } }
+.editor-toggle { margin: 0 20px 16px; }
+.editor-host { padding: 0 20px 20px; }
+.editor-host:empty { display: none; }
 
 /* Compte */
 #account-body { display: grid; gap: 14px; }
 .account-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
-.account-quota { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+.account-quota { font-size: var(--eg-fs-s); color: var(--eg-c-text-2); }
 .options .logout { margin: 0; }
 .options .login { max-width: 360px; }
-.options .note { margin: 0; }
-.link-icon { display: inline-flex; }
 
 /* Données et confidentialité : la même notice que la page d'accueil (src/shared/consent.ts) */
 .prose { display: grid; gap: 14px; padding: 16px 20px; }
-.facts { display: grid; gap: 4px 0; margin: 0; }
-.facts dt { position: relative; margin-top: 8px; padding-left: 18px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.facts { display: grid; gap: 4px 0; }
+.facts dt { position: relative; margin-top: 8px; padding-left: 18px; font-size: var(--eg-fs-s); font-weight: 650; color: var(--eg-c-text); }
 .facts dt:first-child { margin-top: 0; }
-.facts dt::before {
-  content: "";
-  position: absolute;
-  top: 0.5em;
-  left: 2px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold);
-}
-.facts dd { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
-.rights { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--badge-gold-bg); color: var(--ink); font-size: 13.5px; }
+.facts dt::before { content: ""; position: absolute; top: .5em; left: 2px; width: 7px; height: 7px; border-radius: 50%; background: var(--eg-c-thread); }
+.facts dd { margin: 0; padding-left: 18px; font-size: var(--eg-fs-s); color: var(--eg-c-text-2); }
+.rights { padding: 10px 12px; border-radius: var(--eg-r-control); background: var(--eg-c-accent-soft); color: var(--eg-c-text); font-size: var(--eg-fs-s); }
 .consent-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .consent-actions .confirm { width: 100%; }
 .prose .row-desc { margin: 0; }
 
 /* Pied */
-.opt-foot { max-width: 720px; margin: 0 auto; padding: 28px 24px 40px; text-align: center; font-size: 13px; color: var(--muted); }
-.opt-foot p { margin: 0; }
+.opt-foot { max-width: 760px; margin: 0 auto; padding: 28px max(16px, 3vw) 40px; text-align: center; font-size: var(--eg-fs-xs); color: var(--eg-c-text-2); }
 .opt-foot p + p { margin-top: 4px; }
 .opt-foot .sep { margin: 0 8px; }
-.opt-foot .link { display: inline-flex; align-items: center; min-height: 32px; color: var(--ink-soft); }
+.opt-foot .link { display: inline-flex; align-items: center; min-height: 32px; color: var(--eg-c-text-2); }
 
 @media (max-width: 560px) {
   .opt-main { padding: 24px 16px 8px; }
   .opt-bar-inner { padding: 0 16px; }
-  .opt-intro .display { font-size: 32px; }
   .row { flex-wrap: wrap; padding: 14px 16px; }
   .row-sub { flex-wrap: nowrap; }
   .seg-fixed, .select-fixed, .seg-fixed.seg-dest { width: 100%; }
   .row-foot { padding: 4px 16px 14px; }
+  .themes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 14px 16px; }
+  .editor-toggle { margin: 0 16px 14px; }
+  .editor-host { padding: 0 16px 16px; }
 }

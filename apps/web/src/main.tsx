@@ -8,6 +8,14 @@ import { installPrefetch, preloadRoute, routes } from "./routes.tsx";
 import { captureFold, setStaticBoot } from "./lib/prerender.ts";
 import { watchVersion } from "./lib/version.ts";
 import "./styles.css";
+// Égide : jetons --eg-* des six thèmes, polices OFL, composants .eg-* (tout le site les lit depuis le lot 1 : styles.css
+// pose les familles et les couleurs Tailwind sur ces jetons). APRÈS styles.css : l'ordre
+// des couches de Tailwind 4 (properties, theme, base, components, utilities) reste celui qu'il déclare ; les règles
+// Égide s'y rangent (toutes dans des couches : les utilitaires du site gardent le dernier mot).
+import "./egide/genere/egide.css";
+// Lot 1 : la mise en page Égide du site (accueil, en-tête, pied, espace, Control Center), APRÈS le socle : à spécificité
+// égale, l'agencement du site l'emporte sur les composants du socle (même couche « components »).
+import "./egide-site.css";
 
 const container = document.getElementById("root")!;
 // Page publique pré-rendue (scripts/prerender.mjs) : son vrai contenu est déjà affiché. L'application le

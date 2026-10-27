@@ -8,7 +8,7 @@ import { dossierAmical, taille, typo } from "../lib/format";
 import { versionCourte } from "../lib/liaison";
 import type { Diagnostic, Etape, EtatEtape, Instantane, OptionsAssistant, Rapport } from "../lib/types";
 import { Bouton, Fil, Icone, IconeEtat, Interrupteur, Pastille, Segmente } from "../ui/base";
-import { Chouette } from "../ui/marque";
+import { Chouette, MedailleChouette, SceauChouette, VeilleChouette } from "../ui/marque";
 import { Dialogue, useToast } from "../ui/superpositions";
 import { BoutonsLegende } from "../shell/Fenetre";
 import { LICENCES } from "../lib/licences";
@@ -182,11 +182,11 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
         <div className="arch" />
         {barre}
         <div className="inst-body inst-body--centre">
-          <div className="revele" style={{ animationDelay: "0ms" }}><Chouette taille={112} vivante /></div>
+          <div className="revele" style={{ animationDelay: "0ms" }}><MedailleChouette taille={96} /></div>
           <h1 className="t-display-xl revele" style={{ marginTop: 34, animationDelay: "120ms" }}>Bienvenue dans AETHRYON</h1>
-          <p className="t-lead c2 revele" style={{ marginTop: 12, animationDelay: "220ms" }}>Vos médias. Votre espace de création.</p>
+          <p className="t-lead c2 revele" style={{ marginTop: 12, animationDelay: "220ms" }}>Tes médias. Ton espace de création.</p>
           <div className="revele" style={{ marginTop: 34, animationDelay: "320ms" }}>
-            <Bouton variante="primary" taille="lg" className="btn--reflet" style={{ minWidth: 184 }} onClick={() => setEcran("detection")}>Commencer</Bouton>
+            <Bouton variante="primary" taille="lg" style={{ minWidth: 184 }} onClick={() => setEcran("detection")}>Commencer</Bouton>
           </div>
         </div>
         <div className="inst-foot inst-foot--bare">
@@ -196,7 +196,7 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
         </div>
         {licence && (
           <Dialogue titre="Licence et confidentialité" large onFermer={() => setLicence(false)} actions={<Bouton variante="primary" onClick={() => setLicence(false)}>Fermer</Bouton>}>
-            <p>{typo("AETHRYON Desktop travaille sur ce PC : aucun compte, aucun envoi de données. Les journaux restent dans votre profil Windows, sans secret. Le panneau Premiere Pro et AETHRYON Desktop échangent par des fichiers locaux, sans port réseau.")}</p>
+            <p>{typo("AETHRYON Desktop travaille sur ce PC : aucun compte, aucun envoi de données. Les journaux restent dans ton profil Windows, sans secret. Le panneau Premiere Pro et AETHRYON Desktop échangent par des fichiers locaux, sans port réseau.")}</p>
             <p className="t-small c2" style={{ marginTop: 10 }}>{typo("Version bêta personnelle, non signée : Windows peut afficher un avertissement SmartScreen à l'ouverture de l'installateur.")}</p>
             <dl className="licences" style={{ marginTop: 14 }}>{LICENCES.map(([n, l]) => <div key={n}><dt>{n}</dt><dd>{typo(l)}</dd></div>)}</dl>
           </Dialogue>
@@ -244,7 +244,7 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
               </div>
               <div className="row"><span className="tile"><Icone nom="download" taille={18} /></span>
                 <div className="grow"><div className="rt">Creative Cloud Desktop {cc ? <Pastille etat="ok" libelle="Présent" /> : <Pastille etat="missing" libelle="Introuvable" />}</div>
-                  <div className="rd">{cc ? "Vous pouvez y installer ou mettre à jour Premiere Pro." : "Utile pour installer Premiere Pro ; le panneau AETHRYON n'en dépend pas."}</div>
+                  <div className="rd">{cc ? "Tu peux y installer ou mettre à jour Premiere Pro." : "Utile pour installer Premiere Pro ; le panneau AETHRYON n'en dépend pas."}</div>
                 </div>
               </div>
               {!introuvable && (
@@ -256,8 +256,8 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
                     {!diag.panneau && <BoutonReparerSetup />}
                   </div>
                   <div className="row"><span className="tile"><Icone nom="drag" taille={18} /></span>
-                    <div className="grow"><div className="rt" style={glisser ? undefined : { color: "var(--text-2)" }}>Glisser-déposer vers la timeline {glisser ? <Pastille etat="ok" libelle="Disponible" /> : <Pastille etat="quiet" libelle="Premiere 27.0 et plus" />}</div>
-                      <div className="rd">{typo(glisser ? "Pris en charge par votre version : le panneau l'activera." : `Non disponible avec ${versionCourte(premiere?.version) ?? "cette version"}. S'activera de lui-même après une mise à jour de Premiere.`)}</div>
+                    <div className="grow"><div className="rt" style={glisser ? undefined : { color: "var(--eg-c-text-2)" }}>Glisser-déposer vers la timeline {glisser ? <Pastille etat="ok" libelle="Disponible" /> : <Pastille etat="quiet" libelle="Premiere 27.0 et plus" />}</div>
+                      <div className="rd">{typo(glisser ? "Pris en charge par ta version : le panneau l'activera." : `Non disponible avec ${versionCourte(premiere?.version) ?? "cette version"}. S'activera de lui-même après une mise à jour de Premiere.`)}</div>
                     </div>
                   </div>
                 </>
@@ -267,12 +267,12 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
           {introuvable && (
             <div className="choices">
               <div className="choice"><span className="num">1</span><div className="grow"><div className="ct">Installer ou mettre à jour Premiere Pro, puis relancer la recherche</div><div className="cd">Depuis Creative Cloud Desktop. Cette fenêtre peut rester ouverte.</div></div></div>
-              <div className="choice"><span className="num">2</span><div className="grow"><div className="ct">Premiere Pro est installé dans un autre dossier</div><div className="cd">Indiquez le dossier qui contient Adobe Premiere Pro.exe.</div></div><Bouton taille="sm" onClick={indiquerPremiere}>Indiquer le dossier…</Bouton></div>
+              <div className="choice"><span className="num">2</span><div className="grow"><div className="ct">Premiere Pro est installé dans un autre dossier</div><div className="cd">Indique le dossier qui contient Adobe Premiere Pro.exe.</div></div><Bouton taille="sm" onClick={indiquerPremiere}>Indiquer le dossier…</Bouton></div>
               <div className="choice"><span className="num">3</span><div className="grow"><div className="ct">Continuer sans le panneau</div><div className="cd">{typo("AETHRYON Desktop fonctionne seul ; il proposera le panneau dès que Premiere sera détecté.")}</div></div></div>
             </div>
           )}
           {diag && !introuvable && (
-            <div className="det-note"><Icone nom="check" taille={16} />Analyse terminée en {secondes(diag.dureeMs)}<span style={{ color: "var(--line-3)" }}>·</span><button type="button" className="link link--quiet" disabled={cherche} onClick={() => detecter()}>Rechercher à nouveau</button></div>
+            <div className="det-note"><Icone nom="check" taille={16} />Analyse terminée en {secondes(diag.dureeMs)}<span style={{ color: "var(--eg-c-line-strong)" }}>·</span><button type="button" className="link link--quiet" disabled={cherche} onClick={() => detecter()}>Rechercher à nouveau</button></div>
           )}
           {!diag && <div className="det-note" role="status"><IconeEtat etat="running" />Analyse du PC…</div>}
         </div>
@@ -283,7 +283,7 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
 
   // ---- 3. Configuration ---------------------------------------------------------------------------------------------
   if (ecran === "configuration") {
-    const raisonPanneau = sansPanneau ? "Vous avez choisi de continuer sans le panneau." : !premiere ? "Premiere Pro n'a pas été trouvé." : premiere.compatible === false ? "Premiere Pro 25.6 ou plus récent est nécessaire." : null;
+    const raisonPanneau = sansPanneau ? "Tu as choisi de continuer sans le panneau." : !premiere ? "Premiere Pro n'a pas été trouvé." : premiere.compatible === false ? "Premiere Pro 25.6 ou plus récent est nécessaire." : null;
     const cep = diag?.panneau ?? null;
     const notif = { toutes: "Toutes : médias prêts, imports réussis et erreurs.", importantes: "Importantes : médias prêts et erreurs.", aucune: "Aucune notification Windows." }[opts.notifications];
     return (
@@ -304,8 +304,8 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
               <Interrupteur libelle="Surveiller le dossier des médias" actif={opts.surveillance} onChange={(v) => setOpts({ ...opts, surveillance: v })} /></div>
             <div className="row"><div className="grow"><div className="rt">Lancer AETHRYON au démarrage de Windows</div><div className="rd">Discret, dans la zone de notification.</div></div>
               <Interrupteur libelle="Lancer AETHRYON au démarrage de Windows" actif={opts.demarrageAuto} onChange={(v) => setOpts({ ...opts, demarrageAuto: v })} /></div>
-            <div className="row"><div className="grow"><div className="rt" style={raisonPanneau ? { color: "var(--text-2)" } : undefined}>Panneau Premiere Pro {cep ? <Pastille etat="ok" libelle="Installé" /> : raisonPanneau ? null : <Pastille etat="error" libelle="Absent" />}</div>
-              <div className="rd">{typo(cep ? `${cep.libelle} par AETHRYON Setup.${diag?.premiere.enCours ? " Premiere Pro est ouvert : redémarrez-le ensuite." : ""}` : raisonPanneau ?? "Panneau AETHRYON absent : AETHRYON Setup l'installe.")}</div></div>
+            <div className="row"><div className="grow"><div className="rt" style={raisonPanneau ? { color: "var(--eg-c-text-2)" } : undefined}>Panneau Premiere Pro {cep ? <Pastille etat="ok" libelle="Installé" /> : raisonPanneau ? null : <Pastille etat="error" libelle="Absent" />}</div>
+              <div className="rd">{typo(cep ? `${cep.libelle} par AETHRYON Setup.${diag?.premiere.enCours ? " Premiere Pro est ouvert : redémarre-le ensuite." : ""}` : raisonPanneau ?? "Panneau AETHRYON absent : AETHRYON Setup l'installe.")}</div></div>
               {!cep && !raisonPanneau && <BoutonReparerSetup />}</div>
             <div className="row"><div className="grow"><div className="rt">Notifications</div><div className="rd">{notif}</div></div>
               <Segmente<OptionsAssistant["notifications"]> libelle="Notifications" valeur={opts.notifications} onChange={(v) => setOpts({ ...opts, notifications: v })}
@@ -336,10 +336,10 @@ export function Assistant({ inst, reparation, onTerminer }: { inst: Instantane; 
         {barre}
         <div className="inst-body" style={{ paddingTop: 22 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-            <Chouette taille={56} traitement={!fini} />
+            {fini ? <MedailleChouette taille={56} /> : <VeilleChouette taille={56} libelle="Installation en cours" />}
             <div className="step-head">
               <h1 className="t-display-l" style={{ marginBottom: 4 }}>{echec ? `${reparer} incomplète` : fini ? `${reparer} terminée` : `${reparer} en cours`}</h1>
-              <p>{typo(echec ? (premiereErreur?.message ?? "Une étape a échoué : le détail est affiché ci-dessous.") : "Environ une minute. Vous pouvez continuer à travailler.")}</p>
+              <p>{typo(echec ? (premiereErreur?.message ?? "Une étape a échoué : le détail est affiché ci-dessous.") : "Environ une minute. Tu peux continuer à travailler.")}</p>
             </div>
           </div>
           <div className="steps" aria-live="polite">
@@ -404,9 +404,9 @@ function Termine({ rapport, inst, onOuvrir }: { rapport: Rapport | null; inst: I
   const p = rapport?.premiere ?? null;
   const statut = rapport?.panneau.statut ?? "ignore";
   const relie = statut === "installe";
-  const extension = statut === "installe" ? <><span style={{ color: "var(--state-ok)", display: "inline-flex" }}><IconeEtat etat="ok" taille={13} /></span>Panneau AETHRYON {rapport?.panneau.version} installé</>
-    : statut === "a-confirmer" ? <><span style={{ color: "var(--state-warn)", display: "inline-flex" }}><IconeEtat etat="warn" taille={13} /></span>À confirmer dans Creative Cloud</>
-    : statut === "non-installe" ? <><span style={{ color: "var(--state-bad)", display: "inline-flex" }}><IconeEtat etat="error" taille={13} /></span>Panneau non installé</>
+  const extension = statut === "installe" ? <><span style={{ color: "var(--eg-c-ok)", display: "inline-flex" }}><IconeEtat etat="ok" taille={13} /></span>Panneau AETHRYON {rapport?.panneau.version} installé</>
+    : statut === "a-confirmer" ? <><span style={{ color: "var(--eg-c-warn)", display: "inline-flex" }}><IconeEtat etat="warn" taille={13} /></span>À confirmer dans Creative Cloud</>
+    : statut === "non-installe" ? <><span style={{ color: "var(--eg-c-err)", display: "inline-flex" }}><IconeEtat etat="error" taille={13} /></span>Panneau non installé</>
     : <>Non installé (sans Premiere Pro)</>;
   return (
     <div className={`inst inst--halo inst--fin${anime.current ? " anime" : ""}`}>
@@ -418,7 +418,7 @@ function Termine({ rapport, inst, onOuvrir }: { rapport: Rapport | null; inst: I
       </div>
       <div className="inst-body" style={{ padding: "58px 80px 0", textAlign: "center" }}>
         <div className="liaison">
-          <span className="end"><Chouette taille={72} clin={clin} /><span className="cap">AETHRYON Desktop</span></span>
+          <span className="end">{relie ? <SceauChouette key={clin} taille={64} /> : <MedailleChouette taille={64} />}<span className="cap">AETHRYON Desktop</span></span>
           <div className="mid"><div className="fil-trace"><Fil relie={relie} /></div><span className={`seal${relie ? "" : " seal--attente"}`}>{relie ? <Icone nom="check" taille={18} /> : <b>!</b>}</span></div>
           <span className="end end--app"><Icone nom="picto-montage" taille={34} /><span className="cap">{p ? `Premiere Pro ${versionCourte(p.version) ?? ""}` : "Premiere Pro"}</span></span>
         </div>

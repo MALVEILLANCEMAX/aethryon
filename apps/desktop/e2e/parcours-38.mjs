@@ -147,17 +147,19 @@ async function deposerSurDock(p, { attendre = "reussie", capturesEtapes = null }
 // ======================================================================================================================
 // 1. Bibliothèque : survol, lumière de bord, case, sélection multiple, menu contextuel (pointeur et clavier)
 // ======================================================================================================================
-await essai("survol d'une carte : montée de 2 px, lumière de bord, actions rapides", async () => {
+// Égide (lot 2) : au survol, la carte ne bouge plus et la « lumière de bord » (dégradé décoratif) est retirée ; le filet de
+// la miniature s'affirme et les actions rapides montent de 4 px (MOTION_GUIDELINES.md § 3).
+await essai("survol d'une carte : la carte ne bouge pas, filet de la miniature, actions rapides (Égide)", async () => {
   const s = await ouvrir();
   await aller(s.p, "bibliotheque");
   const { x, y } = await centre(carte(s.p, "2").locator(".thumb"));
   await s.p.mouse.move(x - 40, y - 10);
   await s.p.mouse.move(x + 30, y - 20, { steps: 4 });
   await s.p.waitForTimeout(450);
-  const r = await carte(s.p, "2").evaluate((el) => ({ transform: getComputedStyle(el).transform, lumiere: getComputedStyle(el.querySelector(".mcard-lumiere")).opacity, mx: el.querySelector(".mcard-lumiere").style.getPropertyValue("--mx"), barre: getComputedStyle(el.querySelector(".hoverbar")).opacity }));
+  const r = await carte(s.p, "2").evaluate((el) => ({ transform: getComputedStyle(el).transform, filet: getComputedStyle(el.querySelector(".mcard-media"), "::before").opacity, lumiere: !!el.querySelector(".mcard-lumiere"), barre: getComputedStyle(el.querySelector(".hoverbar")).opacity, barreY: getComputedStyle(el.querySelector(".hoverbar")).transform }));
   await capturer(s.p, "biblio-survol-lumiere");
   await fermer(s);
-  return { ok: r.transform.includes("-2") && r.lumiere === "1" && r.mx !== "" && r.barre === "1", ...r };
+  return { ok: (r.transform === "none" || r.transform === "matrix(1, 0, 0, 1, 0, 0)") && r.filet === "1" && !r.lumiere && r.barre === "1" && (r.barreY === "none" || /, 0\)$/.test(r.barreY)), ...r };
 });
 
 await essai("case de sélection et barre de sélection multiple", async () => {
@@ -338,7 +340,8 @@ await essai("calque d'ajout puis import avec progression, emplacements réservé
   const apres = await s.p.evaluate(() => ({ nouveaux: document.querySelectorAll(".point-nouveau").length, niche: document.querySelector(".niche")?.dataset.etat, nicheTexte: document.querySelector(".niche-texte")?.textContent, toast: [...document.querySelectorAll(".toast .tt")].map((t) => t.textContent) }));
   await capturer(s.p, "import-termine-nouveau");
   await fermer(s);
-  return { ok: /Déposez pour ajouter/.test(calque.titre) && /3\s*fichiers/.test(calque.nombre ?? "") && calque.curieuse === "curious" && calque.nicheMasquee && pendant.emplacements >= 1 && Number(pendant.pct) > 0 && apres.nouveaux >= 1, calque, pendant, apres };
+  // Égide : textes au tutoiement (« Dépose pour ajouter… »).
+  return { ok: /Dépose pour ajouter/.test(calque.titre) && /3\s*fichiers/.test(calque.nombre ?? "") && calque.curieuse === "curious" && calque.nicheMasquee && pendant.emplacements >= 1 && Number(pendant.pct) > 0 && apres.nouveaux >= 1, calque, pendant, apres };
 });
 
 await essai("import : annulation (aucun fichier partiel)", async () => {
@@ -512,9 +515,10 @@ await essai("mouvement réduit du SYSTÈME : rayures fixes pleine largeur et « 
 await essai("réglage « Réduire les animations : Oui » (sans réglage système)", async () => {
   const s = await ouvrir({}, { avant: () => { window.__maquette.etat.config.reduireAnimations = "oui"; } });
   await s.p.waitForTimeout(250);
-  const r = await s.p.evaluate(() => ({ motion: document.documentElement.dataset.motion, anime: document.querySelector(".niche .companion")?.hasAttribute("data-anime") }));
+  // Égide : le réglage pose l'intensité « réduite » du thème (data-eg-motion) et data-d-reduit (lib/apparence.ts).
+  const r = await s.p.evaluate(() => ({ motion: document.documentElement.getAttribute("data-eg-motion"), reduit: document.documentElement.getAttribute("data-d-reduit"), anime: document.querySelector(".niche .companion")?.hasAttribute("data-anime") }));
   await fermer(s);
-  return { ok: r.motion === "reduced" && r.anime === false, ...r };
+  return { ok: r.motion === "reduite" && r.reduit === "1" && r.anime === false, ...r };
 });
 
 await essai("thème clair : dock et menu sur #FFFDF9", async () => {

@@ -54,7 +54,7 @@ PR_SRC="${PREMIERE_DIST:-/nonexistent}"
 PR_DST="$DST/premiere"
 # Setup publié (PREMIERE_SETUP) : le défaut reste celui en ligne ; une nouvelle version se publie avec
 # PREMIERE_DIST=<paquet> PREMIERE_SETUP=AETHRYON-Setup-<version>.exe (docs/DEPLOIEMENT.md).
-PR_FICHIER="${PREMIERE_SETUP:-AETHRYON-Setup-2.0.0-beta.8.exe}"
+PR_FICHIER="${PREMIERE_SETUP:-AETHRYON-Setup-2.0.0-beta.9.exe}"
 [[ $PR_FICHIER =~ ^AETHRYON-Setup-[0-9]+\.[0-9]+\.[0-9]+(-beta\.[0-9]+)?\.exe$ ]] || { echo "PREMIERE_SETUP invalide : $PR_FICHIER" >&2; exit 1; }
 rm -rf "$PR_DST" && mkdir -p "$PR_DST"
 if [[ -f "$PR_SRC/$PR_FICHIER" ]]; then

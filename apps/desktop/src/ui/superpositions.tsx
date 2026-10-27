@@ -75,7 +75,9 @@ export function Menu({ ancre, point, elements, onChoisir, onFermer, aligne = "dr
     const dehors = (e: MouseEvent) => {
       if (!boite.current?.contains(e.target as Node) && !(point ? false : ancre.contains(e.target as Node))) fermer.current();
     };
-    const defile = (e: Event) => { if (!boite.current?.contains(e.target as Node)) fermer.current(); };
+    // Un défilement causé par l'ouverture elle-même (focus d'une ligne mise en vue juste avant) ne ferme pas le menu.
+    const ouvertLe = performance.now();
+    const defile = (e: Event) => { if (performance.now() - ouvertLe > 150 && !boite.current?.contains(e.target as Node)) fermer.current(); };
     const flou = () => fermer.current();
     window.addEventListener("mousedown", dehors);
     window.addEventListener("scroll", defile, true);

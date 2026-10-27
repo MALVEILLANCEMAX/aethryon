@@ -110,7 +110,7 @@ describe("flux : positions et verdicts (fonctions pures)", () => {
     expect(verdictPour("premiere", { ...vide, medias: [ID] }, {}, "aethryon")).toEqual({ acceptable: true, actions: ["envoyer-premiere"], raison: null });
     expect(verdictPour("premiere", { ...vide, medias: [ID] }, { premiereConnecte: false }, "aethryon").raison).toContain("n'est pas connecté");
     expect(verdictPour("premiere", { ...vide, medias: [ID] }, { medias: [media({ etat: "en-cours" })] }, "aethryon").raison).toBe("« Plage » n'est pas disponible pour l'instant.");
-    expect(verdictPour("premiere", { ...vide, fichiers: [{ chemin: CLIP, nom: "Clip nuit.mov", taille: 1, type: "video" }] }, {}, "externe").raison).toContain("Ajoutez d'abord");
+    expect(verdictPour("premiere", { ...vide, fichiers: [{ chemin: CLIP, nom: "Clip nuit.mov", taille: 1, type: "video" }] }, {}, "externe").raison).toContain("Ajoute d'abord");
     expect(verdictPour("bibliotheque", { ...vide, medias: [ID] }, {}, "aethryon").raison).toBe("Déjà dans la bibliothèque.");
     const mixte: Classement = { ...vide, fichiers: [{ chemin: CLIP, nom: "Clip nuit.mov", taille: 1, type: "video" }], dossiers: [{ chemin: DOSSIER, nom: "Voyage", surveille: false, surveillable: true, raison: null }] };
     expect(verdictPour("bibliotheque", mixte, {}, "externe").actions).toEqual(["importer", "surveiller"]);

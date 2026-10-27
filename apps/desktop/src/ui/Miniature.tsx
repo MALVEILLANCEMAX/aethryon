@@ -29,7 +29,7 @@ export function Miniature({ m, racine, pct, badges = true, survol, centre, class
       ) : m.etat !== "erreur" && m.etat !== "introuvable" ? (
         <Couverture m={m} taille={className === "thumb--liste" ? 16 : 28} />
       ) : (
-        <div className="ph-ico" style={m.etat === "erreur" ? { color: "var(--state-bad)", opacity: 0.8 } : undefined}>
+        <div className="ph-ico" style={m.etat === "erreur" ? { color: "var(--eg-c-err)", opacity: 0.8 } : undefined}>
           <Icone nom={m.type === "audio" ? "audio" : m.type === "image" ? "image" : "film"} taille={28} />
         </div>
       )}
@@ -45,7 +45,7 @@ export function Miniature({ m, racine, pct, badges = true, survol, centre, class
           <span><IconeEtat etat="running" pct={pct != null ? pct * 100 : 0} />{pct != null ? `Téléchargement · ${Math.round(pct * 100)} %` : "Réception en cours"}</span>
         </div>
       )}
-      {m.etat === "introuvable" && <div className="ph-ico" style={{ color: "var(--ae-mist)" }}><Icone nom="missing" taille={26} /></div>}
+      {m.etat === "introuvable" && <div className="ph-ico" style={{ color: "var(--eg-c-text-2)" }}><Icone nom="missing" taille={26} /></div>}
       {survol}
     </div>
   );

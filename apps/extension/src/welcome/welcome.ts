@@ -10,18 +10,36 @@ import { HELP_URL, PRIVACY_URL, VERSION, versionLine } from "../shared/config.ts
 import { CONSENT_VERSION, DISCLOSURE, RIGHTS_NOTICE } from "../shared/consent.ts";
 import type { PopupInit } from "../shared/messages.ts";
 import type { ConsentView } from "../shared/types.ts";
-import { createMascot } from "../mascot/mascot.ts";
 import { loginControl } from "../popup/account-ui.ts";
 import { onPageEvents, parseInit, send } from "../popup/bg.ts";
 import { NB } from "../popup/text.ts";
 import { $, bindSiteLink, brandLogo, button, fill, h, icon, owl, platformLogo, setBusy, type IconName } from "../popup/ui.ts";
 import { PLATFORM_LABEL, type Platform } from "../shared/urls.ts";
+import { demarrerApparence } from "../shared/apparence.ts";
+import { medaille, sceau } from "../shared/egide.ts";
 
 type StepState = "done" | "current" | "todo";
 const STATE_TEXT: Record<StepState, string> = { done: " (fait)", current: " (étape en cours)", todo: " (à faire)" };
 const DATE = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 
-const mascot = createMascot(document, { size: 116, state: "success", look: 1 });
+// Égide (3.9.0) : la chouette maître sur sa médaille, immobile ; quand les trois étapes sont faites, le sceau se frappe
+// une fois (moment rare : délice permis ; aucun mouvement en mouvement réduit). Plus de mascotte animée.
+const apparence = demarrerApparence(document.documentElement);
+void apparence;
+const mascot = (() => {
+  const host = h("span", { class: "p-chouette", "data-state": "idle" }, medaille({ taille: 96 }));
+  let done = false;
+  return {
+    el: host,
+    setState(s: "success" | "error" | "idle", _o?: { replay?: boolean }) {
+      host.dataset.state = s;
+      if (s !== "success" || done || !allDone()) return;
+      done = true;
+      host.replaceChildren(sceau({ taille: 96 }));
+    },
+  };
+})();
+const allDone = () => [...document.querySelectorAll<HTMLElement>(".w-step")].every((li) => li.dataset.state === "done");
 const PLATFORMS: readonly Platform[] = ["youtube", "tiktok", "twitter"];
 let pinned: boolean | null = null;
 
@@ -63,9 +81,9 @@ function wirePin(): void {
     h("div", { class: "w-toolbar" },
       h("span", { class: "w-omnibox" }),
       h("span", { class: "w-tb-btn" }, icon("puzzle", 18)),
-      h("span", { class: "w-tb-btn w-tb-owl" }, owl(18, "dark"))),
+      h("span", { class: "w-tb-btn w-tb-owl" }, owl(18))),
     h("div", { class: "w-menu" },
-      h("span", { class: "w-menu-owl" }, owl(16, "dark")),
+      h("span", { class: "w-menu-owl" }, owl(16)),
       h("span", { class: "w-menu-name" }, "AETHRYON"),
       h("span", { class: "w-menu-pin" }, icon("pin", 16))));
   void refreshPinned();
@@ -195,7 +213,7 @@ function goToHash(): void {
 
 function wireFrame(): void {
   const version = manifestVersion();
-  $("brand").append(brandLogo(32, 11.5));
+  $("brand").append(brandLogo(26));
   $("w-version").textContent = versionLine(version);
   $("version").textContent = versionLine(version);
   $("w-mascot").append(mascot.el);

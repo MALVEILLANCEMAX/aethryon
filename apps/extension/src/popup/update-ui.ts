@@ -54,13 +54,17 @@ function stepsList(): { el: HTMLOListElement; show: (p: UpdateProgress, failedAt
 
 export function updateCard(u: UpdateNotice, opts: { onDismissed: () => void; compact?: boolean }): HTMLElement {
   const update = button("Mettre à jour", { variant: "primary", size: "sm", icon: "download", action: "update-install" });
-  const open = button("Page de téléchargement", { variant: "secondary", size: "sm", icon: "external", action: "update-open" });
+  // Popup (compact, Égide) : une ligne, « Page de téléchargement » et « Masquer » en icônes nommées, nouveautés repliées.
+  const open = button(opts.compact ? "" : "Page de téléchargement", { variant: "secondary", size: "sm", icon: "external", action: "update-open", ariaLabel: opts.compact ? "Page de téléchargement" : undefined });
+  if (opts.compact) open.title = "Page de téléchargement";
   open.addEventListener("click", () => openTab(u.url));
-  const hide = button("Masquer", { variant: "quiet", size: "sm", action: "update-dismiss", ariaLabel: `Masquer l'avis de la version ${u.version}` });
+  const hide = button(opts.compact ? "" : "Masquer", { variant: "quiet", size: "sm", icon: opts.compact ? "close" : undefined, action: "update-dismiss", ariaLabel: `Masquer l'avis de la version ${u.version}` });
+  if (opts.compact) hide.title = "Masquer";
   const error = h("p", { class: "form-error", role: "alert" });
   const status = h("p", { class: "update-how", "data-role": "update-status" }, `Mise à jour en un clic avec AETHRYON Desktop${NB}: il télécharge, vérifie et installe la nouvelle version, puis l'extension redémarre. Garde le « Mode développeur » activé dans la page des extensions${NB}: sans lui, le navigateur ne la recharge pas.`);
   const steps = stepsList();
   steps.el.hidden = true;
+  if (opts.compact) status.hidden = true; // l'explication apparaît avec la mise à jour (ou son repli)
   let last: UpdateProgress = { version: u.version, step: "telechargement" };
   const listener = (p: UpdateProgress | null) => {
     if (!p || p.version !== u.version) return;
@@ -72,6 +76,7 @@ export function updateCard(u: UpdateNotice, opts: { onDismissed: () => void; com
   update.addEventListener("click", () => {
     // Dans le geste, avant tout await : sinon Chrome refuse la demande de permission.
     const granted = askDesktopLink();
+    status.hidden = false;
     error.textContent = "";
     setBusy(update, true, "Mise à jour…");
     hide.disabled = true;
@@ -128,13 +133,29 @@ export function updateCard(u: UpdateNotice, opts: { onDismissed: () => void; com
     error.textContent = r.error.message;
   });
   const date = released(u.released);
+  const notes = u.notes.length ? h("ul", { class: "update-notes", "aria-label": `Nouveautés de la version ${u.version}` }, ...u.notes.map((n) => h("li", { "data-raw": "" }, n))) : null;
+  if (opts.compact) {
+    return h("section", { class: "card update compact", id: "update", "aria-labelledby": "update-title" },
+      h("div", { class: "update-line" },
+        h("div", { class: "update-head" },
+          h("span", { class: "update-icon", "aria-hidden": "true" }, icon("spark", 15)),
+          h("div", null,
+            h("h2", { id: "update-title", class: "update-title" }, `Nouvelle version ${u.version} disponible`),
+            date ? h("p", { class: "update-date" }, `Publiée le ${date}`) : null)),
+        h("div", { class: "update-actions" }, update, open, hide)),
+      notes ? h("details", null, h("summary", null, "Nouveautés"), notes) : null,
+      u.needsChrome ? h("p", { class: "hint" }, icon("info", 15), h("span", null, `Cette version demande Chrome ${u.needsChrome} ou plus récent${NB}: mets d'abord ton navigateur à jour.`)) : null,
+      status,
+      steps.el,
+      error);
+  }
   return h("section", { class: "card update", id: "update", "aria-labelledby": "update-title" },
     h("div", { class: "update-head" },
       h("span", { class: "update-icon", "aria-hidden": "true" }, icon("spark", 16)),
       h("div", null,
         h("h2", { id: "update-title", class: "update-title" }, `Nouvelle version ${u.version} disponible`),
         date ? h("p", { class: "update-date" }, `Publiée le ${date}`) : null)),
-    u.notes.length ? h("ul", { class: "update-notes", "aria-label": `Nouveautés de la version ${u.version}` }, ...u.notes.map((n) => h("li", { "data-raw": "" }, n))) : null,
+    notes,
     u.needsChrome ? h("p", { class: "hint" }, icon("info", 15), h("span", null, `Cette version demande Chrome ${u.needsChrome} ou plus récent${NB}: mets d'abord ton navigateur à jour.`)) : null,
     status,
     steps.el,

@@ -41,7 +41,7 @@ function Step({ n, state, title, children }: { n: number; state: StepState; titl
       <span
         className={cn(
           "absolute left-0 top-0 grid size-9 place-items-center rounded-full border text-[14px] font-semibold transition-[background-color,border-color,color] duration-300 [font-variant-numeric:lining-nums]",
-          state === "done" ? "border-gold bg-gold text-obsidian" : state === "current" ? "border-obsidian bg-obsidian text-ivory shadow-button" : "border-line-strong bg-ivory text-muted",
+          state === "done" ? "border-gold bg-gold text-on-accent" : state === "current" ? "border-thread bg-surface text-fg" : "border-line-strong bg-ivory text-muted",
         )}
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -126,7 +126,7 @@ export default function Installer() {
                     </p>
                   ) : (
                     <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-                      <Link to="/connexion?suite=%2Finstaller" className="inline-flex h-12 items-center gap-3 rounded-full border border-line-strong bg-white px-5 text-[15.5px] font-medium text-[#1f1f1f] shadow-card transition-[translate,box-shadow] hover:-translate-y-px hover:shadow-raised" data-installer-connexion="">{!cfg.data || cfg.data.googleEnabled ? <><GoogleG size={18} />Se connecter</> : "Se connecter"}</Link>
+                      <Link to="/connexion?suite=%2Finstaller" className="inline-flex h-12 items-center gap-3 rounded-full border border-[#747775] bg-[#fff] px-5 text-[15.5px] font-medium text-[#1f1f1f] shadow-card transition-[translate,box-shadow] hover:-translate-y-px hover:shadow-raised" data-installer-connexion="">{!cfg.data || cfg.data.googleEnabled ? <><GoogleG size={18} />Se connecter</> : "Se connecter"}</Link>
                       <Link to="/commencer" className="inline-flex min-h-11 items-center text-[15px] text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text">Créer un compte</Link>
                     </div>
                   )}
@@ -207,15 +207,14 @@ export default function Installer() {
 
         <aside className="mt-14 lg:mt-0">
           <div className="space-y-4 lg:sticky lg:top-28">
-            <div className="relative mx-auto hidden w-[240px] lg:block">
-              <div aria-hidden className="floor-shadow absolute bottom-[4%] left-1/2 h-[7%] w-[58%] -translate-x-1/2" />
+            <div className="relative mx-auto hidden w-fit lg:block">
               <AethryonMascot state={owl} size={240} look={-1} className="relative w-full" />
             </div>
             <p className="sr-only" role="status">{firstConversion ? "Première conversion reçue." : ""}</p>
             <ByDevice desktop={
               <Card className="p-6">
                 <div className="flex items-center gap-2.5 text-ink"><IconQr size={20} /><h2 className="text-[17px] font-semibold">Continuer sur l'iPhone</h2></div>
-                <div className="mt-5 flex justify-center rounded-[18px] border border-line bg-white p-4">
+                <div className="mt-5 flex justify-center rounded-[18px] border border-line bg-[#fff] p-4">
                   <QRCode value={`${origin}/installer`} size={196} label="QR code pour ouvrir cette page sur l'iPhone" />
                 </div>
                 <p className="mt-4 text-[14.5px] text-ink-soft">Vise le code avec l'appareil photo de l'iPhone, puis touche le lien. Jeton perdu ? Régénère-le dans <Link to="/dashboard/cles" className={link}>Mes jetons</Link>.</p>

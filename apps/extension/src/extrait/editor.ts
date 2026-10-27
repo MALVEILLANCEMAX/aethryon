@@ -1075,7 +1075,7 @@ export class ClipEditor {
     const doc = this.#doc;
     const close = el(doc, "button", { class: "ce-hint-x", text: "×", attrs: { type: "button", "aria-label": X.hintClose, title: X.hintClose } });
     const off = el(doc, "button", { class: "ce-hint-off", text: X.hintOff, attrs: { type: "button" } });
-    const owl = el(doc, "span", { class: "ce-hint-owl", attrs: { "aria-hidden": "true" } }, [owlSvg(doc, { size: 20, surface: "dark", className: "ce-hint-svg" })]);
+    const owl = el(doc, "span", { class: "ce-hint-owl", attrs: { "aria-hidden": "true" } }, [owlSvg(doc, { size: 20, surface: "dark", maitre: true, className: "ce-hint-svg" })]);
     const box = el(doc, "div", { class: "ce-hint", attrs: { role: "status", "data-hint": id } }, [
       owl, el(doc, "div", { class: "ce-hint-body" }, [el(doc, "p", { class: "ce-hint-t", text: this.#hintText(id) }), off]), close,
     ]);

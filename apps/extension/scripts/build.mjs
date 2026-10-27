@@ -11,7 +11,8 @@
 // seulement, YouTube compris ; docs/EXTENSION-STORE.md).
 // Aucun code distant : tout est empaqueté. Marque : tête et logotype générés depuis brand/master
 // (src/shared/brand-head.ts), icônes lues dans brand/master/png (jamais dans les fichiers publics du site).
-import { build } from "esbuild";
+import { build, transform } from "esbuild";
+import { execFileSync } from "node:child_process";
 import { cpSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -40,6 +41,9 @@ const ENDPOINTS = target === "dev"
   })()
   : PROD; // production : aucune variable d'environnement ne peut changer ces adresses
 
+// Catalogue des plateformes (copie de docs/api/CATALOGUE-PLATEFORMES.json) : jamais une copie périmée dans un paquet.
+execFileSync(process.execPath, [join(ROOT, "scripts", "catalogue.mjs"), "--check"], { stdio: "inherit" });
+
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
@@ -60,10 +64,41 @@ const define = {
 // existe (code de Chromium : refusé hors storage.session jusqu'à M139, accepté et appliqué pour local depuis M140,
 // branche 7339). Avant, le jeton de storage.local serait lisible depuis un content script (docs/AUDIT-SECURITE-EXTENSION.md).
 const MIN_CHROME = 140;
+// Feuilles écrites dans du TypeScript (racines Shadow DOM du menu des pages et de l'éditeur d'extrait : une feuille
+// adoptée ne se charge pas par <link>) : en production, le texte CSS de chaque gabarit `export const X = `…`` est
+// minifié par esbuild (même analyseur que les feuilles des pages), sans rien changer d'autre au module.
+const CSS_EN_TS = /[\\/]src[\\/](extrait[\\/]css|content[\\/]common[\\/]styles)\.ts$/;
+const cssEnLigne = {
+  name: "css-en-ligne",
+  setup(b) {
+    if (target !== "prod") return;
+    b.onLoad({ filter: CSS_EN_TS }, async (args) => {
+      let src = readFileSync(args.path, "utf8");
+      const parts = [];
+      const re = /(=\s*)`([^`$]*)`/g;
+      for (const m of src.matchAll(re)) parts.push(m);
+      for (const m of parts.reverse()) {
+        // Texte brut du gabarit = texte CSS seulement sans barre oblique inverse (aucune séquence d'échappement JS).
+        if (m[2].includes("\\")) throw new Error(`build : barre oblique inverse dans une feuille en TypeScript (${relative(ROOT, args.path)})`);
+        const css = (await transform(m[2], { loader: "css", minify: true, target: `chrome${MIN_CHROME}`, logLevel: "error" })).code.trim();
+        if (/[`\\]|\$\{/.test(css)) throw new Error(`build : feuille minifiée inattendue (${relative(ROOT, args.path)})`);
+        src = src.slice(0, m.index) + m[1] + "`" + css + "`" + src.slice(m.index + m[0].length);
+      }
+      return { contents: src, loader: "ts" };
+    });
+  },
+};
 const common = {
   bundle: true, minify: target === "prod", sourcemap: target === "dev" ? "inline" : false, target: `chrome${MIN_CHROME}`, define,
-  logLevel: "warning", legalComments: "none", charset: "utf8",
+  logLevel: "warning", legalComments: "none", charset: "utf8", plugins: [cssEnLigne],
 };
+/** Feuille d'une page, minifiée en production (aucun @import : chaque page lie ses feuilles). */
+async function feuille(src, out) {
+  mkdirSync(dirname(out), { recursive: true });
+  const css = readFileSync(src, "utf8");
+  if (target !== "prod") { writeFileSync(out, css); return; }
+  writeFileSync(out, (await transform(css, { loader: "css", minify: true, target: `chrome${MIN_CHROME}`, legalComments: "none", logLevel: "error" })).code);
+}
 
 // Service worker (module), content scripts (IIFE, un par plateforme), pages de l'extension.
 await build({ ...common, entryPoints: [join(ROOT, "src/background/index.ts")], outfile: join(OUT, "background.js"), format: "esm" });
@@ -73,16 +108,27 @@ for (const name of ["youtube", "tiktok", "x"]) {
 for (const page of ["popup", "options", "welcome"]) {
   await build({ ...common, entryPoints: [join(ROOT, `src/${page}/${page}.ts`)], outfile: join(OUT, `${page}/${page}.js`), format: "iife" });
   cpSync(join(ROOT, `src/${page}/${page}.html`), join(OUT, `${page}/${page}.html`));
-  cpSync(join(ROOT, `src/${page}/${page}.css`), join(OUT, `${page}/${page}.css`));
+  await feuille(join(ROOT, `src/${page}/${page}.css`), join(OUT, `${page}/${page}.css`));
 }
 
-// Ressources : polices (OFL, intégrées) et icônes officielles de l'identité V1 (tuile obsidienne + tête
-// maître ; 16 et 32 px en petit logo), lues dans brand/master/png.
+// Icônes officielles de l'identité V1 (tuile obsidienne + tête maître), lues dans brand/master/png.
 const assets = join(OUT, "assets");
-mkdirSync(join(assets, "fonts"), { recursive: true });
 mkdirSync(join(assets, "icons"), { recursive: true });
-cpSync(join(ROOT, "src/assets/fonts"), join(assets, "fonts"), { recursive: true });
 for (const s of [16, 32, 48, 128]) cpSync(join(BRAND_PNG, `aethryon-extension-${s}.png`), join(assets, `icons/icon-${s}.png`));
+// Égide (paquet partagé design/, lot 3 de la refonte) : feuille du document (minifiée en production), démarrage du
+// thème sans flash (theme-boot.js, script EXTERNE permis par la CSP des pages), polices OFL avec leurs licences (même
+// disposition que dans design/ : egide.css lit ../fonts/), chouette maître (fichier tel quel, contrôlé ci-dessous) et
+// feuille commune des pages de l'extension. Le JavaScript du socle est empaqueté par esbuild depuis src/shared/egide.ts.
+// Plus d'Inter ni de Playfair (remplacées par Hanken Grotesk et Marcellus).
+const DESIGN = join(ROOT, "..", "..", "packages", "design");
+await feuille(join(DESIGN, "genere/egide.css"), join(OUT, "egide/genere/egide.css"));
+cpSync(join(DESIGN, "genere/theme-boot.js"), join(OUT, "egide/genere/theme-boot.js"));
+cpSync(join(DESIGN, "fonts"), join(OUT, "egide/fonts"), { recursive: true });
+cpSync(join(DESIGN, "assets/aethryon-master.svg"), join(OUT, "egide/aethryon-master.svg"));
+if (!readFileSync(join(OUT, "egide/aethryon-master.svg")).equals(readFileSync(join(ROOT, "..", "..", "packages/brand/master/aethryon-master.svg")))) {
+  throw new Error("build : la chouette de design/assets diffère du fichier maître brand/master/aethryon-master.svg");
+}
+await feuille(join(ROOT, "src/shared/extension.css"), join(OUT, "egide/extension.css"));
 
 // Manifeste.
 const apiOrigin = new URL(ENDPOINTS.api).origin;
@@ -135,13 +181,13 @@ if (target === "prod") {
   const files = [];
   const walk = (d) => { for (const f of readdirSync(d)) { const p = join(d, f); if (statSync(p).isDirectory()) walk(p); else files.push(p); } };
   walk(OUT);
-  const allowed = /\.(js|html|css|json|png|woff2|txt)$/;
+  const allowed = /\.(js|html|css|json|png|woff2|txt|svg)$/;
   const forbidden = [/localhost/i, /127\.0\.0\.1/, /:1811\d/, /pr[eé]prod/i, /sourceMappingURL/, /(@|\/\/)[a-z0-9.-]+\.test\b/i, /dnllfjakdgmgfiompaheickmbjjlgjdc/,
     ...Object.values(BRAND_LOGO_PATHS).map((s) => new RegExp(s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))];
   for (const f of files) {
     const rel = relative(OUT, f);
     if (!allowed.test(f) || /\.(ts|map)$/.test(f)) throw new Error(`build prod : fichier inattendu dans le paquet (${rel})`);
-    if (/\.(js|html|css|json)$/.test(f)) {
+    if (/\.(js|html|css|json|svg)$/.test(f)) {
       const text = readFileSync(f, "utf8");
       for (const re of forbidden) if (re.test(text)) throw new Error(`build prod : « ${re.source} » trouvé dans ${rel}`);
     }

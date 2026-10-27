@@ -188,13 +188,13 @@ await essai("liste et quota : jauge réelle, statuts du brief, « Expire dans X 
   const r = await s.p.evaluate(() => ({
     jauge: document.querySelector(".cl-barre")?.getAttribute("aria-valuetext"),
     niveau: document.querySelector(".cl-jauge")?.dataset.niveau,
-    lignes: [...document.querySelectorAll(".cl-ligne")].map((l) => ({ nom: l.querySelector(".cl-nom").textContent, statut: l.querySelector(".pill").textContent, exp: l.querySelector(".cl-exp")?.textContent ?? null, proche: !!l.querySelector(".cl-exp--proche"), actions: l.querySelectorAll(".cl-actions button").length })),
+    lignes: [...document.querySelectorAll(".cl-ligne")].map((l) => ({ nom: l.querySelector(".cl-nom").textContent, statut: l.querySelector(".eg-pastille").textContent, exp: l.querySelector(".cl-exp")?.textContent ?? null, proche: !!l.querySelector(".cl-exp--proche"), actions: l.querySelectorAll(".cl-actions button").length })),
     sync: document.querySelector(".cl-sync")?.textContent,
   }));
   await capturer(s.p, "06-cloud-liste-quota");
   await s.p.locator(".select--natif[aria-label='Statut des fichiers']").selectOption("expire");
   await s.p.waitForTimeout(400);
-  const expire = await s.p.evaluate(() => [...document.querySelectorAll(".cl-ligne")].map((l) => ({ statut: l.querySelector(".pill").textContent, actions: [...l.querySelectorAll(".cl-actions button")].map((b) => b.getAttribute("aria-label")) })));
+  const expire = await s.p.evaluate(() => [...document.querySelectorAll(".cl-ligne")].map((l) => ({ statut: l.querySelector(".eg-pastille").textContent, actions: [...l.querySelectorAll(".cl-actions button")].map((b) => b.getAttribute("aria-label")) })));
   await capturer(s.p, "07-cloud-expire");
   await fermer(s);
   const statuts = new Set(r.lignes.map((l) => l.statut));
@@ -441,7 +441,7 @@ await essai("état vide original (chouette), thème clair, fenêtre étroite 900
   const v = await ouvrir({ compte: "admin", cloudVide: true });
   await aller(v.p, "cloud");
   await v.p.waitForSelector(".cl-vide");
-  const vide = await v.p.evaluate(() => ({ h2: document.querySelector(".cl-vide h2").textContent, chouette: !!document.querySelector(".cl-vide svg"), p: document.querySelector(".cl-vide p").textContent }));
+  const vide = await v.p.evaluate(() => ({ h2: document.querySelector(".cl-vide h2").textContent, chouette: !!document.querySelector(".cl-vide .companion .eg-medaille"), p: document.querySelector(".cl-vide p").textContent })); // Égide : médaille de la chouette, tutoiement
   await capturer(v.p, "25-cloud-vide");
   await fermer(v);
   const c = await ouvrir({ compte: "admin" }, { theme: "light" });
@@ -456,7 +456,7 @@ await essai("état vide original (chouette), thème clair, fenêtre étroite 900
   const deborde = await e.p.evaluate(() => document.querySelector(".sheet").scrollWidth > document.querySelector(".sheet").clientWidth + 1);
   await capturer(e.p, "27-cloud-900x640");
   await fermer(e);
-  return { ok: vide.h2 === "Votre Cloud est vide." && vide.chouette && /30 jours|30 jours/.test(vide.p) && !deborde, vide, deborde };
+  return { ok: vide.h2 === "Ton Cloud est vide." && vide.chouette && /30 jours|30 jours/.test(vide.p) && !deborde, vide, deborde };
 });
 
 await essai("liaison révoquée dans « Mes jetons » : la section Cloud disparaît, Paramètres le dit", async () => {

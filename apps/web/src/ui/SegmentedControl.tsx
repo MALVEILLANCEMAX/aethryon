@@ -21,14 +21,13 @@ interface Props<T extends string> {
   className?: string;
   size?: "md" | "sm";
   semantics?: "radio" | "toggle";
-  /** « night » : sur une bande obsidienne (pastille ivoire). */
+  /** Conservé pour compatibilité : Égide n'a qu'une forme de segments (le thème du document). */
   tone?: "light" | "night";
   /** Occupe toute la largeur disponible, options de même largeur (cartes étroites, jusqu'à 320 px). */
   fill?: boolean;
 }
 
 export function SegmentedControl<T extends string>({ options, value, onChange, label, className, size = "md", semantics = "radio", tone = "light", fill = false }: Props<T>) {
-  const night = tone === "night";
   const group = useId();
   const calm = useCalm();
   const refs = useRef<Partial<Record<T, HTMLButtonElement | null>>>({});
@@ -51,7 +50,7 @@ export function SegmentedControl<T extends string>({ options, value, onChange, l
 
   return (
     <div role={radio ? "radiogroup" : "group"} aria-label={label} onKeyDown={onKey} onPointerDown={() => setViaKeys(false)}
-      className={cn(fill ? "flex w-full" : "inline-flex max-w-full", "rounded-full border p-1", night ? "border-white/10 bg-white/[0.06]" : "border-line bg-sand/60", className)}>
+      className={cn(fill ? "flex w-full" : "inline-flex max-w-full", "rounded-control border border-control bg-sunken p-0.5", className)}>
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -61,13 +60,13 @@ export function SegmentedControl<T extends string>({ options, value, onChange, l
             type="button"
             {...(radio ? { role: "radio", "aria-checked": active, tabIndex: active ? 0 : -1 } : { "aria-pressed": active })}
             onClick={() => onChange(o.value)}
-            className={cn("relative rounded-full font-medium transition-colors",
+            className={cn("relative rounded-[calc(var(--eg-r-control)-2px)] font-semibold transition-colors",
               fill ? "min-w-0 flex-1 px-2" : "shrink-0",
               size === "md" ? (fill ? "h-11 text-[14px] sm:text-[14.5px]" : "h-11 min-w-[72px] px-3 text-[15px] sm:min-w-[96px] sm:px-4") : fill ? "h-9 text-sm" : "h-9 min-w-[72px] px-3 text-sm",
-              active ? (night ? "text-obsidian" : "text-ivory") : night ? "text-mist hover:text-ivory" : "text-ink-soft hover:text-ink")}
+              active ? "text-fg" : "text-fg-2 hover:text-fg")}
           >
             {active && (
-              <motion.span layoutId={`seg-${group}`} className={cn("absolute inset-0 rounded-full", night ? "bg-ivory" : "bg-obsidian shadow-button")}
+              <motion.span layoutId={`seg-${group}`} className="absolute inset-0 rounded-[inherit] bg-raised shadow-[0_0_0_1px_var(--eg-c-line-strong)]"
                 transition={calm || viaKeys ? { duration: 0 } : SPRING.glide} />
             )}
             <span className={cn("relative", o.icon && "inline-flex items-center justify-center gap-1.5")}>{o.icon}{o.label}</span>

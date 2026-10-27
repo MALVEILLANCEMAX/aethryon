@@ -100,7 +100,7 @@ export function Guide(props: Props) {
                 <OwlMark size={30} wink={1} />
               </span>
             ) : (
-              <span aria-hidden className="grid size-11 shrink-0 place-items-center rounded-full bg-gold text-obsidian"><IconCheck size={20} strokeWidth={2.2} /></span>
+              <span aria-hidden className="grid size-11 shrink-0 place-items-center rounded-full bg-gold text-on-accent"><IconCheck size={20} strokeWidth={2.2} /></span>
             )}
             <div className="min-w-0">
               <h2 id="guide-title" className="font-display text-[22px] font-medium leading-tight">
@@ -132,7 +132,7 @@ export function Guide(props: Props) {
     setHidden(next);
   };
   return (
-    <section aria-labelledby="guide-title" className="rounded-[28px] border border-line bg-[linear-gradient(180deg,var(--color-pearl),rgb(250_248_243/0.6)_70%)] p-4 shadow-card min-[400px]:p-5 sm:p-7" data-guide="en-cours">
+    <section aria-labelledby="guide-title" className="rounded-[28px] border border-line bg-surface p-4 shadow-card min-[400px]:p-5 sm:p-7" data-guide="en-cours">
       <div className="flex items-start justify-between gap-2">
         <h2 id="guide-title" className="font-display pt-1 text-[24px] font-medium leading-tight min-[400px]:text-[26px]">Bien démarrer</h2>
         {/* Sous 400 px, le texte visible se réduit au verbe ; le nom accessible reste complet (et le contient). */}

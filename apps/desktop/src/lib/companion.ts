@@ -163,7 +163,7 @@ export function etatCompanion(apres: Instantane, evts: readonly EvtLocal[], caus
   // Hint : niveau « Expressive » seulement.
   if (presence === "expressive" && causes.astuce) return sortie("hint", causes.astuce.texte, { section: "bibliotheque" }, null, `astuce:${causes.astuce.cle}`);
 
-  if (causes.survol) return sortie("curious", "Déposez pour ajouter", { section: "bibliotheque" }, null, "curious");
+  if (causes.survol) return sortie("curious", "Dépose pour ajouter", { section: "bibliotheque" }, null, "curious");
   return sortie("idle", "Tout est calme", { section: "transferts" }, null, "idle");
 }
 

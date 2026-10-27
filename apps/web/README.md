@@ -5,7 +5,7 @@ AETHRYON Tools — a single-page app whose public pages are **pre-rendered at bu
 strict Content Security Policy.
 
 React 19 · React Router · Vite · Tailwind CSS 4 · Motion · nginx (unprivileged) · fonts self-hosted
-(Inter, Playfair Display — SIL OFL).
+(Marcellus, Hanken Grotesk, Geist Mono — SIL OFL, from the Égide design system in `packages/design`).
 
 <p align="center">
   <img src="../../assets/screenshots/site-home.png" alt="Home page" width="720">

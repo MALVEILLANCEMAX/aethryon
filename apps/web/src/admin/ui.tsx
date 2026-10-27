@@ -16,8 +16,8 @@ import { KEY_STATE, RESULT_LABEL, REVOKED_REASON, ROLE_LABEL, STATE_LABEL, STATU
 
 export const linkCls = "text-gold-text underline decoration-gold/50 underline-offset-4 transition-colors hover:decoration-gold-text";
 const fieldCls =
-  "h-11 w-full rounded-[12px] border border-field bg-white/75 px-3 text-[15px] text-ink transition-colors placeholder:text-muted " +
-  "focus:border-gold-text focus:bg-white focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-text disabled:opacity-60";
+  "h-11 w-full rounded-[12px] border border-field bg-surface px-3 text-[15px] text-ink transition-colors placeholder:text-muted " +
+  "focus:border-gold-text focus:outline-none focus-visible:outline-2 focus-visible:outline-gold-text disabled:opacity-60";
 
 // ---- Page et panneaux ------------------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ export function ErrorState({ error, onRetry, compact = false, className }: { err
       <IconAlert size={20} className="shrink-0" />
       <div className="min-w-0 flex-1">
         <p className="text-[15px] font-semibold">{title}</p>
-        <p className="mt-0.5 text-[14px] leading-snug text-bad/90">{message}{error instanceof ApiError && error.code && error.status > 0 ? <span className="ml-1.5 font-mono text-[12.5px] opacity-80">({error.code})</span> : null}</p>
+        <p className="mt-0.5 text-[14px] leading-snug text-bad">{message}{error instanceof ApiError && error.code && error.status > 0 ? <span className="ml-1.5 font-mono text-[12.5px] opacity-80">({error.code})</span> : null}</p>
       </div>
       {onRetry && <Button size="sm" variant="secondary" className="h-11 shrink-0" icon={<IconRefresh size={16} />} loading={busy} onClick={retry}>Réessayer</Button>}
     </div>
@@ -179,7 +179,7 @@ export function Monogram({ initials, name, size = 36, admin = false, className }
   return (
     <span
       aria-hidden
-      className={cn("grid shrink-0 place-items-center rounded-full border font-display font-medium leading-none", admin ? "border-gold bg-obsidian text-gold-light" : "border-line-strong bg-sand/70 text-gold-text", className)}
+      className={cn("grid shrink-0 place-items-center rounded-full border font-display font-medium leading-none", admin ? "border-gold bg-sunken text-gold-light" : "border-line-strong bg-sand/70 text-gold-text", className)}
       style={{ width: size, height: size, fontSize: Math.round(size * 0.4) }}
     >
       {txt}
@@ -254,7 +254,7 @@ export function Switch({ checked, onChange, label, description, disabled, id: id
         aria-describedby={description ? `${id}-d` : undefined}
         disabled={disabled}
         onClick={() => onChange(!checked)}
-        className={cn("relative inline-flex h-11 w-[60px] shrink-0 items-center rounded-full transition-colors disabled:opacity-50", "before:absolute before:inset-x-0 before:top-1/2 before:h-7 before:-translate-y-1/2 before:rounded-full before:transition-colors", checked ? "before:bg-obsidian" : "before:bg-beige")}
+        className={cn("relative inline-flex h-11 w-[60px] shrink-0 items-center rounded-full transition-colors disabled:opacity-50", "before:absolute before:inset-x-0 before:top-1/2 before:h-7 before:-translate-y-1/2 before:rounded-full before:transition-colors", checked ? "before:bg-sunken" : "before:bg-beige")}
       >
         <motion.span aria-hidden layout transition={{ type: "spring", stiffness: 520, damping: 36 }} className={cn("relative size-5 rounded-full shadow-sm", checked ? "ml-[34px] bg-gold" : "ml-[6px] bg-white")} />
         <span className="sr-only">{checked ? "Activé" : "Désactivé"}</span>
@@ -469,7 +469,7 @@ export function Drawer({ open, onClose, title, subtitle, children, footer }: { o
       aria-labelledby={hid}
       onCancel={(e) => { e.preventDefault(); onClose(); }}
       onClick={(e) => { if (e.target === ref.current) onClose(); }}
-      className="m-0 ml-auto h-dvh max-h-dvh w-full max-w-full overflow-visible bg-transparent p-0 text-ink backdrop:bg-obsidian/45 sm:w-[min(560px,100vw)]"
+      className="m-0 ml-auto h-dvh max-h-dvh w-full max-w-full overflow-visible bg-transparent p-0 text-ink backdrop:bg-[var(--eg-scrim)] sm:w-[min(560px,100vw)]"
     >
       {open && (
         <motion.div

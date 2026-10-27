@@ -1,7 +1,7 @@
 // Carte d'un média (mosaïque et ligne), extraite de pages/Bibliotheque.tsx (D-SPEC §B.4.1, §B.5).
-// - Survol (pointeur fin seulement) : montée de 2 px en ressort `vif` après 60 ms d'intention, lumière de bord qui suit
-//   le pointeur (variables écrites sur la SEULE couche de lumière, une fois par image : pas de recalcul des enfants).
-// - Nocturne : la miniature domine ; format en haut à gauche, durée en bas à droite, état en bas à gauche ; la ligne
+// - Survol (pointeur fin seulement, Égide) : le filet de la miniature s'affirme et les actions rapides montent de 4 px ;
+//   la carte ne bouge pas.
+// - La miniature domine ; format en haut à gauche, durée en bas à droite, état en bas à gauche ; la ligne
 //   d'informations secondaires n'apparaît qu'au survol, au focus ou à la sélection. Aperçu VIDÉO au survol (souris,
 //   450 ms d'intention, muet, une seule carte à la fois, jamais en mouvement réduit) pour les formats que WebView2 lit.
 // - Case de sélection (cercle de 20 px), barre d'actions rapides EXISTANTES.
@@ -12,7 +12,7 @@ import type { Media } from "../lib/types";
 import { delaiCascade } from "../lib/motion";
 import { mouvementReduit } from "../lib/mouvement";
 import { urlFichier } from "../lib/api";
-import { BoutonIcone, Icone } from "./base";
+import { Icone, type NomIcone } from "./base";
 import { Miniature } from "./Miniature";
 
 export interface PropsCarte {
@@ -69,10 +69,8 @@ function VideoApercu({ m, onEchec }: { m: Media; onEchec: () => void }) {
 
 export function CarteMedia(p: PropsCarte) {
   const { m } = p;
-  const lumiere = useRef<HTMLSpanElement>(null);
   const depart = useRef<{ x: number; y: number } | null>(null);
   const aGlisse = useRef(false);
-  const image = useRef<number | null>(null);
   const dispo = m.etat === "disponible";
   // Fin d'un glisser : la carte revient en ressort `retour` (380 ms) ; le reste du temps, le ressort `vif` (survol).
   const [retour, setRetour] = useState(false);
@@ -90,7 +88,7 @@ export function CarteMedia(p: PropsCarte) {
     etaitSource.current = p.source;
   }, [p.source]);
 
-  useEffect(() => () => { if (image.current != null) cancelAnimationFrame(image.current); window.clearTimeout(intention.current); }, []);
+  useEffect(() => () => { window.clearTimeout(intention.current); }, []);
   // L'aperçu s'arrête dès que la carte part en glisser, n'est plus disponible ou disparaît.
   useEffect(() => { if (p.source || !dispo) setApercu(false); }, [p.source, dispo]);
   useEffect(() => {
@@ -145,17 +143,6 @@ export function CarteMedia(p: PropsCarte) {
     },
     onPointerMove: (e: PointerEvent<HTMLElement>) => {
       const el = e.currentTarget;
-      // Lumière de bord : une écriture par image, sur la couche de lumière seulement.
-      if (lumiere.current && e.pointerType === "mouse" && image.current == null) {
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        image.current = requestAnimationFrame(() => {
-          image.current = null;
-          lumiere.current?.style.setProperty("--mx", `${x}px`);
-          lumiere.current?.style.setProperty("--my", `${y}px`);
-        });
-      }
       const d = depart.current;
       if (!d || (e.buttons & 1) === 0) return;
       if (Math.hypot(e.clientX - d.x, e.clientY - d.y) < SEUIL_GLISSER) return;
@@ -182,7 +169,7 @@ export function CarteMedia(p: PropsCarte) {
 
   if (p.vue === "liste") {
     return (
-      <article className={`lrow${p.choisi ? " is-selected" : ""}${p.nouveau ? " is-nouveau" : ""}`} {...evenements}>
+      <div className={`lrow${p.choisi ? " is-selected" : ""}${p.nouveau ? " is-nouveau" : ""}`} {...evenements}>
         <Miniature m={m} racine={p.racine} badges={false} className="thumb--liste" pct={p.pct} />
         <div className="lrow-nom">{nom}<span className="lrow-meta ellipsis">{p.meta}</span></div>
         <span className="lrow-col tab">{p.colonnes?.duree}</span>
@@ -190,28 +177,30 @@ export function CarteMedia(p: PropsCarte) {
         <span className="lrow-col lrow-taille tab">{p.colonnes?.taille}</span>
         <span className="lrow-col lrow-quand ellipsis">{p.quand}</span>
         <span className="lrow-etat">{p.pastille}</span>
-        <BoutonIcone nom="more" libelle="Plus d'actions" taille="sm" tabIndex={-1} onClick={(e) => { e.stopPropagation(); p.onPlus(e.currentTarget); }} />
-      </article>
+        <span aria-hidden="true"><Raccourci nom="more" libelle="Plus d'actions" faire={(el) => p.onPlus(el)} /></span>
+      </div>
     );
   }
 
   const survol = dispo ? (
     <>
       <div className="scrim" />
-      <div className="hoverbar">
-        <button type="button" className="playbig" aria-label={`Prévisualiser ${m.nom}`} tabIndex={-1} onClick={(e) => { e.stopPropagation(); p.onApercu(); }}><Icone nom="play" taille={16} /></button>
+      {/* Raccourcis à la souris : les MÊMES actions sont au clavier (Entrée, Ctrl I, Ctrl Maj C) et dans le menu (Maj F10) ;
+          non focalisables et cachés aux lecteurs d'écran (une option de liste ne contient pas de contrôle). */}
+      <div className="hoverbar" aria-hidden="true">
+        <span className="playbig" data-bulle={`Prévisualiser ${m.nom}`} onClick={(e) => { e.stopPropagation(); p.onApercu(); }}><Icone nom="play" taille={16} /></span>
         <span style={{ flex: 1 }} />
         {/* Média scanné hors des dossiers surveillés : pas d'import direct par le panneau (contrat) → action masquée. */}
-        {!(m.indexe && !m.indexe.sources.includes("bibliotheque")) && <BoutonIcone nom="import" libelle="Importer dans Premiere (Ctrl I)" taille="sm" surMedia tabIndex={-1} onClick={(e) => { e.stopPropagation(); p.onAction("importer"); }} />}
-        <BoutonIcone nom="reveal" libelle="Afficher dans l'Explorateur" taille="sm" surMedia tabIndex={-1} onClick={(e) => { e.stopPropagation(); p.onAction("explorateur"); }} />
-        <BoutonIcone nom="copy" libelle="Copier le chemin (Ctrl Maj C)" taille="sm" surMedia tabIndex={-1} onClick={(e) => { e.stopPropagation(); p.onAction("copier"); }} />
-        <BoutonIcone nom="more" libelle="Plus d'actions" taille="sm" surMedia tabIndex={-1} onClick={(e) => { e.stopPropagation(); p.onPlus(e.currentTarget); }} />
+        {!(m.indexe && !m.indexe.sources.includes("bibliotheque")) && <Raccourci nom="import" libelle="Importer dans Premiere (Ctrl I)" faire={() => p.onAction("importer")} />}
+        <Raccourci nom="reveal" libelle="Afficher dans l'Explorateur" faire={() => p.onAction("explorateur")} />
+        <Raccourci nom="copy" libelle="Copier le chemin (Ctrl Maj C)" faire={() => p.onAction("copier")} />
+        <Raccourci nom="more" libelle="Plus d'actions" faire={(el) => p.onPlus(el)} />
       </div>
     </>
   ) : undefined;
 
   return (
-    <article
+    <div
       className={`mcard${p.choisi ? " is-selected" : ""}${p.animerEntree ? " entree-carte" : ""}${p.nouveau ? " is-nouveau" : ""}${m.etat === "en-cours" ? " is-arrivee" : ""}`}
       style={p.animerEntree ? { animationDelay: `${delaiCascade(p.index)}ms` } : undefined}
       data-erreur={m.etat === "erreur" ? "" : undefined}
@@ -219,7 +208,6 @@ export function CarteMedia(p: PropsCarte) {
     >
       <div className="mcard-media">
         <Miniature m={m} racine={p.racine} pct={p.pct} survol={survol} centre video={apercu && !illisible ? <VideoApercu m={m} onEchec={() => { setIllisible(true); setApercu(false); }} /> : undefined} />
-        <span className="mcard-lumiere" ref={lumiere} aria-hidden="true" />
         {(p.selectionActive || dispo) && caseSelection}
         {p.pastille && <span className="mcard-pastille">{p.pastille}</span>}
       </div>
@@ -227,7 +215,16 @@ export function CarteMedia(p: PropsCarte) {
         <div className="mt">{nom}</div>
         <div className="mm ellipsis">{[p.meta, p.quand].filter(Boolean).join(" · ")}</div>
       </div>
-    </article>
+    </div>
+  );
+}
+
+/** Action d'une carte à la souris seulement (voir la barre de survol) : l'allure d'un bouton d'Égide sur le média. */
+function Raccourci({ nom, libelle, faire }: { nom: NomIcone; libelle: string; faire: (el: HTMLElement) => void }) {
+  return (
+    <span className="eg-btn eg-btn--icone eg-btn--petit eg-btn--sur-media" data-bulle={libelle} onClick={(e) => { e.stopPropagation(); faire(e.currentTarget); }}>
+      <Icone nom={nom} taille={16} />
+    </span>
   );
 }
 

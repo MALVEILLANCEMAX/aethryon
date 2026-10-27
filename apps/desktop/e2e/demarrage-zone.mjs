@@ -123,6 +123,43 @@ const bilan = (nom, ok, detail) => console.log(`${ok ? "OK " : "ÉCHEC"} ${nom}$
   bilan("menu : console", !erreurs.length, erreurs.join(" | "));
   await ctx.close();
 }
+// 4. Égide : le thème choisi s'applique AVANT le module (theme-boot.js en tête), écran de démarrage compris ; un thème
+//    personnel aussi (variables du cache). Le module principal est RETARDÉ de 1,5 s pour le prouver.
+const { creerPersistance, stockageMemoire, CUSTOM_EXEMPLE } = await import("../../../packages/design/src/index.ts");
+const preference = (choix) => { const m = stockageMemoire(); creerPersistance({ stockage: m }).ecrire(choix); return m.getItem("aethryon.apparence.v1"); };
+for (const [nom, choix, attendu] of [["Ivory", { actif: "ivory" }, "rgb(250, 248, 243)"], ["Custom (vert-de-gris)", { actif: "custom", perso: { ...CUSTOM_EXEMPLE } }, null]]) {
+  const { ctx, p, erreurs } = await contexte({ etatLent: 2400 }, { viewport: { width: 1280, height: 800 } });
+  const brut = preference(choix);
+  await p.addInitScript((b) => { try { localStorage.setItem("aethryon.apparence.v1", b); } catch { /* */ } }, brut);
+  await p.route(/\/assets\/index-[^/]+\.js$/, async (r) => { await new Promise((ok) => setTimeout(ok, 1500)); await r.continue(); });
+  await p.goto(`${base}/`, { waitUntil: "commit" });
+  await p.waitForSelector("#demarrage");
+  await p.waitForTimeout(500);
+  const avant = await p.evaluate(() => ({ module: !!document.querySelector(".win"), theme: document.documentElement.getAttribute("data-eg-theme"), fond: getComputedStyle(document.getElementById("demarrage")).backgroundColor, varFond: document.documentElement.style.getPropertyValue("--eg-c-canvas") }));
+  await p.waitForFunction(() => document.getElementById("demarrage")?.dataset.etat === "visible", null, { timeout: 4000 }).catch(() => {});
+  await p.waitForTimeout(400);
+  await p.screenshot({ path: join(sortie, `demarrage-${choix.actif}.png`) });
+  const attenduFond = attendu ?? (() => { const h = avant.varFond.trim(); return h ? `rgb(${parseInt(h.slice(1, 3), 16)}, ${parseInt(h.slice(3, 5), 16)}, ${parseInt(h.slice(5, 7), 16)})` : "?"; })();
+  bilan(`démarrage : thème ${nom} posé avant le module (aucun flash)`, !avant.module && avant.theme === choix.actif && avant.fond === attenduFond, JSON.stringify(avant));
+  bilan(`démarrage ${nom} : console`, !erreurs.length, erreurs.join(" | "));
+  await ctx.close();
+}
+// 5. Le menu de la zone de notification suit le thème (même profil WebView2 : même préférence), relu à l'ouverture.
+{
+  const { ctx, p, erreurs } = await contexte({}, { viewport: { width: 640, height: 360 }, deviceScaleFactor: 2 });
+  const brut = preference({ actif: "ivory" });
+  await p.addInitScript((b) => { try { localStorage.setItem("aethryon.apparence.v1", b); } catch { /* */ } }, brut);
+  await p.goto(`${base}/__bureau.html`);
+  const f = p.frames().find((x) => x.url().endsWith("/zone-menu.html"));
+  await f.waitForFunction(() => window.__maquette?.zone);
+  await f.evaluate(() => window.__maquette.emettre("zone-menu-ouvrir", { cote: "bas", verre: false, animations: "systeme" }));
+  await p.waitForTimeout(300);
+  const r = await f.evaluate(() => ({ theme: document.documentElement.getAttribute("data-eg-theme"), fond: getComputedStyle(document.getElementById("zm")).backgroundColor, texte: getComputedStyle(document.querySelector(".zm-i")).color }));
+  await p.screenshot({ path: join(sortie, "menu-zone-ivory.png") });
+  bilan("menu : suit le thème Ivory (fond et texte du thème)", r.theme === "ivory" && r.fond === "rgb(255, 253, 249)" && r.texte === "rgb(23, 21, 15)", JSON.stringify(r));
+  bilan("menu Ivory : console", !erreurs.length, erreurs.join(" | "));
+  await ctx.close();
+}
 await navigateur.close();
 serveur.close();
 console.log(`Captures : ${sortie}`);

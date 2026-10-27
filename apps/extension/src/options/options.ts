@@ -17,6 +17,11 @@ import { onPageEvents, parseInit, send } from "../popup/bg.ts";
 import { DESKTOP_ASK, DESKTOP_ALLOWED, NB, QUALITY_LABEL, SIGNED_OUT_TEXT, WITHDRAWN_TEXT, bitrateLabel, degradedText, quotaText, resetText } from "../popup/text.ts";
 import { $, bindSiteLink, brandLogo, button, fill, h, icon, platformLogo, setBusy } from "../popup/ui.ts";
 import { loadHintCard, onUpdateProgress, updateCard } from "../popup/update-ui.ts";
+import { demarrerApparence, NOMS_THEMES } from "../shared/apparence.ts";
+import { ORDRE_THEMES, appliquerTheme, creerEditeurThemes, entreeDePreference, type ThemeId } from "../shared/egide.ts";
+
+// Égide (3.9.0) : préférence d'apparence appliquée avant tout rendu (theme-boot.js l'a déjà posée), puis suivie.
+const apparence = demarrerApparence(document.documentElement);
 
 /** Plateformes prises en charge (une ligne de réglage chacune). */
 const PLATFORMS: readonly Platform[] = BUILD_PLATFORMS;
@@ -343,9 +348,71 @@ function renderUpdate(init: PopupInit): void {
   paintUpdate();
 }
 
+// ---- apparence : les six thèmes et l'éditeur (Égide) -----------------------------------------------
+/** Six cartes (vrais boutons radio) ; chaque carte montre son thème, celle de Custom le thème personnel enregistré. */
+function renderThemes(): void {
+  const box = $("themes");
+  const actif = apparence.persistance.lire().actif;
+  const existing = box.querySelectorAll<HTMLInputElement>("input[name=theme]");
+  if (existing.length) {
+    for (const r of existing) r.checked = r.value === actif;
+    const custom = box.querySelector<HTMLElement>(".theme-card[data-custom]");
+    if (custom) appliquerTheme(custom, entreeDePreference({ ...apparence.persistance.lire(), actif: "custom" }));
+    return;
+  }
+  for (const id of ORDRE_THEMES as readonly ThemeId[]) {
+    const input = h("input", { type: "radio", name: "theme", value: id, checked: id === actif });
+    input.addEventListener("change", () => {
+      if (!input.checked) return;
+      apparence.choisir(id);
+      flash(apparence.stockage.localSeulement ? "Enregistré sur cet appareil" : "Enregistré");
+    });
+    const card = h("span", { class: "theme-card eg-scope", "data-eg-theme": id, "data-custom": id === "custom" ? "" : undefined, "aria-hidden": "true" },
+      h("span", { class: "theme-preview" }, h("i"), h("i"), h("i")),
+      h("span", { class: "theme-name" }, NOMS_THEMES[id], icon("check", 14, "tick")));
+    if (id === "custom") appliquerTheme(card, entreeDePreference({ ...apparence.persistance.lire(), actif: "custom" }));
+    box.append(h("label", { class: "theme-opt" }, input, card, h("span", { class: "sr-only" }, NOMS_THEMES[id])));
+  }
+}
+
+/**
+ * Éditeur complet du socle (couleurs, accents, fonds, arrondis, densité, texte, animations ; aperçu immédiat ; 27
+ * contrastes vérifiés à chaque geste, « Appliquer » bloqué en cas d'échec ; import et export JSON validés par le
+ * socle, jamais de CSS libre), monté à la demande. Il enregistre par la même persistance (miroir local + storage.sync).
+ */
+let editor: { detruire: () => void } | null = null;
+function wireEditor(): void {
+  const toggle = $("editor-toggle") as HTMLButtonElement;
+  const host = $("editor-host");
+  toggle.addEventListener("click", () => {
+    if (editor) {
+      editor.detruire();
+      editor = null;
+      host.replaceChildren();
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.textContent = "Personnaliser un thème";
+      return;
+    }
+    editor = creerEditeurThemes(host, {
+      persistance: apparence.persistance,
+      cible: document.documentElement,
+      surApplique: () => {
+        renderThemes();
+        flash("Enregistré");
+      },
+    });
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.textContent = "Fermer l'éditeur";
+  });
+  if (location.hash === "#apparence") toggle.click();
+}
+
 // ---- démarrage ----------------------------------------------------------------------------------
 function wireFrame(): void {
-  $("brand").append(brandLogo(32, 11.5));
+  $("brand").append(brandLogo(26));
+  renderThemes();
+  wireEditor();
+  apparence.surChangement(() => renderThemes());
   for (const span of document.querySelectorAll<HTMLElement>(".pf-icon")) {
     const p = span.dataset.platform as Platform;
     if (PLATFORMS.includes(p)) span.append(platformLogo(p, 16));

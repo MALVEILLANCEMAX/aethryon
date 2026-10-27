@@ -8,46 +8,47 @@
 
 .mu { padding: 0; width: 100%; max-width: 1640px; margin: 0 auto; }
 .mu-ph { display: flex; align-items: flex-end; gap: 16px; margin-top: 10px; }
-.mu-ph .sub b { color: var(--text-1); font-weight: 500; }
+.mu-ph .sub b { color: var(--eg-c-text); font-weight: 500; }
 .mu-corps { margin-top: 20px; }
 .mu-accueil { display: flex; flex-direction: column; gap: 32px; }
 .mu-accueil > .mu-section, .mu-accueil > .mu-deux { margin-top: 0; }
-.mu-h2 { font-size: 21px; line-height: 27px; letter-spacing: -0.01em; }
+.mu-h2 { font-size: calc(21px * var(--eg-t-scale)); line-height: 27px; letter-spacing: -0.01em; }
 
 /* ---- En écoute ------------------------------------------------------------------------------------------------------ */
 .mu-ecoute { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(250px, 340px); align-items: center; gap: clamp(20px, 2.4vw, 36px);
-  padding: clamp(20px, 2.2vw, 32px); border-radius: var(--r-hero); overflow: hidden; isolation: isolate; background: var(--n-carte); box-shadow: var(--e-card); }
+  padding: clamp(20px, 2.2vw, 32px); border-radius: var(--eg-r-sheet); overflow: hidden; isolation: isolate; background: var(--eg-c-surface); box-shadow: var(--d-ombre-carte); }
 .mu-ecoute:not([data-mode="lecture"]) { grid-template-columns: auto minmax(0, 1fr); }
 /* Fond : la pochette réelle, très floue et sombre (peinte une fois, jamais animée). */
 .mu-ecoute-fond { position: absolute; inset: -80px; z-index: -2; background-size: cover; background-position: center; filter: blur(64px) saturate(1.2); opacity: 0.34; transform: scale(1.12); pointer-events: none; }
+/* Voile du thème posé sur la pochette floue : le texte reste sur la surface du thème (clair ou sombre). */
 .mu-ecoute::after, .mu-album-tete::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
-  background: linear-gradient(90deg, rgb(11 10 9 / 0.15), rgb(11 10 9 / 0.62) 70%); box-shadow: inset 0 1px 0 rgb(255 246 230 / 0.06); }
-:root[data-theme="light"] .mu-ecoute, :root[data-theme="light"] .mu-album-tete { background: #fffdf9; }
-:root[data-theme="light"] .mu-ecoute::after, :root[data-theme="light"] .mu-album-tete::after { background: linear-gradient(90deg, rgb(255 253 249 / 0.2), rgb(255 253 249 / 0.78) 70%); }
-.mu-ecoute-poch { width: clamp(148px, 14vw, 236px); flex: none; transition: transform var(--d-medium) var(--ease-out), opacity var(--d-small) ease; }
-.mu-ecoute-poch .mu-poch { border-radius: 18px; box-shadow: 0 34px 60px -30px rgb(0 0 0 / 0.95), inset 0 0 0 1px rgb(250 248 243 / 0.08); }
-/* En pause : la pochette recule d'un cran (comme un disque qu'on lâche) ; elle revient en lecture. */
+  background: var(--eg-c-surface); opacity: 0.74; }
+
+
+.mu-ecoute-poch { width: clamp(148px, 14vw, 236px); flex: none; transition: transform var(--eg-d-moyen) var(--eg-e-out), opacity var(--eg-d-moyen) ease; }
+.mu-ecoute-poch .mu-poch { border-radius: 18px; box-shadow: 0 34px 60px -30px rgb(0 0 0 / 0.95), inset 0 0 0 1px var(--eg-c-line); }
+/* En pause: la pochette recule d'un cran (comme un disque qu'on lâche) ; elle revient en lecture. */
 .mu-ecoute[data-mode="lecture"]:not([data-lecture]) .mu-ecoute-poch { transform: scale(0.94); opacity: 0.86; }
 .mu-ecoute-infos { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .mu-ecoute-sur { display: inline-flex; align-items: center; gap: 8px; }
-.mu-ecoute-titre { margin-top: 4px; font: 500 clamp(26px, 1.4vw + 14px, 40px)/1.12 var(--font-display); letter-spacing: -0.018em; color: var(--text-1); text-wrap: balance; overflow-wrap: anywhere; }
-.mu-ecoute-artiste { font-size: 15.5px; line-height: 21px; color: var(--text-1); }
-.mu-ecoute-meta { font-size: 12.5px; line-height: 17px; color: var(--text-2); }
+.mu-ecoute-titre { margin-top: 4px; font: 500 clamp(26px, 1.4vw + 14px, 40px)/1.12 var(--eg-f-display); letter-spacing: -0.018em; color: var(--eg-c-text); text-wrap: balance; overflow-wrap: anywhere; }
+.mu-ecoute-artiste { font-size: calc(15.5px * var(--eg-t-scale)); line-height: 21px; color: var(--eg-c-text); }
+.mu-ecoute-meta { font-size: calc(12.5px * var(--eg-t-scale)); line-height: 17px; color: var(--eg-c-text-2); }
 .mu-ecoute-barre { width: 100%; max-width: 640px; margin-top: 14px; flex: none; }
 .mu-ecoute-cmd { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
 .mu-ecoute-cmd .mu-cmd--grand { justify-content: flex-start; margin-top: 0; gap: 8px; }
 .mu-ecoute-cmd .mu-cmd--grand .mu-bt { width: 38px; height: 38px; }
 .mu-ecoute-cmd .mu-cmd--grand .mu-bt--lecture { width: 54px; height: 54px; }
 .mu-ecoute-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; }
-.mu-ecoute-note { font-size: 12.5px; color: var(--text-2); }
-.mu-ecoute-cote { display: flex; flex-direction: column; gap: 8px; align-self: stretch; min-width: 0; padding-left: clamp(18px, 2vw, 28px); box-shadow: inset 1px 0 0 var(--line-1); }
+.mu-ecoute-note { font-size: calc(12.5px * var(--eg-t-scale)); color: var(--eg-c-text-2); }
+.mu-ecoute-cote { display: flex; flex-direction: column; gap: 8px; align-self: stretch; min-width: 0; padding-left: clamp(18px, 2vw, 28px); box-shadow: inset 1px 0 0 var(--eg-c-line); }
 .mu-ecoute-visu { width: 100%; margin-top: 0; }
 .mu-ecoute-cote .sec-label { margin: 8px 0 0; }
 .mu-ecoute-suite { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.mu-ecoute-suivant { display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; padding: 5px 8px 5px 5px; border-radius: 10px; text-align: left; transition: background-color var(--d-micro) ease; }
-.mu-ecoute-suivant .mu-piste-texte { font-size: 13px; }
-.mu-ecoute-suivant:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
-@media (hover: hover) and (pointer: fine) { .mu-ecoute-suivant:hover { background: rgb(255 244 228 / 0.06); } }
+.mu-ecoute-suivant { display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0; padding: 5px 8px 5px 5px; border-radius: 10px; text-align: left; transition: background-color var(--eg-d-court) ease; }
+.mu-ecoute-suivant .mu-piste-texte { font-size: calc(13px * var(--eg-t-scale)); }
+.mu-ecoute-suivant:focus-visible { outline: 2px solid var(--eg-c-focus); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) { .mu-ecoute-suivant:hover { background: var(--eg-c-hover); } }
 
 /* ---- Tuiles : grandes pochettes ; l'élément en cours garde son bouton et l'égaliseur ---------------------------------- */
 .mu-rangee { grid-auto-columns: clamp(148px, 6vw + 84px, 196px); gap: 20px; }
@@ -60,17 +61,17 @@
 .mu-tuile[data-rond] :is(.mu-tuile-titre, .mu-tuile-sous) { text-align: center; }
 .mu-tuile[data-rond] .mu-tuile-lire { right: 6%; bottom: 6%; }
 .mu-tuile-ecoute { position: absolute; left: 10px; bottom: 10px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
-  background: rgb(12 11 9 / 0.8); box-shadow: inset 0 0 0 1px rgb(255 240 220 / 0.12); }
-.mu-tuile-ecoute .mu-egaliseur[data-actif] { color: var(--ae-gold-light); }
+  background: rgb(12 11 9 / 0.8); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+.mu-tuile-ecoute .mu-egaliseur[data-actif] { color: var(--eg-c-accent-text); }
 .mu-tuile[data-actif] .mu-tuile-lire { opacity: 1; transform: none; pointer-events: auto; }
-.mu-tuile[data-actif] .mu-poch { box-shadow: inset 0 0 0 1px rgb(212 175 124 / 0.55), 0 16px 30px -18px rgb(0 0 0 / 0.95); }
+.mu-tuile[data-actif] .mu-poch { box-shadow: inset 0 0 0 1px var(--eg-c-accent-text), 0 16px 30px -18px rgb(0 0 0 / 0.95); }
 .mu-pl-cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 20px 16px; }
 .mu-mosaique { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 .mu-mosaique img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ---- Bibliothèque : liste en carte, ligne en cours dorée ------------------------------------------------------------ */
-.mu-liste { border-radius: var(--r-card); background: var(--n-carte); box-shadow: var(--e-card); }
-.mu-ligne[data-actif] { background: linear-gradient(90deg, rgb(212 175 124 / 0.09), rgb(212 175 124 / 0) 65%); }
+.mu-liste { border-radius: var(--eg-r-panel); background: var(--eg-c-surface); box-shadow: var(--d-ombre-carte); }
+.mu-ligne[data-actif] { background: linear-gradient(90deg, var(--eg-c-accent-soft), var(--eg-c-accent-soft) 65%); }
 .mu-ligne-n .mu-egaliseur { vertical-align: -1px; }
 .mu-ligne[data-actif] .mu-ligne-lire { opacity: 0; }
 @media (hover: hover) and (pointer: fine) { .mu-ligne[data-actif]:hover .mu-ligne-lire { opacity: 1; } }
@@ -78,47 +79,47 @@
 .mu-recherche { width: clamp(200px, 22vw, 300px); }
 
 /* ---- Album : en-tête sur le fond de sa pochette ------------------------------------------------------------------- */
-.mu-album-tete { position: relative; align-items: flex-end; gap: clamp(20px, 2.4vw, 32px); padding: clamp(20px, 2.2vw, 30px); border-radius: var(--r-hero); overflow: hidden; isolation: isolate;
-  background: var(--n-carte); box-shadow: var(--e-card); }
-.mu-album-poch .mu-poch { border-radius: 16px; box-shadow: 0 30px 56px -28px rgb(0 0 0 / 0.95), inset 0 0 0 1px rgb(250 248 243 / 0.08); }
+.mu-album-tete { position: relative; align-items: flex-end; gap: clamp(20px, 2.4vw, 32px); padding: clamp(20px, 2.2vw, 30px); border-radius: var(--eg-r-sheet); overflow: hidden; isolation: isolate;
+  background: var(--eg-c-surface); box-shadow: var(--d-ombre-carte); }
+.mu-album-poch .mu-poch { border-radius: 16px; box-shadow: 0 30px 56px -28px rgb(0 0 0 / 0.95), inset 0 0 0 1px var(--eg-c-line); }
 .mu-album-titre { font-size: clamp(26px, 1.2vw + 16px, 36px); line-height: 1.15; letter-spacing: -0.016em; }
 
 /* ---- Playlists : mosaïques réelles -------------------------------------------------------------------------------- */
 .mu-pl-nom { height: 46px; gap: 12px; padding: 0 10px 0 7px; }
 .mu-pl-nom > svg { flex: none; }
-.mu-pl-nom > .mu-pl-vignette { flex: none; border-radius: 7px; box-shadow: inset 0 0 0 1px rgb(250 248 243 / 0.06); }
+.mu-pl-nom > .mu-pl-vignette { flex: none; border-radius: 7px; box-shadow: inset 0 0 0 1px var(--eg-c-line); }
 .mu-pl-vignette .mu-poch-lettre { font-size: 13px !important; }
 .mu-pl-tete { align-items: flex-end; gap: 22px; margin-bottom: 22px; }
-.mu-pl-couverture { border-radius: 14px; box-shadow: 0 24px 44px -26px rgb(0 0 0 / 0.95), inset 0 0 0 1px rgb(250 248 243 / 0.06); }
+.mu-pl-couverture { border-radius: 14px; box-shadow: 0 24px 44px -26px rgb(0 0 0 / 0.95), inset 0 0 0 1px var(--eg-c-line); }
 .mu-pl-tete .mu-fiche-actions { margin-top: 12px; }
-.mu-pl-synchro { background: var(--n-carte); box-shadow: var(--e-card); }
+.mu-pl-synchro { background: var(--eg-c-surface); box-shadow: var(--d-ombre-carte); }
 .mu-pl-synchro-titre { display: flex; align-items: center; gap: 4px; }
-.mu-aide { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: var(--text-3); transition: color var(--d-micro) ease, background-color var(--d-micro) ease; }
-.mu-aide:hover { color: var(--text-1); background: var(--bg-hover); }
-.mu-aide:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.mu-aide { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: var(--eg-c-text-3); transition: color var(--eg-d-court) ease, background-color var(--eg-d-court) ease; }
+.mu-aide:hover { color: var(--eg-c-text); background: var(--eg-c-hover); }
+.mu-aide:focus-visible { outline: 2px solid var(--eg-c-focus); outline-offset: 1px; }
 
 /* ---- Importer : même champ principal que « Coller un lien » de l'Accueil -------------------------------------------- */
-.mu-universel { height: 52px; border-radius: 14px; background: rgb(0 0 0 / 0.28); box-shadow: inset 0 0 0 1px var(--line-2), inset 0 1px 2px rgb(0 0 0 / 0.45); }
-:root[data-theme="light"] .mu-universel { background: var(--ae-pearl); box-shadow: inset 0 0 0 1px var(--ae-line-strong); }
-.mu-universel:focus-within { box-shadow: inset 0 0 0 1px var(--focus), 0 0 0 4px rgb(212 175 124 / 0.16); }
+.mu-universel { height: 52px; border-radius: 14px; background: rgb(0 0 0 / 0.28); box-shadow: inset 0 0 0 1px var(--eg-c-line), inset 0 1px 2px rgb(0 0 0 / 0.45); }
+
+.mu-universel:focus-within { box-shadow: inset 0 0 0 1px var(--eg-c-focus), 0 0 0 4px var(--eg-c-line-strong); }
 .mu-type, .mu-lien-champ > .btn { height: 52px; }
-.mu-fiche, .mu-import, .mu-cloud-ligne, .mu-liaison { background: var(--n-carte); box-shadow: var(--e-card); }
-.mu-fiche { border-radius: var(--r-card); }
+.mu-fiche, .mu-import, .mu-cloud-ligne, .mu-liaison { background: var(--eg-c-surface); box-shadow: var(--d-ombre-carte); }
+.mu-fiche { border-radius: var(--eg-r-panel); }
 .mu-fiche-poch .mu-poch { border-radius: 14px; }
 .mu-import-vue { max-width: 1080px; }
 /* Sources : ce que chaque catalogue permet VRAIMENT (capacites.ts), dit avant d'essayer. */
-.mu-sources { display: flex; flex-wrap: wrap; gap: 14px 36px; margin-top: 16px; padding: 14px 16px; border-radius: var(--r-card); box-shadow: inset 0 0 0 1px var(--line-1); }
+.mu-sources { display: flex; flex-wrap: wrap; gap: 14px 36px; margin-top: 16px; padding: 14px 16px; border-radius: var(--eg-r-panel); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
 .mu-sources-groupe { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.mu-sur--neutre { color: var(--text-3); }
+.mu-sur--neutre { color: var(--eg-c-text-3); }
 .mu-puces { display: flex; flex-wrap: wrap; gap: 6px; }
-.mu-puce { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: var(--r-pill); font-size: 12px; font-weight: 500; color: var(--text-2); box-shadow: inset 0 0 0 1px var(--line-2); }
-.mu-puce--or { color: var(--text-accent); background: var(--accent-tint); box-shadow: inset 0 0 0 1px rgb(212 175 124 / 0.28); }
+.mu-puce { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: var(--eg-r-pill); font-size: calc(12px * var(--eg-t-scale)); font-weight: 500; color: var(--eg-c-text-2); box-shadow: inset 0 0 0 1px var(--eg-c-line); }
+.mu-puce--or { color: var(--eg-c-accent-text); background: var(--eg-c-accent-soft); box-shadow: inset 0 0 0 1px var(--eg-c-accent-text); }
 
 /* ---- Tailles -------------------------------------------------------------------------------------------------------- */
 @media (max-width: 1360px) {
   /* La visualisation et « À suivre » passent sous les commandes : la pochette et le titre gardent la place. */
   .mu-ecoute[data-mode="lecture"] { grid-template-columns: auto minmax(0, 1fr); }
-  .mu-ecoute-cote { grid-column: 1 / -1; padding-left: 0; padding-top: 16px; box-shadow: inset 0 1px 0 var(--line-1); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 28px; align-items: start; }
+  .mu-ecoute-cote { grid-column: 1 / -1; padding-left: 0; padding-top: 16px; box-shadow: inset 0 1px 0 var(--eg-c-line); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 28px; align-items: start; }
   .mu-ecoute-cote .mu-ecoute-visu, .mu-ecoute-cote .mu-visu-note { grid-column: 1; }
   .mu-ecoute-avenir { grid-column: 2; grid-row: 1 / span 2; }
   .mu-ecoute-avenir .sec-label { margin-top: 0; }
@@ -133,10 +134,10 @@
 }
 
 /* ---- Mouvement réduit : la pochette ne recule pas, rien ne se soulève ------------------------------------------------ */
-:root[data-motion="reduced"] :is(.mu-ecoute-poch, .mu-ecoute-suivant) { transition: none !important; }
-:root[data-motion="reduced"] .mu-ecoute[data-mode="lecture"]:not([data-lecture]) .mu-ecoute-poch { transform: none; }
+:root[data-d-reduit="1"] :is(.mu-ecoute-poch, .mu-ecoute-suivant) { transition: none !important; }
+:root[data-d-reduit="1"] .mu-ecoute[data-mode="lecture"]:not([data-lecture]) .mu-ecoute-poch { transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  :root:not([data-motion="full"]) :is(.mu-ecoute-poch, .mu-ecoute-suivant) { transition: none !important; }
-  :root:not([data-motion="full"]) .mu-ecoute[data-mode="lecture"]:not([data-lecture]) .mu-ecoute-poch { transform: none; }
+  :root[data-d-reduit="1"] :is(.mu-ecoute-poch, .mu-ecoute-suivant) { transition: none !important; }
+  :root[data-d-reduit="1"] .mu-ecoute[data-mode="lecture"]:not([data-lecture]) .mu-ecoute-poch { transform: none; }
 }
 @media (forced-colors: active) { .mu-ecoute, .mu-album-tete, .mu-liste { border: 1px solid CanvasText; } .mu-ecoute-fond { display: none; } }

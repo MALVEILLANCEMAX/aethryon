@@ -3,13 +3,15 @@
 // Clavier : flèches en boucle, Début/Fin, première lettre (lib/menu.ts, comme les menus de l'application),
 // Entrée/Espace ; Échap ou perte du focus ferme. Surbrillance au clavier instantanée, à la souris en fondu de 120 ms.
 // Le cœur place la fenêtre près de l'icône, envoie « zone-menu-ouvrir » ({ cote, verre, animations }) puis la montre.
+// Égide : le menu suit le thème de l'application (même profil WebView2, donc même préférence) : theme-boot.js le pose
+// avant la première image, et il est relu à CHAQUE ouverture (un thème changé entre-temps est déjà là).
 // Toute fermeture passe par ici : retour à l'état fermé, deux images peintes, PUIS le cœur cache la fenêtre (la
 // prochaine ouverture ne montre jamais l'image d'avant).
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { naviguer } from "../lib/menu";
-import { TRACES, type NomIcone } from "../ui/traces";
-import "../styles/tokens.css";
+import { balisageIcone, demarrerTheme, type NomIcone } from "../lib/egide";
+import "../../../../packages/design/genere/egide.css";
 import "../styles/base.css";
 import "./menu-zone.css";
 
@@ -18,17 +20,17 @@ interface Element { id: Action; libelle: string; icone: NomIcone; separateurAvan
 interface Ouverture { cote: "bas" | "haut" | "gauche" | "droite"; verre: boolean; animations: string }
 
 const ELEMENTS: Element[] = [
-  { id: "ouvrir", libelle: "Ouvrir AETHRYON", icone: "monitor" },
-  { id: "dossier", libelle: "Ouvrir le dossier des médias", icone: "folder" },
-  { id: "quitter", libelle: "Quitter AETHRYON", icone: "power", separateurAvant: true },
+  { id: "ouvrir", libelle: "Ouvrir AETHRYON", icone: "fenetre" },
+  { id: "dossier", libelle: "Ouvrir le dossier des médias", icone: "dossier" },
+  { id: "quitter", libelle: "Quitter AETHRYON", icone: "croix", separateurAvant: true },
 ];
 
 const racine = document.documentElement;
 const menu = document.getElementById("zm") as HTMLDivElement;
 const contenu = menu.querySelector<HTMLDivElement>(".zm-c")!;
-// Même rendu que ui/base.tsx (Icone) à 16 px : grille 24, trait 32 / 16 = 2, bouts ronds.
+// Icônes du jeu Égide (design/src/icones.ts), 16 px, trait 1,6 : données internes du paquet, aucune saisie.
 const icone = (nom: NomIcone) =>
-  `<svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TRACES[nom]}</svg>`;
+  `<svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${balisageIcone(nom)}</svg>`;
 contenu.innerHTML = ELEMENTS.map((e) =>
   `${e.separateurAvant ? '<div class="zm-sep" role="separator"></div>' : ""}<div class="zm-i" role="menuitem" id="zm-${e.id}">${icone(e.icone)}<span>${e.libelle}</span></div>`,
 ).join("");
@@ -48,6 +50,7 @@ function surligner(i: number, clavier: boolean): void {
 
 function ouvrir(o: Ouverture): void {
   generation += 1;
+  try { demarrerTheme(racine); } catch { /* thème par défaut (Obsidian) */ }
   racine.dataset.verre = o.verre ? "1" : "0";
   racine.dataset.cote = o.cote;
   if (o.animations === "oui") racine.dataset.motion = "reduced";

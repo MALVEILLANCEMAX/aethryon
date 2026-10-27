@@ -152,5 +152,5 @@ export function AuditDetails({ details }: { details: unknown }) {
   if (typeof v === "string") { try { v = JSON.parse(v); } catch { /* texte brut */ } }
   if (v === null || v === undefined || v === "") return <p className="text-[13.5px] text-muted">Aucun détail.</p>;
   if (typeof v !== "object") return <p className="break-words text-[13.5px] text-ink-soft">{String(v)}</p>;
-  return <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-[12px] border border-line bg-white/60 p-3 font-mono text-[12.5px] leading-relaxed text-ink-soft">{JSON.stringify(v, null, 2)}</pre>;
+  return <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-[12px] border border-line bg-surface p-3 font-mono text-[12.5px] leading-relaxed text-ink-soft">{JSON.stringify(v, null, 2)}</pre>;
 }

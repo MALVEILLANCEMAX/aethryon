@@ -2,11 +2,11 @@
    coup d'œil (chiffres de Playfair, espacés, or lisible sur nuit) ; aucune animation (action rare, réponse du site). */
 .appairage { flex-direction: column; align-items: stretch; gap: 12px; }
 .appairage .grow { min-width: 0; }
-.appairage-code { flex: none; align-self: flex-start; padding: 10px 16px; border-radius: var(--r-md); background: var(--accent-tint); box-shadow: inset 0 0 0 1px rgb(212 175 124 / 0.35);
-  font-family: "Playfair Display", Georgia, serif; font-size: 26px; line-height: 32px; font-weight: 600; letter-spacing: 0.12em; color: var(--text-accent);
+.appairage-code { flex: none; align-self: flex-start; padding: 10px 16px; border-radius: var(--eg-r-control); background: var(--eg-c-accent-soft); box-shadow: inset 0 0 0 1px var(--eg-c-accent-text);
+  font-family: "Playfair Display", Georgia, serif; font-size: calc(26px * var(--eg-t-scale)); line-height: 32px; font-weight: 600; letter-spacing: 0.12em; color: var(--eg-c-accent-text);
   font-variant-numeric: tabular-nums; user-select: all; }
-.appairage-url { display: flex; align-items: center; gap: 6px; max-width: 100%; margin-top: 8px; padding: 4px 4px 4px 10px; border-radius: var(--r-md); background: rgb(250 248 243 / 0.04); }
-.appairage-url .mono { flex: 1; min-width: 0; font-size: 11.5px; color: var(--text-2); user-select: all; }
-.appairage-avis { margin-top: 6px; color: var(--text-1); }
-.compte-hors-ligne { margin-top: 4px; color: var(--state-warn); }
-:root[data-theme="light"] .appairage-code { color: var(--ae-gold-text); }
+.appairage-url { display: flex; align-items: center; gap: 6px; max-width: 100%; margin-top: 8px; padding: 4px 4px 4px 10px; border-radius: var(--eg-r-control); background: var(--eg-c-hover); }
+.appairage-url .mono { flex: 1; min-width: 0; font-size: calc(11.5px * var(--eg-t-scale)); color: var(--eg-c-text-2); user-select: all; }
+.appairage-avis { margin-top: 6px; color: var(--eg-c-text); }
+.compte-hors-ligne { margin-top: 4px; color: var(--eg-c-warn); }
+

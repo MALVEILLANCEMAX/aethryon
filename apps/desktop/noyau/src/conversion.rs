@@ -37,6 +37,11 @@ const FICHIER_MAX: u64 = 3 * 1024 * 1024 * 1024;
 /// Domaines acceptés (ceux d'ytapi, `ALLOWED_DOMAINS`) et plateforme du contrat.
 const DOMAINES: [(&str, &str); 6] =
     [("youtube.com", "youtube"), ("youtu.be", "youtube"), ("youtube-nocookie.com", "youtube"), ("tiktok.com", "tiktok"), ("twitter.com", "x"), ("x.com", "x")];
+/// « Coller un lien » d'AETHRYON Desktop SEULEMENT (commande interne `convertir_lien`, hors contrat entre processus : le
+/// relais de l'extension et la commande `convertir-pour-premiere` restent sur [`DOMAINES`], contrat §12) : plateformes
+/// ouvertes en production le 2026-10-26 (registre ytapi/app/plateformes.json + PLATEFORMES_BETA, GET /media/platforms
+/// « disponible »), identifiant du catalogue des interfaces (docs/api/CATALOGUE-PLATEFORMES.json). ytapi revalide tout.
+const DOMAINES_DESKTOP: [(&str, &str); 2] = [("bsky.app", "bluesky"), ("commons.wikimedia.org", "wikimedia")];
 #[cfg(not(test))]
 const PAUSE: Duration = Duration::from_millis(1000);
 #[cfg(test)]
@@ -48,6 +53,7 @@ const SUIVI_MAX: Duration = Duration::from_secs(2 * 3600);
 pub const TEXTE_NON_RELIE: &str = "AETHRYON Desktop n'est pas relié à ton compte : ouvre AETHRYON Desktop › Paramètres › Compte, puis relance.";
 const TEXTE_CLE_REFUSEE: &str = "La clé d'AETHRYON Desktop a été refusée (révoquée ou expirée) : relie-le de nouveau dans Paramètres › Compte.";
 const TEXTE_LIEN: &str = "Lien non pris en charge : colle le lien d'une vidéo YouTube, TikTok ou X.";
+const TEXTE_LIEN_DESKTOP: &str = "Lien non pris en charge : colle le lien d'une vidéo YouTube, TikTok, X, Bluesky ou Wikimedia Commons.";
 
 /// ytapi : base HTTPS et autorités de confiance.
 #[derive(Clone, Debug)]
@@ -155,41 +161,59 @@ fn echec(code: &str, message: impl Into<String>) -> Echec {
     Echec { code: code.into(), message: message.into() }
 }
 
+fn plateforme_dans(liste: &[(&str, &'static str)], hote: &str) -> Option<&'static str> {
+    liste.iter().find(|(d, _)| hote == *d || hote.strip_suffix(d).is_some_and(|r| r.ends_with('.') && r.len() > 1)).map(|(_, p)| *p)
+}
+
 fn plateforme_hote(hote: &str) -> Option<&'static str> {
-    DOMAINES.iter().find(|(d, _)| hote == *d || hote.strip_suffix(d).is_some_and(|r| r.ends_with('.') && r.len() > 1)).map(|(_, p)| *p)
+    plateforme_dans(&DOMAINES, hote)
+}
+
+fn plateforme_hote_desktop(hote: &str) -> Option<&'static str> {
+    plateforme_hote(hote).or_else(|| plateforme_dans(&DOMAINES_DESKTOP, hote))
 }
 
 /// Lien de la page d'une vidéo YouTube, TikTok ou X : HTTPS (un lien sans schéma ou en HTTP est réécrit), sans
 /// identifiants ni port inhabituel, 2 048 caractères au plus, fragment retiré. Le message de refus ne répète jamais le
 /// lien. ytapi revalide tout.
 pub fn valider_url(brut: &str) -> Result<String, String> {
+    valider(brut, plateforme_hote, TEXTE_LIEN)
+}
+
+/// Lien collé dans AETHRYON Desktop (« Coller un lien ») : mêmes règles que [`valider_url`], plateformes de
+/// [`DOMAINES`] et de [`DOMAINES_DESKTOP`].
+pub fn valider_url_desktop(brut: &str) -> Result<String, String> {
+    valider(brut, plateforme_hote_desktop, TEXTE_LIEN_DESKTOP)
+}
+
+fn valider(brut: &str, connue: fn(&str) -> Option<&'static str>, texte_lien: &str) -> Result<String, String> {
     let t = brut.trim();
     if t.is_empty() {
         return Err("Colle d'abord le lien d'une vidéo.".into());
     }
     if t.len() > URL_MAX || t.chars().any(|c| c.is_whitespace() || c.is_control() || c == '\\') {
-        return Err(TEXTE_LIEN.into());
+        return Err(texte_lien.into());
     }
     let (schema, reste) = match t.split_once("://") {
         Some((s, r)) if s.len() <= 5 => (s.to_ascii_lowercase(), r),
         _ => ("https".to_string(), t),
     };
     if schema != "https" && schema != "http" {
-        return Err(TEXTE_LIEN.into());
+        return Err(texte_lien.into());
     }
     let fin = reste.find(['/', '?', '#']).unwrap_or(reste.len());
     let autorite = &reste[..fin];
     if autorite.is_empty() || autorite.contains('@') {
-        return Err(TEXTE_LIEN.into());
+        return Err(texte_lien.into());
     }
     let hote = match autorite.rsplit_once(':') {
         Some((h, "443")) => h,
-        Some(_) => return Err(TEXTE_LIEN.into()),
+        Some(_) => return Err(texte_lien.into()),
         None => autorite,
     }
     .to_ascii_lowercase();
-    if plateforme_hote(&hote).is_none() {
-        return Err(TEXTE_LIEN.into());
+    if connue(&hote).is_none() {
+        return Err(texte_lien.into());
     }
     let suite = reste[fin..].split('#').next().unwrap_or("");
     Ok(format!("https://{hote}{suite}"))
@@ -200,10 +224,11 @@ pub fn id_desktop() -> String {
     format!("desk-{}", uuid::Uuid::new_v4().simple())
 }
 
-/// Plateforme du contrat (`youtube`, `tiktok`, `x`) d'un lien validé.
+/// Plateforme d'un lien validé : celle du contrat (`youtube`, `tiktok`, `x`), ou pour un lien collé dans le Desktop,
+/// l'identifiant du catalogue (`bluesky`, `wikimedia`).
 pub fn plateforme(url: &str) -> Option<&'static str> {
     let r = url.strip_prefix("https://")?;
-    plateforme_hote(r.split(['/', '?', '#']).next().unwrap_or(""))
+    plateforme_hote_desktop(r.split(['/', '?', '#']).next().unwrap_or(""))
 }
 
 /// Bornes d'un extrait reçues en secondes (message de l'extension) → millisecondes ; les deux ou aucune.
@@ -604,6 +629,17 @@ mod tests {
         assert_eq!(valider_url("youtu.be/dQw4w9WgXcQ").unwrap(), "https://youtu.be/dQw4w9WgXcQ");
         assert_eq!(valider_url("http://X.com/a/status/1").unwrap(), "https://x.com/a/status/1");
         assert_eq!(plateforme("https://vm.tiktok.com/ZM1/"), Some("tiktok"));
+        // Bluesky et Wikimedia Commons : « Coller un lien » du Desktop seulement ; le contrat §12 (extension,
+        // convertir-pour-premiere) reste YouTube, TikTok et X.
+        for (lien, p) in [("https://bsky.app/profile/a.bsky.social/post/3l2x", "bluesky"), ("commons.wikimedia.org/wiki/File:Chouette.webm", "wikimedia")] {
+            let u = valider_url_desktop(lien).unwrap();
+            assert_eq!(plateforme(&u), Some(p));
+            assert!(valider_url(lien).is_err(), "contrat §12 inchangé : {lien}");
+        }
+        assert_eq!(valider_url_desktop("youtu.be/dQw4w9WgXcQ").unwrap(), "https://youtu.be/dQw4w9WgXcQ");
+        for mauvais in ["https://bsky.app.evil.example/x", "https://upload.wikimedia.org/x.webm", "https://wikimedia.org/x", "https://notbsky.app/x"] {
+            assert!(valider_url_desktop(mauvais).is_err(), "{mauvais}");
+        }
         for mauvais in ["", "https://evil.example/watch?v=x", "https://youtube.com.evil.example/", "https://user:pw@youtube.com/", "ftp://youtube.com/x",
             "https://youtube.com:8443/x", "https://notyoutube.com/x", "https://www.youtube.com/watch?v=x y", "javascript:alert(1)"] {
             let e = valider_url(mauvais).unwrap_err();

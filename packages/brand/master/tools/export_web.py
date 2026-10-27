@@ -8,7 +8,7 @@
 
 Écrit :
 - web/src/ui/brand/head.ts     géométrie et couleurs de la tête maître + petit logo + liseré (OwlMark) ;
-- web/src/ui/brand/wordmark.ts logotype Marcellus vectorisé (BrandLogo) ;
+- web/src/ui/brand/wordmark.ts logotype Marcellus vectorisé (référence commune avec l'extension, non chargée par le site) ;
 - extension/src/shared/brand-head.ts  les mêmes valeurs (tête, petit logo, liseré, logotype) pour l'extension,
   qui dessine la tête sans React (src/shared/owl.ts) ; ses icônes sont lues dans brand/master/png par
   extension/scripts/build.mjs ;

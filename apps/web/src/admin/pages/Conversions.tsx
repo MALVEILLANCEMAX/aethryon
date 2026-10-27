@@ -77,7 +77,7 @@ function DetailBody({ id, onCancel }: { id: string; onCancel: (c: ConversionDeta
       <section>
         <h3 className="text-[14px] font-semibold">Cause technique</h3>
         {c.cause ? (
-          <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-[12px] border border-line bg-white/60 p-3 font-mono text-[12.5px] leading-relaxed text-ink-soft">{c.cause}</pre>
+          <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-[12px] border border-line bg-surface p-3 font-mono text-[12.5px] leading-relaxed text-ink-soft">{c.cause}</pre>
         ) : <p className="mt-1 text-[14px] text-muted">Aucune cause technique enregistrée.</p>}
         <p className="mt-2 text-[12.5px] text-muted">Nettoyée par ytapi puis par account : jamais d'URL de vidéo, de jeton ni de cookie.</p>
       </section>

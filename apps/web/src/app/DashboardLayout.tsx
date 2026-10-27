@@ -1,17 +1,17 @@
-// Espace personnel : navigation latérale (≥ 1024 px) ou onglets (mobile), transitions entre vues.
+// Espace personnel, Égide v2 : navigation latérale (≥ 1024 px) ou onglets (mobile). Changement de section : AUCUNE
+// animation (MOTION_GUIDELINES.md § 3 : navigation fréquente, souvent au clavier) ; l'indicateur se pose, sans glisser.
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
 import { cn } from "../lib/cn.ts";
 import { signOut } from "../lib/auth.ts";
 import { resetAll, useResource } from "../lib/store.ts";
 import type { DiscordStatus } from "../lib/types.ts";
-import { DUR, EASE, SPRING } from "../lib/motion.ts";
 import { IconActivity, IconCloud, IconHome, IconKey, IconLogout, IconMusic, IconShield, IconSparkle } from "../ui/Icon.tsx";
 import { Button } from "../ui/Button.tsx";
 import { PlatformGlyph } from "../ui/brand/PlatformGlyph.tsx";
 import { Skeleton } from "../ui/bits.tsx";
 import { OwlMark } from "../ui/brand/OwlMark.tsx";
+import { Icone } from "../ui/egide/Egide.tsx";
 import { DiscordAvatar } from "../ui/DiscordAvatar.tsx";
 import { useToast } from "../ui/Toasts.tsx";
 import { toastError, useRequireUser } from "./common.tsx";
@@ -19,11 +19,13 @@ import { toastError, useRequireUser } from "./common.tsx";
 /** Pictogramme NEUTRE « discussion » du registre des marques (le logo officiel de Discord est réservé à la
  *  présentation du bot, lib/platforms.ts). */
 const IconDiscordAccess = ({ size, className }: { size?: number; className?: string }) => <PlatformGlyph id="discord" size={size} className={className} />;
+/** Réglages › Apparence : l'icône « thème » du socle Égide. */
+const IconApparence = ({ className }: { size?: number; className?: string }) => <Icone nom="theme" className={className} />;
 
 /** Onglet : à l'étroit (< 640 px), sans pictogramme et avec des marges réduites (cinq onglets : la barre défile au-dessous
  *  de 400 px environ, l'onglet actif est ramené dans la partie visible) ; avant, pour que les onglets tiennent
  *  dès 320 px ; pictogrammes à partir de 640 px ; liste verticale à partir de 1024 px. */
-const TAB = "relative flex min-h-11 flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-2 text-[14px] transition-colors " +
+const TAB = "relative flex min-h-11 flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-control px-2 text-[14px] font-medium transition-colors " +
   "min-[360px]:px-2.5 min-[360px]:text-[14.5px] sm:px-3 sm:text-[15px] md:px-4 lg:flex-none lg:justify-start";
 
 const TABS = [
@@ -32,6 +34,7 @@ const TABS = [
   { to: "/dashboard/activite", label: "Activité", icon: IconActivity, end: false },
   { to: "/dashboard/discord", label: "Discord", icon: IconDiscordAccess, end: false },
   { to: "/dashboard/abonnement", label: "Abonnement", icon: IconSparkle, end: false },
+  { to: "/dashboard/apparence", label: "Apparence", icon: IconApparence, end: false },
 ];
 
 export default function DashboardLayout() {
@@ -103,7 +106,7 @@ export default function DashboardLayout() {
   }
   const user = me.data.user;
   const logoutBtn = (cls: string) => (
-    <button type="button" onClick={logout} disabled={leaving} aria-busy={leaving || undefined} className={cn("min-h-11 items-center gap-2.5 rounded-full px-3 text-[15px] text-ink-soft transition-colors hover:bg-sand/50 hover:text-ink disabled:opacity-60", cls)}>
+    <button type="button" onClick={logout} disabled={leaving} aria-busy={leaving || undefined} className={cn("min-h-11 items-center gap-2.5 rounded-control px-3 text-[15px] text-ink-soft transition-colors hover:bg-hover hover:text-ink disabled:opacity-60", cls)}>
       <IconLogout size={18} />{leaving ? "Déconnexion…" : "Se déconnecter"}
     </button>
   );
@@ -111,7 +114,7 @@ export default function DashboardLayout() {
     <div className="container-site min-h-svh pb-24 pt-28 sm:pt-32">
       <div className="lg:grid lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-12">
         <aside className="mb-8 lg:mb-0">
-          {/* Carte du compte : obsidienne, comme les cartes produit de l'accueil (même texture, même lueur). */}
+          {/* Carte du compte : un panneau du thème, la chouette en marque. */}
           <Link to="/dashboard/compte" className="dash-id hidden lg:flex" data-dash-id="">
             {linked
               ? <DiscordAvatar version={linked.avatarVersion} name={user.name || user.email} size={42} className="dash-id-avatar" />
@@ -119,17 +122,17 @@ export default function DashboardLayout() {
             <div className="min-w-0">
               {/* Nom du lien = « Ton compte, » + le texte visible (WCAG 2.5.3 : le nom accessible contient le libellé). */}
               <span className="sr-only">Ton compte, </span>
-              <p className="truncate text-[15px] font-medium text-ivory">{user.name}</p>
-              <p className="truncate text-[13px] text-mist">{user.email}</p>
+              <p className="truncate text-[15px] font-medium text-fg">{user.name}</p>
+              <p className="truncate text-[13px] text-fg-2">{user.email}</p>
             </div>
             <OwlMark size={22} surface="dark" className="dash-id-owl" />
           </Link>
-          <nav ref={navRef} aria-label="Espace personnel" className="dash-nav flex gap-1 overflow-x-auto rounded-full border border-line bg-pearl/70 p-1 lg:mt-5 lg:flex-col lg:rounded-[24px] lg:p-1.5">
+          <nav ref={navRef} aria-label="Espace personnel" className="dash-nav flex gap-1 overflow-x-auto rounded-card border border-line bg-surface p-1 lg:mt-5 lg:flex-col lg:p-1.5">
             {TABS.map(({ to, label, icon: Icon, end }) => (
               <NavLink key={to} to={to} end={end} className={({ isActive }) => cn(TAB, isActive ? "text-ink" : "text-ink-soft hover:text-ink")}>
                 {({ isActive }) => (
                   <>
-                    {isActive && <motion.span layoutId="dash-tab" className="absolute inset-0 rounded-full bg-ivory shadow-card ring-1 ring-line" transition={SPRING.glide}><span aria-hidden className="dash-tab-tick" /></motion.span>}
+                    {isActive && <span className="absolute inset-0 rounded-control bg-hover"><span aria-hidden className="dash-tab-tick" /></span>}
                     <Icon size={18} className={cn("relative hidden sm:block", isActive && "text-gold-text")} />
                     <span className="relative">{label}</span>
                   </>
@@ -141,7 +144,7 @@ export default function DashboardLayout() {
               <NavLink to="/dashboard/musique" reloadDocument className={({ isActive }) => cn(TAB, isActive ? "text-ink" : "text-ink-soft hover:text-ink")}>
                 {({ isActive }) => (
                   <>
-                    {isActive && <span className="absolute inset-0 rounded-full bg-ivory shadow-card ring-1 ring-line"><span aria-hidden className="dash-tab-tick" /></span>}
+                    {isActive && <span className="absolute inset-0 rounded-control bg-hover"><span aria-hidden className="dash-tab-tick" /></span>}
                     <IconMusic size={18} className={cn("relative hidden sm:block", isActive && "text-gold-text")} />
                     <span className="relative">Musique</span>
                   </>
@@ -153,7 +156,7 @@ export default function DashboardLayout() {
               <NavLink to="/dashboard/cloud" reloadDocument className={({ isActive }) => cn(TAB, isActive ? "text-ink" : "text-ink-soft hover:text-ink")}>
                 {({ isActive }) => (
                   <>
-                    {isActive && <span className="absolute inset-0 rounded-full bg-ivory shadow-card ring-1 ring-line"><span aria-hidden className="dash-tab-tick" /></span>}
+                    {isActive && <span className="absolute inset-0 rounded-control bg-hover"><span aria-hidden className="dash-tab-tick" /></span>}
                     <IconCloud size={18} className={cn("relative hidden sm:block", isActive && "text-gold-text")} />
                     <span className="relative">Cloud</span>
                   </>
@@ -169,11 +172,7 @@ export default function DashboardLayout() {
           {logoutBtn("mt-4 hidden lg:flex")}
         </aside>
         <div>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div key={location.pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: DUR.component, ease: EASE.soft }}>
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+          <Outlet />
           {logoutBtn("mt-10 flex lg:hidden")}
         </div>
       </div>

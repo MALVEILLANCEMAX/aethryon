@@ -58,6 +58,10 @@ export type BgRequest =
   | { type: "frame.capture" }
   | { type: "caps.get" }
   | { type: "limits.get" }
+  /** 3.9.0 (Égide) : police d'interface du menu injecté (Hanken Grotesk, OFL), en base 64 ; rien du compte. */
+  | { type: "egide.police" }
+  /** 3.9.0 : disponibilité réelle des plateformes (GET <API>/platforms, public) pour le catalogue du popup. Pages seulement. */
+  | { type: "platforms.get" }
   | PlayerRequest
   | { type: "jobs.list" }
   | { type: "popup.init" }
@@ -171,6 +175,8 @@ export function parseBgRequest(msg: unknown): BgRequest | null {
       return parsePlayerOp(msg, "player") as PlayerRequest | null;
     case "caps.get":
     case "limits.get":
+    case "egide.police":
+    case "platforms.get":
     case "jobs.list":
     case "popup.init":
     case "account.refresh":

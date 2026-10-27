@@ -181,8 +181,8 @@ describe("Popover et progression", () => {
     await ext.page.evaluate(() => chrome.storage.local.remove("consent"));
     const { page, s } = await open(`${YT}/watch?v=dQw4w9WgXcQ`);
     let [c] = await waitControls(s, 1, "bouton");
-    // Tête maître sur la pastille obsidienne : petit logo (16 px dans la barre), dessin exact (fond sombre).
-    assert.deepEqual(c.ui.owl, { small: true, surface: "dark", size: "16" });
+    // Égide (3.9.0) : la chouette maître telle quelle (dessin du fichier maître, jamais le « petit logo »), sans pastille.
+    assert.deepEqual(c.ui.owl, { small: false, surface: "dark", size: "16" });
     await s.click(c.handle, ".tb-dl");
     [c] = await waitControls(s, 1, "menu ouvert", (cs) => cs[0].ui.open && cs[0].ui.view === "main");
     assert.deepEqual(c.ui.rows.map((r) => r.row), ["video", "audio", "clip", "frame", "thumb", "tools"]);
@@ -885,7 +885,9 @@ describe("Périmètre", () => {
 
 // ---- 3.5.1 : destination Premiere Pro (3.5.2 : « Envoyer vers » › « Premiere Pro ») ------------------------
 describe("3.5.1 : destination Premiere Pro dans le menu", () => {
-  const HINT = "Le fichier arrive dans AETHRYON Desktop et dans le panneau AETHRYON de Premiere, prêt à importer.";
+  // 3.8.1 : l'envoi vers Premiere Pro passe par AETHRYON Desktop (texte du menu changé par b0f407f ; cet essai, resté
+  // sur l'ancien texte, échouait depuis — essai périmé, corrigé au lot 3 d'Égide).
+  const HINT = "AETHRYON Desktop convertit la vidéo, l’enregistre dans sa bibliothèque et l’importe dans Premiere Pro.";
 
   test("menu : Téléchargements par défaut ; Premiere Pro au clic et aux flèches, mémorisé ; explication jusqu'au premier envoi ; job.start avec dest", async () => {
     await ext.clearSettings();

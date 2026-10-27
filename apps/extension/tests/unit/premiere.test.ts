@@ -315,6 +315,8 @@ test("service worker 3.8.1 : AETHRYON Desktop trop ancien (« Type de message in
   await until(() => h.job(r.data.key)?.state === "error", 3000, "Desktop trop ancien");
   const job = h.job(r.data.key);
   assert.equal(job.error.message, MSG.desktopOutdated);
+  assert.equal(job.error.code, "desktop_outdated", "3.9.0 : code à part (le popup propose « Mettre à jour AETHRYON Desktop »)");
+  assert.equal(job.error.retryable, false);
   assert.equal(MSG.desktopOutdated, "Mets à jour AETHRYON Desktop pour importer dans Premiere Pro.");
   assert.equal(jobStatusText(job), MSG.desktopOutdated, "popup : le texte de mise à jour");
   assert.ok(!JSON.stringify(job).includes("Type de message"), "texte brut de l'hôte jamais gardé ni montré");

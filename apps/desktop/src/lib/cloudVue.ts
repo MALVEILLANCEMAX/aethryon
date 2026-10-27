@@ -93,36 +93,36 @@ export function libelleTransfert(t: TransfertCloud): { libelle: string; ton: Ton
 
 /** Erreurs de synchronisation : code machine → phrase (vouvoiement du Desktop) ; repli sur le message du cœur. */
 const ERREURS: Record<string, string> = {
-  quota_atteint: "Espace Cloud insuffisant : supprimez des fichiers du Cloud pour faire de la place. Rien n'est supprimé avant son expiration.",
-  quota_global_atteint: "Le stockage du serveur est plein : supprimez des fichiers du Cloud pour faire de la place.",
+  quota_atteint: "Espace Cloud insuffisant : supprime des fichiers du Cloud pour faire de la place. Rien n'est supprimé avant son expiration.",
+  quota_global_atteint: "Le stockage du serveur est plein : supprime des fichiers du Cloud pour faire de la place.",
   fichier_trop_volumineux: "Fichier trop volumineux pour le Cloud.",
   type_refuse: "Type non accepté par le Cloud : vidéo, audio ou GIF seulement.",
   deja_dans_le_cloud: "Ce fichier est déjà sauvegardé dans le Cloud : aucune seconde copie n'est envoyée.",
-  trop_d_envois: "Trop d'envois en même temps : attendez la fin de ceux en cours.",
-  envoi_interrompu: "Envoi interrompu (connexion coupée) : la place réservée a été libérée. Réessayez.",
-  envoi_refuse: "Le stockage a refusé l'envoi (lien d'envoi expiré) : réessayez.",
-  objet_invalide: "Le fichier reçu ne correspond pas à l'original : rien n'a été gardé. Réessayez.",
+  trop_d_envois: "Trop d'envois en même temps : attends la fin de ceux en cours.",
+  envoi_interrompu: "Envoi interrompu (connexion coupée) : la place réservée a été libérée. Réessaie.",
+  envoi_refuse: "Le stockage a refusé l'envoi (lien d'envoi expiré) : réessaie.",
+  objet_invalide: "Le fichier reçu ne correspond pas à l'original : rien n'a été gardé. Réessaie.",
   envoi_abandonne: "Envoi abandonné : le fichier n'est jamais arrivé dans le Cloud.",
   annule: "Envoi annulé avant la fin : rien n'a été gardé dans le Cloud.",
-  objet_absent: "Fichier absent du stockage : supprimez cette ligne.",
-  fichier_modifie: "Le fichier a changé pendant l'envoi : réessayez quand il sera terminé.",
-  lien_refuse: "Lien temporaire expiré : relancez le téléchargement.",
-  telechargement_interrompu: "Téléchargement interrompu (connexion coupée) : rien n'a été gardé. Réessayez.",
+  objet_absent: "Fichier absent du stockage : supprime cette ligne.",
+  fichier_modifie: "Le fichier a changé pendant l'envoi : réessaie quand il sera terminé.",
+  lien_refuse: "Lien temporaire expiré : relance le téléchargement.",
+  telechargement_interrompu: "Téléchargement interrompu (connexion coupée) : rien n'a été gardé. Réessaie.",
   empreinte: "Le fichier reçu ne correspond pas à celui du Cloud : rien n'a été gardé.",
-  cloud_indisponible: "Le Cloud est momentanément indisponible : réessayez dans quelques minutes.",
-  non_relie: "AETHRYON Desktop n'est pas relié à votre compte (Paramètres › Compte).",
+  cloud_indisponible: "Le Cloud est momentanément indisponible : réessaie dans quelques minutes.",
+  non_relie: "AETHRYON Desktop n'est pas relié à ton compte (Paramètres › Compte).",
   forbidden: "AETHRYON Cloud est réservé à l'administrateur.",
   cloud_closed: "AETHRYON Cloud n'est pas activé sur le serveur.",
-  token_revoked: "La liaison a été révoquée sur le site : reliez de nouveau ce Desktop (Paramètres › Compte).",
-  token_expired: "La liaison a expiré (30 jours) : reliez de nouveau ce Desktop (Paramètres › Compte).",
+  token_revoked: "La liaison a été révoquée sur le site : relie de nouveau ce Desktop (Paramètres › Compte).",
+  token_expired: "La liaison a expiré (30 jours) : relie de nouveau ce Desktop (Paramètres › Compte).",
   expire: "Ce fichier a expiré : il a été supprimé du Cloud.",
   pas_disponible: "Ce fichier n'est pas disponible pour l'instant.",
-  reseau: "Site AETHRYON injoignable : vérifiez la connexion à Internet.",
+  reseau: "Site AETHRYON injoignable : vérifie la connexion à Internet.",
 };
 
 export function erreurLisible(code: string | null | undefined, message?: string | null): string {
   if (code && ERREURS[code]) return ERREURS[code];
-  if (code && /^http_5\d\d$/.test(code)) return "Stockage Cloud momentanément indisponible : réessayez.";
+  if (code && /^http_5\d\d$/.test(code)) return "Stockage Cloud momentanément indisponible : réessaie.";
   return message || "Opération impossible.";
 }
 

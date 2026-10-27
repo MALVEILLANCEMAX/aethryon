@@ -83,11 +83,11 @@ export default function OutilsPage() {
         <span aria-hidden className="hero-cross bottom-[22%] right-[18%] hidden md:block" />
         <div className="container-site relative flex flex-col items-center text-center">
           <motion.p {...enter(0)} className="outils-mark">AETHRYON <span aria-hidden="true">/</span> Tools</motion.p>
-          <motion.h1 {...enter(1)} id="outils-titre" className="mt-6 font-display text-[clamp(2.7rem,1.5rem+5vw,5.6rem)] font-medium leading-[0.98] tracking-[-0.025em] text-ivory">
+          <motion.h1 {...enter(1)} id="outils-titre" className="mt-6 font-display text-[clamp(2.7rem,1.5rem+5vw,5.6rem)] font-medium leading-[0.98] tracking-[-0.025em] text-fg">
             <span className="block">Un lien.</span>
-            <span className="block text-gold-light">Toutes les possibilités.</span>
+            <span className="block">Toutes les possibilités.</span>
           </motion.h1>
-          <motion.p {...enter(2)} className="mt-6 max-w-[36rem] text-[17px] leading-relaxed text-mist sm:text-lead">
+          <motion.p {...enter(2)} className="mt-6 max-w-[36rem] text-[17px] leading-relaxed text-fg-2 sm:text-lead">
             Coupe, recadre, extrais le son, fais un GIF ou compresse, à partir d'un lien YouTube, TikTok ou X, ou d'un fichier.
           </motion.p>
           <motion.div {...enter(3)} id="entree" className="relative mt-10 w-full max-w-[760px] text-left">

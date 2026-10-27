@@ -136,6 +136,18 @@ for (const { path, canonical: wanted = null, rel, isPublic, panel = null } of [.
   }
 }
 
+// Égide (design/, lot 0) : script de démarrage du thème EXTERNE (src/egide/genere/theme-boot.js, haché), en tête de
+// CHAQUE document, avant les feuilles et le module (thème posé avant le premier rendu, sans script en ligne) ; thème
+// Obsidian déclaré sur <html> (le site reste identique : seuls les éléments .eg-* lisent les jetons).
+for (const f of files.filter((x) => x.endsWith(".html"))) {
+  const rel = f.slice(dist.length + 1), html = readFileSync(f, "utf8");
+  const boot = html.match(/<script src="\/(assets\/theme-boot-[0-9a-f]{10}\.js)"><\/script>/);
+  if (!boot || !existsSync(join(dist, boot[1]))) { errors.push(`${rel} : script de démarrage Égide absent`); continue; }
+  const avant = (re) => { const i = html.search(re); return i >= 0 && i < boot.index; };
+  if (avant(/<link rel="stylesheet"/) || avant(/<script type="module"/)) errors.push(`${rel} : le démarrage Égide doit précéder les feuilles et le module`);
+  if (!html.includes('<html lang="fr" data-eg-theme="obsidian">')) errors.push(`${rel} : <html data-eg-theme="obsidian"> absent`);
+}
+
 // Marques (docs/MARQUES.md) : aucun tracé des logos YouTube, TikTok ou X dans le site ; le seul logo de marque
 // servi est celui de Discord, fichiers officiels NON MODIFIÉS (empreintes du registre brand/platforms/).
 // Exception explicite : VITE_LOGOS_PLATEFORMES=officiels (src/lib/logos.ts), choix du propriétaire, qui en assume

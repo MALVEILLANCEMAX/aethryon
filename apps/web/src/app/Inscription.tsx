@@ -38,7 +38,7 @@ export default function Inscription() {
     return (
       <CompteCarte data="inscription-invalide" title="Ce lien n'est plus valable" lead={`Un lien d'inscription sert une seule fois et 30 minutes au plus. Demande un nouveau code${NB}: c'est immédiat.`}>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-          <Link to="/commencer" className="inline-flex h-12 items-center rounded-full bg-obsidian px-6 text-[15.5px] font-medium text-ivory">Recevoir un nouveau code</Link>
+          <Link to="/commencer" className="inline-flex h-12 items-center rounded-full bg-sunken px-6 text-[15.5px] font-medium text-fg">Recevoir un nouveau code</Link>
           <Link to="/connexion" className={`${link} inline-flex min-h-11 items-center text-[15px]`}>Se connecter</Link>
         </div>
       </CompteCarte>

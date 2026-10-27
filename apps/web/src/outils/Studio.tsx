@@ -101,7 +101,7 @@ export function StudioRef() {
     <div className="studio studio-center">
       <div className="studio-note">
         <AethryonMascot state={error ? "error" : "processing"} size={72} />
-        <p role="status" className="mt-4 text-ivory">{error ?? "Ouverture du média…"}</p>
+        <p role="status" className="mt-4 text-fg">{error ?? "Ouverture du média…"}</p>
         {error && <Link to="/outils" className="link-btn mt-5 inline-flex">Aller à AETHRYON Tools</Link>}
       </div>
     </div>

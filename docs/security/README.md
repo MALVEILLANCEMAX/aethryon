@@ -25,7 +25,7 @@ How to report a vulnerability: [`SECURITY.md`](../../SECURITY.md).
 | Locally | `make scan` |
 
 `.gitleaks.toml` extends the default rules with a short allowlist of **reviewed false positives** (public extension
-keys, SHA-256 digests of brand files, obviously fake test values). Adding an entry requires a review: a real secret
+keys, SHA-256 digests of brand files, a browser storage key name, obviously fake test values). Adding an entry requires a review: a real secret
 must be revoked, not allowlisted.
 
 ## The iOS Shortcut

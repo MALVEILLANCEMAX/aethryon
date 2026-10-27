@@ -47,7 +47,7 @@ export const DISCLOSURE: readonly DisclosureItem[] = [
   {
     id: "reglages",
     title: "Tes réglages",
-    text: `Dans le stockage synchronisé de Chrome (copié sur tes autres appareils si la synchronisation est activée)${NB}: boutons dans les sites, format par défaut, qualité, débit, durée et placement d'un extrait, outils rapides, panneau flottant et sa position, notifications.`,
+    text: `Dans le stockage synchronisé de Chrome (copié sur tes autres appareils si la synchronisation est activée)${NB}: boutons dans les sites, format par défaut, qualité, débit, durée et placement d'un extrait, outils rapides, panneau flottant et sa position, notifications, et l'apparence (thème choisi ou thème personnel), aussi gardée sur cet ordinateur pour l'afficher sans attendre.`,
   },
   {
     id: "mise-a-jour",

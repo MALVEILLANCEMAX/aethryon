@@ -174,7 +174,7 @@ export default function Cloud() {
               <label className="relative min-w-[220px] flex-1">
                 <span className="sr-only">Rechercher dans le Cloud</span>
                 <input type="search" value={q} maxLength={100} onChange={(e) => setQ(e.target.value)} placeholder="Rechercher dans le Cloud"
-                  className="h-12 w-full rounded-[14px] border border-field bg-white/70 px-4 text-[16px] text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
+                  className="h-12 w-full rounded-[14px] border border-field bg-surface px-4 text-[16px] text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
               </label>
               <SegmentedControl label="Type de fichier" value={type} onChange={(v) => setType(v as "" | "video" | "audio")} options={TYPES.map((t) => ({ value: t.value, label: t.label }))} size="sm" />
             </div>
@@ -221,7 +221,7 @@ export default function Cloud() {
         footer={<Button variant="primary" onClick={() => setApercu(null)}>Fermer</Button>}>
         {apercu && (
           <div className="cloud-apercu">
-            {apercu.o.type.startsWith("video/") ? <video controls preload="metadata" src={apercu.url} aria-label={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] w-full rounded-[16px] bg-obsidian" />
+            {apercu.o.type.startsWith("video/") ? <video controls preload="metadata" src={apercu.url} aria-label={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] w-full rounded-[16px] bg-sunken" />
               : apercu.o.type.startsWith("audio/") ? <audio controls preload="metadata" src={apercu.url} aria-label={`Aperçu de ${apercu.o.nom}`} className="w-full" />
               : <img src={apercu.url} alt={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] rounded-[16px]" />}
             <p className="mt-3 text-[13.5px] text-muted">Lecture depuis le Cloud par un lien signé, valable {dureeLien(apercu.expireLe)}.</p>

@@ -83,7 +83,7 @@ const BAD_REDIRECT = "Réponse inattendue du serveur : aucune redirection n'a �
 export function Frame({ children, label }: { children: React.ReactNode; label: string }) {
   return (
     <main id="contenu" className="relative min-h-dvh overflow-hidden bg-ivory text-ink">
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_45%_at_50%_0%,rgb(233_224_208/0.65),transparent_70%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0" />
       <div className="container-site relative flex min-h-dvh flex-col items-center justify-center py-8 sm:py-14">
         <BrandLogo size="md" className="mb-7" />
         <motion.section

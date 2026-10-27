@@ -1,8 +1,8 @@
 // Avancement d'un export d'extrait (3.6.0) : étapes RÉELLES du serveur (analyse, récupération, conversion,
 // finalisation, terminé), pourcentage seulement quand il est mesuré, sinon animation indéterminée et phrase qui dit ce
-// qui se passe. La chouette officielle (tête maître, src/shared/owl.ts) réagit au lancement — ses yeux seulement et une
-// très légère mise à l'échelle, jamais déformée ni tournée —, un fin anneau champagne l'entoure pendant le travail, puis
-// tout revient doucement au repos. Mouvement réduit : aucun mouvement, anneau fixe.
+// qui se passe. Égide (3.9.0) : la chouette maître (dessin du fichier maître, src/shared/owl.ts) sur sa médaille reste
+// IMMOBILE ; un fil tourne autour pendant le travail (la veille), puis la médaille se frappe une fois quand le fichier est
+// prêt (le sceau). Mouvement réduit : rien ne bouge.
 import { ETAPES, ETAPE_LABEL, ETAPE_SHORT, etapeDetail, etapeRank, type Etape } from "../shared/etapes.ts";
 import type { ClipFormat } from "../shared/extrait.ts";
 import { owlSvg } from "../shared/owl.ts";
@@ -77,7 +77,7 @@ export class ExportProgress {
   private launchTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(doc: Document, hooks: ProgressHooks) {
-    const svg = owlSvg(doc, { size: 22, surface: "dark", className: "xp-owl-svg" });
+    const svg = owlSvg(doc, { size: 22, surface: "dark", maitre: true, className: "xp-owl-svg" });
     this.owl = el(doc, "span", { class: "xp-owl", attrs: { "aria-hidden": "true" } }, [el(doc, "span", { class: "xp-ring" }), svg]);
     this.title = el(doc, "p", { class: "xp-title" });
     this.pct = el(doc, "span", { class: "xp-pct" });

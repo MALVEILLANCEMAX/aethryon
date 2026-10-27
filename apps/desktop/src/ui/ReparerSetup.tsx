@@ -14,12 +14,12 @@ export function BoutonReparerSetup({ taille = "sm", variante = "primary" }: { ta
     setOccupe(true);
     try {
       await api.reparerAvecSetup();
-      toast({ etat: "info", titre: "AETHRYON Setup s'ouvre", texte: "Choisissez « Réparer » : le panneau AETHRYON est réinstallé. AETHRYON Desktop se ferme." });
+      toast({ etat: "info", titre: "AETHRYON Setup s'ouvre", texte: "Choisis « Réparer » : le panneau AETHRYON est réinstallé. AETHRYON Desktop se ferme." });
     } catch (e) {
       setOccupe(false);
       try {
         await api.ouvrirPageSetup();
-        toast({ etat: "info", titre: "Page de téléchargement ouverte", texte: `${messageErreur(e)} Téléchargez AETHRYON Setup, puis choisissez « Réparer ».` });
+        toast({ etat: "info", titre: "Page de téléchargement ouverte", texte: `${messageErreur(e)} Télécharge AETHRYON Setup, puis choisis « Réparer ».` });
       } catch {
         toast({ etat: "erreur", titre: "Réparation impossible", texte: messageErreur(e) });
       }
