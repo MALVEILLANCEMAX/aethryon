@@ -1,0 +1,2 @@
+/* AETHRYON Égide : thème au démarrage (design/src/boot.ts) */
+"use strict";(()=>{(()=>{try{let r=JSON.parse(localStorage.getItem("aethryon.apparence.v1")||"null"),s=r&&r.v===1&&r.cache;if(!s)return;let a=document.documentElement;for(let t in s.attrs){let e=s.attrs[t];/^data-eg-[a-z-]{2,24}$/.test(t)&&typeof e=="string"&&/^[a-z0-9-]{1,16}$/.test(e)&&a.setAttribute(t,e)}for(let t in s.vars){let e=s.vars[t];/^--eg-[a-z0-9-]{1,32}$/.test(t)&&typeof e=="string"&&/^(#[0-9A-Fa-f]{6}|\d{1,3}(\.\d{1,4})?(px)?)$/.test(e)&&a.style.setProperty(t,e)}}catch{}})();})();

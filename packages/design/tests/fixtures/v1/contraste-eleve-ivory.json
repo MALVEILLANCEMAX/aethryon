@@ -1,0 +1,2 @@
+{ "format": "aethryon-theme", "schemaVersion": 1, "id": "perso.lecture-forte", "name": "Lecture forte", "author": "Essai", "base": "ivory",
+  "seeds": { "contrast": "eleve" }, "typography": { "preset": "lecture", "scale": 1.25 }, "density": "aeree", "motion": { "intensity": "aucune" } }

@@ -1,0 +1,2 @@
+{ "format": "aethryon-theme", "schemaVersion": 1, "id": "perso.laurier", "name": "Laurier", "base": "oled",
+  "seeds": { "accent": "#8FA66A", "neutralHue": 120, "neutralChroma": 0.02, "background": 0 }, "typography": { "preset": "sobre" }, "density": "compacte" }

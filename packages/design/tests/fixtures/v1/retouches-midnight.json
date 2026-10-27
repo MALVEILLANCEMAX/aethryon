@@ -1,0 +1,2 @@
+{ "format": "aethryon-theme", "schemaVersion": 1, "id": "perso.minuit-or", "name": "Minuit or", "base": "midnight",
+  "tokens": { "c-accent": "#E0C68E", "c-thread": "#E0C68E", "r-panel": 0 }, "effects": { "sheen": false, "grain": true } }

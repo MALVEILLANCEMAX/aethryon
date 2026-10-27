@@ -1,0 +1,83 @@
+{
+  "css": {
+    "egide.css (brut)": {
+      "octets": 51622,
+      "gzip": 10752,
+      "brotli": 9323
+    },
+    "egide.css (minifié)": {
+      "octets": 41146,
+      "gzip": 8271,
+      "brotli": 7230
+    },
+    "EGIDE_CSS_SHADOW (minifié)": {
+      "octets": 29354,
+      "gzip": 6311,
+      "brotli": 5450
+    }
+  },
+  "js": {
+    "theme-boot.js": {
+      "octets": 566,
+      "gzip": 394,
+      "brotli": 342
+    },
+    "moteur seul (demarrerTheme, appliquerTheme, persistance)": {
+      "octets": 19063,
+      "gzip": 7662,
+      "brotli": 6862
+    },
+    "moteur + import/export + contrastes": {
+      "octets": 21043,
+      "gzip": 8347,
+      "brotli": 7515
+    },
+    "composants DOM (sans éditeur) + icônes + chouette": {
+      "octets": 19632,
+      "gzip": 6533,
+      "brotli": 5818
+    },
+    "complet (tout sauf EGIDE_CSS_SHADOW)": {
+      "octets": 64587,
+      "gzip": 23567,
+      "brotli": 21094
+    }
+  },
+  "polices": {
+    "geist-mono-latin-wght-normal.woff2": 23128,
+    "hanken-grotesk-latin-wght-normal.woff2": 34704,
+    "marcellus-latin-400-normal.woff2": 14552
+  },
+  "budgets": [
+    {
+      "mesure": "egide.css (minifié) (gzip)",
+      "valeur": 8271,
+      "max": 12288,
+      "ok": true
+    },
+    {
+      "mesure": "EGIDE_CSS_SHADOW (minifié) (gzip)",
+      "valeur": 6311,
+      "max": 10240,
+      "ok": true
+    },
+    {
+      "mesure": "theme-boot.js (octets)",
+      "valeur": 566,
+      "max": 1024,
+      "ok": true
+    },
+    {
+      "mesure": "moteur seul (demarrerTheme, appliquerTheme, persistance) (gzip)",
+      "valeur": 7662,
+      "max": 8192,
+      "ok": true
+    },
+    {
+      "mesure": "complet (tout sauf EGIDE_CSS_SHADOW) (gzip)",
+      "valeur": 23567,
+      "max": 24576,
+      "ok": true
+    }
+  ]
+}

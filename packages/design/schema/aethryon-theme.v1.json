@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json",
+  "title": "AETHRYON — thème (aethryon-theme v1)",
+  "description": "Un thème est une DONNÉE : aucune clé inconnue, aucune URL (sauf $schema), couleurs #RRGGBB uniquement, nombres bornés. Fichier de 16 Ko au plus (contrôlé par le validateur). Validateur de référence : design/src/schema.ts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "schemaVersion",
+    "id",
+    "name",
+    "base"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json"
+    },
+    "format": {
+      "const": "aethryon-theme"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9.-]{3,64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "author": {
+      "type": "string",
+      "maxLength": 60
+    },
+    "base": {
+      "enum": [
+        "obsidian",
+        "ivory",
+        "oled",
+        "midnight",
+        "minimal"
+      ]
+    },
+    "seeds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "accent": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "neutralHue": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360
+        },
+        "neutralChroma": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.04
+        },
+        "background": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "contrast": {
+          "enum": [
+            "standard",
+            "eleve"
+          ]
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "c-canvas": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-surface": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-raised": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-sunken": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-line": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-line-strong": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-control": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-text": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-text-2": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-text-3": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-accent": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-accent-hover": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-on-accent": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-accent-text": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-thread": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-ok": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-warn": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-err": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "c-focus": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "r-panel": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preset": {
+          "enum": [
+            "egide",
+            "sobre",
+            "lecture"
+          ]
+        },
+        "scale": {
+          "type": "number",
+          "minimum": 0.9,
+          "maximum": 1.25
+        }
+      }
+    },
+    "density": {
+      "enum": [
+        "compacte",
+        "standard",
+        "aeree"
+      ]
+    },
+    "motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intensity"
+      ],
+      "properties": {
+        "intensity": {
+          "enum": [
+            "complete",
+            "douce",
+            "reduite",
+            "aucune"
+          ]
+        }
+      }
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sheen": {
+          "type": "boolean"
+        },
+        "grain": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

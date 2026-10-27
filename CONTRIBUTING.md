@@ -59,6 +59,7 @@ Rules for local testing:
    | `apps/discord-bot` | `npm ci && npm run typecheck && npm test` |
    | `apps/premiere-panel` | `npm ci && npm run typecheck && npm test` |
    | `apps/desktop` | `npm ci && npm test` and `cargo test -p aethryon-noyau` |
+   | `packages/design` | `npm ci && node scripts/build.mjs --check && npm run typecheck && npm test` (or `make test-design`) |
    | error codes | `python3 scripts/check-error-codes.py` |
    | secrets | `make scan` |
 

@@ -69,6 +69,26 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: ${{ matrix.run }}
 
+  design:
+    name: design system (packages/design)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: packages/design
+    steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: packages/design/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      # Generated files, the website copy (apps/web/src/egide), the master owl and the size budgets.
+      - run: node scripts/build.mjs --check
+      - run: npm run typecheck
+      - run: npm test
+
   media-api:
     name: media-api (pytest, offline container)
     runs-on: ubuntu-24.04

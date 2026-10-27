@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json",
+  "format": "aethryon-theme",
+  "schemaVersion": 1,
+  "id": "officiel.midnight",
+  "name": "Midnight",
+  "author": "AETHRYON",
+  "base": "midnight",
+  "typography": {
+    "preset": "egide",
+    "scale": 1
+  },
+  "density": "standard",
+  "motion": {
+    "intensity": "douce"
+  },
+  "effects": {
+    "sheen": true,
+    "grain": false
+  }
+}

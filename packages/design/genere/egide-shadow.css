@@ -1,0 +1,698 @@
+/* Généré par design/scripts/build.mjs — ne pas éditer à la main (source : design/src, design/css). */
+@layer theme, base, components, utilities;
+@layer theme {
+  :host, .eg-racine {
+    --eg-s-1: 2px;
+    --eg-s-2: 4px;
+    --eg-s-3: 8px;
+    --eg-s-4: 12px;
+    --eg-s-5: 16px;
+    --eg-s-6: 20px;
+    --eg-s-7: 24px;
+    --eg-s-8: 32px;
+    --eg-s-9: 40px;
+    --eg-s-10: 48px;
+    --eg-s-11: 64px;
+    --eg-s-12: 96px;
+    --eg-f-ui: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --eg-f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --eg-f-marque: "Marcellus", Georgia, "Times New Roman", serif;
+    --eg-fs-d-xl: clamp(44px, 5.4vw, 86px);
+    --eg-r-pill: 999px;
+    --eg-b-fine: 1px;
+    --eg-b-forte: 1.5px;
+    --eg-b-focus: 2px;
+    --eg-b-focus-decalage: 2px;
+    --eg-b-fil: 2px;
+    --eg-b-fil-epais: 4px;
+    --eg-e-out: cubic-bezier(.23, 1, .32, 1);
+    --eg-e-move: cubic-bezier(.77, 0, .175, 1);
+    --eg-e-sheet: cubic-bezier(.32, .72, 0, 1);
+    --eg-z-menu: 40;
+    --eg-z-dialogue: 50;
+    --eg-z-toast: 60;
+    --eg-z-infobulle: 70;
+  }
+  :host, .eg-racine, [data-eg-theme="obsidian"] {
+    --eg-c-canvas: #101113;
+    --eg-c-surface: #16171A;
+    --eg-c-raised: #1D1E22;
+    --eg-c-sunken: #0B0C0E;
+    --eg-c-line: #2A2B30;
+    --eg-c-line-strong: #3D3E44;
+    --eg-c-control: #6F6A61;
+    --eg-c-text: #EEE8DC;
+    --eg-c-text-2: #ACA597;
+    --eg-c-text-3: #8E887C;
+    --eg-c-accent: #C2A066;
+    --eg-c-accent-hover: #D3B57F;
+    --eg-c-on-accent: #19140B;
+    --eg-c-accent-text: #D9C08E;
+    --eg-c-thread: #C9A86B;
+    --eg-c-ok: #74B39A;
+    --eg-c-warn: #D7A64A;
+    --eg-c-err: #E3896F;
+    --eg-c-focus: #E2C58E;
+    --eg-c-hover: #252628;
+    --eg-c-accent-soft: #322D26;
+    --eg-c-ok-soft: #232D2C;
+    --eg-c-err-soft: #2F2524;
+    --eg-c-medal-hi: #3A332A;
+    --eg-c-medal-lo: #0E0D0B;
+    --eg-c-medal-rim: #7A6440;
+    --eg-r-panel: 12px;
+    --eg-r-control: 8px;
+    --eg-r-media: 6px;
+    --eg-r-sheet: 16px;
+    --eg-density: 1;
+    --eg-t-scale: 1;
+    --eg-lh-body: 1.5;
+    --eg-color-scheme: dark;
+    --eg-sheen: linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, 0) 38%);
+    --eg-shadow-pop: 0 18px 50px rgba(0, 0, 0, .5);
+    --eg-shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+    --eg-scrim: rgba(0, 0, 0, .56);
+    --eg-motion-scale: 1;
+    --eg-move: 1;
+    --eg-f-display: "Marcellus", Georgia, "Times New Roman", serif;
+    --eg-f-display-w: 400;
+    --eg-f-display-ls: -.005em;
+  }
+  [data-eg-theme="ivory"] {
+    --eg-c-canvas: #FAF8F3;
+    --eg-c-surface: #F3EEE5;
+    --eg-c-raised: #FFFDF9;
+    --eg-c-sunken: #ECE6DA;
+    --eg-c-line: #E2D9CA;
+    --eg-c-line-strong: #B8AC97;
+    --eg-c-control: #8C806D;
+    --eg-c-text: #17150F;
+    --eg-c-text-2: #4D473D;
+    --eg-c-text-3: #6B6459;
+    --eg-c-accent: #7E6034;
+    --eg-c-accent-hover: #6C5129;
+    --eg-c-on-accent: #FFFDF8;
+    --eg-c-accent-text: #7A5F38;
+    --eg-c-thread: #A4814A;
+    --eg-c-ok: #2F6B57;
+    --eg-c-warn: #8A5A12;
+    --eg-c-err: #A3372B;
+    --eg-c-focus: #7A5F38;
+    --eg-c-hover: #E6E1D8;
+    --eg-c-accent-soft: #E5DDD0;
+    --eg-c-ok-soft: #D8DCD1;
+    --eg-c-err-soft: #E9D8CF;
+    --eg-c-medal-hi: #FFFFFF;
+    --eg-c-medal-lo: #DCD0BC;
+    --eg-c-medal-rim: #B3976A;
+    --eg-r-panel: 12px;
+    --eg-r-control: 8px;
+    --eg-r-media: 6px;
+    --eg-r-sheet: 16px;
+    --eg-density: 1;
+    --eg-t-scale: 1;
+    --eg-lh-body: 1.5;
+    --eg-color-scheme: light;
+    --eg-sheen: linear-gradient(180deg, rgba(255, 255, 255, .7), rgba(255, 255, 255, 0) 40%);
+    --eg-shadow-pop: 0 16px 40px rgba(60, 48, 30, .16);
+    --eg-shadow-1: 0 1px 2px rgba(60, 48, 30, .12);
+    --eg-scrim: rgba(40, 34, 24, .28);
+    --eg-motion-scale: 1;
+    --eg-move: 1;
+    --eg-f-display: "Marcellus", Georgia, "Times New Roman", serif;
+    --eg-f-display-w: 400;
+    --eg-f-display-ls: -.005em;
+  }
+  [data-eg-theme="oled"] {
+    --eg-c-canvas: #000000;
+    --eg-c-surface: #000000;
+    --eg-c-raised: #0B0B0B;
+    --eg-c-sunken: #000000;
+    --eg-c-line: #262626;
+    --eg-c-line-strong: #3C3C3C;
+    --eg-c-control: #6A6A6A;
+    --eg-c-text: #F2EEE6;
+    --eg-c-text-2: #ADA79D;
+    --eg-c-text-3: #8A857C;
+    --eg-c-accent: #D2B27A;
+    --eg-c-accent-hover: #E0C391;
+    --eg-c-on-accent: #120E06;
+    --eg-c-accent-text: #DCC18F;
+    --eg-c-thread: #D2B27A;
+    --eg-c-ok: #74B39A;
+    --eg-c-warn: #D7A64A;
+    --eg-c-err: #E3896F;
+    --eg-c-focus: #E2C58E;
+    --eg-c-hover: #111110;
+    --eg-c-accent-soft: #221C14;
+    --eg-c-ok-soft: #101916;
+    --eg-c-err-soft: #1B100D;
+    --eg-c-medal-hi: #000000;
+    --eg-c-medal-lo: #000000;
+    --eg-c-medal-rim: #5B4A2E;
+    --eg-r-panel: 8px;
+    --eg-r-control: 5px;
+    --eg-r-media: 4px;
+    --eg-r-sheet: 11px;
+    --eg-density: 1;
+    --eg-t-scale: 1;
+    --eg-lh-body: 1.5;
+    --eg-color-scheme: dark;
+    --eg-sheen: none;
+    --eg-shadow-pop: 0 0 0 1px #3C3C3C;
+    --eg-shadow-1: none;
+    --eg-scrim: rgba(0, 0, 0, .56);
+    --eg-motion-scale: 1;
+    --eg-move: 1;
+    --eg-f-display: "Marcellus", Georgia, "Times New Roman", serif;
+    --eg-f-display-w: 400;
+    --eg-f-display-ls: -.005em;
+  }
+  [data-eg-theme="midnight"] {
+    --eg-c-canvas: #0E1220;
+    --eg-c-surface: #131829;
+    --eg-c-raised: #1A2033;
+    --eg-c-sunken: #0A0D18;
+    --eg-c-line: #263049;
+    --eg-c-line-strong: #3A4664;
+    --eg-c-control: #66729A;
+    --eg-c-text: #E7EAF2;
+    --eg-c-text-2: #A9B1C6;
+    --eg-c-text-3: #8C95AE;
+    --eg-c-accent: #D9C08C;
+    --eg-c-accent-hover: #E7D2A6;
+    --eg-c-on-accent: #15120A;
+    --eg-c-accent-text: #E1CB9C;
+    --eg-c-thread: #C9D3E8;
+    --eg-c-ok: #7DBDA6;
+    --eg-c-warn: #D7A64A;
+    --eg-c-err: #E8907A;
+    --eg-c-focus: #C9D3E8;
+    --eg-c-hover: #222737;
+    --eg-c-accent-soft: #333339;
+    --eg-c-ok-soft: #222F3B;
+    --eg-c-err-soft: #2D2633;
+    --eg-c-medal-hi: #2C3550;
+    --eg-c-medal-lo: #0A0D18;
+    --eg-c-medal-rim: #8C96B0;
+    --eg-r-panel: 12px;
+    --eg-r-control: 8px;
+    --eg-r-media: 6px;
+    --eg-r-sheet: 16px;
+    --eg-density: 1;
+    --eg-t-scale: 1;
+    --eg-lh-body: 1.5;
+    --eg-color-scheme: dark;
+    --eg-sheen: linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, 0) 38%);
+    --eg-shadow-pop: 0 18px 50px rgba(0, 0, 0, .5);
+    --eg-shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+    --eg-scrim: rgba(0, 0, 0, .56);
+    --eg-motion-scale: 1.25;
+    --eg-move: 0.6;
+    --eg-f-display: "Marcellus", Georgia, "Times New Roman", serif;
+    --eg-f-display-w: 400;
+    --eg-f-display-ls: -.005em;
+  }
+  [data-eg-theme="minimal"] {
+    --eg-c-canvas: #FBFBFA;
+    --eg-c-surface: #FFFFFF;
+    --eg-c-raised: #FFFFFF;
+    --eg-c-sunken: #F3F3F1;
+    --eg-c-line: #E7E7E4;
+    --eg-c-line-strong: #C8C8C3;
+    --eg-c-control: #8E8E89;
+    --eg-c-text: #111111;
+    --eg-c-text-2: #4A4A47;
+    --eg-c-text-3: #6A6A66;
+    --eg-c-accent: #111111;
+    --eg-c-accent-hover: #2B2B2B;
+    --eg-c-on-accent: #FFFFFF;
+    --eg-c-accent-text: #111111;
+    --eg-c-thread: #A8864F;
+    --eg-c-ok: #2E6B55;
+    --eg-c-warn: #855A14;
+    --eg-c-err: #A2382B;
+    --eg-c-focus: #111111;
+    --eg-c-hover: #F1F1F1;
+    --eg-c-accent-soft: #E2E2E2;
+    --eg-c-ok-soft: #E2EAE7;
+    --eg-c-err-soft: #F4E7E6;
+    --eg-c-medal-hi: #F3F3F1;
+    --eg-c-medal-lo: #F3F3F1;
+    --eg-c-medal-rim: #C8C8C3;
+    --eg-r-panel: 6px;
+    --eg-r-control: 4px;
+    --eg-r-media: 3px;
+    --eg-r-sheet: 8px;
+    --eg-density: 0.86;
+    --eg-t-scale: 1;
+    --eg-lh-body: 1.5;
+    --eg-color-scheme: light;
+    --eg-sheen: none;
+    --eg-shadow-pop: 0 16px 40px rgba(60, 48, 30, .16);
+    --eg-shadow-1: 0 1px 2px rgba(60, 48, 30, .12);
+    --eg-scrim: rgba(40, 34, 24, .28);
+    --eg-motion-scale: 0.5;
+    --eg-move: 0;
+    --eg-f-display: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --eg-f-display-w: 640;
+    --eg-f-display-ls: -.02em;
+  }
+  [data-eg-mode="sombre"] {
+    --eg-color-scheme: dark;
+    --eg-sheen: linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, 0) 38%);
+    --eg-shadow-pop: 0 18px 50px rgba(0, 0, 0, .5);
+    --eg-shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+    --eg-scrim: rgba(0, 0, 0, .56);
+  }
+  [data-eg-mode="clair"] {
+    --eg-color-scheme: light;
+    --eg-sheen: linear-gradient(180deg, rgba(255, 255, 255, .7), rgba(255, 255, 255, 0) 40%);
+    --eg-shadow-pop: 0 16px 40px rgba(60, 48, 30, .16);
+    --eg-shadow-1: 0 1px 2px rgba(60, 48, 30, .12);
+    --eg-scrim: rgba(40, 34, 24, .28);
+  }
+  [data-eg-sheen="0"] {
+    --eg-sheen: none;
+  }
+  [data-eg-oled="1"] {
+    --eg-shadow-pop: 0 0 0 1px var(--eg-c-line-strong);
+    --eg-shadow-1: none;
+  }
+  [data-eg-typo="egide"], [data-eg-typo="lecture"] {
+    --eg-f-display: "Marcellus", Georgia, "Times New Roman", serif;
+    --eg-f-display-w: 400;
+    --eg-f-display-ls: -.005em;
+  }
+  [data-eg-typo="sobre"] {
+    --eg-f-display: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --eg-f-display-w: 640;
+    --eg-f-display-ls: -.02em;
+  }
+  [data-eg-motion="complete"] {
+    --eg-motion-scale: 1;
+    --eg-move: 1;
+  }
+  [data-eg-motion="douce"] {
+    --eg-motion-scale: 1.25;
+    --eg-move: 0.6;
+  }
+  [data-eg-motion="reduite"] {
+    --eg-motion-scale: 0.5;
+    --eg-move: 0;
+  }
+  [data-eg-motion="aucune"] {
+    --eg-motion-scale: 0;
+    --eg-move: 0;
+  }
+  :host, .eg-racine, [data-eg-theme], .eg-scope {
+    --eg-fs-xs: calc(12px * var(--eg-t-scale));
+    --eg-fs-s: calc(13px * var(--eg-t-scale));
+    --eg-fs-m: calc(15px * var(--eg-t-scale));
+    --eg-fs-l: calc(18px * var(--eg-t-scale));
+    --eg-fs-d-s: calc(22px * var(--eg-t-scale));
+    --eg-fs-d-m: calc(30px * var(--eg-t-scale));
+    --eg-h-ctl: calc(38px * var(--eg-density));
+    --eg-h-seg: calc(32px * var(--eg-density));
+    --eg-h-row: calc(36px * var(--eg-density));
+    --eg-h-etabli: calc(52px * var(--eg-density));
+    --eg-h-mini: calc(28px * var(--eg-density));
+    --eg-pad: calc(16px * var(--eg-density));
+    --eg-gap: calc(12px * var(--eg-density));
+    --eg-d-micro: calc(120ms * var(--eg-motion-scale));
+    --eg-d-court: calc(160ms * var(--eg-motion-scale));
+    --eg-d-moyen: calc(220ms * var(--eg-motion-scale));
+    --eg-d-long: calc(320ms * var(--eg-motion-scale));
+    --eg-d-fil: calc(260ms * var(--eg-motion-scale));
+    --eg-d-recit: calc(700ms * var(--eg-motion-scale));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :host, .eg-racine, [data-eg-theme] {
+      --eg-motion-scale: 0.5;
+      --eg-move: 0;
+    }
+    [data-eg-motion="aucune"] {
+      --eg-motion-scale: 0;
+      --eg-move: 0;
+    }
+    [data-eg-motion-explicite="1"][data-eg-motion="complete"] {
+      --eg-motion-scale: 1;
+      --eg-move: 1;
+    }
+    [data-eg-motion-explicite="1"][data-eg-motion="douce"] {
+      --eg-motion-scale: 1.25;
+      --eg-move: 0.6;
+    }
+  }
+}
+/* Socle d'une interface Égide, ACTIVÉ À LA DEMANDE : rien ici ne touche une page qui n'a pas la classe .eg-page
+   (document : sur <body> ou la racine de l'application), .eg-racine (élément racine dans une racine Shadow DOM) ou
+   .eg-scope (sous-arbre aux jetons propres, ex. aperçu de l'éditeur). Les écrans existants restent identiques tant
+   qu'un lot ne les a pas passés à Égide. */
+@layer base {
+  .eg-racine {
+    all: initial; /* aucune propriété héritée de la page hôte (les variables --eg-* ne sont pas touchées par all) */
+    display: block;
+  }
+  .eg-page, .eg-racine, .eg-scope {
+    color-scheme: var(--eg-color-scheme);
+    font-family: var(--eg-f-ui);
+    font-size: var(--eg-fs-m);
+    line-height: var(--eg-lh-body);
+    color: var(--eg-c-text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .eg-page, .eg-racine { background-color: var(--eg-c-canvas); }
+  .eg-page[data-eg-grain="1"], [data-eg-grain="1"] .eg-page, .eg-racine[data-eg-grain="1"], .eg-scope[data-eg-grain="1"] {
+    background-image: radial-gradient(rgba(60, 45, 20, .05) .6px, transparent .7px);
+    background-size: 3px 3px;
+  }
+  :is(.eg-page, .eg-racine, .eg-scope) :is(*, *::before, *::after) { box-sizing: border-box; }
+  :is(.eg-page, .eg-racine, .eg-scope) :is(button, input, select, textarea) { font: inherit; color: inherit; letter-spacing: inherit; }
+  :is(.eg-page, .eg-racine) :focus-visible {
+    outline: var(--eg-b-focus) solid var(--eg-c-focus);
+    outline-offset: var(--eg-b-focus-decalage);
+  }
+  :is(.eg-page, .eg-racine) :focus:not(:focus-visible) { outline: none; }
+  :is(.eg-page, .eg-racine) ::selection { background: var(--eg-c-accent-soft); color: var(--eg-c-text); }
+  /* « Aucune » animation : rien ne bouge dans une interface Égide (les autres pages ne sont pas touchées). */
+  [data-eg-motion="aucune"] :is(.eg-page, .eg-racine, .eg-scope) :is(*, *::before, *::after),
+  :is(.eg-page, .eg-racine, .eg-scope)[data-eg-motion="aucune"] :is(*, *::before, *::after) {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Changement de thème : fondu croisé natif de 200 ms (View Transitions), rien pour les autres changements. */
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 200ms; animation-timing-function: ease; }
+
+  /* Utilitaires */
+  .eg-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .eg-mono { font-family: var(--eg-f-mono); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .eg-titre { font-family: var(--eg-f-display); font-weight: var(--eg-f-display-w); letter-spacing: var(--eg-f-display-ls); }
+  .eg-i { display: block; width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .eg-i--s { width: 15px; height: 15px; }
+  .eg-i--l { width: 22px; height: 22px; }
+}
+/* Composants de référence Égide (DESIGN_SYSTEM.md § 10). Aucune couleur, aucun rayon ni aucune durée en dur : tout
+   passe par les jetons --eg-*. Survols derrière (hover: hover) and (pointer: fine) ; appui scale(.97) ; transform et
+   opacity seulement pour le mouvement ; jamais « transition: all ». Couche « components » (même nom que Tailwind 4 :
+   les utilitaires du site gardent le dernier mot). */
+@layer components {
+  /* ---------- Boutons : principal (l'or, une fois par vue), secondaire, discret, icône, mini ---------- */
+  .eg-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--eg-h-ctl); padding: 0 14px;
+    border-radius: var(--eg-r-control); border: var(--eg-b-fine) solid transparent; background: none; color: inherit;
+    font-family: var(--eg-f-ui); font-weight: 600; font-size: var(--eg-fs-s); line-height: 1.2; white-space: nowrap; cursor: pointer;
+    text-decoration: none; -webkit-tap-highlight-color: transparent; user-select: none;
+    transition: transform var(--eg-d-micro) var(--eg-e-out), background-color var(--eg-d-court) ease, border-color var(--eg-d-court) ease, color var(--eg-d-court) ease;
+  }
+  .eg-btn:active { transform: scale(calc(1 - .03 * var(--eg-move))); }
+  .eg-btn--principal { background: var(--eg-c-accent); color: var(--eg-c-on-accent); font-size: var(--eg-fs-m); }
+  .eg-btn--secondaire { background: var(--eg-c-raised); color: var(--eg-c-text); border-color: var(--eg-c-control); }
+  .eg-btn--discret { color: var(--eg-c-text-2); padding: 0 10px; }
+  .eg-btn--icone { width: 36px; min-height: 36px; padding: 0; color: var(--eg-c-text-2); }
+  .eg-btn--mini { min-height: var(--eg-h-mini); padding: 0 8px; gap: 6px; font-size: var(--eg-fs-xs); color: var(--eg-c-text-2); }
+  .eg-btn[aria-disabled="true"], .eg-btn:disabled { background: var(--eg-c-sunken); color: var(--eg-c-text-3); border-color: var(--eg-c-line-strong); cursor: default; }
+  .eg-btn[aria-disabled="true"]:active { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .eg-btn--principal:not([aria-disabled="true"]):hover { background: var(--eg-c-accent-hover); }
+    .eg-btn--secondaire:not([aria-disabled="true"]):hover { border-color: var(--eg-c-text-3); }
+    :is(.eg-btn--discret, .eg-btn--icone, .eg-btn--mini):not([aria-disabled="true"]):hover { background: var(--eg-c-hover); color: var(--eg-c-text); }
+  }
+  @media (pointer: coarse) { .eg-btn--mini { min-height: 40px; } .eg-btn--icone { width: 44px; min-height: 44px; } .eg-btn .eg-touche { display: none; } }
+  .eg-touche {
+    font-family: var(--eg-f-mono); font-size: 11px; line-height: 18px; padding: 0 5px; border-radius: 4px;
+    border: var(--eg-b-fine) solid var(--eg-c-line-strong); color: var(--eg-c-text-3); font-weight: 500;
+  }
+  .eg-btn--principal .eg-touche { color: var(--eg-c-on-accent); border-color: currentColor; }
+
+  /* ---------- Segments (2 à 4 choix exclusifs) ---------- */
+  .eg-seg {
+    display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; padding: 2px; border-radius: var(--eg-r-control);
+    background: var(--eg-c-sunken); border: var(--eg-b-fine) solid var(--eg-c-control);
+  }
+  .eg-seg button {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: var(--eg-h-seg); padding: 0 12px;
+    border: 0; background: none; border-radius: max(0px, calc(var(--eg-r-control) - 2px)); color: var(--eg-c-text-2);
+    font-size: var(--eg-fs-s); font-weight: 600; white-space: nowrap; cursor: pointer;
+    transition: background-color var(--eg-d-court) ease, color var(--eg-d-court) ease;
+  }
+  .eg-seg button[aria-pressed="true"] { background: var(--eg-c-raised); color: var(--eg-c-text); box-shadow: 0 0 0 1px var(--eg-c-line-strong); }
+  @media (hover: hover) and (pointer: fine) { .eg-seg button[aria-pressed="false"]:hover { color: var(--eg-c-text); background: var(--eg-c-hover); } }
+  @media (pointer: coarse) { .eg-seg button { min-height: 44px; } }
+
+  /* ---------- Tuiles de format (choix visuel : icône, nom, précision) ---------- */
+  .eg-tuiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .eg-tuile {
+    position: relative; display: grid; justify-items: start; align-content: start; gap: 2px; padding: 12px 12px 10px; text-align: left;
+    border-radius: var(--eg-r-control); border: var(--eg-b-fine) solid var(--eg-c-line-strong); background: var(--eg-c-raised); color: var(--eg-c-text); cursor: pointer;
+    transition: border-color var(--eg-d-court) ease, background-color var(--eg-d-court) ease, transform var(--eg-d-micro) var(--eg-e-out);
+  }
+  .eg-tuile > .eg-i { color: var(--eg-c-text-2); margin-bottom: 6px; transition: color var(--eg-d-court) ease; }
+  .eg-tuile b { font-size: var(--eg-fs-s); font-weight: 650; }
+  .eg-tuile small { font-size: var(--eg-fs-xs); color: var(--eg-c-text-3); }
+  .eg-tuile:active { transform: scale(calc(1 - .02 * var(--eg-move))); }
+  .eg-tuile[aria-pressed="true"] { border-color: var(--eg-c-accent-text); background: var(--eg-c-accent-soft); box-shadow: inset 0 0 0 .5px var(--eg-c-accent-text); }
+  .eg-tuile[aria-pressed="true"] > .eg-i { color: var(--eg-c-accent-text); }
+  .eg-tuile[aria-pressed="true"] small { color: var(--eg-c-text-2); } /* text-3 n'est pas garanti sur l'accent doux */
+  .eg-tuile-coche {
+    position: absolute; top: 8px; right: 8px; width: 16px; height: 16px; border-radius: 50%; background: var(--eg-c-accent-text); color: var(--eg-c-surface);
+    display: grid; place-items: center; opacity: 0; transform: scale(.9); transition: opacity var(--eg-d-court) ease, transform var(--eg-d-court) var(--eg-e-out);
+  }
+  .eg-tuile-coche .eg-i { width: 11px; height: 11px; stroke-width: 2.6; }
+  .eg-tuile[aria-pressed="true"] .eg-tuile-coche { opacity: 1; transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .eg-tuile[aria-pressed="false"]:hover { border-color: var(--eg-c-text-3); }
+    .eg-tuile[aria-pressed="false"]:hover > .eg-i { color: var(--eg-c-text); }
+  }
+
+  /* ---------- Interrupteur (effet immédiat, role=switch) ---------- */
+  .eg-interrupteur {
+    position: relative; width: 34px; height: 20px; padding: 0; border-radius: 999px; background: var(--eg-c-sunken); border: var(--eg-b-fine) solid var(--eg-c-control); flex: none; cursor: pointer;
+    transition: background-color var(--eg-d-court) ease, border-color var(--eg-d-court) ease;
+  }
+  .eg-interrupteur::after {
+    content: ""; position: absolute; left: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--eg-c-text-2);
+    transition: transform var(--eg-d-court) var(--eg-e-out), background-color var(--eg-d-court) ease;
+  }
+  .eg-interrupteur[aria-checked="true"] { background: var(--eg-c-accent); border-color: var(--eg-c-accent); }
+  .eg-interrupteur[aria-checked="true"]::after { transform: translateX(14px); background: var(--eg-c-on-accent); }
+
+  /* ---------- Champ et établi (champ de lien) ---------- */
+  .eg-champ { display: grid; gap: 6px; min-width: 0; }
+  .eg-champ-libelle { font-size: var(--eg-fs-xs); font-weight: 600; color: var(--eg-c-text-2); }
+  .eg-champ-input {
+    width: 100%; min-width: 0; height: var(--eg-h-ctl); padding: 0 10px; border-radius: var(--eg-r-control);
+    border: var(--eg-b-fine) solid var(--eg-c-control); background: var(--eg-c-surface); color: var(--eg-c-text); font-size: var(--eg-fs-m);
+    transition: border-color var(--eg-d-court) ease;
+  }
+  .eg-champ-input::placeholder { color: var(--eg-c-text-3); }
+  .eg-champ-input:focus { border-color: var(--eg-c-accent-text); }
+  .eg-champ-input[aria-invalid="true"] { border-color: var(--eg-c-err); }
+  .eg-champ-aide { margin: 0; font-size: var(--eg-fs-xs); color: var(--eg-c-text-2); }
+  .eg-champ-erreur { margin: 0; font-size: var(--eg-fs-xs); color: var(--eg-c-err); font-weight: 600; }
+  .eg-etabli {
+    display: flex; align-items: center; gap: 6px; padding: 6px; border-radius: calc(var(--eg-r-panel) + 2px); border: var(--eg-b-fine) solid var(--eg-c-control);
+    background: var(--eg-c-surface); background-image: var(--eg-sheen); transition: border-color var(--eg-d-court) ease; min-width: 0;
+  }
+  .eg-etabli:focus-within { border-color: var(--eg-c-accent-text); }
+  .eg-etabli-lien { width: 40px; height: 40px; display: grid; place-items: center; color: var(--eg-c-text-3); flex: none; }
+  .eg-etabli .eg-champ-input { flex: 1; height: calc(var(--eg-h-etabli) - 12px); border: 0; background: none; outline: none; padding: 0 4px; }
+  .eg-etabli:has(.eg-champ-input:focus-visible) { outline: var(--eg-b-focus) solid var(--eg-c-focus); outline-offset: var(--eg-b-focus-decalage); }
+
+  /* ---------- Pastille d'état (ton = sens ; icône neutre + mot, jamais de logo) ---------- */
+  .eg-pastille {
+    display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 9px; border-radius: 999px; white-space: nowrap;
+    font-size: var(--eg-fs-xs); font-weight: 600; color: var(--eg-c-text-2); background: var(--eg-c-surface); border: var(--eg-b-fine) solid var(--eg-c-line-strong);
+  }
+  .eg-pastille .eg-i { width: 13px; height: 13px; stroke-width: 2; }
+  .eg-pastille-point { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+  .eg-pastille[data-ton="ok"] { color: var(--eg-c-ok); }
+  .eg-pastille[data-ton="warn"] { color: var(--eg-c-warn); }
+  .eg-pastille[data-ton="err"] { color: var(--eg-c-err); }
+  .eg-pastille[data-ton="accent"] { color: var(--eg-c-accent-text); }
+
+  /* ---------- Le fil (progression) et le nœud (état) ---------- */
+  .eg-fil { position: relative; height: var(--eg-b-fil); }
+  .eg-fil-piste { position: absolute; inset: 0; border-radius: 2px; background: var(--eg-c-line-strong); overflow: hidden; }
+  .eg-fil-run, .eg-fil-tete { position: absolute; inset: 0; transform: translateX(-100%); transition: transform var(--eg-d-fil) linear; }
+  .eg-fil-run { background: var(--eg-c-thread); border-radius: 2px; }
+  .eg-fil-tete::after {
+    content: ""; position: absolute; right: -4px; top: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--eg-c-thread);
+    box-shadow: 0 0 0 3px var(--eg-fil-fond, var(--eg-c-surface));
+  }
+  .eg-fil[data-p="0"] .eg-fil-tete { opacity: 0; }
+  .eg-fil--epais { height: var(--eg-b-fil-epais); }
+  .eg-fil--epais .eg-fil-tete::after { top: -2px; }
+  [data-eg-motion="reduite"] :is(.eg-fil-run, .eg-fil-tete) { transition: none; }
+  .eg-noeud {
+    position: relative; width: 14px; height: 14px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+    border: var(--eg-b-forte) solid var(--eg-c-line-strong); background: var(--eg-c-canvas);
+    transition: background-color var(--eg-d-court) ease, border-color var(--eg-d-court) ease;
+  }
+  .eg-noeud::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--eg-c-thread); transform: scale(.7); opacity: 0;
+    transition: transform var(--eg-d-court) var(--eg-e-out), opacity var(--eg-d-court) ease;
+  }
+  .eg-noeud svg {
+    position: absolute; width: 10px; height: 10px; stroke: var(--eg-c-surface); fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 20; stroke-dashoffset: 20;
+    transition: stroke-dashoffset calc(200ms * var(--eg-motion-scale)) var(--eg-e-out) calc(120ms * var(--eg-motion-scale));
+  }
+  .eg-noeud[data-etat="cours"] { border-color: var(--eg-c-thread); }
+  .eg-noeud[data-etat="cours"]::before { transform: none; opacity: 1; }
+  .eg-noeud[data-etat="pause"] { border-color: var(--eg-c-text-3); }
+  .eg-noeud[data-etat="ok"] { background: var(--eg-c-ok); border-color: var(--eg-c-ok); }
+  .eg-noeud[data-etat="ok"] svg { stroke-dashoffset: 0; }
+  .eg-noeud[data-etat="err"] { border-color: var(--eg-c-err); background: var(--eg-c-err-soft); }
+  .eg-noeud[data-etat="err"]::after { content: ""; position: absolute; width: 6px; height: 1.5px; background: var(--eg-c-err); border-radius: 1px; }
+
+  /* ---------- Le méandre (attente indéterminée, sans chouette) ---------- */
+  .eg-meandre { width: 22px; height: 14px; color: var(--eg-c-thread); flex: none; }
+  .eg-meandre path {
+    fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; stroke-dasharray: 18 46;
+    animation: eg-meandre calc(1200ms * max(var(--eg-motion-scale), .01)) linear infinite;
+  }
+  @keyframes eg-meandre { to { stroke-dashoffset: -64; } }
+  :is([data-eg-motion="reduite"], [data-eg-motion="aucune"]) .eg-meandre path { animation: none; stroke-dasharray: none; }
+
+  /* ---------- La chouette : médaille, sceau, veille, état vide (fichier maître inchangé, dans un <img>) ---------- */
+  .eg-chouette { display: block; flex: none; }
+  .eg-medaille {
+    --eg-taille: 56px;
+    position: relative; width: var(--eg-taille); aspect-ratio: 1; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+    background: radial-gradient(circle at 34% 28%, var(--eg-c-medal-hi) 0%, var(--eg-c-medal-lo) 100%);
+  }
+  .eg-medaille::before {
+    content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 3.4%;
+    background: repeating-conic-gradient(var(--eg-c-medal-rim) 0 1.2deg, transparent 1.2deg 2.4deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  .eg-medaille > .eg-chouette { width: 58%; height: auto; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .3)); }
+  [data-eg-oled="1"] .eg-medaille, .eg-medaille[data-eg-oled="1"] { box-shadow: inset 0 0 0 1px var(--eg-c-line-strong); }
+  /* Le sceau : la médaille qui se « frappe » quand un fichier est prêt (rare : délice permis). */
+  .eg-sceau { --eg-taille: 44px; overflow: hidden; }
+  .eg-sceau--frappe { animation: eg-frappe calc(420ms * var(--eg-motion-scale)) var(--eg-e-out) both; }
+  .eg-sceau--frappe::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .28) 50%, transparent 65%);
+    transform: translateX(-100%); animation: eg-reflet calc(700ms * var(--eg-motion-scale)) var(--eg-e-out) calc(180ms * var(--eg-motion-scale)) both;
+  }
+  @keyframes eg-frappe {
+    from { opacity: 0; transform: scale(calc(1 + .14 * var(--eg-move))) rotate(calc(-8deg * var(--eg-move))); }
+    60% { opacity: 1; }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes eg-reflet { to { transform: translateX(100%); } }
+  /* La veille : la chouette attend, un fil tourne autour (seul l'anneau bouge, jamais la chouette). */
+  .eg-veille { position: relative; width: 56px; height: 56px; display: inline-grid; place-items: center; flex: none; }
+  .eg-veille .eg-medaille { --eg-taille: 44px; }
+  .eg-veille-anneau { position: absolute; inset: 0; width: 100%; height: 100%; animation: eg-tourne calc(1400ms * max(var(--eg-motion-scale), .01)) linear infinite; }
+  .eg-veille-anneau circle { fill: none; stroke: var(--eg-c-thread); stroke-width: 1.5; stroke-dasharray: 34 140; stroke-linecap: round; }
+  @keyframes eg-tourne { to { transform: rotate(360deg); } }
+  :is([data-eg-motion="reduite"], [data-eg-motion="aucune"]) .eg-veille-anneau { animation: none; }
+  /* Mouvement réduit DU SYSTÈME (lot 3) : les jetons réduisent les durées (×0,5) et retirent les déplacements, mais une
+     boucle décorative ne doit ni continuer ni accélérer : la veille et le méandre s'arrêtent sur une image fixe lisible
+     (anneau partiel posé, méandre plein) et le fil avance par sauts — sauf choix explicite d'un thème personnel
+     (data-eg-motion-explicite, MOTION_GUIDELINES § 7). Les attributs ci-dessus couvrent le réglage du thème. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.eg-veille-anneau, .eg-meandre path):not([data-eg-motion-explicite="1"] *) { animation: none; }
+    .eg-meandre path:not([data-eg-motion-explicite="1"] *) { stroke-dasharray: none; }
+    :is(.eg-fil-run, .eg-fil-tete):not([data-eg-motion-explicite="1"] *) { transition: none; }
+  }
+  .eg-vide { display: grid; justify-items: center; text-align: center; gap: 10px; padding: 28px 16px; color: var(--eg-c-text-2); font-size: var(--eg-fs-s); }
+  .eg-vide b { color: var(--eg-c-text); font-size: var(--eg-fs-m); font-weight: 600; }
+  .eg-vide p { margin: 0; max-width: 36ch; }
+  .eg-marque { display: inline-flex; align-items: center; gap: 10px; font-family: var(--eg-f-marque); letter-spacing: .24em; font-size: 14px; color: var(--eg-c-text); white-space: nowrap; }
+
+  /* ---------- Carte média (grille de bibliothèque) ---------- */
+  .eg-carte-media {
+    display: grid; gap: 8px; min-width: 0; padding: 8px; border-radius: var(--eg-r-panel); border: var(--eg-b-fine) solid var(--eg-c-line);
+    background: var(--eg-c-surface); color: var(--eg-c-text); transition: border-color var(--eg-d-court) ease;
+  }
+  .eg-carte-media-vignette { position: relative; aspect-ratio: 16 / 9; border-radius: var(--eg-r-media); overflow: hidden; background: var(--eg-c-sunken); }
+  .eg-carte-media-vignette > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .eg-carte-media-vignette > .eg-pastille { position: absolute; left: 6px; top: 6px; }
+  .eg-duree {
+    position: absolute; right: 6px; bottom: 6px; background: rgba(0, 0, 0, .72); color: #FFF; font-size: 11px; line-height: 16px; padding: 0 5px;
+    border-radius: 4px; font-family: var(--eg-f-mono);
+  }
+  .eg-carte-media-actions {
+    position: absolute; inset: auto 6px 6px auto; display: flex; gap: 4px; padding: 3px; border-radius: var(--eg-r-control);
+    background: var(--eg-c-raised); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-1);
+    opacity: 0; transform: translateY(calc(4px * var(--eg-move))); transition: opacity var(--eg-d-court) ease, transform var(--eg-d-court) var(--eg-e-out);
+  }
+  .eg-carte-media:is(:focus-within, :focus-visible) .eg-carte-media-actions { opacity: 1; transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .eg-carte-media:hover { border-color: var(--eg-c-line-strong); }
+    .eg-carte-media:hover .eg-carte-media-actions { opacity: 1; transform: none; }
+  }
+  @media (hover: none), (pointer: coarse) { .eg-carte-media-actions { opacity: 1; transform: none; } }
+  .eg-carte-media-titre { margin: 0; font-size: var(--eg-fs-s); font-weight: 600; line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .eg-carte-media-meta { margin: 2px 0 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--eg-fs-xs); color: var(--eg-c-text-2); }
+
+  /* ---------- Menu (ouvert depuis son déclencheur) ---------- */
+  .eg-menu {
+    position: fixed; z-index: var(--eg-z-menu); top: var(--eg-menu-haut, 0); left: var(--eg-menu-gauche, auto); right: var(--eg-menu-droite, auto);
+    min-width: 200px; max-width: min(320px, calc(100vw - 32px)); padding: 6px; display: grid; gap: 2px;
+    border-radius: var(--eg-r-panel); background: var(--eg-c-raised); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop);
+    transform-origin: top left; transition: opacity var(--eg-d-court) var(--eg-e-out), transform var(--eg-d-court) var(--eg-e-out);
+  }
+  .eg-menu[data-ancre="droite"] { transform-origin: top right; }
+  .eg-menu[hidden] { display: none; }
+  @starting-style { .eg-menu { opacity: 0; transform: scale(calc(1 - .04 * var(--eg-move))); } }
+  .eg-menu-item {
+    display: flex; align-items: center; gap: 10px; min-height: var(--eg-h-row); padding: 0 10px; border: 0; border-radius: var(--eg-r-control);
+    background: none; color: var(--eg-c-text-2); font-size: var(--eg-fs-s); text-align: left; cursor: pointer;
+  }
+  .eg-menu-item .eg-touche { margin-left: auto; }
+  .eg-menu-item:focus-visible, .eg-menu-item:focus { background: var(--eg-c-hover); color: var(--eg-c-text); outline: none; box-shadow: inset 0 0 0 var(--eg-b-focus) var(--eg-c-focus); }
+  .eg-menu-item--danger { color: var(--eg-c-err); }
+  @media (hover: hover) and (pointer: fine) { .eg-menu-item:hover { background: var(--eg-c-hover); color: var(--eg-c-text); } .eg-menu-item--danger:hover { color: var(--eg-c-err); } }
+
+  /* ---------- Dialogue (<dialog> modal natif) ---------- */
+  .eg-dialogue {
+    width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto; padding: 20px; margin: auto;
+    border-radius: var(--eg-r-sheet); background: var(--eg-c-surface); background-image: var(--eg-sheen); color: var(--eg-c-text);
+    border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop); font-family: var(--eg-f-ui); font-size: var(--eg-fs-m);
+    color-scheme: var(--eg-color-scheme);
+    transition: opacity var(--eg-d-moyen) var(--eg-e-out), transform var(--eg-d-moyen) var(--eg-e-out);
+  }
+  .eg-dialogue[open] { display: grid; gap: 14px; }
+  @starting-style { .eg-dialogue[open] { opacity: 0; transform: scale(calc(1 - .04 * var(--eg-move))); } }
+  .eg-dialogue::backdrop { background: var(--eg-scrim, rgba(0, 0, 0, .5)); }
+  .eg-dialogue-titre { margin: 0; font-size: var(--eg-fs-d-s); line-height: 1.15; }
+  .eg-dialogue-corps { display: grid; gap: 12px; }
+  .eg-dialogue-pied { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+  .eg-erreurs { margin: 0; padding: 10px 12px 10px 28px; border-radius: var(--eg-r-control); background: var(--eg-c-err-soft); color: var(--eg-c-err); font-size: var(--eg-fs-s); }
+
+  /* ---------- Infobulle ---------- */
+  .eg-infobulle {
+    position: fixed; z-index: var(--eg-z-infobulle); left: var(--eg-bulle-x, 0); top: var(--eg-bulle-y, 0); max-width: 280px; padding: 6px 9px; pointer-events: none;
+    border-radius: var(--eg-r-control); background: var(--eg-c-text); color: var(--eg-c-canvas); font-family: var(--eg-f-ui); font-size: var(--eg-fs-xs); font-weight: 600; line-height: 1.35;
+    transition: opacity var(--eg-d-court) ease;
+  }
+  .eg-infobulle[hidden] { display: none; }
+  @starting-style { .eg-infobulle { opacity: 0; } }
+
+  /* ---------- Toasts (bas à droite au bureau, en haut sur téléphone) ---------- */
+  .eg-toasts { position: fixed; z-index: var(--eg-z-toast); right: 16px; bottom: 16px; display: grid; gap: 8px; justify-items: end; pointer-events: none; font-family: var(--eg-f-ui); }
+  .eg-toast {
+    pointer-events: auto; display: flex; align-items: center; gap: 10px; min-width: 240px; max-width: min(380px, calc(100vw - 32px)); padding: 10px 12px 10px 10px;
+    border-radius: var(--eg-r-panel); background: var(--eg-c-raised); color: var(--eg-c-text); border: var(--eg-b-fine) solid var(--eg-c-line-strong); box-shadow: var(--eg-shadow-pop);
+    font-size: var(--eg-fs-s); transition: opacity var(--eg-d-moyen) var(--eg-e-out), transform var(--eg-d-moyen) var(--eg-e-out);
+  }
+  @starting-style { .eg-toast { opacity: 0; transform: translateY(calc(100% * var(--eg-move))); } }
+  .eg-toast--sort { opacity: 0; transform: translateY(calc(30% * var(--eg-move))); transition-duration: calc(160ms * var(--eg-motion-scale)); }
+  .eg-toast-texte { display: grid; min-width: 0; }
+  .eg-toast-texte b { font-weight: 650; }
+  .eg-toast-texte span { color: var(--eg-c-text-2); }
+  .eg-toast .eg-btn { margin-left: auto; min-height: 30px; }
+  @media (max-width: 760px) {
+    /* marges de 16 px sur téléphone (la démonstration avait 12 px : corrigé) */
+    .eg-toasts { top: 16px; bottom: auto; left: 16px; right: 16px; justify-items: stretch; }
+    .eg-toast { max-width: none; }
+    @starting-style { .eg-toast { opacity: 0; transform: translateY(calc(-100% * var(--eg-move))); } }
+  }
+}

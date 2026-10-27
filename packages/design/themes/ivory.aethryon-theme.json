@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json",
+  "format": "aethryon-theme",
+  "schemaVersion": 1,
+  "id": "officiel.ivory",
+  "name": "Ivory",
+  "author": "AETHRYON",
+  "base": "ivory",
+  "typography": {
+    "preset": "egide",
+    "scale": 1
+  },
+  "density": "standard",
+  "motion": {
+    "intensity": "complete"
+  },
+  "effects": {
+    "sheen": true,
+    "grain": true
+  }
+}

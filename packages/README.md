@@ -3,6 +3,7 @@
 | Package | Contents | Used by |
 |---|---|---|
 | [`brand`](brand/README.md) | Master identity: owl head, Marcellus logotype outlines, variants, PNG icons, generators | website, extension, Desktop, Setup, panel, README |
+| [`design`](design/README.md) | Égide: design tokens, theme engine, CSS layers, icons, master owl, framework-free DOM components | website (through the copy in `apps/web/src/egide`), Desktop, extension |
 
 Other shared code currently lives inside the apps and is consumed through relative paths, on purpose (it keeps each
 app buildable on its own):

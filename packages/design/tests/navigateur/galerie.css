@@ -1,0 +1,13 @@
+/* Mise en page de la galerie d'essai (pas partie du paquet) + une page hôte HOSTILE autour de la racine Shadow DOM. */
+.g-page { max-width: 1180px; margin: 0 auto; padding: 24px max(16px, 4vw) 120px; display: grid; gap: 28px; }
+.g-tete { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+.g-tete .eg-seg { max-width: 100%; overflow-x: auto; }
+.g-section { display: grid; gap: 12px; min-width: 0; }
+.g-titre { margin: 0; font-size: var(--eg-fs-d-s); }
+.g-rangee { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; min-width: 0; }
+.g-rangee > .eg-champ { flex: 1 1 260px; }
+.g-rangee > .eg-carte-media { width: min(300px, 100%); }
+.g-fil { display: grid; gap: 14px; width: min(320px, 100%); }
+.g-editeur { min-width: 0; }
+.hote-hostile { --eg-c-text: #FF0000; --eg-c-canvas: #00FF00; --eg-c-accent: #0000FF; --eg-f-ui: "Comic Sans MS", cursive; --eg-fs-m: 40px; --eg-lh-body: 3; color: #FF0000; font-family: "Comic Sans MS", cursive; letter-spacing: 3px; line-height: 3; width: min(420px, 100%); }
+.g-h1 { margin: 0; font-size: 18px; }

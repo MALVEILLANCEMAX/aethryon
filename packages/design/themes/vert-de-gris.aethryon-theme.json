@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json",
+  "format": "aethryon-theme",
+  "schemaVersion": 1,
+  "id": "exemple.vert-de-gris",
+  "name": "Vert-de-gris",
+  "author": "",
+  "base": "obsidian",
+  "seeds": {
+    "accent": "#7DB59E",
+    "neutralHue": 200,
+    "neutralChroma": 0.008,
+    "background": 40,
+    "contrast": "standard"
+  },
+  "tokens": {
+    "r-panel": 18
+  },
+  "typography": {
+    "preset": "egide",
+    "scale": 1
+  },
+  "density": "aeree",
+  "motion": {
+    "intensity": "complete"
+  },
+  "effects": {
+    "sheen": true,
+    "grain": false
+  }
+}

@@ -1,0 +1,48 @@
+/* Socle d'une interface Égide, ACTIVÉ À LA DEMANDE : rien ici ne touche une page qui n'a pas la classe .eg-page
+   (document : sur <body> ou la racine de l'application), .eg-racine (élément racine dans une racine Shadow DOM) ou
+   .eg-scope (sous-arbre aux jetons propres, ex. aperçu de l'éditeur). Les écrans existants restent identiques tant
+   qu'un lot ne les a pas passés à Égide. */
+@layer base {
+  .eg-racine {
+    all: initial; /* aucune propriété héritée de la page hôte (les variables --eg-* ne sont pas touchées par all) */
+    display: block;
+  }
+  .eg-page, .eg-racine, .eg-scope {
+    color-scheme: var(--eg-color-scheme);
+    font-family: var(--eg-f-ui);
+    font-size: var(--eg-fs-m);
+    line-height: var(--eg-lh-body);
+    color: var(--eg-c-text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .eg-page, .eg-racine { background-color: var(--eg-c-canvas); }
+  .eg-page[data-eg-grain="1"], [data-eg-grain="1"] .eg-page, .eg-racine[data-eg-grain="1"], .eg-scope[data-eg-grain="1"] {
+    background-image: radial-gradient(rgba(60, 45, 20, .05) .6px, transparent .7px);
+    background-size: 3px 3px;
+  }
+  :is(.eg-page, .eg-racine, .eg-scope) :is(*, *::before, *::after) { box-sizing: border-box; }
+  :is(.eg-page, .eg-racine, .eg-scope) :is(button, input, select, textarea) { font: inherit; color: inherit; letter-spacing: inherit; }
+  :is(.eg-page, .eg-racine) :focus-visible {
+    outline: var(--eg-b-focus) solid var(--eg-c-focus);
+    outline-offset: var(--eg-b-focus-decalage);
+  }
+  :is(.eg-page, .eg-racine) :focus:not(:focus-visible) { outline: none; }
+  :is(.eg-page, .eg-racine) ::selection { background: var(--eg-c-accent-soft); color: var(--eg-c-text); }
+  /* « Aucune » animation : rien ne bouge dans une interface Égide (les autres pages ne sont pas touchées). */
+  [data-eg-motion="aucune"] :is(.eg-page, .eg-racine, .eg-scope) :is(*, *::before, *::after),
+  :is(.eg-page, .eg-racine, .eg-scope)[data-eg-motion="aucune"] :is(*, *::before, *::after) {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Changement de thème : fondu croisé natif de 200 ms (View Transitions), rien pour les autres changements. */
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 200ms; animation-timing-function: ease; }
+
+  /* Utilitaires */
+  .eg-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .eg-mono { font-family: var(--eg-f-mono); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .eg-titre { font-family: var(--eg-f-display); font-weight: var(--eg-f-display-w); letter-spacing: var(--eg-f-display-ls); }
+  .eg-i { display: block; width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .eg-i--s { width: 15px; height: 15px; }
+  .eg-i--l { width: 22px; height: 22px; }
+}

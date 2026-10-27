@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raccourci.malvu.fr/schemas/aethryon-theme.v1.json",
+  "format": "aethryon-theme",
+  "schemaVersion": 1,
+  "id": "perso.egee-essai",
+  "name": "Égée (essai)",
+  "author": "",
+  "base": "obsidian",
+  "seeds": { "accent": "#5E8FB8", "neutralHue": 230, "neutralChroma": 0.014, "background": 30, "contrast": "standard" },
+  "tokens": { "r-panel": 16 },
+  "typography": { "preset": "lecture", "scale": 1.05 },
+  "density": "aeree",
+  "motion": { "intensity": "complete" },
+  "effects": { "sheen": true, "grain": false }
+}

@@ -1,0 +1,7 @@
+{
+  "format": "aethryon-theme",
+  "schemaVersion": 3,
+  "id": "perso.essai",
+  "name": "Essai",
+  "base": "obsidian"
+}
