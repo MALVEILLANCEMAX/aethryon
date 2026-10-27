@@ -23,7 +23,7 @@ jobs:
     name: Error-code catalogue
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - run: python3 scripts/check-error-codes.py
       - run: python3 scripts/sync-plateformes.py --check
@@ -57,7 +57,7 @@ jobs:
       ALLOW_LEGAL_PLACEHOLDERS: "1"
       VITE_LEGAL_DRAFT: "1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - uses: actions/setup-node@v4
         with:
@@ -76,7 +76,7 @@ jobs:
       run:
         working-directory: packages/design
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - uses: actions/setup-node@v4
         with:
@@ -93,7 +93,7 @@ jobs:
     name: media-api (pytest, offline container)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - run: docker build --target test -t aethryon-media-api:test apps/media-api
       - run: docker run --rm --network none aethryon-media-api:test
@@ -102,7 +102,7 @@ jobs:
     name: Rust core (Desktop + Setup engine)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - name: Desktop core
         working-directory: apps/desktop
@@ -118,7 +118,7 @@ jobs:
       run:
         working-directory: shortcuts/ios
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
@@ -131,7 +131,7 @@ jobs:
     name: Development images
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { persist-credentials: false }
       - run: apps/web/scripts/fetch-downloads.sh
       - run: docker build -t aethryon-account:ci apps/account
