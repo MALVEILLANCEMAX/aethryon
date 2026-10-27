@@ -1,0 +1,1328 @@
+{
+  "_lisezmoi": "FICHIER GÉNÉRÉ par scripts/sync-plateformes.py depuis apps/media-api/app/plateformes.json : ne pas modifier à la main. Catalogue pour les interfaces (site, extension, Desktop, bot, démos). formats_compatibles = formats permis ET prouvés par les essais réels ; une plateforme « prete_a_ouvrir » n'est utilisable que lorsque GET /media/platforms la dit « disponible ». attribution_obligatoire : afficher job.attribution.texte (auteur, licence, source) avec le fichier. Icônes : pictogrammes neutres (aucun logo de marque).",
+  "version": "2026-10-26",
+  "ytdlp": "2026.08.19",
+  "statuts": {
+    "disponible": "officielle : ouverte en production, essais réels réussis",
+    "prete_a_ouvrir": "bêta validée par le propriétaire : essais de bout en bout réussis, ouverte seulement quand PLATEFORMES_BETA la nomme (GET /platforms donne l'état réel du serveur)",
+    "preproduction": "bêta désactivée : extracteur présent, conditions ou décision en attente",
+    "indisponible": "connue mais coupée : message « temporairement indisponible »",
+    "refusee": "jamais téléchargée (DRM, streaming payant, catalogue musical, conditions)"
+  },
+  "formats": {
+    "mp4": "MP4",
+    "mp3": "MP3",
+    "gif": "GIF",
+    "extrait": "Extrait"
+  },
+  "categories": [
+    {
+      "id": "populaires",
+      "nom": "Populaires"
+    },
+    {
+      "id": "musique",
+      "nom": "Musique"
+    },
+    {
+      "id": "streaming",
+      "nom": "Streaming"
+    },
+    {
+      "id": "autres",
+      "nom": "Autres"
+    }
+  ],
+  "icones": {
+    "video": "Vidéo (format paysage)",
+    "vertical": "Vidéo verticale",
+    "post": "Publication",
+    "image": "Image animée",
+    "direct": "Rediffusion ou clip de direct",
+    "archive": "Archive, contenu libre",
+    "onde": "Son"
+  },
+  "plateformes": [
+    {
+      "id": "youtube",
+      "nom": "YouTube",
+      "categorie": "populaires",
+      "icone": "video",
+      "etat": "officielle",
+      "statut": "disponible",
+      "domaines": [
+        "youtube.com",
+        "youtu.be",
+        "youtube-nocookie.com"
+      ],
+      "formats_compatibles": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "fonctions_indisponibles": [],
+      "attribution_obligatoire": false,
+      "priorite": "P0",
+      "conditions": "https://www.youtube.com/t/terms"
+    },
+    {
+      "id": "tiktok",
+      "nom": "TikTok",
+      "categorie": "populaires",
+      "icone": "vertical",
+      "etat": "officielle",
+      "statut": "disponible",
+      "domaines": [
+        "tiktok.com"
+      ],
+      "formats_compatibles": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "fonctions_indisponibles": [],
+      "attribution_obligatoire": false,
+      "priorite": "P0",
+      "conditions": "https://www.tiktok.com/legal/page/eea/terms-of-service/fr"
+    },
+    {
+      "id": "twitter",
+      "nom": "X",
+      "categorie": "populaires",
+      "icone": "post",
+      "etat": "officielle",
+      "statut": "disponible",
+      "domaines": [
+        "twitter.com",
+        "x.com"
+      ],
+      "formats_compatibles": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "fonctions_indisponibles": [],
+      "attribution_obligatoire": false,
+      "priorite": "P0",
+      "conditions": "https://x.com/fr/tos"
+    },
+    {
+      "id": "instagram",
+      "nom": "Instagram",
+      "categorie": "populaires",
+      "icone": "vertical",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "instagram.com",
+        "instagr.am"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Instagram : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Instagram : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Instagram : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Instagram : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P1",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://help.instagram.com/581066165581870"
+    },
+    {
+      "id": "facebook",
+      "nom": "Facebook",
+      "categorie": "populaires",
+      "icone": "video",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "facebook.com",
+        "fb.watch"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Facebook est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Facebook est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Facebook est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Facebook est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P1",
+      "essai": "2026-10-26 échec, upstream_error : page illisible (« Cannot parse data »)",
+      "conditions": "https://www.facebook.com/terms.php"
+    },
+    {
+      "id": "reddit",
+      "nom": "Reddit",
+      "categorie": "populaires",
+      "icone": "post",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "reddit.com",
+        "redd.it"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Reddit est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Reddit est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Reddit est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Reddit est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P1",
+      "essai": "2026-10-26 échec, login_required : HTTP 403 « Blocked », compte exigé",
+      "conditions": "https://redditinc.com/policies/user-agreement"
+    },
+    {
+      "id": "vimeo",
+      "nom": "Vimeo",
+      "categorie": "populaires",
+      "icone": "video",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "vimeo.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Vimeo est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Vimeo est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Vimeo est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Vimeo est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P0",
+      "essai": "2026-10-26 échec, login_required : « The web client only works when logged-in » (2 liens)",
+      "conditions": "https://vimeo.com/terms"
+    },
+    {
+      "id": "dailymotion",
+      "nom": "Dailymotion",
+      "categorie": "populaires",
+      "icone": "video",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "dailymotion.com",
+        "dai.ly"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Dailymotion : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Dailymotion : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Dailymotion : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Dailymotion : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P0",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://legal.dailymotion.com/fr/conditions-utilisation/"
+    },
+    {
+      "id": "bluesky",
+      "nom": "Bluesky",
+      "categorie": "populaires",
+      "icone": "post",
+      "etat": "beta",
+      "statut": "prete_a_ouvrir",
+      "domaines": [
+        "bsky.app"
+      ],
+      "formats_compatibles": [
+        "mp4",
+        "mp3",
+        "gif"
+      ],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "extrait",
+          "raison": "Bluesky ne permet pas de récupérer seulement un passage : extraits désactivés."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P1",
+      "essai": "2026-10-26 bout en bout : MP4, MP3, GIF réussis ; extrait refusé (extrait_partiel_impossible)",
+      "valide": "2026-10-26",
+      "conditions": "https://bsky.social/about/support/tos"
+    },
+    {
+      "id": "pinterest",
+      "nom": "Pinterest",
+      "categorie": "populaires",
+      "icone": "image",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "pinterest.com",
+        "pinterest.fr",
+        "pinterest.co.uk",
+        "pinterest.de",
+        "pinterest.ca"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Pinterest : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Pinterest : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Pinterest : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Pinterest : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P2",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://policy.pinterest.com/fr/terms-of-service"
+    },
+    {
+      "id": "snapchat",
+      "nom": "Snapchat Spotlight",
+      "categorie": "populaires",
+      "icone": "vertical",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "snapchat.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Snapchat Spotlight : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Snapchat Spotlight : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Snapchat Spotlight : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Snapchat Spotlight : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P2",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://snap.com/fr-FR/terms"
+    },
+    {
+      "id": "linkedin",
+      "nom": "LinkedIn",
+      "categorie": "populaires",
+      "icone": "post",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "linkedin.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "LinkedIn : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "LinkedIn : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "LinkedIn : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "LinkedIn : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P2",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://www.linkedin.com/legal/user-agreement"
+    },
+    {
+      "id": "tumblr",
+      "nom": "Tumblr",
+      "categorie": "populaires",
+      "icone": "post",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "tumblr.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Tumblr est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Tumblr est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Tumblr est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Tumblr est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P2",
+      "essai": "2026-10-26 échec, upstream_error : connexion fermée par le serveur",
+      "conditions": "https://www.tumblr.com/policy/fr/terms-of-service"
+    },
+    {
+      "id": "threads",
+      "nom": "Threads",
+      "categorie": "populaires",
+      "icone": "post",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "threads.net",
+        "threads.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Threads est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Threads est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Threads est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Threads est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P2",
+      "essai": "2026-10-26 aucun extracteur dans yt-dlp 2026.08.19",
+      "conditions": "https://help.instagram.com/769983657850450"
+    },
+    {
+      "id": "twitch",
+      "nom": "Twitch (clips et rediffusions)",
+      "categorie": "streaming",
+      "icone": "direct",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "twitch.tv"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Twitch (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Twitch (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Twitch (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Twitch (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P1",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://legal.twitch.com/en/legal/terms-of-service/"
+    },
+    {
+      "id": "kick",
+      "nom": "Kick (clips et rediffusions)",
+      "categorie": "streaming",
+      "icone": "direct",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "kick.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Kick (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Kick (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Kick (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Kick (clips et rediffusions) : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P2",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://kick.com/terms-of-service"
+    },
+    {
+      "id": "streamable",
+      "nom": "Streamable",
+      "categorie": "autres",
+      "icone": "video",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "streamable.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streamable : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streamable : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streamable : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streamable : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P1",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://streamable.com/terms"
+    },
+    {
+      "id": "imgur",
+      "nom": "Imgur",
+      "categorie": "autres",
+      "icone": "image",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "imgur.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Imgur : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Imgur : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Imgur : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Imgur : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P2",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://imgur.com/tos"
+    },
+    {
+      "id": "bilibili",
+      "nom": "Bilibili",
+      "categorie": "autres",
+      "icone": "video",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "bilibili.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Bilibili est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Bilibili est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Bilibili est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Bilibili est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P2",
+      "essai": "2026-10-26 échec, upstream_error : HTTP 412",
+      "conditions": "https://www.bilibili.com/protocal/licence.html"
+    },
+    {
+      "id": "rumble",
+      "nom": "Rumble",
+      "categorie": "autres",
+      "icone": "video",
+      "etat": "indisponible",
+      "statut": "indisponible",
+      "domaines": [
+        "rumble.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Rumble est temporairement indisponible."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Rumble est temporairement indisponible."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Rumble est temporairement indisponible."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Rumble est temporairement indisponible."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "priorite": "P2",
+      "essai": "2026-10-26 échec, upstream_forbidden : HTTP 403",
+      "conditions": "https://rumble.com/s/terms"
+    },
+    {
+      "id": "vk",
+      "nom": "VK Vidéo",
+      "categorie": "autres",
+      "icone": "video",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "vk.com",
+        "vkvideo.ru"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "VK Vidéo : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "VK Vidéo : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "VK Vidéo : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "VK Vidéo : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P2",
+      "essai": "2026-10-26 réussi",
+      "conditions": "https://vk.com/terms"
+    },
+    {
+      "id": "archive",
+      "nom": "Internet Archive",
+      "categorie": "autres",
+      "icone": "archive",
+      "etat": "beta",
+      "statut": "preproduction",
+      "domaines": [
+        "archive.org"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Internet Archive : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Internet Archive : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Internet Archive : plateforme en essai, pas encore ouverte."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Internet Archive : plateforme en essai, pas encore ouverte."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "formats_theoriques": [
+        "mp4",
+        "mp3",
+        "gif",
+        "extrait"
+      ],
+      "priorite": "P1",
+      "essai": "2026-10-26 bout en bout : MP4 complet, extrait MP4, GIF réussis ; MP3 d'un film muet refusé (no_audio)",
+      "conditions": "https://archive.org/about/terms"
+    },
+    {
+      "id": "wikimedia",
+      "nom": "Wikimedia Commons",
+      "categorie": "autres",
+      "icone": "archive",
+      "etat": "beta",
+      "statut": "prete_a_ouvrir",
+      "domaines": [
+        "commons.wikimedia.org"
+      ],
+      "formats_compatibles": [
+        "mp4",
+        "mp3",
+        "gif"
+      ],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "extrait",
+          "raison": "Wikimedia Commons limite les requêtes partielles (HTTP 429) : extraits désactivés."
+        }
+      ],
+      "attribution_obligatoire": true,
+      "priorite": "P1",
+      "essai": "2026-10-26 bout en bout : MP4 (transcode), MP3, GIF réussis ; extrait refusé par Wikimedia (HTTP 429 sur les requêtes partielles)",
+      "valide": "2026-10-26",
+      "conditions": "https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use/fr"
+    },
+    {
+      "id": "youtube_music",
+      "nom": "YouTube Music",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "music.youtube.com",
+        "music.youtu.be",
+        "music.youtube-nocookie.com",
+        "youtubemusic.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Catalogue musical commercial : fermé par décision du propriétaire (2026-10-23)."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Catalogue musical commercial : fermé par décision du propriétaire (2026-10-23)."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Catalogue musical commercial : fermé par décision du propriétaire (2026-10-23)."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Catalogue musical commercial : fermé par décision du propriétaire (2026-10-23)."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "soundcloud",
+      "nom": "SoundCloud",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "soundcloud.com",
+        "snd.sc"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Conditions de l'API : le téléchargement des sons y est interdit (cloud-music/MUSIC-RAPPORT.md)."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Conditions de l'API : le téléchargement des sons y est interdit (cloud-music/MUSIC-RAPPORT.md)."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Conditions de l'API : le téléchargement des sons y est interdit (cloud-music/MUSIC-RAPPORT.md)."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Conditions de l'API : le téléchargement des sons y est interdit (cloud-music/MUSIC-RAPPORT.md)."
+        }
+      ],
+      "attribution_obligatoire": false,
+      "conditions": "https://developers.soundcloud.com/docs/api/terms-of-use"
+    },
+    {
+      "id": "spotify",
+      "nom": "Spotify",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "spotify.com",
+        "spotify.link"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "deezer",
+      "nom": "Deezer",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "deezer.com",
+        "deezer.page.link",
+        "dzr.page.link"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "apple_music",
+      "nom": "Apple Music",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "music.apple.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "amazon_music",
+      "nom": "Amazon Music",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "music.amazon.com",
+        "music.amazon.fr"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "tidal",
+      "nom": "Tidal",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "tidal.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "bandcamp",
+      "nom": "Bandcamp",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "bandcamp.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Seuls les titres offerts en téléchargement gratuit par l'artiste seraient acceptables ; le tri fiable n'est pas encore démontré : refus (piste P2)."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Seuls les titres offerts en téléchargement gratuit par l'artiste seraient acceptables ; le tri fiable n'est pas encore démontré : refus (piste P2)."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Seuls les titres offerts en téléchargement gratuit par l'artiste seraient acceptables ; le tri fiable n'est pas encore démontré : refus (piste P2)."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Seuls les titres offerts en téléchargement gratuit par l'artiste seraient acceptables ; le tri fiable n'est pas encore démontré : refus (piste P2)."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "mixcloud",
+      "nom": "Mixcloud",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "mixcloud.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Conditions : écoute en ligne seulement, enregistrement et téléchargement interdits (licences des mixes)."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Conditions : écoute en ligne seulement, enregistrement et téléchargement interdits (licences des mixes)."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Conditions : écoute en ligne seulement, enregistrement et téléchargement interdits (licences des mixes)."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Conditions : écoute en ligne seulement, enregistrement et téléchargement interdits (licences des mixes)."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "audiomack",
+      "nom": "Audiomack",
+      "categorie": "musique",
+      "icone": "onde",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "audiomack.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Catalogue musical commercial : écoute hors ligne réservée à l'application."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Catalogue musical commercial : écoute hors ligne réservée à l'application."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Catalogue musical commercial : écoute hors ligne réservée à l'application."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Catalogue musical commercial : écoute hors ligne réservée à l'application."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "netflix",
+      "nom": "Netflix",
+      "categorie": "streaming",
+      "icone": "video",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "netflix.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "disney_plus",
+      "nom": "Disney+",
+      "categorie": "streaming",
+      "icone": "video",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "disneyplus.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "prime_video",
+      "nom": "Prime Video",
+      "categorie": "streaming",
+      "icone": "video",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "primevideo.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "canal_plus",
+      "nom": "Canal+",
+      "categorie": "streaming",
+      "icone": "video",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "canalplus.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    },
+    {
+      "id": "crunchyroll",
+      "nom": "Crunchyroll",
+      "categorie": "streaming",
+      "icone": "video",
+      "etat": "refusee",
+      "statut": "refusee",
+      "domaines": [
+        "crunchyroll.com"
+      ],
+      "formats_compatibles": [],
+      "fonctions_indisponibles": [
+        {
+          "fonction": "mp4",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "mp3",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "gif",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        },
+        {
+          "fonction": "extrait",
+          "raison": "Streaming payant protégé par DRM : jamais téléchargé."
+        }
+      ],
+      "attribution_obligatoire": false
+    }
+  ]
+}

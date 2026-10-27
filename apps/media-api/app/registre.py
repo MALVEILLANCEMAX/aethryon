@@ -58,6 +58,10 @@ class Plateforme:
     # « identifie » : yt-dlp s'annonce avec AGENT_IDENTIFIE (contact) au lieu d'un navigateur. Exigé par la politique
     # User-Agent de Wikimedia (un robot qui imite un navigateur peut être bloqué sans préavis).
     agent: str | None = None
+    # Média sous licence libre : auteur, licence et source obligatoires (app/licences.py), sinon refus license_not_free.
+    attribution: bool = False
+    valide: str | None = None  # intégration validée par le propriétaire (date) : prête à ouvrir
+    indisponibles: tuple[tuple[str, str], ...] = ()  # (format, raison) : fonctions fermées, texte pour l'interface
 
     @property
     def telechargeable(self) -> bool:
@@ -77,6 +81,10 @@ class Plateforme:
             out["motif"] = self.motif
         if self.essai:
             out["essai"] = self.essai
+        if self.attribution:
+            out["attribution"] = True  # the interface shows job.attribution.texte with the file
+        if self.indisponibles:
+            out["indisponibles"] = dict(self.indisponibles)
         return out
 
 
@@ -142,6 +150,11 @@ def _plateforme(raw: dict[str, Any], icones: dict[str, str]) -> Plateforme:
     agent = raw.get("agent")
     if agent is not None and agent not in AGENTS:
         raise RegistryError(f"{pid} : agent inconnu {agent!r}")
+    indisponibles = tuple((str(k), str(v)) for k, v in (raw.get("indisponibles") or {}).items())
+    if any(k not in FORMATS or k in formats or not v for k, v in indisponibles):
+        raise RegistryError(f"{pid} : « indisponibles » doit nommer des formats fermés, avec une raison")
+    if raw.get("valide") and etat not in ("officielle", "beta"):
+        raise RegistryError(f"{pid} : seule une plateforme officielle ou bêta peut être « valide »")
     for pattern in extracteurs:
         if not isinstance(pattern, str) or pattern != pattern.lower():
             raise RegistryError(f"{pid} : extracteur invalide {pattern!r}")
@@ -151,7 +164,8 @@ def _plateforme(raw: dict[str, Any], icones: dict[str, str]) -> Plateforme:
     return Plateforme(id=pid, nom=str(raw["nom"]), categorie=cat, etat=etat, domaines=domaines, icone=icone,
                       extracteurs=extracteurs, formats=formats, priorite=raw.get("priorite"),
                       conditions=raw.get("conditions"), motif=raw.get("motif"), code=raw.get("code"),
-                      essai=raw.get("essai"), agent=agent)
+                      essai=raw.get("essai"), agent=agent, attribution=raw.get("attribution") is True,
+                      valide=raw.get("valide"), indisponibles=indisponibles)
 
 
 def parse_registry(data: dict[str, Any]) -> Registre:

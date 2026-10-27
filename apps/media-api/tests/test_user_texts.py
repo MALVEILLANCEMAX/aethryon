@@ -30,6 +30,7 @@ EXPECTED: dict[str, str] = {
                                   "catalogue musical commercial.",
     "platform_not_accepted": "Cette plateforme n'est pas acceptée : AETHRYON ne télécharge ni le streaming payant, "
                              "ni les catalogues musicaux, ni les contenus protégés.",
+    "license_not_free": "Ce média n'a pas de licence libre connue : AETHRYON ne le convertit pas.",
     "live_not_supported": "Les directs et les premières ne sont pas pris en charge.",
     "short_link_unresolved": "Le lien court n'a pas pu être ouvert : ouvre la vidéo dans l'app puis partage-la à "
                              "nouveau.",
@@ -71,7 +72,7 @@ EXPECTED: dict[str, str] = {
 def test_user_texts_are_exactly_the_documented_table() -> None:
     assert USER_TEXT == EXPECTED
     assert list(USER_TEXT) == list(EXPECTED)  # same order as the documentation, easier to review
-    assert len(USER_TEXT) == 46
+    assert len(USER_TEXT) == 47
 
 
 def test_user_texts_typography() -> None:

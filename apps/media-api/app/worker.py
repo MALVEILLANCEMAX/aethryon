@@ -29,6 +29,7 @@ from yt_dlp.globals import plugin_dirs
 from yt_dlp.utils import DownloadCancelled, DownloadError, ExtractorError, GeoRestrictedError, LazyList
 
 from . import extraits as X
+from . import licences
 from .cookies import EXPIRY_RE
 from .errors import ApiError, clean_message, map_ytdlp_error
 from .filenames import build_download_name
@@ -450,6 +451,7 @@ class Attempt:
         self.running_pp: str | None = None  # post-processor running when an error is raised
         # YouTube clients whose streams were refused (HTTP 403): the cover retry skips them too.
         self.excluded_clients: set[str] = set(excluded_clients or ())
+        self.attribution: dict[str, Any] | None = None  # licensed media (Wikimedia): fetched once, before download
 
 
 def postprocess_hook(progress: DownloadProgress, reporter: Reporter, attempt: Attempt | None = None) -> Any:
@@ -703,6 +705,8 @@ def run_info(task: dict[str, Any], cfg: dict[str, Any], workdir: Path) -> dict[s
     opts.pop("max_filesize", None)
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.sanitize_info(_extract(ydl, task["url"], platform))
+        # Licensed media (Wikimedia Commons): author, licence, source; unknown or non-free licence -> refused.
+        attribution = licences.attribution(ydl, platform, info.get("webpage_url") or task["url"])
     if info.get("_type") in ("playlist", "multi_video"):
         entries = [e for e in (info.get("entries") or []) if e]
         if platform != "twitter":
@@ -719,7 +723,10 @@ def run_info(task: dict[str, Any], cfg: dict[str, Any], workdir: Path) -> dict[s
             "entries": items,
             "note": "Post with several media: pass index=N (1-based, videos/GIFs only) to /dl or /jobs.",
         }
-    return summarize(info, cfg, platform) | {"media_count": 1}
+    summary = summarize(info, cfg, platform) | {"media_count": 1}
+    if attribution is not None:
+        summary["attribution"] = attribution
+    return summary
 
 
 def summarize(info: dict[str, Any], cfg: dict[str, Any], platform: str) -> dict[str, Any]:
@@ -836,8 +843,9 @@ def run_download(task: dict[str, Any], cfg: dict[str, Any], workdir: Path, repor
         if task["params"]["fmt"] == "mp3" and attempt.running_pp in _COVER_PPS and attempt.info is not None:
             message = clean_message(str(exc))
             log.warning("mp3 cover art failed, retrying without it", extra={"ytdlp_error": message[:300]})
-            return _download(task, cfg, workdir, reporter, cover=False,
-                             attempt=Attempt(attempt.info, attempt.excluded_clients))
+            retry = Attempt(attempt.info, attempt.excluded_clients)
+            retry.attribution = attempt.attribution  # already fetched and checked: no second API request
+            return _download(task, cfg, workdir, reporter, cover=False, attempt=retry)
         raise
 
 
@@ -980,6 +988,8 @@ def run_clip(task: dict[str, Any], cfg: dict[str, Any], workdir: Path, reporter:
         info = _pick_entry(info, platform, int(params["index"]), bool(params.get("index_from_url")))
         _check_common(info, cfg, platform, clip=True)
         _check_request_limits(info, params | {"platform": platform}, cfg)
+        # Licensed media: refused before any media byte when the licence is not known and free (app/licences.py).
+        attribution = licences.attribution(ydl, platform, info.get("webpage_url") or task["url"])
         source_duration = float(info["duration"]) if info.get("duration") else None
         start, end, note = clip_bounds(start, end, source_duration, strict)
         if note:
@@ -1089,10 +1099,13 @@ def run_clip(task: dict[str, Any], cfg: dict[str, Any], workdir: Path, reporter:
     if got is not None and got < length - 1.0:
         seconds = f"{got:.1f}".replace(".", ",")
         notes.append(f"L'extrait obtenu dure {seconds} s : la vidéo s'arrête avant la fin demandée.")
+    if attribution is not None and fmt != "gif" and not tag_attribution(target, workdir, attribution):
+        notes.append("L'attribution n'a pas pu être écrite dans le fichier (elle reste dans la réponse).")
     title = info.get("title")
     named = f"{title or 'media'} (extrait {_hms(start)}-{_hms(end)})"
     full_sizes = [p.taille for p in parts]
     return {
+        **({"attribution": attribution} if attribution is not None else {}),
         "filepath": str(target),
         "download_name": build_download_name(named, info.get("id"), fmt),
         "media_type": MEDIA_TYPES.get(fmt, "application/octet-stream"),
@@ -1143,6 +1156,8 @@ def _download(task: dict[str, Any], cfg: dict[str, Any], workdir: Path, reporter
             info = _pick_entry(info, platform, int(params["index"]), bool(params.get("index_from_url")))
             _check_common(info, cfg, platform)
             _check_selection(info, params | {"platform": platform}, cfg)
+            # Before any media byte: a licensed media without a known free licence is refused (license_not_free).
+            attempt.attribution = licences.attribution(ydl, platform, info.get("webpage_url") or task["url"])
             if fmt == "mp3" and cover:
                 attempt.info = _pristine(info)
         progress.plan(info)
@@ -1182,6 +1197,9 @@ def _download(task: dict[str, Any], cfg: dict[str, Any], workdir: Path, reporter
         check_video_track(filepath, h264=h264_only)
     if fmt == "mp3" and not cover:
         notes.append("La pochette n'a pas pu être intégrée.")
+    if attempt.attribution is not None and fmt != "gif":  # a GIF holds no tags: the job result carries them
+        if not tag_attribution(filepath, workdir, attempt.attribution):
+            notes.append("L'attribution n'a pas pu être écrite dans le fichier (elle reste dans la réponse).")
 
     ext = filepath.suffix.lstrip(".").lower()
     size = filepath.stat().st_size
@@ -1199,6 +1217,7 @@ def _download(task: dict[str, Any], cfg: dict[str, Any], workdir: Path, reporter
         "ext": ext,
         "size": size,
         "notes": notes + [w for w in logger.warnings if "ffmpeg" not in w.lower()][:5],
+        **({"attribution": attempt.attribution} if attempt.attribution is not None else {}),
     }
 
 
@@ -1497,6 +1516,28 @@ def make_gif(source: Path, workdir: Path, params: dict[str, Any], cfg: dict[str,
     source.unlink(missing_ok=True)
     palette.unlink(missing_ok=True)
     return target
+
+
+def tag_attribution(path: Path, workdir: Path, attribution: dict[str, Any]) -> bool:
+    """Write author / licence / source into the file's tags (stream copy, same name). False if ffmpeg failed: the
+    attribution then only travels in the job result."""
+    target = workdir / f"attribution.{path.suffix.lstrip('.')}"
+    args = ["ffmpeg", "-hide_banner", "-nostdin", "-loglevel", "error", "-y", "-i", str(path),
+            "-map", "0", "-c", "copy", "-map_metadata", "0"]
+    for key, value in licences.etiquettes(attribution).items():
+        args += ["-metadata", f"{key}={value}"]
+    if path.suffix.lower() in (".mp4", ".m4a", ".mov"):
+        args += ["-movflags", "+faststart"]
+    elif path.suffix.lower() == ".mp3":
+        args += ["-id3v2_version", "3"]
+    try:
+        subprocess.run([*args, str(target)], capture_output=True, timeout=300, check=True)
+        os.replace(target, path)
+    except (OSError, subprocess.SubprocessError) as exc:
+        log.warning("attribution tags not written", extra={"reason": type(exc).__name__})
+        target.unlink(missing_ok=True)
+        return False
+    return True
 
 
 def hevc_to_hvc1(source: Path, workdir: Path, reporter: Reporter) -> Path:

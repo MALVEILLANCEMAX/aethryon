@@ -205,6 +205,9 @@ class Job:
                 data["notes"] = self.result["notes"]
             if self.result.get("media"):
                 data["media"] = self.result["media"]
+            if self.result.get("attribution"):
+                # Licensed media (Wikimedia Commons): author, licence, source, text ready to display.
+                data["attribution"] = self.result["attribution"]
         return data
 
 

@@ -89,6 +89,7 @@ export const ERROR_TEXT: Readonly<Record<string, string>> = {
   playlist_not_supported: "Les playlists, chaînes et profils ne sont pas pris en charge : partage une vidéo.",
   youtube_music_not_accepted: "Les liens YouTube Music ne sont pas acceptés : AETHRYON ne télécharge pas le catalogue musical commercial.",
   platform_not_accepted: "Cette plateforme n'est pas acceptée : AETHRYON ne télécharge ni le streaming payant, ni les catalogues musicaux, ni les contenus protégés.",
+  license_not_free: "Ce média n'a pas de licence libre connue : AETHRYON ne le convertit pas.",
   live_not_supported: "Les directs et les premières ne sont pas pris en charge.",
   short_link_unresolved: "Le lien court n'a pas pu être ouvert : ouvre la vidéo dans l'app puis partage-la à nouveau.",
   no_audio: "Cette vidéo n'a pas de son : MP3 impossible.",

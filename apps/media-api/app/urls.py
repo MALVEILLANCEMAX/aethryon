@@ -392,5 +392,8 @@ def check_platform_format(platform: str, fmt: str, clip: bool = False) -> None:
     if found is None or not found.formats:
         return
     if fmt not in found.formats or (clip and "extrait" not in found.formats):
-        wanted = "un extrait" if clip and "extrait" not in found.formats else f"le format {fmt.upper()}"
-        raise ApiError(422, "format_unavailable", f"{found.nom} : {wanted} n'est pas proposé pour cette plateforme.")
+        closed = "extrait" if clip and "extrait" not in found.formats else fmt
+        reason = dict(found.indisponibles).get(closed)  # reason written in the registry, shown as is
+        wanted = "un extrait" if closed == "extrait" else f"le format {fmt.upper()}"
+        raise ApiError(422, "format_unavailable",
+                       reason or f"{found.nom} : {wanted} n'est pas proposé pour cette plateforme.")

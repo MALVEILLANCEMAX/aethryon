@@ -1063,7 +1063,17 @@ def _preview_item(info: dict[str, Any]) -> dict[str, Any]:
         "est_size_bytes": {k: _number(sizes.get(k)) for k in ("audio_best", "mp3_128", "mp3_192", "mp3_320")
                            if _number(sizes.get(k)) is not None},
         "limits": {k: bool(limits.get(k)) for k in ("too_long", "gif_allowed", "transcode_allowed") if k in limits},
+        **({"attribution": _attribution(info["attribution"])} if isinstance(info.get("attribution"), dict) else {}),
+        **({"proposes": [str(f) for f in info["proposes"]][:4]} if isinstance(info.get("proposes"), list) else {}),
     }
+
+
+def _attribution(a: dict[str, Any]) -> dict[str, Any]:
+    """Attribution of a licensed media (app/licences.py), bounded texts and https links only."""
+    return {"auteur": _text(a.get("auteur"), 300), "licence": _text(a.get("licence"), 100),
+            "licence_url": _https(a.get("licence_url")), "source_url": _https(a.get("source_url")),
+            "origine_url": _https(a.get("origine_url")), "attribution_requise": bool(a.get("attribution_requise")),
+            "texte": _text(a.get("texte"), 600)}
 
 
 def preview_view(info: dict[str, Any], platform: str) -> dict[str, Any]:
