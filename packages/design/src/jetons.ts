@@ -16,7 +16,9 @@ export const FAMILLES = {
 } as const;
 
 /** Tailles de texte en px, multipliées par `--eg-t-scale` (réglage « taille du texte » × préréglage). */
-export const TAILLES_TEXTE = { xs: 12, s: 13, m: 15, l: 18, "d-s": 22, "d-m": 30 } as const;
+/** Échelle du texte (« Le Passage », 2026-10-28) : note 12-13, interface 15, corps 17, sous-titre 20, titres 22 et 30 ;
+ *  les titres d'affiche sont fluides (TITRE_HEROS, --text-display du site). */
+export const TAILLES_TEXTE = { xs: 12, s: 13, m: 15, l: 17, xl: 20, "d-s": 22, "d-m": 30 } as const;
 /** Titre du héros du site (fluide), hors échelle. */
 export const TITRE_HEROS = "clamp(44px, 5.4vw, 86px)";
 
@@ -30,14 +32,42 @@ export const RAYON_PASTILLE = "999px";
 /** Bordures. Le focus garde toujours sa présence et son épaisseur (non personnalisable). */
 export const BORDURES = { fine: "1px", forte: "1.5px", focus: "2px", "focus-decalage": "2px", fil: "2px", "fil-epais": "4px" } as const;
 
-/** Durées de base en ms, multipliées par `--eg-motion-scale` (1 complète, 1,25 douce, 0,5 réduite, 0 aucune). */
-export const DUREES = { micro: 120, court: 160, moyen: 220, long: 320, fil: 260, recit: 700 } as const;
+/** Ressorts de « Le Passage » (MOTION_GUIDELINES.md § 2) : durée perçue (s) et rebond (0 : aucun dépassement). La
+ *  pastille (petits objets qui changent de forme) dépasse d'environ 3 % ; la feuille (panneaux, tiroirs) se pose sans
+ *  rebond. Mêmes valeurs que les préréglages Motion du site (RESSORT dans web/src/lib/motion.ts). */
+export const RESSORTS = { pastille: { duree: 0.45, rebond: 0.25 }, feuille: { duree: 0.5, rebond: 0 } } as const;
 
-/** Courbes (MOTION_GUIDELINES.md § 2). */
+/** Ressort amorti normalisé (0 → 1) : position à l'instant t (s). */
+export function positionRessort(t: number, duree: number, rebond: number): number {
+  const z = 1 - rebond, w = (2 * Math.PI) / duree;
+  if (z >= 1) return 1 - Math.exp(-w * t) * (1 + w * t);
+  const wd = w * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + ((z * w) / wd) * Math.sin(wd * t));
+}
+
+/** Durée (ms) jusqu'au repos (écart < 0,3 % tenu 50 ms) et courbe CSS linear() échantillonnée (49 points). */
+export function courbeRessort(duree: number, rebond: number): { ms: number; css: string } {
+  const x = (t: number) => positionRessort(t, duree, rebond);
+  let T = duree * 0.6;
+  while (T < 2.5 && (Math.abs(1 - x(T)) > 0.003 || Math.abs(1 - x(T + 0.05)) > 0.003)) T += 0.01;
+  const pts: string[] = [];
+  for (let i = 0; i <= 48; i++) pts.push(i === 48 ? "1" : String(Math.round(x((T * i) / 48) * 10000) / 10000));
+  return { ms: Math.round(T * 1000), css: `linear(${pts.join(", ")})` };
+}
+const PASTILLE = courbeRessort(RESSORTS.pastille.duree, RESSORTS.pastille.rebond);
+const FEUILLE = courbeRessort(RESSORTS.feuille.duree, RESSORTS.feuille.rebond);
+
+/** Durées de base en ms, multipliées par `--eg-motion-scale` (1 complète, 1,25 douce, 0,5 réduite, 0 aucune). */
+export const DUREES = { micro: 120, court: 160, moyen: 220, long: 320, fil: 260, recit: 700, pastille: PASTILLE.ms, feuille: FEUILLE.ms } as const;
+
+/** Courbes (MOTION_GUIDELINES.md § 2) ; « pastille » et « feuille » : ressorts échantillonnés (navigateurs sans
+ *  linear() : la déclaration est ignorée, la courbe « out » prend le relais dans les composants). */
 export const COURBES = {
   out: "cubic-bezier(.23, 1, .32, 1)",
   move: "cubic-bezier(.77, 0, .175, 1)",
   sheet: "cubic-bezier(.32, .72, 0, 1)",
+  pastille: PASTILLE.css,
+  feuille: FEUILLE.css,
 } as const;
 
 /** Intensités de mouvement : [--eg-motion-scale, --eg-move]. */

@@ -1,19 +1,19 @@
 {
   "css": {
     "egide.css (brut)": {
-      "octets": 51622,
-      "gzip": 10752,
-      "brotli": 9323
+      "octets": 52596,
+      "gzip": 11113,
+      "brotli": 9591
     },
     "egide.css (minifié)": {
-      "octets": 41146,
-      "gzip": 8271,
-      "brotli": 7230
+      "octets": 42023,
+      "gzip": 8623,
+      "brotli": 7473
     },
     "EGIDE_CSS_SHADOW (minifié)": {
-      "octets": 29354,
-      "gzip": 6311,
-      "brotli": 5450
+      "octets": 30231,
+      "gzip": 6662,
+      "brotli": 5698
     }
   },
   "js": {
@@ -23,14 +23,14 @@
       "brotli": 342
     },
     "moteur seul (demarrerTheme, appliquerTheme, persistance)": {
-      "octets": 19063,
-      "gzip": 7662,
-      "brotli": 6862
+      "octets": 19883,
+      "gzip": 8044,
+      "brotli": 7219
     },
     "moteur + import/export + contrastes": {
-      "octets": 21043,
-      "gzip": 8347,
-      "brotli": 7515
+      "octets": 21863,
+      "gzip": 8729,
+      "brotli": 7842
     },
     "composants DOM (sans éditeur) + icônes + chouette": {
       "octets": 19632,
@@ -38,9 +38,9 @@
       "brotli": 5818
     },
     "complet (tout sauf EGIDE_CSS_SHADOW)": {
-      "octets": 64587,
-      "gzip": 23567,
-      "brotli": 21094
+      "octets": 65239,
+      "gzip": 23842,
+      "brotli": 21302
     }
   },
   "polices": {
@@ -51,13 +51,13 @@
   "budgets": [
     {
       "mesure": "egide.css (minifié) (gzip)",
-      "valeur": 8271,
+      "valeur": 8623,
       "max": 12288,
       "ok": true
     },
     {
       "mesure": "EGIDE_CSS_SHADOW (minifié) (gzip)",
-      "valeur": 6311,
+      "valeur": 6662,
       "max": 10240,
       "ok": true
     },
@@ -69,13 +69,13 @@
     },
     {
       "mesure": "moteur seul (demarrerTheme, appliquerTheme, persistance) (gzip)",
-      "valeur": 7662,
+      "valeur": 8044,
       "max": 8192,
       "ok": true
     },
     {
       "mesure": "complet (tout sauf EGIDE_CSS_SHADOW) (gzip)",
-      "valeur": 23567,
+      "valeur": 23842,
       "max": 24576,
       "ok": true
     }
