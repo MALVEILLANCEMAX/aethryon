@@ -128,17 +128,17 @@ function BlockView({ b, k }: { b: Block; k: string }) {
     case "h1": return null; // le titre de la page est posé par la page elle-même
     case "h2":
       return (
-        <h2 id={b.id} className="scroll-mt-28 border-t border-line pt-9 font-display text-[clamp(1.35rem,1.2rem+0.6vw,1.7rem)] font-medium leading-tight text-ink">
+        <h2 id={b.id} className="scroll-mt-28 border-t border-line pt-9 font-display text-[clamp(1.35rem,1.2rem+0.6vw,1.7rem)] leading-tight text-ink">
           {inline(b.text, k)}
         </h2>
       );
-    case "h3": return <h3 id={b.id} className="scroll-mt-28 pt-2 text-[17px] font-semibold text-ink">{inline(b.text, k)}</h3>;
+    case "h3": return <h3 id={b.id} className="scroll-mt-28 pt-2 text-corps font-semibold text-ink">{inline(b.text, k)}</h3>;
     case "p": return <p>{inline(b.text, k)}</p>;
     case "ul": return <ul className="list-disc space-y-2 pl-5 marker:text-gold">{b.items.map((it, n) => <li key={n}>{inline(it, `${k}-${n}`)}</li>)}</ul>;
     case "ol": return <ol className="list-decimal space-y-2 pl-5 marker:text-gold-text">{b.items.map((it, n) => <li key={n}>{inline(it, `${k}-${n}`)}</li>)}</ol>;
     case "quote":
       return (
-        <div className="space-y-3 rounded-[14px] border-2 border-gold/70 bg-surface px-5 py-4 text-[15px] leading-[1.65] text-ink sm:px-6" data-legal-encadre="">
+        <div className="space-y-3 rounded-card border-2 border-gold/70 bg-surface px-5 py-4 text-ui leading-[1.65] text-ink sm:px-6" data-legal-encadre="">
           {b.blocks.map((x, n) => <BlockView key={n} b={x} k={`${k}-${n}`} />)}
         </div>
       );
@@ -146,7 +146,7 @@ function BlockView({ b, k }: { b: Block; k: string }) {
       // Sur téléphone, pas de défilement horizontal : chaque ligne s'empile, chaque cellule précédée de son intitulé
       // (data-label, lu aussi par les lecteurs d'écran) ; sur un écran plus large, un tableau classique.
       return (
-        <table className="w-full border-collapse text-left text-[14.5px] leading-[1.55] max-sm:block">
+        <table className="w-full border-collapse text-left text-ui leading-[1.55] max-sm:block">
           {b.head && (
             <thead className="max-sm:sr-only">
               <tr>{b.head.map((c, n) => <th key={n} scope="col" className="border-b border-line px-3 py-2 align-bottom font-semibold text-ink">{inline(c, `${k}-h${n}`)}</th>)}</tr>
@@ -173,7 +173,7 @@ function BlockView({ b, k }: { b: Block; k: string }) {
 /** Corps d'une page juridique (sans le titre h1). */
 export function LegalBody({ blocks }: { blocks: Block[] }) {
   return (
-    <div className="space-y-4 text-[16px] leading-[1.7] text-ink-soft [overflow-wrap:break-word] [&_strong]:font-semibold [&_strong]:text-ink">
+    <div className="space-y-4 text-corps leading-[1.7] text-ink-soft [overflow-wrap:break-word] [&_strong]:font-semibold [&_strong]:text-ink">
       {blocks.map((b, n) => <BlockView key={n} b={b} k={`b${n}`} />)}
     </div>
   );

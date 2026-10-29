@@ -10,4 +10,8 @@ See TRADEMARK.md and assets/LICENSE-ASSETS.md.
 This product includes third-party components distributed under their own licenses, among them:
 - an adapted "Password strength" component from Arc (MIT), see apps/web/LICENCES-TIERS.md;
 - the Cap verification widget and WebAssembly (@cap.js/widget, @cap.js/wasm, Apache-2.0), see apps/web/LICENCES-TIERS.md;
+- Phosphor Icons (MIT, copyright 2023 Phosphor Icons), icon paths in apps/web/src/ui/ph/ph.ts, license in
+  apps/web/src/ui/ph/LICENSE-phosphor.txt;
+- the GitHub mark (Octicons "mark-github") and the Discord symbol, used unmodified only to point to GitHub and Discord;
+  they remain trademarks of GitHub, Inc. and Discord Inc. and are not licensed under the Apache License;
 - fonts under the SIL Open Font License 1.1, with their license files next to them.

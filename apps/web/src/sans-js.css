@@ -7,3 +7,15 @@
 [role="tablist"],
 [data-solutions-owl],
 [data-js-only] { display: none; }
+/* Phrase vivante du héros (« Le Passage ») : sans script, la liste entière des plateformes, sans fil animé. */
+.s-bande-vive > [role="listitem"], .s-bande-vive > .s-sep { display: inline !important; font-weight: inherit !important; animation: none !important; }
+.s-bande-vive > [data-on]::after { content: none !important; }
+/* « Atelier de nuit » (accueil, 2026-10-28) : sans script, chaque geste de « Comment ça marche » porte son propre
+   fragment (la scène fixe ne suit pas la lecture), et les panneaux des applications, tous ouverts, prennent la largeur. */
+.ge-scene { display: none !important; }
+.ge-liste { grid-column: 1 / -1 !important; max-width: 680px; display: grid; gap: 56px; }
+.ge-bloc { min-height: 0 !important; padding: 0 !important; }
+.ge-bloc .ge-titre, .ge-bloc .ge-texte { color: var(--eg-c-text) !important; }
+.ge-scene-locale { position: relative; display: block !important; margin-top: 20px; padding: 40px 20px 20px; border-radius: var(--eg-r-sheet); background: var(--eg-c-surface); }
+.ge-scene-locale > .ge-exemple { position: absolute; top: 12px; right: 16px; }
+.ap-scene { grid-column: 1 / -1 !important; display: grid; gap: 64px; }

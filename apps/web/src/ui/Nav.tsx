@@ -11,11 +11,17 @@ import { choisirThemeSite, THEMES, useThemeActif } from "../lib/apparence.ts";
 import { TARIFS_LABEL } from "../lib/offres.ts";
 import { Chouette, Icone } from "./egide/Egide.tsx";
 import { ThemeMenu } from "./egide/ThemeMenu.tsx";
+import { Panneau } from "../landing/accueil/Panneau.tsx";
+import { LangueMenu } from "./LangueMenu.tsx";
+import { GITHUB_PUBLIC, GITHUB_URL } from "../lib/github.ts";
+import { GithubMark } from "./brand/GithubMark.tsx";
+import { useT } from "../i18n/accueil.ts";
+import { PREMIUM_PAGE } from "../lib/offres.ts";
 
+// Pages intérieures : trois liens vers les sections de l'accueil et l'aide. L'accueil lui-même (2026-10-29) a une barre
+// minimale : « Menu » (le panneau latéral), le thème, le compte.
 const LIENS = [
-  { to: "/#surfaces", label: "Produit", section: "surfaces" },
-  { to: "/#plateformes", label: "Plateformes", section: "plateformes" },
-  { to: "/outils", label: "Tools", section: null },
+  { to: "/#applications", label: "Applications", section: "applications" },
   { to: "/#tarifs", label: TARIFS_LABEL, section: "tarifs" },
   { to: "/aide", label: "Aide", section: null },
 ] as const;
@@ -26,6 +32,9 @@ export function Nav() {
   const { pathname, hash } = useLocation();
   const [ouvert, setOuvert] = useState(false);
   const [defile, setDefile] = useState(false);
+  const [panneau, setPanneau] = useState(false);
+  const menuAccueil = useRef<HTMLButtonElement>(null);
+  const t = useT();
   const menuId = useId();
   const bouton = useRef<HTMLButtonElement>(null);
   const liste = useRef<HTMLDivElement>(null);
@@ -49,6 +58,38 @@ export function Nav() {
 
   const themeActif = useThemeActif();
   const actif = (l: (typeof LIENS)[number]) => (l.section ? pathname === "/" && hash === `#${l.section}` : pathname.startsWith(l.to));
+
+  if (pathname === "/") {
+    return (
+      <header className={cn("s-tete s-tete--accueil", defile && "is-defile")}>
+        <nav aria-label="Navigation principale" className="ac-barre">
+          <button ref={menuAccueil} type="button" className="ac-pilule" aria-haspopup="dialog" aria-expanded={panneau} onClick={() => setPanneau(true)} data-accueil-menu="">
+            <Icone nom="menu" taille="s" />{t.menu}
+          </button>
+          <div className="ac-barre-d">
+            {/* Comme le « Augmenter le forfait » de la référence : il mène aux offres, qui disent honnêtement leur état. */}
+            {PREMIUM_PAGE && (
+              <Link to="/premium" className="ac-pilule ac-pilule--forfait" data-nav-forfait="">
+                <Icone nom="etincelle" taille="s" /><span className="ac-forfait-long">{t.forfait}</span><span className="ac-forfait-court">{t.forfaitCourt}</span>
+              </Link>
+            )}
+            {/* Le dépôt officiel, aux couleurs de GitHub : seulement quand il est public (sinon une 404 pour le visiteur). */}
+            {GITHUB_PUBLIC && (
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="ac-pilule ac-pilule--github" aria-label={t.github + t.githubSr} data-nav-github="">
+                <GithubMark size={18} /><span>{t.github}</span>
+              </a>
+            )}
+            <LangueMenu />
+            <ThemeMenu className="ac-theme-barre" />
+            {connecte
+              ? <Link to="/dashboard" className="ac-pilule ac-pilule--compte" aria-label={t.monEspace} data-nav-espace=""><Icone nom="compte" taille="s" /><span>{t.monEspace}</span></Link>
+              : <Link to="/connexion" className="ac-pilule ac-pilule--compte" aria-label={t.seConnecter} data-nav-connexion=""><Icone nom="compte" taille="s" /><span>{t.seConnecter}</span></Link>}
+          </div>
+        </nav>
+        <Panneau ouvert={panneau} onFermer={() => setPanneau(false)} />
+      </header>
+    );
+  }
 
   return (
     <header className={cn("s-tete", defile && "is-defile")}>

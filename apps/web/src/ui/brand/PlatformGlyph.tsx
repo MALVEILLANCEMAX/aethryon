@@ -2,7 +2,8 @@
 // - PlatformGlyph : pictogramme NEUTRE dessiné pour AETHRYON (trait 1,6, couleur héritée + un accent or) qui
 //   décrit un format, jamais une marque. Décoratif : le nom de la plateforme est toujours écrit à côté.
 // - DiscordMark : le logo officiel de Discord, fichier NON MODIFIÉ (public/brand/platforms/discord/), réservé à la
-//   présentation du bot ; hauteur imposée d'au moins 20 px ; le mot « Discord » l'accompagne toujours.
+//   présentation du bot et aux boutons de l'application Discord d'AETHRYON (BoutonDiscord.tsx, se connecter, relier) ;
+//   hauteur imposée d'au moins 20 px ; le mot « Discord » l'accompagne toujours.
 import type { ReactNode } from "react";
 import { cn } from "../../lib/cn.ts";
 import { PLATFORM_REGISTRY, type Glyph, type RegistryId } from "../../lib/platforms.ts";
@@ -43,5 +44,7 @@ export function PlatformGlyph({ id, size = 22, className }: { id: RegistryId; si
 export function DiscordMark({ tone = "blurple", height = 20, className }: { tone?: "blurple" | "white" | "black"; height?: number; className?: string }) {
   const logo = PLATFORM_REGISTRY.discord.logo;
   const h = Math.max(logo.minHeight, height);
-  return <img src={logo.files[tone]} alt="" width={Math.round(h * logo.aspect)} height={h} className={cn("shrink-0", className)} data-official-logo="discord" decoding="async" />;
+  // Hauteur imposée en CSS, largeur déduite des proportions du fichier : jamais sous 20 px (le style de base des images,
+  // height:auto, la recalculait depuis la largeur arrondie : 19,7 px), jamais déformé.
+  return <img src={logo.files[tone]} alt="" width={Math.round(h * logo.aspect)} height={h} style={{ height: h, width: "auto" }} className={cn("shrink-0", className)} data-official-logo="discord" decoding="async" />;
 }

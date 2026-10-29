@@ -15,7 +15,7 @@ export function StepMarker({ state, n, small = false, label, className }: { stat
       aria-hidden={label ? undefined : true}
       className={cn(
         "grid shrink-0 place-items-center rounded-full border font-semibold transition-[background-color,border-color,color] duration-300 [font-variant-numeric:lining-nums]",
-        small ? "size-7 text-[13px]" : "size-9 text-[14px]",
+        small ? "size-7 text-note" : "size-9 text-ui",
         state === "done" ? "border-gold bg-gold text-on-accent" : state === "current" ? "border-thread bg-surface text-fg" : "border-line-strong bg-ivory text-muted",
         className,
       )}

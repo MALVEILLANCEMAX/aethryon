@@ -99,7 +99,7 @@ export function ProfileStep({ token, email, onExpired, headingRef, titled = true
       <Button type="submit" variant="primary" className="h-12 w-full" loading={sending} trailing={sending ? undefined : <IconArrowRight size={16} />}>
         {sending ? "Création du compte…" : "Créer mon compte"}
       </Button>
-      <p className="text-[13px] leading-relaxed text-muted">Ton mot de passe est haché{NB}: personne ne peut le lire, pas même nous.</p>
+      <p className="text-note leading-relaxed text-muted">Ton mot de passe est haché{NB}: personne ne peut le lire, pas même nous.</p>
     </form>
   );
 }
@@ -202,13 +202,13 @@ export function EmailSignupFlow({ disabled, onStep, next }: { disabled: boolean;
               onChange={(v) => { setCode(v); if (status === "error") setStatus("idle"); if (codeError) setCodeError(null); }}
               onComplete={(v) => void verify(v)} describedBy={codeError ? "inscription-code-erreur" : "inscription-code-aide"} />
             {codeError
-              ? <p id="inscription-code-erreur" role="alert" className="text-[14px] leading-relaxed text-bad">{codeError}</p>
-              : <p id="inscription-code-aide" className="text-[14px] leading-relaxed text-muted">Si cette adresse peut créer un compte, un code t'attend (valable 10 minutes). Rien reçu{NB}? Regarde dans les indésirables.</p>}
+              ? <p id="inscription-code-erreur" role="alert" className="text-ui leading-relaxed text-bad">{codeError}</p>
+              : <p id="inscription-code-aide" className="text-ui leading-relaxed text-muted">Si cette adresse peut créer un compte, un code t'attend (valable 10 minutes). Rien reçu{NB}? Regarde dans les indésirables.</p>}
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
               <Button variant="secondary" className="h-11" disabled={wait > 0 || status === "verifying"} onClick={() => void resend()} data-renvoyer="">
                 {wait > 0 ? <>Renvoyer dans <span className="tabular">{wait}{NB}s</span></> : "Renvoyer le code"}
               </Button>
-              <p className="text-[13px] text-muted">Tu peux aussi ouvrir le lien de l'e-mail.</p>
+              <p className="text-note text-muted">Tu peux aussi ouvrir le lien de l'e-mail.</p>
             </div>
             <span className="sr-only" role="status">{status === "verifying" ? "Vérification du code…" : status === "success" ? "Code juste." : ""}</span>
           </motion.div>

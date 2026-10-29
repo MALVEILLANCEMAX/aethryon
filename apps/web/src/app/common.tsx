@@ -13,7 +13,7 @@ export function PageHeader({ title, lead, children }: { title: string; lead?: Re
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h1 className="page-title">{title}</h1>
-        {lead && <p className="mt-3 max-w-2xl text-[16.5px] leading-relaxed text-ink-soft">{lead}</p>}
+        {lead && <p className="mt-3 max-w-2xl text-corps leading-relaxed text-ink-soft">{lead}</p>}
       </div>
       {children}
     </div>
@@ -24,7 +24,7 @@ export function PageHeader({ title, lead, children }: { title: string; lead?: Re
 export function LoadError({ children, onRetry, className }: { children: ReactNode; onRetry: () => void; className?: string }) {
   return (
     <div role="alert" className={cn("flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between", className)} data-erreur="">
-      <p className="flex gap-2.5 text-[15.5px] leading-relaxed text-ink-soft">
+      <p className="flex gap-2.5 text-ui leading-relaxed text-ink-soft">
         <IconAlert size={18} className="mt-1 shrink-0 text-bad" />
         <span>{children}</span>
       </p>

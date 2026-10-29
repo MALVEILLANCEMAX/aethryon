@@ -62,18 +62,15 @@ export default function PremiereVisite() {
 // ---- panneau « Un petit cookie ? » ------------------------------------------------------------------------------
 function CookiePanel({ onDetail, onDone }: { onDetail(): void; onDone(): void }) {
   const calm = useCalm();
-  const [bond, setBond] = useState(0);
-  const [miettes, setMiettes] = useState(0);
   const [note, setNote] = useState(false);
   const consent = FACULTATIFS.length > 0;
 
-  /** Choix fait : petit bond du cookie, miettes, son (si activé), puis le panneau descend. */
+  /** Choix fait : son (si activé), puis le panneau descend. « Atelier de nuit » (2026-10-28) : plus de cookie en pixels,
+   *  un panneau compact qui ne couvre plus l'action de la page. */
   const valider = (services: Record<string, boolean>, fete: boolean) => {
     if (note) return;
     if (fete) {
       void jouerCookie();
-      setBond((n) => n + 1);
-      setMiettes((n) => n + 1);
     }
     setNote(true);
     enregistrerChoix(services);
@@ -90,10 +87,6 @@ function CookiePanel({ onDetail, onDone }: { onDetail(): void; onDone(): void })
       animate={{ opacity: 1, y: 0, transition: calm ? { duration: DUR.calm } : { ...SPRING.soft, delay: 0.9 } }}
       exit={calm ? { opacity: 0, transition: { duration: DUR.calm } } : { opacity: 0, y: 18, transition: { duration: 0.22, ease: EASE.exit } }}
     >
-      <div className="cookie-art" aria-hidden="true">
-        <img key={bond} src="/media/retro/cookie.png" alt="" width={72} height={72} className="cookie-img" data-bond={bond ? "" : undefined} decoding="async" />
-        {miettes > 0 && <span key={miettes} className="cookie-miettes">{Array.from({ length: 7 }, (_, i) => <i key={i} className={`m${i}`} />)}</span>}
-      </div>
       <div className="cookie-texte">
         <h2 id="cookie-titre" className="cookie-titre">Un petit cookie{NB}?</h2>
         {consent ? (

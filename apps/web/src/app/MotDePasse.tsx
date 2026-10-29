@@ -43,10 +43,10 @@ export function MotDePasseOublie() {
       {off ? (
         <FormNote tone="warn" icon={<IconInfo size={18} />}>Les mots de passe ne sont pas encore ouverts sur ce serveur{NB}: connecte-toi avec Google.</FormNote>
       ) : state === "sent" ? (
-        <div className="rounded-[20px] border border-line bg-pearl p-5" role="status" data-mdp-envoye="">
-          <p className="flex items-center gap-2.5 text-[16px] font-semibold text-ink"><IconMail size={20} className="text-gold-text" />Regarde ta boîte mail</p>
-          <p className="mt-2 text-[14.5px] leading-relaxed text-ink-soft">Si cette adresse a un compte AETHRYON, un lien valable une heure vient de partir. Rien reçu{NB}? Regarde dans les indésirables, ou vérifie l'adresse.</p>
-          <button type="button" onClick={() => setState("idle")} className={`${link} mt-3 inline-flex min-h-11 items-center text-[14.5px]`}>Changer d'adresse</button>
+        <div className="rounded-panel border border-line bg-pearl p-5" role="status" data-mdp-envoye="">
+          <p className="flex items-center gap-2.5 text-corps font-semibold text-ink"><IconMail size={20} className="text-gold-text" />Regarde ta boîte mail</p>
+          <p className="mt-2 text-ui leading-relaxed text-ink-soft">Si cette adresse a un compte AETHRYON, un lien valable une heure vient de partir. Rien reçu{NB}? Regarde dans les indésirables, ou vérifie l'adresse.</p>
+          <button type="button" onClick={() => setState("idle")} className={`${link} mt-3 inline-flex min-h-11 items-center text-ui`}>Changer d'adresse</button>
         </div>
       ) : (
         <form onSubmit={submit} noValidate className="grid gap-4">
@@ -57,7 +57,7 @@ export function MotDePasseOublie() {
           <Button type="submit" variant="primary" className="h-12 w-full" loading={state === "sending"} icon={<IconMail size={18} />}>{state === "sending" ? "Envoi…" : "Recevoir le lien"}</Button>
         </form>
       )}
-      <p className="mt-7 text-center text-[15px] text-ink-soft"><Link to="/connexion" className={link}>Retour à la connexion</Link></p>
+      <p className="mt-7 text-center text-ui text-ink-soft"><Link to="/connexion" className={link}>Retour à la connexion</Link></p>
     </CompteCarte>
   );
 }
@@ -86,7 +86,7 @@ export function NouveauMotDePasse() {
   if (state === "invalid") {
     return (
       <CompteCarte data="nouveau-mdp-invalide" title="Ce lien n'est plus valable" lead="Un lien de mot de passe sert une seule fois et une heure au plus. Demande-en un nouveau.">
-        <Link to="/mot-de-passe" className="inline-flex h-12 items-center rounded-full bg-sunken px-6 text-[15.5px] font-medium text-fg">Recevoir un nouveau lien</Link>
+        <Link to="/mot-de-passe" className="inline-flex h-12 items-center rounded-full bg-sunken px-6 text-ui font-medium text-fg">Recevoir un nouveau lien</Link>
       </CompteCarte>
     );
   }
@@ -94,7 +94,7 @@ export function NouveauMotDePasse() {
     return (
       <CompteCarte data="nouveau-mdp-fait" title="Mot de passe enregistré" lead="Tes autres sessions ont été fermées par sécurité. Connecte-toi avec ton nouveau mot de passe.">
         <FormNote tone="ok" icon={<IconCheck size={18} />}>C'est fait{NB}: ce mot de passe sert dès maintenant.</FormNote>
-        <Link to="/connexion" className="mt-6 inline-flex h-12 items-center rounded-full bg-sunken px-6 text-[15.5px] font-medium text-fg" data-nouveau-mdp-connexion="">Se connecter</Link>
+        <Link to="/connexion" className="mt-6 inline-flex h-12 items-center rounded-full bg-sunken px-6 text-ui font-medium text-fg" data-nouveau-mdp-connexion="">Se connecter</Link>
       </CompteCarte>
     );
   }

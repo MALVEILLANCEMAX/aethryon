@@ -29,6 +29,7 @@ import { Button } from "../ui/Button.tsx";
 import { Dialog } from "../ui/Dialog.tsx";
 import { IconArrowUpRight, IconLock, IconShield, IconTrash } from "../ui/Icon.tsx";
 import { Skeleton } from "../ui/bits.tsx";
+import { BoutonDiscord } from "../ui/brand/BoutonDiscord.tsx";
 import { OwlMark } from "../ui/brand/OwlMark.tsx";
 import { PlatformGlyph } from "../ui/brand/PlatformGlyph.tsx";
 import { Icone } from "../ui/egide/Egide.tsx";
@@ -163,7 +164,7 @@ function Install({ compact }: { compact: boolean }) {
   }
   return (
     <section aria-labelledby="discord-ajouter" className="mt-10" data-ajouter="">
-      <h2 id="discord-ajouter" className="font-display text-[24px] font-medium">Ajouter le bot</h2>
+      <h2 id="discord-ajouter" className="font-display text-titre-s">Ajouter le bot</h2>
       <div className="dl-add mt-4">
         <a href={DISCORD_INSTALL.user} target="_blank" rel="noopener noreferrer" className="dl-add-main" data-install="user">
           <span className="dl-add-tile" aria-hidden><PlatformGlyph id="discord" size={22} /></span>
@@ -244,7 +245,7 @@ export default function Discord() {
       <PageHeader title="Discord" lead={DISCORD_PUBLIC ? "Le bot AETHRYON dans Discord, avec ton compte." : "Relie ton compte Discord au bot AETHRYON."} />
 
       {banner && (
-        <div ref={bannerRef} tabIndex={-1} className="mt-6 rounded-[20px] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" data-liaison={result}>
+        <div ref={bannerRef} tabIndex={-1} className="mt-6 rounded-panel outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" data-liaison={result}>
           <Alert tone={banner.tone} title={banner.title} live>
             <p>{banner.text}</p>
           </Alert>
@@ -292,9 +293,9 @@ export default function Discord() {
                   {DISCORD_CONVERTS ? "Le bot convertit alors avec ton quota et ton historique. Discord ne transmet que ton identifiant." : "Le bot affiche alors ton quota du jour. Discord ne transmet que ton identifiant."}
                 </p>
                 <div className="dl-actions">
-                  <Button variant="light" loading={starting} onClick={startLink} trailing={<IconArrowUpRight size={17} />}>
+                  <BoutonDiscord onClick={startLink} chargement={starting} disabled={starting} className="h-12 text-ui" data-lier-discord="">
                     {starting ? "Ouverture de Discord…" : "Lier mon compte Discord"}
-                  </Button>
+                  </BoutonDiscord>
                 </div>
               </div>
             )}
@@ -307,7 +308,7 @@ export default function Discord() {
 
       {DISCORD_CONVERTS && (
         <section aria-labelledby="discord-commandes" className="mt-10" data-commandes="">
-          <h2 id="discord-commandes" className="font-display text-[24px] font-medium">Ce que fait le bot</h2>
+          <h2 id="discord-commandes" className="font-display text-titre-s">Ce que fait le bot</h2>
           <ul className="dl-commands mt-4">
             {commands.map((c) => (
               <li key={c.name}><span className="dl-command-ico" aria-hidden><Icone nom={c.icon} /></span><code>{c.name}</code><span>{c.text}</span></li>
@@ -332,7 +333,7 @@ export default function Discord() {
                 : "Le bot donne un lien de téléchargement personnel, valable 10 minutes. Ses réponses ne sont visibles que par toi."}
             </p>
           )}
-          <div className="mt-2 flex flex-wrap gap-x-5 text-[14.5px]">
+          <div className="mt-2 flex flex-wrap gap-x-5 text-ui">
             <Link to="/confidentialite" className={`${link} inline-flex min-h-11 items-center`}>Confidentialité</Link>
             {LEGAL_PUBLISHED && <Link to="/conditions" className={`${link} inline-flex min-h-11 items-center`}>Conditions d'utilisation</Link>}
           </div>

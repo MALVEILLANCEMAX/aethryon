@@ -10,6 +10,9 @@ import type { Abonnement } from "../lib/types.ts";
 import { Button, ButtonA } from "../ui/Button.tsx";
 import { Dialog } from "../ui/Dialog.tsx";
 import { Card } from "../ui/bits.tsx";
+import { TuileGlyphe } from "../ui/brand/TuileProduit.tsx";
+import { Faits, Frontispice } from "../ui/passage/Passage.tsx";
+import { Sommaire } from "../ui/passage/Sommaire.tsx";
 import { useToast } from "../ui/Toasts.tsx";
 import { toastError } from "./common.tsx";
 import { Link } from "react-router";
@@ -31,8 +34,8 @@ const SHOW_VENTE = OFFRES_MODE === "vente" && LEGAL_PUBLISHED;
 function Block({ title, children, id }: { title: string; children: React.ReactNode; id?: string }) {
   return (
     <section id={id} className="scroll-mt-28 border-t border-line py-8">
-      <h2 className="font-display text-[24px] font-medium">{title}</h2>
-      <div className="mt-3 space-y-3 text-[16px] leading-relaxed text-ink-soft">{children}</div>
+      <h2 className="font-display text-titre-s">{title}</h2>
+      <div className="mt-3 space-y-3 text-corps leading-relaxed text-ink-soft">{children}</div>
     </section>
   );
 }
@@ -109,17 +112,42 @@ export default function Privacy() {
     }
   };
   return (
-    <div className="container-site max-w-3xl pb-24 pt-28 sm:pt-36">
-      <h1 className="page-title">Confidentialité</h1>
-      <p className="mt-3 text-[17px] text-ink-soft">Ce que le service conserve, combien de temps, et comment tout effacer.</p>
+    <div className="container-site pb-24 pt-28 sm:pt-36">
+      <Frontispice embleme={<TuileGlyphe glyphe="bouclier" size={72} />} titre="Confidentialité"
+        ligne="Ce que le service conserve, combien de temps, et comment tout effacer." />
+      <section aria-label="En bref" className="lg-bref">
+        <Faits colonnes={3} items={[
+          { icone: "cache", texte: "Le lien et le titre des vidéos ne sont jamais conservés." },
+          { icone: "sablier", texte: "Fichiers convertis effacés du serveur environ une heure après." },
+          { icone: "horloge", texte: <>Historique léger (date, format, plateforme, état) : 90 jours{OFFRES_MODE === "vente" ? " (1 an en Premium)" : ""}.</> },
+          { icone: "cadenas", texte: "Mot de passe haché, jetons en empreinte : illisibles, même par l'administrateur." },
+          { icone: "interdit", texte: "Aucune publicité, aucun profilage, aucune vente de données." },
+          { icone: "corbeille", texte: <>Export et suppression du compte : <a href="#donnees" className="text-gold-text underline decoration-gold/50 underline-offset-4">plus bas</a>.</> },
+        ]} />
+      </section>
 
-      <div className="mt-10">
+      <div className="lg-grille">
+        <Sommaire items={[
+          ...(LEGAL_PUBLISHED ? [{ id: "responsable", titre: "Responsable du traitement" }] : []),
+          { id: "conserve", titre: "Ce qui est conservé" },
+          { id: "finalites", titre: "Pourquoi ces données" },
+          { id: "durees", titre: "Durées de conservation" },
+          { id: "destinataires", titre: "Qui reçoit des données" },
+          { id: "cookies", titre: titleOf(STOCKAGE) },
+          ...(SHOW_VENTE ? [{ id: "achats", titre: titleOf(VENTE) }] : []),
+          { id: "extension", titre: "Extension navigateur" },
+          { id: "discord", titre: "Bot Discord" },
+          { id: "outils", titre: "AETHRYON Tools" },
+          { id: "contenus", titre: "Droits sur les contenus" },
+          { id: "donnees", titre: "Tes données et tes droits" },
+        ]} />
+      <div className="lg-texte">
         {LEGAL_PUBLISHED && (
           <Block id="responsable" title="Responsable du traitement">
           <p>Le responsable du traitement des données d'AETHRYON est <Legal k="editeur" />. Pour toute question ou pour exercer tes droits : <Legal k="contact" />.</p>
           </Block>
         )}
-        <Block title="Ce qui est conservé">
+        <Block id="conserve" title="Ce qui est conservé">
           <p>À la connexion Google : l'identifiant de ton compte Google, ton adresse e-mail (uniquement si Google l'a vérifiée) et ton nom affiché. Ta photo de profil n'est pas conservée, et aucun accès à ton compte Google n'est gardé : les jetons d'accès Google ne sont jamais enregistrés.</p>
           <p>À l'inscription par e-mail : ton adresse e-mail, vérifiée par un code à 6 chiffres ou un lien à usage unique AVANT la création du compte, le nom que tu choisis et ton mot de passe, uniquement sous forme hachée : personne ne peut le lire, pas même l'administrateur. Du code et du lien d'inscription, seule une empreinte est gardée, effacée au plus tard un jour après leur expiration.</p>
           <p>Tes jetons API, uniquement sous forme d'empreinte : le service ne peut pas les retrouver ni les afficher après leur création.</p>
@@ -136,7 +164,7 @@ export default function Privacy() {
           </ul>
           <p>Aucune donnée n'est vendue, utilisée pour de la publicité ou pour du profilage.</p>
         </Block>
-        <Block title="Durées de conservation">
+        <Block id="durees" title="Durées de conservation">
           <p>Historique des conversions : {`90`} jours{OFFRES_MODE === "vente" ? " (1 an pour un compte Premium ou Premium à vie)" : ""}. Sessions de connexion : 30 jours sans activité. Journal d'administration : 365 jours. Liens reçus par e-mail : 30 minutes pour l'inscription, une heure pour un nouveau mot de passe, une seule fois. Code d'inscription : 10 minutes, 5 essais au plus. Alerte « Me prévenir » : jusqu'à ce que tu la retires ou que tu supprimes ton compte. Les fichiers convertis sont supprimés du serveur environ une heure après la conversion (réglage par défaut du serveur) ; ceux d'AETHRYON Tools suivent les durées de <a href="#outils" className="text-gold-text underline decoration-gold/50 underline-offset-4">la section Tools</a>.</p>
         </Block>
         <Block id="destinataires" title="Qui reçoit des données">
@@ -167,7 +195,7 @@ export default function Privacy() {
             <li>Pour afficher ton quota et ton activité récente, elle demande au service le nombre de conversions du jour et tes 5 dernières conversions (date, plateforme, format, état, sans lien ni titre).</li>
             <li>Pour afficher la vidéo repérée, elle en charge la miniature depuis les serveurs d'images de la plateforme, comme la page que tu regardes.</li>
             {EXTENSION_AVAILABLE && <li>Deux fois par jour au plus, elle lit sur ce site le fichier public qui décrit sa dernière version, pour te signaler une mise à jour. Cette lecture n'envoie rien de personnel, et rien n'est jamais téléchargé ni installé sans toi.</li>}
-            <li>Si tu choisis « Envoyer vers Premiere Pro » et l'autorises, elle informe AETHRYON Desktop, le logiciel installé sur ton ordinateur, de l'avancement de l'envoi : titre de la vidéo, plateforme, format, état et nom du fichier. Cet échange reste sur ton ordinateur ; ni clé, ni adresse de fichier, ni donnée de compte n'y passe.</li>
+            <li>Si tu choisis « Envoyer vers Premiere Pro » et l'autorises, elle informe AETHRYON Desktop, le logiciel installé sur ton ordinateur, de l'avancement de l'envoi : titre de la vidéo, plateforme, format, état et nom du fichier. Cet échange reste sur ton ordinateur ; ni clé, ni adresse de fichier, ni donnée de compte n'y passe.</li>
             <li>Elle ne lit aucun cookie (ni des plateformes, ni de ce site), ni ton historique de navigation, et n'a aucun accès à ton compte Google. Aucune publicité, aucun outil de mesure d'audience, aucune vente ni transmission de données à des tiers.</li>
             <li>Durées : le code de connexion à usage unique n'est valable que 2 minutes et son empreinte est effacée 24 heures après. Une clé révoquée ou expirée cesse aussitôt de fonctionner et est effacée au plus tard 30 jours après.</li>
           </ul>
@@ -184,14 +212,14 @@ export default function Privacy() {
             <li>Depuis le bot Discord, « Ouvrir dans Tools » crée un lien utilisable par ton seul compte AETHRYON, valable 55 minutes ; seule une empreinte en est conservée, effacée après son expiration.</li>
           </ul>
         </Block>
-        <Block title="Droits sur les contenus">
+        <Block id="contenus" title="Droits sur les contenus">
           <p>Ne convertis que des contenus pour lesquels tu disposes des droits ou des autorisations nécessaires, et respecte les conditions d'utilisation des plateformes. Le service ne contourne aucune protection.</p>
         </Block>
         <Block id="donnees" title="Tes données et tes droits">
           <p>Tu peux accéder à tes données, les rectifier, les effacer, les récupérer dans un format réutilisable, t'opposer à un traitement ou en demander la limitation. Depuis ton espace : export et suppression ci-dessous ; {LEGAL_PUBLISHED ? <>pour le reste, écris à <Legal k="contact" />.</> : "l'adresse de contact pour le reste sera indiquée ici dès sa publication."} Tu peux aussi adresser une réclamation à la CNIL (cnil.fr).</p>
           {me.data ? (
             <Card className="p-6">
-              <p className="text-[15.5px] text-ink-soft">Connecté en tant que <span className="text-ink">{me.data.user.email}</span>.</p>
+              <p className="text-ui text-ink-soft">Connecté en tant que <span className="text-ink">{me.data.user.email}</span>.</p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <ButtonA href="/api/account/export" download="youtube-converter-mes-donnees.json" variant="secondary">Exporter mes données</ButtonA>
                 <Button variant="danger" onClick={() => setConfirm(true)}>Supprimer mon compte</Button>
@@ -200,15 +228,16 @@ export default function Privacy() {
           ) : (
             <p>Connecte-toi pour exporter tes données ou supprimer ton compte.</p>
           )}
-          <p className="text-[14px]">Version du raccourci : {cfg.data?.shortcutVersion ?? "—"}.</p>
+          <p className="text-ui">Version du raccourci : {cfg.data?.shortcutVersion ?? "—"}.</p>
         </Block>
+      </div>
       </div>
 
       <Dialog
         open={confirm}
         onClose={() => setConfirm(false)}
         title="Supprimer ton compte ?"
-        description={`${abo.data?.plan.id === "vie" ? "Ton offre Premium à vie est liée à ce compte : elle disparaît avec lui, sans remboursement. " : abo.data?.plan.id === "annuel" ? "Ton abonnement Premium est arrêté tout de suite, sans remboursement de la période en cours. " : ""}Ton compte, tes jetons et ton historique seront effacés définitivement. Le raccourci de ton iPhone${EXTENSION_AVAILABLE ? " et l'extension cesseront" : " cessera"} de fonctionner${DISCORD_MEDIA ? ", la liaison de ton compte Discord sera supprimée, ainsi que tes médias enregistrés et tes préférences" : DISCORD_CONVERTS ? " et la liaison de ton compte Discord sera supprimée" : ""}. Si ta connexion date de plus de 24 heures, reconnecte-toi d'abord.`}
+        description={`${abo.data?.plan.id === "vie" ? "Ton offre Premium à vie est liée à ce compte : elle disparaît avec lui, sans remboursement. " : abo.data?.plan.id === "annuel" ? "Ton abonnement Premium est arrêté tout de suite, sans remboursement de la période en cours. " : ""}Ton compte, tes jetons et ton historique seront effacés définitivement. Le raccourci de ton iPhone${EXTENSION_AVAILABLE ? " et l'extension cesseront" : " cessera"} de fonctionner${DISCORD_MEDIA ? ", la liaison de ton compte Discord sera supprimée, ainsi que tes médias enregistrés et tes préférences" : DISCORD_CONVERTS ? " et la liaison de ton compte Discord sera supprimée" : ""}. Si ta connexion date de plus de 24 heures, reconnecte-toi d'abord.`}
         footer={
           <>
             <Button variant="ghost" onClick={() => setConfirm(false)}>Annuler</Button>

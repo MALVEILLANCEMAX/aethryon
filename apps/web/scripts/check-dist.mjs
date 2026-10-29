@@ -52,6 +52,15 @@ for (const f of files) {
       if (!ok) errors.push(`${rel} : lien de soutien inattendu ou non sécurisé ${tag}`);
       return ok ? tag.replace(href, "#soutien") : tag;
     });
+    // Dépôt GitHub officiel (lib/github.ts) : une NAVIGATION vers le dépôt, jamais une ressource chargée ; seulement sur une
+    // ancre <a>, adresse exacte, nouvel onglet SANS référent, et SEULEMENT si le site est construit avec VITE_GITHUB_PUBLIC=1
+    // (dépôt public) : sinon le moindre lien vers github.com est refusé.
+    html = html.replace(/<a\b[^>]*?\shref="(https:\/\/github\.com\/[^"]*)"[^>]*>/g, (tag, href) => {
+      const ok = process.env.VITE_GITHUB_PUBLIC === "1" && href === "https://github.com/MALVEILLANCEMAX/aethryon"
+        && /\starget="_blank"/.test(tag) && /\srel="noopener noreferrer"/.test(tag);
+      if (!ok) errors.push(`${rel} : lien GitHub inattendu, non sécurisé ou dépôt non public (VITE_GITHUB_PUBLIC≠1) ${tag}`);
+      return ok ? tag.replace(href, "#github") : tag;
+    });
     for (const m of html.matchAll(/\b(?:src|href|srcset|imagesrcset)=["'](https?:)?\/\/[^"']+/gi)) errors.push(`${rel} : ressource externe ${m[0]}`);
   }
   if (f.endsWith(".css")) {

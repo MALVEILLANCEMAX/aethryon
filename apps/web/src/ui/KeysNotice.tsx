@@ -8,7 +8,7 @@ export function KeysNotice({ className }: { className?: string }) {
   const cfg = useConfig();
   if (!cfg.data || cfg.data.keysActive) return null;
   return (
-    <p role="note" className={cn("flex gap-2.5 rounded-[16px] border border-warn/20 bg-warn-bg p-4 text-[15px] leading-relaxed text-warn", className)}>
+    <p role="note" className={cn("flex gap-2.5 rounded-card border border-warn/20 bg-warn-bg p-4 text-ui leading-relaxed text-warn", className)}>
       <IconInfo size={18} className="mt-0.5 shrink-0" />
       <span>
         <strong className="font-semibold">Jetons personnels : bientôt actifs.</strong> Tu peux déjà créer ton jeton, mais le service

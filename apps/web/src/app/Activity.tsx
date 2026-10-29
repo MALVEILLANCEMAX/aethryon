@@ -31,8 +31,8 @@ function Empty({ hasActiveKey }: { hasActiveKey: boolean | null }) {
   return (
     <div className="flex flex-col items-center px-6 py-10 text-center sm:px-10" data-vide="">
       <AethryonMascot still state="idle" size={112} />
-      <h2 className="font-display mt-4 text-[22px] font-medium">Aucune conversion pour l’instant</h2>
-      <p className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed text-ink-soft">
+      <h2 className="font-display mt-4 text-titre-s">Aucune conversion pour l’instant</h2>
+      <p className="mx-auto mt-2 max-w-md text-ui leading-relaxed text-ink-soft">
         Chaque conversion s'inscrira ici avec sa date, son format, sa plateforme et son état, quel que soit l'accès utilisé. Aujourd'hui, elles partent du raccourci iPhone.
       </p>
       {hasActiveKey === false && (
@@ -41,7 +41,7 @@ function Empty({ hasActiveKey }: { hasActiveKey: boolean | null }) {
       {hasActiveKey && (
         <div className="mt-6 flex flex-col items-center gap-x-5 gap-y-1 sm:flex-row">
           <ButtonLink to="/installer" variant="primary" icon={<IconDownload size={18} />}>Installer le raccourci</ButtonLink>
-          <Link to="/dashboard" className={`${link} inline-flex min-h-11 items-center text-[15px]`}>Reprendre le guide</Link>
+          <Link to="/dashboard" className={`${link} inline-flex min-h-11 items-center text-ui`}>Reprendre le guide</Link>
         </div>
       )}
     </div>
@@ -58,13 +58,13 @@ export default function Activity() {
     <div>
       <PageHeader title="Activité" lead="Format, état et date de tes conversions. Ni lien ni titre n'est enregistré.">
         {/* Place réservée pendant le chargement : la liste ne descend pas quand le quota arrive (aucun décalage). */}
-        <p className="tabular min-h-[1.5em] text-[14.5px] text-ink-soft" data-quota-jour={q ? "" : undefined}>
+        <p className="tabular min-h-[1.5em] text-ui text-ink-soft" data-quota-jour={q ? "" : undefined}>
           {q
             ? <>Aujourd'hui : <span className="font-medium text-ink">{q.used}</span>{q.unlimited ? ", sans limite" : ` sur ${q.limit}`}</>
             : <Skeleton className="inline-block h-4 w-36 align-middle" />}
         </p>
       </PageHeader>
-      <div className="mt-8 overflow-hidden rounded-[22px] border border-line bg-pearl/60 shadow-card">
+      <div className="mt-8 overflow-hidden rounded-panel border border-line bg-pearl/60 shadow-card">
         {res.loading && !res.data ? (
           <div className="divide-y divide-line" aria-busy="true" aria-label="Chargement de l'activité">
             {[0, 1, 2].map((i) => (
@@ -80,9 +80,9 @@ export default function Activity() {
         ) : items.length === 0 ? (
           <Empty hasActiveKey={me.data ? me.data.keys.active > 0 : null} />
         ) : (
-          <table className="w-full text-left text-[15px]">
+          <table className="w-full text-left text-ui">
             <caption className="sr-only">Conversions récentes</caption>
-            <thead className="border-b border-line text-[13px] text-ink-soft">
+            <thead className="border-b border-line text-note text-ink-soft">
               <tr><th scope="col" className="px-5 py-3 font-medium">Date</th><th scope="col" className="px-5 py-3 font-medium">Format</th><th scope="col" className="hidden px-5 py-3 font-medium sm:table-cell">Source</th><th scope="col" className="px-5 py-3 font-medium">État</th></tr>
             </thead>
             <tbody className="divide-y divide-line">
@@ -94,9 +94,9 @@ export default function Activity() {
                     <td className="hidden px-5 py-4 text-ink-soft sm:table-cell">{i.platform ? PLATFORM[i.platform] ?? i.platform : "—"}{i.source === "outils" && <span className="ml-1.5 text-muted">· Tools</span>}</td>
                     <td className="px-5 py-4">
                       <Badge tone={STATE[i.state]?.tone ?? "neutral"}>{STATE[i.state]?.label ?? i.state}</Badge>
-                      {i.errorMessage && <p className="mt-1.5 text-[13.5px] text-ink-soft">{i.errorMessage}</p>}
+                      {i.errorMessage && <p className="mt-1.5 text-note text-ink-soft">{i.errorMessage}</p>}
                       {/* Code stable (docs/ERREURS.md) : à citer en signalant un problème. */}
-                      {i.state === "error" && i.errorCode && <p className="mt-1 text-[12.5px] text-muted wrap-anywhere">Code : <code className="select-all font-mono">{i.errorCode}</code></p>}
+                      {i.state === "error" && i.errorCode && <p className="mt-1 text-note text-muted wrap-anywhere">Code : <code className="select-all font-mono">{i.errorCode}</code></p>}
                     </td>
                   </motion.tr>
                 ))}
@@ -106,7 +106,7 @@ export default function Activity() {
         )}
       </div>
       {items.length > 0 && (
-        <p className="mt-3 text-[13.5px] leading-relaxed text-muted">
+        <p className="mt-3 text-note leading-relaxed text-muted">
           {items.length >= LIMIT ? `Les ${LIMIT} conversions les plus récentes sont affichées. ` : ""}
           Les durées de conservation sont détaillées dans <Link to="/confidentialite" className={link}>Confidentialité</Link>.
         </p>

@@ -11,6 +11,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { motion } from "motion/react";
+import { TuileProduit, type Produit } from "../ui/brand/TuileProduit.tsx";
+import { Seuil } from "../ui/passage/Passage.tsx";
 import { api, ApiError } from "../lib/api.ts";
 import { useDocumentTitle, useMe } from "../lib/hooks.ts";
 import { DUR, EASE } from "../lib/motion.ts";
@@ -79,22 +81,26 @@ const NETWORK = "Connexion impossible. Vérifie ta connexion et réessaie.";
 const SERVER = "Le serveur AETHRYON ne répond pas pour le moment : réessaie dans un instant.";
 const BAD_REDIRECT = "Réponse inattendue du serveur : aucune redirection n'a été faite. Ferme cette fenêtre, puis relance la connexion depuis l'extension.";
 
-/** Cadre commun : logo, carte centrée, entrée douce (repris par la page d'accord de Premiere Pro). */
-export function Frame({ children, label }: { children: React.ReactNode; label: string }) {
+/** Cadre commun : logo, carte centrée, entrée douce (repris par les pages d'accord de Premiere Pro et du Desktop).
+ *  « Le Passage » : avec `produit`, la carte passe sous l'arche, la tuile de l'appareil qui demande l'accès à la clé. */
+export function Frame({ children, label, produit }: { children: React.ReactNode; label: string; produit?: Produit }) {
+  const carte = (
+    <motion.section
+      aria-label={label}
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: DUR.reveal, ease: EASE.soft }}
+      className="seuil-carte w-full max-w-[540px] rounded-panel border border-line bg-pearl/70 p-6 shadow-raised sm:p-9"
+    >
+      {children}
+    </motion.section>
+  );
   return (
     <main id="contenu" className="relative min-h-dvh overflow-hidden bg-ivory text-ink">
       <div aria-hidden className="pointer-events-none absolute inset-0" />
       <div className="container-site relative flex min-h-dvh flex-col items-center justify-center py-8 sm:py-14">
-        <BrandLogo size="md" className="mb-7" />
-        <motion.section
-          aria-label={label}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: DUR.reveal, ease: EASE.soft }}
-          className="w-full max-w-[540px] rounded-[30px] border border-line bg-pearl/70 p-6 shadow-raised sm:p-9"
-        >
-          {children}
-        </motion.section>
+        <BrandLogo size="md" className={produit ? "mb-14" : "mb-7"} />
+        {produit ? <Seuil className="max-w-[540px]" couronne={<TuileProduit produit={produit} size={46} />}>{carte}</Seuil> : carte}
       </div>
     </main>
   );
@@ -102,11 +108,11 @@ export function Frame({ children, label }: { children: React.ReactNode; label: s
 
 function Invalid() {
   return (
-    <Frame label="Demande d'autorisation invalide">
+    <Frame label="Demande d'autorisation invalide" produit="extension">
       <div className="flex flex-col items-center text-center">
         <AethryonMascot still state="curious" size={112} />
-        <h1 className="font-display mt-4 text-[28px] font-medium leading-tight">Demande d'autorisation invalide</h1>
-        <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">
+        <h1 className="font-display mt-4 text-titre-m leading-tight">Demande d'autorisation invalide</h1>
+        <p className="mt-3 text-ui leading-relaxed text-ink-soft">
           Ce lien ne vient pas de l'extension AETHRYON, ou il est incomplet. Aucune autorisation n'a été donnée.
           Ferme cette fenêtre, puis relance la connexion depuis l'extension.
         </p>
@@ -149,8 +155,8 @@ export default function ExtensionAuthorize() {
   if (!me.data || me.error?.status === 401) {
     if (me.error && me.error.status !== 401) {
       return (
-        <Frame label="Session impossible à vérifier">
-          <div role="alert" className="flex gap-3 text-[15.5px] leading-relaxed text-bad">
+        <Frame label="Session impossible à vérifier" produit="extension">
+          <div role="alert" className="flex gap-3 text-ui leading-relaxed text-bad">
             <IconAlert size={20} className="mt-0.5 shrink-0" />
             <p>{me.error.isServer ? SERVER : me.error.message}</p>
           </div>
@@ -193,18 +199,18 @@ export default function ExtensionAuthorize() {
   };
 
   return (
-    <Frame label="Autorisation de l'extension AETHRYON">
+    <Frame label="Autorisation de l'extension AETHRYON" produit="extension">
       <div className="flex items-center gap-4 sm:gap-5">
         <AethryonMascot state={owl} size={92} className="-my-2 shrink-0" />
         <div className="min-w-0">
-          <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-gold-text">Extension navigateur</p>
-          <h1 className="font-display mt-1.5 text-[26px] font-medium leading-[1.15] tracking-[-0.01em] sm:text-[30px]">
+          <p className="text-note font-semibold uppercase tracking-[0.16em] text-gold-text">Extension navigateur</p>
+          <h1 className="font-display mt-1.5 text-titre-m leading-[1.15] tracking-[-0.01em] sm:text-titre-m">
             Autoriser l'extension AETHRYON sur cet appareil ?
           </h1>
         </div>
       </div>
 
-      <dl className="mt-6 divide-y divide-line rounded-[18px] border border-line bg-ivory text-[15px]">
+      <dl className="mt-6 divide-y divide-line rounded-card border border-line bg-ivory text-ui">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 px-4 py-3">
           <dt className="text-ink-soft">Appareil</dt>
           <dd className="min-w-0 break-words font-medium">{req.device}</dd>
@@ -217,8 +223,8 @@ export default function ExtensionAuthorize() {
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6">
         <section aria-labelledby="peut">
-          <h2 id="peut" className="text-[14.5px] font-semibold">Elle pourra</h2>
-          <ul className="mt-2.5 space-y-2.5 text-[14.5px] leading-snug text-ink-soft">
+          <h2 id="peut" className="text-ui font-semibold">Elle pourra</h2>
+          <ul className="mt-2.5 space-y-2.5 text-ui leading-snug text-ink-soft">
             <li className="flex gap-2.5"><IconCheck size={18} aria-hidden className="mt-px shrink-0 text-ok" />Convertir des vidéos avec ton compte</li>
             <li className="flex gap-2.5">
               <IconCheck size={18} aria-hidden className="mt-px shrink-0 text-ok" />
@@ -228,8 +234,8 @@ export default function ExtensionAuthorize() {
           </ul>
         </section>
         <section aria-labelledby="peut-pas">
-          <h2 id="peut-pas" className="text-[14.5px] font-semibold">Elle n'aura aucun accès</h2>
-          <ul className="mt-2.5 space-y-2.5 text-[14.5px] leading-snug text-ink-soft">
+          <h2 id="peut-pas" className="text-ui font-semibold">Elle n'aura aucun accès</h2>
+          <ul className="mt-2.5 space-y-2.5 text-ui leading-snug text-ink-soft">
             <li className="flex gap-2.5"><IconClose size={18} aria-hidden className="mt-px shrink-0 text-bad" />À tes cookies</li>
             <li className="flex gap-2.5"><IconClose size={18} aria-hidden className="mt-px shrink-0 text-bad" />À ton historique de navigation</li>
             <li className="flex gap-2.5"><IconClose size={18} aria-hidden className="mt-px shrink-0 text-bad" />À ton compte Google</li>
@@ -237,13 +243,13 @@ export default function ExtensionAuthorize() {
         </section>
       </div>
 
-      <p className="mt-6 flex gap-2.5 border-t border-line pt-5 text-[14px] leading-relaxed text-ink-soft">
+      <p className="mt-6 flex gap-2.5 border-t border-line pt-5 text-ui leading-relaxed text-ink-soft">
         <IconLock size={18} aria-hidden className="mt-0.5 shrink-0 text-gold-text" />
         <span>Tu peux révoquer cet accès à tout moment dans «&nbsp;Mes jetons&nbsp;», depuis ton espace personnel.</span>
       </p>
 
       {phase.kind === "error" && (
-        <div role="alert" className="mt-5 flex gap-2.5 rounded-[16px] border border-bad/20 bg-bad-bg p-3.5 text-[14.5px] leading-relaxed text-bad">
+        <div role="alert" className="mt-5 flex gap-2.5 rounded-card border border-bad/20 bg-bad-bg p-3.5 text-ui leading-relaxed text-bad">
           <IconAlert size={18} aria-hidden className="mt-0.5 shrink-0" />
           <div>
             <p>{phase.message}</p>
@@ -257,7 +263,7 @@ export default function ExtensionAuthorize() {
       )}
 
       {/* S1 (docs/PLAN-EXTENSION.md §3) : une page de consentement ouverte sans action de ta part est suspecte. */}
-      <p className="mt-6 text-[14px] leading-relaxed text-ink-soft" data-consent-rappel="">
+      <p className="mt-6 text-ui leading-relaxed text-ink-soft" data-consent-rappel="">
         Autorise seulement si tu viens de cliquer sur «&nbsp;Se connecter&nbsp;» dans l'extension AETHRYON. Sinon, refuse.
       </p>
       <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
@@ -268,7 +274,7 @@ export default function ExtensionAuthorize() {
           Autoriser
         </Button>
       </div>
-      <p role="status" aria-live="polite" className="mt-4 min-h-[21px] text-center text-[14px] text-ink-soft sm:text-right">
+      <p role="status" aria-live="polite" className="mt-4 min-h-[21px] text-center text-ui text-ink-soft sm:text-right">
         {phase.kind === "busy" ? (phase.action === "allow" ? "Autorisation en cours…" : "Refus en cours…") : null}
         {phase.kind === "leaving" ? (phase.action === "allow" ? "Accès autorisé : retour à l'extension…" : "Accès refusé : retour à l'extension…") : null}
       </p>

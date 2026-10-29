@@ -2,11 +2,16 @@
 // Onglets par catégorie (flèches du clavier), légende, une ligne par plateforme : pictogramme NEUTRE du socle (jamais
 // un logo), état réel, formats ouverts ; les formats fermés restent visibles, barrés, avec leur raison (nom accessible
 // et info-bulle). Wikimedia Commons : auteur, licence et lien source joints au fichier. Sans JavaScript : toutes les
-// catégories sont écrites (data-sans-js).
+// catégories sont écrites (data-sans-js). Dans l'en-tête, la disquette (MP4) et le disque (MP3) rétro en 3D (ui/retro,
+// revenus le 2026-10-28) : posés sur le registre sur ordinateur, à côté du titre sur téléphone.
+// « Le Passage », étape 2 (décision du propriétaire, 2026-10-28) : le REGISTRE montre en grand les plateformes ouvertes
+// (pictogramme, nom, formats, réserve) ; le catalogue complet (en essai, bientôt, indisponibles, refusées) est replié
+// dans une section dépliable, toujours écrite dans la page.
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { useConfig } from "../../lib/hooks.ts";
-import { CATEGORIES, etatAffiche, ETATS, FORMATS, NOM_FORMAT, PLATEFORMES, raisonFormat, raisonPlateforme, type EtatAffiche, type Plateforme } from "../../lib/catalogue.ts";
+import { CATEGORIES, EN_LIGNE, etatAffiche, ETATS, FORMATS, NOM_FORMAT, PLATEFORMES, raisonFormat, raisonPlateforme, type EtatAffiche, type Plateforme } from "../../lib/catalogue.ts";
 import { Icone, type NomIcone } from "../../ui/egide/Egide.tsx";
+import { useT } from "../../i18n/accueil.ts";
 
 const ICONE_CATEGORIE: Record<string, NomIcone> = { populaires: "partager", musique: "son", streaming: "lecture", autres: "archive" };
 const ICONES_CATALOGUE = new Set(["video", "vertical", "post", "image", "direct", "archive", "onde"]);
@@ -36,6 +41,21 @@ function Ligne({ p, coupees }: { p: Plateforme; coupees?: Partial<Record<"youtub
   );
 }
 
+/** Une plateforme ouverte, en grand : son nom en lettres (aucun logo, aucun pictogramme de remplacement) et ses formats ;
+ *  la raison d'un format absent est dans l'infobulle et pour les lecteurs d'écran. */
+function Plaque({ p }: { p: Plateforme }) {
+  return (
+    <li className="rg-pf" data-plateforme-ouverte={p.id}>
+      <b className="rg-nom">{p.nom}</b>
+      <ul className="rg-fmts" aria-label={`Formats pour ${p.nom}`}>
+        {FORMATS.map((f) => p.formats_compatibles.includes(f)
+          ? <li key={f}><span className="eg-etiquette">{NOM_FORMAT[f]}</span></li>
+          : <li key={f}><span className="eg-etiquette is-off" title={raisonFormat(p, f, "en-ligne")}><s aria-hidden="true">{NOM_FORMAT[f]}</s><span className="eg-vh">{NOM_FORMAT[f]} indisponible : {raisonFormat(p, f, "en-ligne")}</span></span></li>)}
+      </ul>
+    </li>
+  );
+}
+
 const trier = (l: readonly Plateforme[], coupees?: Partial<Record<"youtube" | "tiktok" | "twitter", boolean>>) =>
   [...l].sort((a, b) => ETATS[etatAffiche(a, coupees)].ordre - ETATS[etatAffiche(b, coupees)].ordre);
 
@@ -43,6 +63,7 @@ export function Catalogue() {
   const id = useId();
   const cfg = useConfig();
   const coupees = cfg.data?.platforms;
+  const t = useT();
   const [cat, setCat] = useState<string>("populaires");
   const onglets = useRef<(HTMLButtonElement | null)[]>([]);
   const clavier = (e: KeyboardEvent, i: number) => {
@@ -53,12 +74,21 @@ export function Catalogue() {
     setCat(CATEGORIES[n]!.id);
     onglets.current[n]?.focus();
   };
+  const ouvertes = EN_LIGNE.filter((p) => etatAffiche(p, coupees) === "en-ligne");
   return (
-    <section id="plateformes" aria-labelledby="t-pf" className="s-section">
-      <div className="s-section-tete">
-        <h2 id="t-pf" className="eg-titre s-h2">Plateformes</h2>
-        <p>Ce qui fonctionne aujourd'hui, ce qui arrive, et ce qu'AETHRYON ne fera pas.</p>
-      </div>
+    <section id="plateformes" aria-labelledby="t-pf" className="at-section pf">
+      <h2 id="t-pf" className="at-h2">{t.ceQuiMarche}</h2>
+      {/* Les plateformes ouvertes, dites en une phrase (leurs noms, jamais leurs logos) ; les formats une seule fois. */}
+      <p className="pf-noms" data-plateformes-ouvertes="">
+        {ouvertes.map((p, i) => (
+          <span key={p.id} data-plateforme-ouverte={p.id}>{p.nom}{i < ouvertes.length - 2 ? ", " : i === ouvertes.length - 2 ? t.et : "."}</span>
+        ))}
+      </p>
+      <p className="pf-formats">{t.formatsPartout}</p>
+      <details className="rg-autres">
+      <summary><span>{t.detailPlateformes(PLATEFORMES.length - EN_LIGNE.length)}</span><Icone nom="bas" taille="s" /></summary>
+      {/* Les plateformes ouvertes, format par format (un format absent : barré, avec sa raison). */}
+      <ul className="rg" aria-label="Formats des plateformes ouvertes">{ouvertes.map((p) => <Plaque key={p.id} p={p} />)}</ul>
       <div className="s-catalogue">
         <div className="s-onglets" role="tablist" aria-label="Catégories de plateformes">
           {CATEGORIES.map((c, i) => (
@@ -83,8 +113,9 @@ export function Catalogue() {
             </div>
           ))}
         </div>
-        <p className="s-pf-note">Pictogrammes génériques : AETHRYON n'emploie aucun logo de ces plateformes, et n'est affilié à aucune d'elles.</p>
       </div>
+      </details>
+      <p className="s-pf-note">{t.nonAffilie}</p>
     </section>
   );
 }

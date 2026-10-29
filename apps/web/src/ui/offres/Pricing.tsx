@@ -17,6 +17,7 @@ import type { Abonnement } from "../../lib/types.ts";
 import { Button, ButtonLink } from "../Button.tsx";
 import { IconArrowRight, IconBell, IconCheck, IconLock } from "../Icon.tsx";
 import { APERCU_LINE, OfferCards, SECURE_LINE } from "./OfferCards.tsx";
+import { RetroObject } from "../retro/RetroObject.tsx";
 import { useToast } from "../Toasts.tsx";
 
 /** « Me prévenir » (une demande par compte : les offres Premium ouvrent ensemble) ; sans compte, la connexion d'abord. */
@@ -102,8 +103,16 @@ export function PricingPlans({ context, only, currentPlan = "free", prices, onCh
             {isCurrent(free) && <span className="tarif-chip">Ton offre</span>}
           </header>
           <Price plan={free} />
-          <p className="tarif-how">{HOW.none}</p>
+          {context !== "accueil" && <p className="tarif-how">{HOW.none}</p>}
           <Limits plan={free} rows={rows} />
+          {/* Accueil (« Le Passage », étape 2) : l'offre gratuite, c'est un quota qui revient chaque jour ; le sablier 3D
+              occupe la place que la carte, alignée sur sa voisine, laissait vide. */}
+          {context === "accueil" && (
+            <div className="tarif-sablier-bloc">
+              <RetroObject kind="sablier" size="libre" className="tarif-sablier retro-plinth" />
+              <p>Le compteur repart à minuit, heure de Paris.</p>
+            </div>
+          )}
           <div className="tarif-cta">
             {isCurrent(free) ? null
               : context === "espace" ? <ButtonLink to="/dashboard/abonnement" variant="secondary" className="h-12 w-full">Voir mon offre</ButtonLink>
@@ -119,14 +128,14 @@ export function PricingPlans({ context, only, currentPlan = "free", prices, onCh
             <h3 id={`tarif-${context}-payantes`} className="tarif-name is-dark">Premium</h3>
             {!sale && <span className="tarif-chip is-soon">Bientôt</span>}
           </header>
-          <p className="tarif-paid-lead">{paid.length > 1 ? "Les mêmes limites. Par an, ou une seule fois." : "Des limites plus larges, renouvelées chaque année."}</p>
+          {context !== "accueil" && <p className="tarif-paid-lead">{paid.length > 1 ? "Les mêmes limites. Par an, ou une seule fois." : "Des limites plus larges, renouvelées chaque année."}</p>}
           <Limits plan={paid[0]!} dark rows={rows} />
           <OfferCards context={context} look="billet" plans={paid} currentPlan={signedIn ? accountPlan : "free"} signedIn={signedIn}
-            sale={sale} onChoose={onChoose} apercuId={sale ? undefined : `tarif-${context}-apercu`} />
+            sale={sale} onChoose={onChoose} apercuId={sale || context === "accueil" ? undefined : `tarif-${context}-apercu`} />
           {paid.some((p) => p.id === "vie") && <p className="tarif-life">{LIFETIME_LINE}</p>}
           {!sale && (
             <div className="tarif-wait">
-              <p id={`tarif-${context}-apercu`} className="tarif-apercu" data-offres-apercu="">{APERCU_LINE}</p>
+              {context !== "accueil" && <p id={`tarif-${context}-apercu`} className="tarif-apercu" data-offres-apercu="">{APERCU_LINE}</p>}
               <Waitlist signedIn={signedIn} />
             </div>
           )}
@@ -138,13 +147,14 @@ export function PricingPlans({ context, only, currentPlan = "free", prices, onCh
 }
 
 /** Note sous les offres : en aperçu, rien n'est en vente ; en vente, comment on paie, résilie, renonce. */
-export function PricingNote({ className, vente = OFFRES_MODE === "vente" }: { className?: string; vente?: boolean }) {
+export function PricingNote({ className, vente = OFFRES_MODE === "vente", court }: { className?: string; vente?: boolean; court?: boolean }) {
   return (
     <p className={cn("offers-note", className)} data-offres-note="">
       {vente
         ? <>{VAT_NOTE}. Premium{" "}: prélevé le jour de la souscription puis chaque année à la même date, résiliable en ligne, actif jusqu'à la fin de l'année payée.{LIFETIME_OFFERED ? <> Premium à vie{" "}: payé une fois.</> : null} Rétractation possible pendant 14{" "}jours, remboursement intégral. {PAY_LINE}{" "}
           <Link to="/cgv" className="underline decoration-gold/50 underline-offset-4">Conditions générales de vente</Link>.</>
-        : <>Prix TTC fixés pour l'ouverture. Aucun paiement n'est possible aujourd'hui{" "}: «{" "}Me prévenir{" "}» enregistre seulement ton souhait.</>}
+        : court ? <>Prix TTC. Aucun paiement n'est possible aujourd'hui.</>
+        : <>Prix TTC. Aucun paiement n'est possible aujourd'hui{" "}: «{" "}Me prévenir{" "}» enregistre seulement ton souhait.</>}
     </p>
   );
 }
@@ -160,7 +170,7 @@ export function PricingCommon({ className }: { className?: string }) {
 }
 
 /** Comparatif détaillé, discret : replié sous les offres, une ligne par critère, une colonne par offre. */
-export function PricingCompare({ className }: { className?: string }) {
+export function PricingCompare({ className, notes }: { className?: string; notes?: boolean }) {
   const cfg = useConfig();
   const q = cfg.data?.quotas;
   const plans = OFFERED_PLANS.map((p) => (p.id === "free" && q ? { ...p, limits: { ...p.limits, daily: q.daily, maxActive: q.maxActive, exportMinutes: q.exportMinutes ?? p.limits.exportMinutes } } : p));
@@ -180,7 +190,8 @@ export function PricingCompare({ className }: { className?: string }) {
             <tr><th scope="row">Dans Discord</th>{plans.map((p) => <td key={p.id}>Limites de Gratuit</td>)}</tr>
           </tbody>
         </table>
-        {exportLimitApplies(q) && <p className="mt-3 text-[13px] text-muted">Minutes d'export pondérées par le coût réel{" "}: 4K ×3,5, 720p et moins ×0,65, GIF ×0,55{" "}; le son ne compte pas.</p>}
+        {notes && <p className="mt-3 text-note text-muted" data-offres-communes="">{EVERYWHERE_LINE} {DISCORD_LINE}</p>}
+        {exportLimitApplies(q) && <p className="mt-3 text-note text-muted">Minutes d'export pondérées par le coût réel{" "}: 4K ×3,5, 720p et moins ×0,65, GIF ×0,55{" "}; le son ne compte pas.</p>}
       </div>
     </details>
   );

@@ -59,9 +59,9 @@
 @keyframes verif-breathe { from { opacity: 0.4; transform: scale(0.95); } to { opacity: 0.8; transform: scale(1.02); } }/* Yeux qui s'illuminent : seulement en phase « success » (posée sur confirmation du serveur). */
 /* or patiné, sombre : les yeux s'allument sans changer la chouette */
 
-.verif-eyebrow { font-size: 11px; letter-spacing: 0.28em; color: var(--eg-c-accent); margin: 0 0 8px; }
-.verif-title { font-family: var(--font-display); font-weight: 500; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; margin: 0; color: var(--eg-c-text); }
-.verif-line { margin: 10px auto 0; max-width: 30ch; min-height: 3em; font-size: 15px; line-height: 1.5; color: var(--eg-c-text-2); }
+.verif-eyebrow { font-size: var(--eg-fs-xs); letter-spacing: 0.28em; color: var(--eg-c-accent); margin: 0 0 8px; }
+.verif-title { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; margin: 0; color: var(--eg-c-text); }
+.verif-line { margin: 10px auto 0; max-width: 30ch; min-height: 3em; font-size: var(--eg-fs-m); line-height: 1.5; color: var(--eg-c-text-2); }
 .verif[data-phase="success"] .verif-line { color: var(--eg-c-accent-hover); }
 
 .verif-track { height: 2px; margin: 18px auto 0; width: 60%; border-radius: 2px; background: var(--eg-c-line-strong); overflow: hidden; transition: opacity 200ms ease; }
@@ -70,7 +70,7 @@
 
 .verif-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 22px; }
 .verif-btn {
-  min-height: 44px; padding: 0 20px; border-radius: 999px; font-size: 15px; font-weight: 500; cursor: pointer;
+  min-height: 44px; padding: 0 20px; border-radius: var(--eg-r-pill); font-size: var(--eg-fs-m); font-weight: 500; cursor: pointer;
   color: var(--eg-c-text); background: transparent; border: 1px solid var(--eg-c-control);
   transition: transform 160ms ease-out, background-color 180ms ease, border-color 180ms ease;
 }
@@ -81,7 +81,7 @@
   .verif-btn--gold:hover { background: var(--eg-c-accent-hover); border-color: var(--eg-c-accent-hover); }
 }
 .verif-btn:focus-visible { outline: 2px solid var(--eg-c-accent); outline-offset: 3px; }
-.verif-note { margin: 22px 0 0; font-size: 12px; line-height: 1.5; color: var(--eg-c-text-2); }
+.verif-note { margin: 22px 0 0; font-size: var(--eg-fs-xs); line-height: 1.5; color: var(--eg-c-text-2); }
 
 @media (max-width: 420px) {
   .verif-card { padding: 30px 20px 22px; }

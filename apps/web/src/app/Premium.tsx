@@ -8,8 +8,8 @@
 //   offre du compte : « Ton offre actuelle » et « Mon abonnement » ; refus du serveur : message dans la carte.
 // - aperçu (production aujourd'hui, ventes fermées) : les mêmes cartes, boutons inactifs avec leur raison, la mention
 //   « Les paiements ouvrent très bientôt… » et « Me prévenir de l'ouverture ». AUCUN appel au paiement.
-// Direction artistique (docs/DESIGN.md) : ivoire, cartes obsidienne, or rare ; la chouette maître (OwlMark), immobile en
-// mouvement réduit ; aucune animation qui part seule.
+// Direction artistique (docs/DESIGN.md) : cartes obsidienne, or rare ; « Le Passage » (pages) : le sablier 3D des tarifs
+// en emblème (image fixe en mouvement réduit ou sans WebGL) ; aucune animation qui part seule.
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { BILLING_URL, type BillingState } from "../lib/facturation.ts";
@@ -20,7 +20,8 @@ import {
 import { useResource } from "../lib/store.ts";
 import type { Abonnement as AbonnementInfo } from "../lib/types.ts";
 import { IconLock } from "../ui/Icon.tsx";
-import { OwlMark } from "../ui/brand/OwlMark.tsx";
+import { Frontispice } from "../ui/passage/Passage.tsx";
+import { TuileGlyphe } from "../ui/brand/TuileProduit.tsx";
 import { APERCU_LINE, OfferCards, premiumTarget, SECURE_LINE, type OfferNote } from "../ui/offres/OfferCards.tsx";
 import { PricingCommon, PricingCompare, PricingNote, Waitlist } from "../ui/offres/Pricing.tsx";
 import { Recap } from "../ui/offres/Recap.tsx";
@@ -77,9 +78,9 @@ export default function Premium() {
     const id = p.id as PaidPlanId;
     let n: OfferNote | null = null;
     if (vente && signedIn) {
-      if (abo.data && !abo.data.checkout) n = { text: "Le paiement n'est pas ouvert sur ce serveur pour le moment : rien ne peut être prélevé.", blocks: true };
-      else if (billing.error) n = { text: "Le service de paiement ne répond pas pour le moment. Ton offre actuelle reste valable ; réessaie dans un instant.", blocks: true };
-      else if (b && b.vente === false) n = { text: "Les ventes sont fermées pour le moment : aucun paiement n'est possible.", blocks: true };
+      if (abo.data && !abo.data.checkout) n = { text: "Le paiement n'est pas ouvert sur ce serveur pour le moment : rien ne peut être prélevé.", blocks: true };
+      else if (billing.error) n = { text: "Le service de paiement ne répond pas pour le moment. Ton offre actuelle reste valable ; réessaie dans un instant.", blocks: true };
+      else if (b && b.vente === false) n = { text: "Les ventes sont fermées pour le moment : aucun paiement n'est possible.", blocks: true };
       else if (b && !b.prix[id]) n = { text: "Cette offre n'est pas disponible pour le moment.", blocks: true };
     }
     if (!n && failed[id]) n = { text: failed[id]!, blocks: false };
@@ -97,15 +98,10 @@ export default function Premium() {
 
   return (
     <div className="container-site pb-24 pt-28 sm:pt-36" data-page-premium="" data-offres-mode={OFFRES_MODE}>
-      <header className="premium-head">
-        <OwlMark size={46} blink />
-        <h1 className="page-title mt-6" data-premium-titre="">{PREMIUM_TITLE}</h1>
-        <p className="premium-lead">
-          {LIFETIME_OFFERED
-            ? <>Des limites plus larges pour ton compte. Par an, ou une seule fois{NB}: les mêmes avantages.</>
-            : <>Des limites plus larges pour ton compte, renouvelées chaque année.</>}
-        </p>
-      </header>
+      <Frontispice embleme={<TuileGlyphe glyphe="sablier" size={72} />} titre={PREMIUM_TITLE}
+        ligne={LIFETIME_OFFERED
+          ? <>Des limites plus larges pour ton compte. Par an, ou une seule fois{NB}: les mêmes avantages.</>
+          : <>Des limites plus larges pour ton compte, renouvelées chaque année.</>} />
 
       {!vente && (
         <div className="premium-apercu" data-premium-apercu="">

@@ -106,5 +106,6 @@ export const sourceEntry = (id: PlatformId): PlatformEntry => PLATFORM_REGISTRY[
 
 /** Mention de non-affiliation et de propriété (pied de page). */
 export const TRADEMARK_NOTICE =
-  "AETHRYON est un service indépendant, sans lien avec Google, TikTok, X, Discord ou Apple, ni approuvé par eux. " +
-  [PLATFORM_REGISTRY.youtube, PLATFORM_REGISTRY.tiktok, PLATFORM_REGISTRY.x, PLATFORM_REGISTRY.discord, PLATFORM_REGISTRY.iphone].map((p) => p.trademark).join(" ");
+  "AETHRYON est un service indépendant, sans lien avec Google, TikTok, X, Discord, Apple ou Adobe, ni approuvé par eux. " +
+  [PLATFORM_REGISTRY.youtube, PLATFORM_REGISTRY.tiktok, PLATFORM_REGISTRY.x, PLATFORM_REGISTRY.discord, PLATFORM_REGISTRY.iphone].map((p) => p.trademark).join(" ") +
+  " Adobe et Premiere Pro sont des marques d'Adobe.";

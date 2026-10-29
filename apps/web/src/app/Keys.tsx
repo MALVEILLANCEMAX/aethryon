@@ -62,15 +62,15 @@ function Extensions({ items, loading, onRevoke, texts = EXTENSION_TEXTS, max = M
   return (
     <section aria-labelledby={texts.id} className="mt-10">
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-1">
-        <h2 id={texts.id} className="font-display text-[24px] font-medium">{texts.title}</h2>
-        {!loading && <p className="tabular text-[14px] text-ink-soft">{active} sur {max} {texts.unit}</p>}
+        <h2 id={texts.id} className="font-display text-titre-s">{texts.title}</h2>
+        {!loading && <p className="tabular text-ui text-ink-soft">{active} sur {max} {texts.unit}</p>}
       </div>
-      <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-ink-soft">{texts.lead}</p>
-      <div className="mt-4 overflow-hidden rounded-[22px] border border-line shadow-card">
+      <p className="mt-1.5 max-w-2xl text-ui leading-relaxed text-ink-soft">{texts.lead}</p>
+      <div className="mt-4 overflow-hidden rounded-panel border border-line shadow-card">
         {loading ? (
           <Skeleton className="h-20 rounded-none" />
         ) : sorted.length === 0 ? (
-          <p className="bg-pearl/60 p-6 text-[15px] text-ink-soft">{texts.empty}</p>
+          <p className="bg-pearl/60 p-6 text-ui text-ink-soft">{texts.empty}</p>
         ) : (
           <ul className="divide-y divide-line">
             <AnimatePresence initial={false}>
@@ -80,10 +80,10 @@ function Extensions({ items, loading, onRevoke, texts = EXTENSION_TEXTS, max = M
                     <span aria-hidden className="hidden size-10 shrink-0 place-items-center rounded-full border border-gold/50 bg-ivory text-gold-text sm:grid"><IconLink size={18} /></span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2.5">
-                        <p className="min-w-0 break-words text-[16px] font-medium">{deviceOf(k)}</p>
+                        <p className="min-w-0 break-words text-corps font-medium">{deviceOf(k)}</p>
                         <Badge tone={EXT_STATUS[k.status].tone}>{EXT_STATUS[k.status].label}</Badge>
                       </div>
-                      <p className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[13.5px] text-ink-soft">
+                      <p className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-note text-ink-soft">
                         <span>Liée le {fmtDate(k.createdAt)}</span>
                         <span>Utilisée {fmtRelative(k.lastUsedAt)}</span>
                         {k.expiresAt && <span>{k.status === "expired" ? "Expirée" : "Expire"} le {fmtDate(k.expiresAt)}</span>}
@@ -115,15 +115,15 @@ function Reveal({ created, onClose }: { created: CreatedKey; onClose: () => void
   const [ack, setAck] = useState(false);
   return (
     <motion.div initial={{ opacity: 0, y: 12, scale: 0.99 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, transition: { duration: 0.1 } }} transition={{ type: "spring", stiffness: 300, damping: 28 }}>
-      <div className="relative overflow-hidden rounded-[26px] border border-gold/60 bg-ivory shadow-raised">
+      <div className="relative overflow-hidden rounded-panel border border-gold/60 bg-ivory shadow-raised">
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-gold),transparent)]" />
         <div className="p-6 sm:p-8">
           <div className="flex items-start gap-4">
             {/* réaction à une vraie réponse du serveur : le jeton vient d'être créé */}
             <AethryonMascot state="success" size={84} className="-my-2 shrink-0" />
             <div>
-              <h2 className="font-display text-[26px] font-medium leading-tight">Ton jeton « {created.key.name} » est prêt</h2>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-ink-soft">Copie-le maintenant : il ne sera <strong className="font-semibold text-ink">plus jamais affiché</strong>. Le serveur n'en garde qu'une empreinte.</p>
+              <h2 className="font-display text-titre-m leading-tight">Ton jeton « {created.key.name} » est prêt</h2>
+              <p className="mt-1.5 text-ui leading-relaxed text-ink-soft">Copie-le maintenant : il ne sera <strong className="font-semibold text-ink">plus jamais affiché</strong>. Le serveur n'en garde qu'une empreinte.</p>
             </div>
           </div>
           <CopyField
@@ -132,11 +132,11 @@ function Reveal({ created, onClose }: { created: CreatedKey; onClose: () => void
             value={created.secret}
             onCopied={() => { markCopied(); toast.show("success", "Jeton copié", "Colle-le dans la configuration du raccourci."); }}
           />
-          <ul className="mt-5 list-disc space-y-1.5 pl-5 text-[14.5px] text-ink-soft marker:text-gold">
+          <ul className="mt-5 list-disc space-y-1.5 pl-5 text-ui text-ink-soft marker:text-gold">
             <li>Colle-le dans l'app Raccourcis quand elle te le demande, à l'installation.</li>
             <li>Ne l'envoie à personne. En cas de doute, régénère-le : l'ancien cessera de fonctionner.</li>
           </ul>
-          <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 text-[15px]">
+          <label className="mt-5 flex min-h-11 cursor-pointer items-center gap-3 text-ui">
             <input type="checkbox" checked={ack} onChange={(e) => { setAck(e.target.checked); if (e.target.checked) markCopied(); }} className="check" />
             J'ai copié mon jeton
           </label>
@@ -277,10 +277,10 @@ export default function Keys() {
               <Card as="section" className="p-6 sm:p-7">
                 <div className="flex items-center gap-3">
                   <span className="grid size-10 place-items-center rounded-full border border-gold/50 bg-ivory text-gold-text"><IconKey size={19} /></span>
-                  <h2 className="font-display text-[24px] font-medium">Nouveau jeton pour le raccourci</h2>
+                  <h2 className="font-display text-titre-s">Nouveau jeton pour le raccourci</h2>
                 </div>
                 {full ? (
-                  <p className="mt-5 flex gap-2.5 rounded-[16px] border border-warn/20 bg-warn-bg p-4 text-[15px] text-warn">
+                  <p className="mt-5 flex gap-2.5 rounded-card border border-warn/20 bg-warn-bg p-4 text-ui text-warn">
                     <IconAlert size={18} className="mt-0.5 shrink-0" />
                     Tu as déjà {max} jetons actifs, le maximum. Révoque-en un ci-dessous pour en créer un nouveau, ou régénère celui de ton iPhone.
                   </p>
@@ -312,11 +312,11 @@ export default function Keys() {
 
       <section aria-labelledby="keys-list" className="mt-10">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h2 id="keys-list" className="font-display text-[24px] font-medium">Jetons du compte</h2>
+          <h2 id="keys-list" className="font-display text-titre-s">Jetons du compte</h2>
           <p role="status" className="sr-only">{renamed ? `Jeton renommé : ${renamed.name}.` : ""}</p>
-          {keys.data && list.length > 0 && <p className="tabular text-[14.5px] text-ink-soft" data-actifs={active.length}>{active.length} actif{active.length > 1 ? "s" : ""} sur {max} au plus</p>}
+          {keys.data && list.length > 0 && <p className="tabular text-ui text-ink-soft" data-actifs={active.length}>{active.length} actif{active.length > 1 ? "s" : ""} sur {max} au plus</p>}
         </div>
-        <div className="mt-4 overflow-hidden rounded-[22px] border border-line shadow-card">
+        <div className="mt-4 overflow-hidden rounded-panel border border-line shadow-card">
           {keys.loading && !keys.data ? (
             <div className="divide-y divide-line bg-pearl/60" aria-busy="true" aria-label="Chargement des jetons">
               {[0, 1].map((i) => (
@@ -331,8 +331,8 @@ export default function Keys() {
             <div className="flex items-start gap-4 bg-pearl/60 p-5 sm:p-6" data-vide="">
               <span aria-hidden className="grid size-10 shrink-0 place-items-center rounded-full border border-dashed border-line-strong bg-ivory text-ink-soft"><IconKey size={18} /></span>
               <div>
-                <p className="text-[16px] font-medium">Aucun jeton pour l'instant</p>
-                <p className="mt-1 text-[15px] leading-relaxed text-ink-soft">Ton premier jeton relie le raccourci de ton iPhone à ton compte. Crée-le ci-dessus : il ne s'affichera qu'une fois.</p>
+                <p className="text-corps font-medium">Aucun jeton pour l'instant</p>
+                <p className="mt-1 text-ui leading-relaxed text-ink-soft">Ton premier jeton relie le raccourci de ton iPhone à ton compte. Crée-le ci-dessus : il ne s'affichera qu'une fois.</p>
               </div>
             </div>
           ) : (
@@ -345,18 +345,18 @@ export default function Keys() {
                         {renaming?.id === k.id ? (
                           <form onSubmit={(e) => { e.preventDefault(); void saveRename(); }} className="flex flex-wrap gap-2">
                             <label className="sr-only" htmlFor={`rn-${k.id}`}>Nouveau nom</label>
-                            <input id={`rn-${k.id}`} autoFocus maxLength={40} value={renaming.name} onChange={(e) => setRenaming({ id: k.id, name: e.target.value })} className="h-11 min-w-0 flex-1 rounded-[14px] border border-field bg-white px-3 text-[16px]" />
+                            <input id={`rn-${k.id}`} autoFocus maxLength={40} value={renaming.name} onChange={(e) => setRenaming({ id: k.id, name: e.target.value })} className="h-11 min-w-0 flex-1 rounded-card border border-field bg-white px-3 text-corps" />
                             <Button type="submit" size="sm" variant="primary" className="h-11">Enregistrer</Button>
                             <Button size="sm" variant="quiet" className="h-11" onClick={() => setRenaming(null)}>Annuler</Button>
                           </form>
                         ) : (
                           <div className="flex flex-wrap items-center gap-2.5">
-                            <p className={cn("min-w-0 break-words text-[16px] font-medium", k.status !== "active" && "text-ink-soft")}>{k.name}</p>
+                            <p className={cn("min-w-0 break-words text-corps font-medium", k.status !== "active" && "text-ink-soft")}>{k.name}</p>
                             <Badge tone={STATUS[k.status].tone}>{STATUS[k.status].label}</Badge>
-                            {renamed?.id === k.id && <span aria-hidden className="inline-flex items-center gap-1 text-[13px] font-medium text-ok"><IconCheck size={14} />Renommé</span>}
+                            {renamed?.id === k.id && <span aria-hidden className="inline-flex items-center gap-1 text-note font-medium text-ok"><IconCheck size={14} />Renommé</span>}
                           </div>
                         )}
-                        <p className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[13.5px] text-ink-soft">
+                        <p className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-note text-ink-soft">
                           <span className="font-mono text-ink">{k.start}••••••••</span>
                           <span>Créé le {fmtDate(k.createdAt)}</span>
                           <span>{k.lastUsedAt ? `Utilisé ${fmtRelative(k.lastUsedAt)}` : "Jamais utilisé"}</span>
@@ -391,24 +391,24 @@ export default function Keys() {
       <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-10">
         {/* Sécurité : jamais cachée (affichage unique, ce qui est conservé, révocation). */}
         <section aria-labelledby="keys-securite" data-securite="">
-          <h2 id="keys-securite" className="flex items-center gap-2.5 font-display text-[22px] font-medium"><IconLock size={19} className="shrink-0 text-gold-text" />Sécurité de tes jetons</h2>
-          <ul className="mt-4 space-y-3 text-[15px] leading-relaxed text-ink-soft">
+          <h2 id="keys-securite" className="flex items-center gap-2.5 font-display text-titre-s"><IconLock size={19} className="shrink-0 text-gold-text" />Sécurité de tes jetons</h2>
+          <ul className="mt-4 space-y-3 text-ui leading-relaxed text-ink-soft">
             <li className="border-t border-line pt-3"><span className="font-medium text-ink">Affiché une seule fois.</span> Le serveur n'en garde qu'une empreinte : personne ne peut le relire, pas même l'administrateur.</li>
             <li className="border-t border-line pt-3"><span className="font-medium text-ink">Conservé :</span> son nom, son début ({"ytc_"}…) et ses dates.</li>
             <li className="border-t border-line pt-3"><span className="font-medium text-ink">Révocable.</span> Refusé dès la requête suivante ; régénérer révoque l'ancien.</li>
           </ul>
-          <Link to="/confidentialite" className="mt-2 inline-flex min-h-11 items-center text-[14.5px] text-gold-text underline decoration-gold/50 underline-offset-4 transition-colors hover:decoration-gold-text">Tout ce que le service conserve</Link>
+          <Link to="/confidentialite" className="mt-2 inline-flex min-h-11 items-center text-ui text-gold-text underline decoration-gold/50 underline-offset-4 transition-colors hover:decoration-gold-text">Tout ce que le service conserve</Link>
         </section>
 
         <Card as="section" className="self-start p-6 sm:p-7">
-          <h2 className="font-display text-[22px] font-medium">Vérifier un jeton</h2>
-          <p className="mt-1.5 text-[15px] text-ink-soft">Encore actif ? Colle-le ici : il n'est ni affiché ni gardé.</p>
+          <h2 className="font-display text-titre-s">Vérifier un jeton</h2>
+          <p className="mt-1.5 text-ui text-ink-soft">Encore actif ? Colle-le ici : il n'est ni affiché ni gardé.</p>
           <form onSubmit={check} className="mt-4 flex flex-col gap-3 sm:flex-row">
             <label htmlFor="check" className="sr-only">Jeton à vérifier</label>
-            <input id="check" type="password" autoComplete="off" spellCheck={false} placeholder="ytc_…" value={checkValue} onChange={(e) => setCheckValue(e.target.value)} className="h-12 min-w-0 rounded-[14px] border border-field bg-surface px-3.5 font-mono text-[15px] placeholder:text-muted sm:flex-1" />
+            <input id="check" type="password" autoComplete="off" spellCheck={false} placeholder="ytc_…" value={checkValue} onChange={(e) => setCheckValue(e.target.value)} className="h-12 min-w-0 rounded-card border border-field bg-surface px-3.5 font-mono text-ui placeholder:text-muted sm:flex-1" />
             <Button type="submit" variant="secondary" disabled={checkValue.trim().length < 10}>Vérifier</Button>
           </form>
-          <p className="mt-3 min-h-[22px] text-[15px]" aria-live="polite">{checkResult}</p>
+          <p className="mt-3 min-h-[22px] text-ui" aria-live="polite">{checkResult}</p>
         </Card>
       </div>
 

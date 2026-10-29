@@ -35,7 +35,7 @@ export default function Apparence() {
         Six thèmes, et le tien. L'aperçu suit chaque réglage ; les contrastes sont vérifiés avant d'appliquer. Ton choix reste sur cet appareil.
       </p>
       {!persistant && (
-        <p className="mt-4 rounded-control border border-warn bg-warn-bg px-4 py-3 text-[14px] text-warn" role="status">
+        <p className="mt-4 rounded-control border border-warn bg-warn-bg px-4 py-3 text-ui text-warn" role="status">
           Ce navigateur refuse le stockage local : ton thème sera oublié à la fermeture de l'onglet.
         </p>
       )}

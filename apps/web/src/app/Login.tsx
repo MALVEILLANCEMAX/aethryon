@@ -6,7 +6,6 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { authMessage, signInWithDiscord, signInWithEmail, signInWithGoogle, DISCORD_LOGIN_ERRORS, LOGIN_ERRORS } from "../lib/auth.ts";
-import { PlatformMark } from "../ui/brand/PlatformMark.tsx";
 import { resetAll } from "../lib/store.ts";
 import { Button } from "../ui/Button.tsx";
 import { Field, PasswordInput, TextInput } from "../ui/Field.tsx";
@@ -16,7 +15,9 @@ import { safeReturnPath } from "../lib/safe.ts";
 import { DUR, EASE } from "../lib/motion.ts";
 import { isStaticBoot } from "../lib/prerender.ts";
 import { OwlMark } from "../ui/brand/OwlMark.tsx";
+import { Seuil } from "../ui/passage/Passage.tsx";
 import { GoogleG, IconAlert, IconInfo, IconLock } from "../ui/Icon.tsx";
+import { BoutonDiscord } from "../ui/brand/BoutonDiscord.tsx";
 
 export default function Login() {
   useDocumentTitle("Connexion");
@@ -83,27 +84,27 @@ export default function Login() {
     <section className="relative overflow-hidden pb-24 pt-28 sm:pt-36">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10" />
       <div className="container-site grid items-center justify-items-center gap-12">
+        <Seuil className="max-w-[460px]" couronne={<OwlMark size={42} blink />}>
         <motion.div
           initial={isStaticBoot() ? false : { opacity: 0, y: 16 }} // page pré-rendue : déjà affichée
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DUR.reveal, ease: EASE.soft }}
-          className="w-full max-w-[460px] rounded-[30px] border border-line bg-ivory p-7 shadow-raised sm:p-10"
+          className="seuil-carte w-full rounded-panel border border-line bg-ivory p-7 shadow-raised sm:p-10"
         >
-          <OwlMark size={46} blink />
-          <h1 className="page-title mt-6">Connexion</h1>
-          <p className="mt-3 text-[16px] leading-relaxed text-ink-soft">{emailOn
+          <h1 className="page-title">Connexion</h1>
+          <p className="mt-3 text-corps leading-relaxed text-ink-soft">{emailOn
             ? (discordOn ? "Ton compte existant, avec Google, Discord ou ton adresse e-mail." : "Ton compte existant, avec Google ou avec ton adresse e-mail.")
             : (discordOn ? "Ton compte existant, avec Google ou Discord : pas de mot de passe à retenir." : "Ton compte existant, avec Google : pas de mot de passe à retenir.")}</p>
           {/* Ouverte par l'extension (fenêtre d'autorisation) : dire pourquoi, et qu'on y revient ensuite. */}
           {next.startsWith("/extension/autoriser") && (
-            <p className="mt-4 flex gap-2.5 rounded-[16px] border border-line bg-pearl p-3.5 text-[14.5px] leading-relaxed text-ink" data-login-extension="">
+            <p className="mt-4 flex gap-2.5 rounded-card border border-line bg-pearl p-3.5 text-ui leading-relaxed text-ink" data-login-extension="">
               <IconInfo size={18} className="mt-0.5 shrink-0 text-gold-text" />
               Connecte-toi pour autoriser l'extension AETHRYON : tu reviendras ensuite à la page d'autorisation, dans cette même fenêtre.
             </p>
           )}
           {/* Ouverte depuis la page d'accord de Premiere Pro : même explication. */}
           {next.startsWith("/premiere/connecter") && (
-            <p className="mt-4 flex gap-2.5 rounded-[16px] border border-line bg-pearl p-3.5 text-[14.5px] leading-relaxed text-ink" data-login-premiere="">
+            <p className="mt-4 flex gap-2.5 rounded-card border border-line bg-pearl p-3.5 text-ui leading-relaxed text-ink" data-login-premiere="">
               <IconInfo size={18} className="mt-0.5 shrink-0 text-gold-text" />
               Connecte-toi pour autoriser AETHRYON pour Premiere Pro : tu reviendras ensuite à la page d'accord, avec le même code.
             </p>
@@ -115,7 +116,7 @@ export default function Login() {
               onClick={go}
               disabled={state === "loading" || state === "discord" || !!googleOff || cfg.loading}
               aria-busy={state === "loading" || undefined}
-              className="relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-[#747775] bg-[#fff] text-[16.5px] font-medium text-[#1f1f1f] shadow-card transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-px hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+              className="relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-[#747775] bg-[#fff] text-corps font-medium text-[#1f1f1f] shadow-card transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-px hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {state === "loading" ? (
@@ -132,41 +133,31 @@ export default function Login() {
             </button>
             {/* V3.5 : compte dont Discord est déjà lié (Espace › Discord) ; jamais de création de compte par Discord. */}
             {discordOn && (
-              <button
-                type="button"
-                onClick={goDiscord}
-                disabled={state === "loading" || state === "discord"}
-                aria-busy={state === "discord" || undefined}
-                data-login-discord=""
-                className="relative mt-3 flex h-14 w-full items-center justify-center gap-3 rounded-full border border-line-strong bg-ivory text-[16.5px] font-medium text-ink shadow-card transition-[background-color,translate,box-shadow] duration-200 hover:-translate-y-px hover:bg-pearl hover:shadow-raised active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {state === "discord" ? (
-                  <span className="flex items-center gap-3"><span className="size-5 animate-spin rounded-full border-2 border-ink border-r-transparent motion-reduce:animate-none" />Redirection vers Discord…</span>
-                ) : (
-                  <span className="flex items-center gap-3"><PlatformMark id="discord" size={20} /> Continuer avec Discord</span>
-                )}
-              </button>
+              <BoutonDiscord onClick={goDiscord} disabled={state === "loading" || state === "discord"} chargement={state === "discord"}
+                className="mt-3 h-14 w-full text-corps" data-login-discord="">
+                {state === "discord" ? "Redirection vers Discord…" : "Continuer avec Discord"}
+              </BoutonDiscord>
             )}
             <AnimatePresence>
               {googleOff && (
-                <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-4 flex gap-2.5 rounded-[16px] border border-warn/20 bg-warn-bg p-3.5 text-[14.5px] text-warn">
+                <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-4 flex gap-2.5 rounded-card border border-warn/20 bg-warn-bg p-3.5 text-ui text-warn">
                   <IconInfo size={18} className="mt-0.5 shrink-0" />
                   La connexion Google n'est pas encore configurée sur ce serveur. Elle sera disponible dès que l'administrateur l'aura activée.
                 </motion.p>
               )}
               {state === "error" && message && (
-                <motion.p role="alert" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 flex gap-2.5 rounded-[16px] border border-bad/20 bg-bad-bg p-3.5 text-[14.5px] text-bad">
+                <motion.p role="alert" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-4 flex gap-2.5 rounded-card border border-bad/20 bg-bad-bg p-3.5 text-ui text-bad">
                   <IconAlert size={18} className="mt-0.5 shrink-0" />
                   {message}
                 </motion.p>
               )}
             </AnimatePresence>
-            {cfg.data && !cfg.data.signupsOpen && <p className="mt-4 text-[14px] text-muted">Les nouvelles inscriptions sont fermées : seuls les comptes existants peuvent se connecter.</p>}
-            {!emailOn && <p className="mt-4 text-[13.5px] text-muted" data-login-email-bientot="">Connexion par e-mail et mot de passe : bientôt.</p>}
+            {cfg.data && !cfg.data.signupsOpen && <p className="mt-4 text-ui text-muted">Les nouvelles inscriptions sont fermées : seuls les comptes existants peuvent se connecter.</p>}
+            {!emailOn && <p className="mt-4 text-note text-muted" data-login-email-bientot="">Connexion par e-mail et mot de passe : bientôt.</p>}
           </div>
           {emailOn && (
             <>
-              <div className="my-7 flex items-center gap-3 text-[13px] text-muted" aria-hidden="true"><span className="h-px flex-1 bg-line" />ou<span className="h-px flex-1 bg-line" /></div>
+              <div className="my-7 flex items-center gap-3 text-note text-muted" aria-hidden="true"><span className="h-px flex-1 bg-line" />ou<span className="h-px flex-1 bg-line" /></div>
               <form onSubmit={signIn} noValidate className="grid gap-4" data-login-email="">
                 <Field id="connexion-email" label="Adresse e-mail">
                   <TextInput id="connexion-email" type="email" inputMode="email" autoComplete="username" autoCapitalize="off" spellCheck={false} maxLength={254}
@@ -177,18 +168,19 @@ export default function Login() {
                 </Field>
                 <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
                   <Button type="submit" variant="primary" className="h-12 px-6" loading={pwState === "loading"}>{pwState === "loading" ? "Connexion…" : "Se connecter"}</Button>
-                  <Link to="/mot-de-passe" className="inline-flex min-h-11 items-center text-[14.5px] text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text" data-login-oubli="">Mot de passe oublié ?</Link>
+                  <Link to="/mot-de-passe" className="inline-flex min-h-11 items-center text-ui text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text" data-login-oubli="">Mot de passe oublié ?</Link>
                 </div>
               </form>
             </>
           )}
-          <p className="mt-7 text-center text-[15px] text-ink-soft">Pas encore de compte ? <Link to={params.get("suite") && next !== "/dashboard" ? `/commencer?suite=${encodeURIComponent(next)}` : "/commencer"} className="font-medium text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text" data-login-commencer="">Commencer</Link></p>
+          <p className="mt-7 text-center text-ui text-ink-soft">Pas encore de compte ? <Link to={params.get("suite") && next !== "/dashboard" ? `/commencer?suite=${encodeURIComponent(next)}` : "/commencer"} className="font-medium text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text" data-login-commencer="">Commencer</Link></p>
 
-          <div className="mt-8 flex gap-3 border-t border-line pt-6 text-[14px] leading-relaxed text-ink-soft">
+          <div className="mt-8 flex gap-3 border-t border-line pt-6 text-ui leading-relaxed text-ink-soft">
             <IconLock size={18} className="mt-0.5 shrink-0 text-gold-text" />
             <p>Seuls ton e-mail vérifié, ton nom et ton mot de passe haché sont gardés ; aucun accès à ton compte Google. <Link to="/confidentialite" className="text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text">Confidentialité</Link></p>
           </div>
         </motion.div>
+        </Seuil>
       </div>
     </section>
   );

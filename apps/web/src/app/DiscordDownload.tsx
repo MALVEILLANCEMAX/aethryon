@@ -2,11 +2,13 @@
 // fichier (account, GET /api/discord/telechargement → ?erreur=…). Le lien lui-même télécharge directement ; cette
 // page n'apparaît qu'en cas d'échec et ne demande PAS de connexion (le lien est un secret porteur à usage unique).
 // Elle dit ce qui s'est passé et quoi faire, honnêtement (relancer une conversion compte dans le quota).
+// « Le Passage » (pages) : la tuile du bot en emblème, l'essentiel en repères à icône plutôt qu'en paragraphes.
 import { Link, useLocation } from "react-router";
 import { useDocumentTitle } from "../lib/hooks.ts";
 import { Alert } from "../ui/Alert.tsx";
 import { ButtonLink } from "../ui/Button.tsx";
-import { PlatformGlyph } from "../ui/brand/PlatformGlyph.tsx";
+import { TuileProduit } from "../ui/brand/TuileProduit.tsx";
+import { Faits, Frontispice } from "../ui/passage/Passage.tsx";
 
 const link = "text-gold-text underline decoration-gold/50 underline-offset-4 transition-colors hover:decoration-gold-text";
 const AGAIN = "Relance la conversion depuis Discord (elle compte dans ton quota du jour).";
@@ -28,28 +30,22 @@ export default function DiscordDownload() {
   const e = DOWNLOAD_ERRORS[code];
   return (
     <div className="container-site min-h-[60svh] pb-24 pt-28 sm:pt-32" data-telechargement={e ? code : "aucune"}>
-      <div className="mx-auto max-w-2xl">
-        <div className="flex items-center gap-3 text-gold-text">
-          <PlatformGlyph id="discord" size={22} />
-          <span className="text-[14.5px] font-medium tracking-[0.01em]">Bot AETHRYON sur Discord</span>
-        </div>
-        <h1 className="page-title mt-4">Téléchargement</h1>
-        {e ? (
-          <Alert tone={e.tone} title={e.title} className="mt-6">
-            <p>{e.text}</p>
-          </Alert>
-        ) : (
-          <p className="mt-4 text-[16.5px] leading-relaxed text-ink-soft">
-            Les fichiers convertis depuis Discord se téléchargent avec le bouton « Télécharger » du message du bot : un lien à usage unique, valable 10 minutes, qui ne demande pas de connexion.
-          </p>
-        )}
-        <p className="mt-6 text-[15px] leading-relaxed text-ink-soft">
-          Le fichier n'est jamais envoyé dans Discord : il reste sur le serveur d'AETHRYON environ une heure, puis il est effacé. Ni le lien de la vidéo ni son titre ne sont conservés.
-        </p>
-        <div className="mt-8 flex flex-col items-start gap-x-6 gap-y-2 sm:flex-row sm:items-center">
-          <ButtonLink to="/dashboard/discord" variant="primary">Mon espace › Discord</ButtonLink>
-          <Link to="/aide" className={`${link} inline-flex min-h-11 items-center text-[15px]`}>Aide</Link>
-        </div>
+      <Frontispice embleme={<TuileProduit produit="discord" size={72} />} titre="Téléchargement"
+        ligne="Les fichiers convertis depuis Discord se téléchargent avec le bouton « Télécharger » du message du bot." />
+      {e && (
+        <Alert tone={e.tone} title={e.title} className="mt-8 max-w-2xl">
+          <p>{e.text}</p>
+        </Alert>
+      )}
+      <Faits className="mt-8 max-w-3xl" items={[
+        { icone: "lien", texte: "Un lien à usage unique, valable 10 minutes, sans connexion." },
+        { icone: "sablier", texte: "Le fichier reste environ une heure sur le serveur, puis il est effacé." },
+        { icone: "discussion", texte: "Le fichier n'est jamais envoyé dans Discord." },
+        { icone: "cache", texte: "Ni le lien de la vidéo ni son titre ne sont conservés." },
+      ]} />
+      <div className="mt-10 flex flex-col items-start gap-x-6 gap-y-2 sm:flex-row sm:items-center">
+        <ButtonLink to="/dashboard/discord" variant="primary">Mon espace › Discord</ButtonLink>
+        <Link to="/aide" className={`${link} inline-flex min-h-11 items-center text-ui`}>Aide</Link>
       </div>
     </div>
   );

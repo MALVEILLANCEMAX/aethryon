@@ -89,7 +89,7 @@ export function StudioRef() {
     const ref = new URLSearchParams(window.location.hash.slice(1)).get("ref");
     if (!me.data) {
       // Connexion d'abord : le lien revient ensuite ici (le jeton reste dans la partie après #, jamais envoyée).
-      navigate(`/connexion?retour=${encodeURIComponent(`/outils/studio${window.location.hash}`)}`, { replace: true });
+      navigate(`/connexion?suite=${encodeURIComponent(`/outils/studio${window.location.hash}`)}`, { replace: true });
       return;
     }
     if (!ref) { navigate("/outils", { replace: true }); return; }
@@ -188,7 +188,7 @@ export default function Studio() {
     ? s.phase.job.title ?? s.phase.job.upload?.name ?? "Média" : "Média";
   useDocumentTitle(`${title} · Tools`);
 
-  useEffect(() => { if (!me.loading && !me.data) navigate(`/connexion?retour=${encodeURIComponent(location.pathname)}`, { replace: true }); }, [me.loading, me.data, navigate, location.pathname]);
+  useEffect(() => { if (!me.loading && !me.data) navigate(`/connexion?suite=${encodeURIComponent(location.pathname)}`, { replace: true }); }, [me.loading, me.data, navigate, location.pathname]);
 
   // Le média prêt : réglages initiaux (une fois) ; un son seul s'ouvre sur Audio. V3.5 : passage réglé dans une page
   // par l'extension (« Continuer dans Tools avec ce passage ») présélectionné, borné au média ; il l'emporte sur un

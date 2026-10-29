@@ -16,6 +16,12 @@ import "./egide/genere/egide.css";
 // Lot 1 : la mise en page Égide du site (accueil, en-tête, pied, espace, Control Center), APRÈS le socle : à spécificité
 // égale, l'agencement du site l'emporte sur les composants du socle (même couche « components »).
 import "./egide-site.css";
+// « Le Passage », pages intérieures : frontispice, arche des pages de compte, rail d'installation (après le site).
+import "./passage.css";
+// « Atelier de nuit », l'accueil et le pied de page (refonte du 2026-10-28, docs/DESIGN.md §0) : en dernier, il prime.
+import "./atelier.css";
+// Accueil (2026-10-29) : la scène centrale, les ailes en trame de points, le panneau ; après l'atelier, elle prime.
+import "./accueil.css";
 
 const container = document.getElementById("root")!;
 // Page publique pré-rendue (scripts/prerender.mjs) : son vrai contenu est déjà affiché. L'application le

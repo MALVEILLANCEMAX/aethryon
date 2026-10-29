@@ -27,6 +27,7 @@ import { PricingCommon, PricingCompare, PricingNote, PricingPlans } from "../ui/
 import { errText, Recap } from "../ui/offres/Recap.tsx";
 import { RollingText } from "../ui/RollingText.tsx";
 import { Skeleton } from "../ui/bits.tsx";
+import { RetroObject } from "../ui/retro/RetroObject.tsx";
 import { Alert } from "../ui/Alert.tsx";
 import { Button } from "../ui/Button.tsx";
 import { useToast } from "../ui/Toasts.tsx";
@@ -110,8 +111,8 @@ function LegalPanel({ id, title, lead, rows, confirm, onConfirm, onCancel }: {
   useEffect(() => { ref.current?.scrollIntoView({ block: "start", behavior: "smooth" }); ref.current?.focus(); }, []);
   return (
     <section ref={ref} tabIndex={-1} className="abo-recap" aria-labelledby={`${id}-titre`} data-panneau={id}>
-      <h2 id={`${id}-titre`} className="font-display text-[26px] font-medium">{title}</h2>
-      <p className="max-w-[42rem] text-[15px] text-ink-soft">{lead}</p>
+      <h2 id={`${id}-titre`} className="font-display text-titre-m">{title}</h2>
+      <p className="max-w-[42rem] text-ui text-ink-soft">{lead}</p>
       <dl className="abo-recap-list">{rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
       <div className="flex flex-wrap gap-3">
         <Button variant="danger" className="h-12" loading={busy} onClick={() => { setBusy(true); void onConfirm().finally(() => setBusy(false)); }} data-confirmer={id}>{confirm}</Button>
@@ -125,11 +126,11 @@ function LegalPanel({ id, title, lead, rows, confirm, onConfirm, onCancel }: {
 function History() {
   const r = useResource<{ factures: Facture[] }>("/api/facturation/factures", 60_000);
   const list = r.data?.factures ?? [];
-  if (!r.data) return r.error ? <p className="mt-10 text-[14px] text-muted">L'historique des paiements est indisponible pour le moment.</p> : null;
+  if (!r.data) return r.error ? <p className="mt-10 text-ui text-muted">L'historique des paiements est indisponible pour le moment.</p> : null;
   return (
     <section className="mt-10" aria-labelledby="abo-historique" data-factures="">
-      <h2 id="abo-historique" className="font-display text-[22px] font-medium">Historique des paiements</h2>
-      {list.length === 0 ? <p className="mt-3 text-[15px] text-muted">Aucun paiement pour l'instant.</p> : (
+      <h2 id="abo-historique" className="font-display text-titre-s">Historique des paiements</h2>
+      {list.length === 0 ? <p className="mt-3 text-ui text-muted">Aucun paiement pour l'instant.</p> : (
         <ul className="abo-invoices mt-4">
           {list.map((f) => (
             <li key={f.id}>
@@ -233,6 +234,7 @@ export default function Abonnement() {
         </div>
         <div className="abo-quota" data-abo-quota={q ? q.used : undefined}>
           <div className="abo-quota-row">
+            <RetroObject kind="sablier" size="sm" className="retro-plinth abo-sablier" />
             {q ? <QuotaRing used={q.used} limit={q.limit} /> : <Skeleton night className="size-[148px] rounded-full" />}
           </div>
           <p className="abo-quota-note">{q?.exhausted ? "Quota du jour atteint." : "Aujourd'hui."} Repart à minuit, heure de Paris.</p>
@@ -252,7 +254,7 @@ export default function Abonnement() {
         </div>
       )}
       {vente && !life && LIFETIME_OFFERED && a && a.etat !== "resilie" && b?.prix.vie && (
-        <p className="mt-3 text-[13.5px] text-muted">Premium à vie{NB}: {money(b.prix.vie.montant, b.prix.vie.devise)} une seule fois{NB}; ton abonnement Premium ne sera plus renouvelé.</p>
+        <p className="mt-3 text-note text-muted">Premium à vie{NB}: {money(b.prix.vie.montant, b.prix.vie.devise)} une seule fois{NB}; ton abonnement Premium ne sera plus renouvelé.</p>
       )}
       {open && w && d && <div className="mt-4"><Button variant="ghost" onClick={() => setPanel({ kind: "retracter" })} data-renoncer="">Renoncer au contrat ici</Button></div>}
 
@@ -260,7 +262,7 @@ export default function Abonnement() {
         <div className="mt-8">
           <LegalPanel id="resilier" title="Résilier votre contrat" confirm="Notifier la résiliation" onCancel={() => setPanel(null)}
             lead={<>Aucun nouveau prélèvement. Ton offre reste active jusqu'à la fin de l'année payée, puis ton compte passe sur l'offre Gratuite. Un accusé de réception part par e-mail.</>}
-            rows={[["Nom", d.user.name], ["E-mail", d.user.email], ["Contrat", <>AETHRYON {planById("annuel").name}{NB}· <span className="font-mono text-[13px]">{a.reference}</span></>], ["Fin d'accès", dayLong(a.fin ?? a.renouvellement)]]}
+            rows={[["Nom", d.user.name], ["E-mail", d.user.email], ["Contrat", <>AETHRYON {planById("annuel").name}{NB}· <span className="font-mono text-note">{a.reference}</span></>], ["Fin d'accès", dayLong(a.fin ?? a.renouvellement)]]}
             onConfirm={() => act("resilier", async () => { await terminate(); setPanel(null); setNotice({ tone: "ok", text: "Résiliation enregistrée. L'accusé de réception t'a été envoyé par e-mail." }); })} />
         </div>
       )}
@@ -271,7 +273,7 @@ export default function Abonnement() {
               ? <>L'offre Premium à vie s'arrête tout de suite et ton compte repasse sur l'offre Gratuite. Le montant payé t'est remboursé en entier, sur ton moyen de paiement. Un accusé de réception daté part par e-mail.</>
               : <>L'abonnement Premium s'arrête tout de suite et ton compte repasse sur l'offre Gratuite. Le montant payé t'est remboursé en entier (CGV 8.4), sur ton moyen de paiement. Un accusé de réception daté part par e-mail.</>}
             rows={[["Nom", d.user.name], ["E-mail", d.user.email],
-              ["Contrat", <>AETHRYON {planById(w.contrat).name}{NB}· <span className="font-mono text-[13px]">{w.contrat === "vie" ? b?.vie?.reference : a?.reference}</span></>],
+              ["Contrat", <>AETHRYON {planById(w.contrat).name}{NB}· <span className="font-mono text-note">{w.contrat === "vie" ? b?.vie?.reference : a?.reference}</span></>],
               ["Possible jusqu'au", dayLong(w.jusqua)]]}
             onConfirm={() => act("retracter", async () => { await withdraw(w.contrat); setPanel(null); setNotice({ tone: "ok", text: "Rétractation enregistrée. Le remboursement et l'accusé de réception suivent par e-mail." }); })} />
         </div>
@@ -280,7 +282,7 @@ export default function Abonnement() {
       {/* Gratuit (ou Premium terminé) : les offres. Premium à vie : rien à vendre. */}
       {!a && !life && (
         <section className="mt-12" aria-labelledby="abo-offres">
-          <h2 id="abo-offres" className="font-display text-[26px] font-medium">Les offres</h2>
+          <h2 id="abo-offres" className="font-display text-titre-m">Les offres</h2>
           <div className="mt-7">
             <PricingPlans context="espace" currentPlan={planId}
               prices={vente ? { annuel: b?.prix.annuel?.montant ?? null, vie: b?.prix.vie?.montant ?? null } : undefined}
@@ -303,7 +305,7 @@ export default function Abonnement() {
           </p></div>
         </details>
       )}
-      {open && b?.mode === "test" && <p className="mt-8 text-[13px] text-muted" data-mode-test="">Mode test{NB}: aucun paiement réel n'est possible sur ce serveur.</p>}
+      {open && b?.mode === "test" && <p className="mt-8 text-note text-muted" data-mode-test="">Mode test{NB}: aucun paiement réel n'est possible sur ce serveur.</p>}
     </div>
   );
 }

@@ -10,16 +10,16 @@
 /* Pastille d'annonce en tête du héros */
 /* ---- Champ « colle un lien » ---- */
 
-.probe { position: relative; border-radius: 26px; padding: 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--eg-c-text) 9%, transparent), color-mix(in srgb, var(--eg-c-text) 3.5%, transparent)); border: 1px solid color-mix(in srgb, var(--eg-c-text) 13%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 40px 90px -40px rgb(0 0 0 / 0.9), 0 0 0 6px rgb(250 248 243 / 0.025); }
+.probe { position: relative; border-radius: var(--eg-r-sheet); padding: 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--eg-c-text) 9%, transparent), color-mix(in srgb, var(--eg-c-text) 3.5%, transparent)); border: 1px solid color-mix(in srgb, var(--eg-c-text) 13%, transparent); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 40px 90px -40px rgb(0 0 0 / 0.9), 0 0 0 6px rgb(250 248 243 / 0.025); }
 .probe[data-state="ok"] { border-color: color-mix(in srgb, var(--eg-c-accent) 55%, transparent); }
 .probe[data-state="refus"] { border-color: color-mix(in srgb, var(--eg-c-err) 50%, transparent); }
 .probe-field { display: flex; align-items: center; gap: 10px; min-height: 58px; padding: 0 8px 0 14px; border-radius: 19px; background: color-mix(in srgb, var(--eg-c-sunken) 72%, transparent); border: 1px solid color-mix(in srgb, var(--eg-c-text) 8%, transparent); }
 .probe-field:focus-within { border-color: color-mix(in srgb, var(--eg-c-accent) 70%, transparent); }
-.probe-input { display: block; width: 100%; min-width: 0; height: 56px; background: transparent; border: 0; outline: 0; color: var(--eg-c-text); font-size: 16px; }
+.probe-input { display: block; width: 100%; min-width: 0; height: 56px; background: transparent; border: 0; outline: 0; color: var(--eg-c-text); font-size: var(--eg-fs-l); }
 .probe-input::placeholder { color: var(--eg-c-text); }/* contain : une lettre tapée ne recalcule et ne redessine que cette boîte, jamais le héros autour. */
 
 
-.probe-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: color-mix(in srgb, var(--eg-c-text) 6%, transparent); color: var(--eg-c-text); flex-shrink: 0; transition: background-color 200ms var(--ease-soft), color 200ms var(--ease-soft); }
+.probe-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: var(--eg-r-control); background: color-mix(in srgb, var(--eg-c-text) 6%, transparent); color: var(--eg-c-text); flex-shrink: 0; transition: background-color 200ms var(--ease-soft), color 200ms var(--ease-soft); }
 .probe[data-state="ok"] .probe-mark { background: var(--eg-c-canvas); color: var(--eg-c-text); }/* ---- Bande des plateformes (puces logo + nom) et des formats ---- */
 /* couleur officielle au survol seulement (mode logos officiels) */
 /* ---- Flèches décoratives (dessinées une fois) ---- */
@@ -34,8 +34,19 @@
    fait travailler le navigateur à chaque image, même hors de l'écran). */
 
 .deco-arrow-bob { animation: arrow-bob 2.6s ease-in-out 4; will-change: transform; }
-@keyframes arrow-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }/* ---- Objets rétro 3D (ui/retro) ---- */
-/* socle : ombre portée douce sous l'objet */
+@keyframes arrow-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+/* ---- Objets rétro 3D (ui/retro), revenus sous Égide le 2026-10-28 ---- */
+.retro-object { position: relative; display: block; aspect-ratio: 1; pointer-events: none; user-select: none; }
+.retro-object > img, .retro-object > canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+.retro-canvas { opacity: 0; transition: opacity 500ms var(--eg-e-out); }
+.retro-object[data-live] .retro-canvas { opacity: 1; }
+.retro-object[data-live] .retro-poster { opacity: 0; transition: opacity 500ms var(--eg-e-out); }
+/* socle : ombre portée douce sous l'objet, dans son propre empilement (jamais cachée par le fond d'une section) ; plus
+   légère et chaude sur les thèmes clairs (Ivory, Minimal, thème personnel clair). */
+.retro-plinth { position: relative; isolation: isolate; }
+.retro-plinth::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 4%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.45), transparent); z-index: -1; }
+:is([data-eg-theme="ivory"], [data-eg-theme="minimal"], [data-eg-mode="clair"]) .retro-plinth::after { background: radial-gradient(closest-side, rgb(52 40 22 / 0.22), transparent); }
 
 @media (prefers-reduced-motion: reduce) {
   .deco-arrow path { animation: none; stroke-dashoffset: 0; }
@@ -49,24 +60,26 @@
 .section-light { position: relative; background: var(--eg-c-canvas); color: var(--eg-c-text); }/* Surfaces produit : cartes refaites le 2026-10-13, voir qualite.css (§ Cartes produit). *//* ---- Formats (landing/v2/Formats.tsx) ---- */
 /* ---- Tarif (landing/v2/Tarifs.tsx) ---- */
 
-.reassure { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 24px; padding: 18px; background: var(--eg-c-canvas); border: 1px solid var(--eg-c-line); }
+.reassure { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: var(--eg-r-sheet); padding: 18px; background: var(--eg-c-canvas); border: 1px solid var(--eg-c-line); }
 @media (min-width: 900px) { .reassure { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 22px 24px; } }
-.reassure li { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; font-size: 13.5px; color: var(--eg-c-text-3); }
-.reassure li b { font-size: 14.5px; color: var(--eg-c-text); font-weight: 600; }
+.reassure li { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; font-size: var(--eg-fs-s); color: var(--eg-c-text-3); }
+.reassure li b { font-size: var(--eg-fs-m); color: var(--eg-c-text); font-weight: 600; }
 .reassure li span:last-child { grid-column: 2; }
-.reassure-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--eg-c-surface); color: var(--eg-c-accent-text); }
+.reassure-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: var(--eg-c-accent-text);
+  background: color-mix(in srgb, var(--eg-c-accent) 15%, var(--eg-c-surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--eg-c-accent) 28%, transparent); }
+.reassure-icon .eg-i { width: 24px; height: 24px; }
 @media (max-width: 479.98px) { .reassure { grid-template-columns: 1fr; } }/* ---- Page « Commencer » (app/Commencer.tsx) ---- */
 
-.start-step { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; padding: 18px; border-radius: 20px; border: 1px solid color-mix(in srgb, var(--eg-c-text) 10%, transparent); background: color-mix(in srgb, var(--eg-c-text) 3.5%, transparent); }
-.start-step-num { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; background: var(--eg-c-accent); color: var(--eg-c-on-accent); font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
-.start-chip { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 11px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--eg-c-text) 12%, transparent); color: var(--eg-c-text); font-size: 13px; }/* Quota du jour en image (offre réelle) : sablier 3D et un point doré par conversion, remplis une fois à l'arrivée. */
+.start-step { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; padding: 18px; border-radius: var(--eg-r-sheet); border: 1px solid color-mix(in srgb, var(--eg-c-text) 10%, transparent); background: color-mix(in srgb, var(--eg-c-text) 3.5%, transparent); }
+.start-step-num { display: grid; place-items: center; width: 34px; height: 34px; border-radius: var(--eg-r-pill); background: var(--eg-c-accent); color: var(--eg-c-on-accent); font-weight: 600; font-size: var(--eg-fs-m); font-variant-numeric: tabular-nums; }
+.start-chip { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 11px; border-radius: var(--eg-r-pill); border: 1px solid color-mix(in srgb, var(--eg-c-text) 12%, transparent); color: var(--eg-c-text); font-size: var(--eg-fs-s); }/* Quota du jour en image (offre réelle) : sablier 3D et un point doré par conversion, remplis une fois à l'arrivée. */
 
 .quota-visual { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
 @media (min-width: 640px) { .quota-visual { flex-direction: row; text-align: left; gap: 28px; justify-content: center; } }
 .quota-meter { min-width: 0; }
 .quota-dots { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; max-width: 320px; }
 @media (max-width: 639.98px) { .quota-dots { justify-content: center; margin-inline: auto; } .quota-meter p.flex { justify-content: center; } }
-.quota-dots li { width: 14px; height: 14px; border-radius: 999px; background: var(--eg-c-accent); box-shadow: inset 0 -2px 0 rgb(122 95 56 / 0.35); }
+.quota-dots li { width: 14px; height: 14px; border-radius: var(--eg-r-pill); background: var(--eg-c-accent); box-shadow: inset 0 -2px 0 rgb(122 95 56 / 0.35); }
 .quota-dots li { transition: opacity 360ms var(--ease-soft), transform 360ms var(--ease-soft); }
 .quota-meter[data-armed] .quota-dots li { opacity: 0.18; transform: scale(0.55); }
 .quota-dots li:nth-child(2) { transition-delay: 50ms; } .quota-dots li:nth-child(3) { transition-delay: 100ms; } .quota-dots li:nth-child(4) { transition-delay: 150ms; }
@@ -74,3 +87,6 @@
 .quota-dots li:nth-child(8) { transition-delay: 350ms; } .quota-dots li:nth-child(9) { transition-delay: 400ms; } .quota-dots li:nth-child(n+10) { transition-delay: 450ms; }
 @media (prefers-reduced-motion: reduce) { .quota-dots li { transition: none; } }
 }
+/* Accueil : la raison des boutons inactifs reste pour les lecteurs d'écran (aria-describedby) ; à l'écran, la pastille
+   « Bientôt » et la note sous les offres la disent déjà. */
+.tarifs .offer-reason { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

@@ -8,6 +8,12 @@ All notable changes to this repository are documented here. The format follows
 
 ### Added
 
+- Website synced from production (`5e941c4` to `8a6b213`, `apps/web` only): a new home page around one link field
+  (two dotted owl wings in the corners, the real conversion flow of AETHRYON Tools, a side panel instead of the long
+  page), a pixel-art owl with eleven expressions that follow what really happens in the field (and never animate
+  forever; reduced motion keeps the expression still), the home page, panel and footer in French, English and Spanish,
+  Phosphor icons, retro 3D objects on inner pages, Discord-coloured sign-in and "Link Discord" buttons, the Google
+  "G" on a round white badge, and a GitHub button shown only when the site is built with `VITE_GITHUB_PUBLIC=1`.
 - **Égide**, the shared design system (`packages/design`), synced from production (`5e941c4`): design tokens, a theme
   engine that computes contrast (27 WCAG pairs per theme), six themes (Obsidian, Ivory, OLED, Midnight, Minimal,
   Custom), a strict theme file format with import and export, a theme editor, an in-house icon set and framework-free

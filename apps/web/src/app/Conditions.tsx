@@ -11,6 +11,11 @@ import { Legal, LEGAL_PUBLISHED } from "../lib/legal.tsx";
 import { EXTENSION_AVAILABLE, EXTENSION_PAGE } from "../lib/extension.ts";
 import { DISCORD_AUTO, DISCORD_CONVERTS, DISCORD_MEDIA, DISCORD_PHASE } from "../lib/discord.ts";
 import { OFFRES_MODE } from "../lib/offres.ts";
+import { TuileGlyphe } from "../ui/brand/TuileProduit.tsx";
+import { Pastille } from "../ui/egide/Egide.tsx";
+import { Frontispice } from "../ui/passage/Passage.tsx";
+import { Sommaire } from "../ui/passage/Sommaire.tsx";
+import { PagesLegales } from "./LegalPage.tsx";
 
 /** Vente ouverte (OFFRES=vente) : les offres payantes existent, régies en plus par les CGV (/cgv). */
 const VENTE = OFFRES_MODE === "vente";
@@ -39,10 +44,10 @@ function Article({ n, id, children }: { n: number; id: (typeof ARTICLES)[number]
   const title = ARTICLES.find(([a]) => a === id)![1];
   return (
     <section id={id} aria-labelledby={`${id}-titre`} className="scroll-mt-28 border-t border-line pb-2 pt-9">
-      <h2 id={`${id}-titre`} className="font-display text-[clamp(1.45rem,1.25rem+0.7vw,1.8rem)] font-medium leading-tight">
+      <h2 id={`${id}-titre`} className="font-display text-[clamp(1.45rem,1.25rem+0.7vw,1.8rem)] leading-tight">
         <span className="mr-2 text-gold-text [font-variant-numeric:lining-nums]">{n}.</span>{title}
       </h2>
-      <div className="mt-4 space-y-3.5 text-[16px] leading-[1.7] text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink">{children}</div>
+      <div className="mt-4 space-y-3.5 text-corps leading-[1.7] text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink">{children}</div>
     </section>
   );
 }
@@ -109,42 +114,33 @@ export default function Conditions() {
   // Informations légales pas encore fournies (production) : aucune page juridique incomplète, une annonce honnête.
   if (!LEGAL_PUBLISHED) {
     return (
-      <div className="container-site max-w-3xl pb-24 pt-28 sm:pt-36" data-conditions-attente="">
-        <h1 className="page-title">Conditions d’utilisation</h1>
-        <p className="mt-4 text-[17px] leading-relaxed text-ink-soft">
+      <div className="container-site pb-24 pt-28 sm:pt-36" data-conditions-attente="">
+        <Frontispice embleme={<TuileGlyphe glyphe="balance" size={72} />} titre="Conditions d’utilisation"
+          aside={<Pastille ton="accent" icone="horloge">En préparation</Pastille>} />
+        <p className="lg-attente">
           Les conditions d'utilisation d'AETHRYON sont en cours de finalisation : elles seront publiées ici, complètes, avant
           l'ouverture publique du service. Ce que le service conserve et comment tout effacer est déjà décrit sur la page{" "}
           <Link to="/confidentialite" className={link}>Confidentialité</Link>.
         </p>
+        <PagesLegales actuelle="conditions" />
       </div>
     );
   }
   return (
     <div className="container-site pb-24 pt-28 sm:pt-36">
-      <header className="max-w-3xl">
-        <h1 className="page-title">Conditions d’utilisation</h1>
-        <p className="mt-4 text-[17px] leading-relaxed text-ink-soft sm:text-lead">
+      <Frontispice embleme={<TuileGlyphe glyphe="balance" size={72} />} titre="Conditions d’utilisation" />
+      <header className="mt-8 max-w-3xl">
+        <p className="text-corps leading-relaxed text-ink-soft sm:text-lead">
           Les règles d'utilisation d'AETHRYON : le site et ton espace personnel, le raccourci iPhone, l'extension navigateur et le bot Discord. Écrites en français clair, sans renvoi caché.
         </p>
-        <dl className="mt-6 grid gap-x-8 gap-y-2 text-[14.5px] sm:grid-cols-[auto_1fr]">
+        <dl className="mt-6 grid gap-x-8 gap-y-2 text-ui sm:grid-cols-[auto_1fr]">
           <dt className="text-muted">En vigueur depuis le</dt><dd className="text-ink"><Legal k="dateEffet" /></dd>
           <dt className="text-muted">Éditeur</dt><dd className="text-ink"><Legal k="editeur" /></dd>
         </dl>
       </header>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:gap-16">
-        <nav aria-label="Sommaire" className="lg:sticky lg:top-28 lg:self-start">
-          <p className="text-[13px] font-semibold text-ink">Sommaire</p>
-          <ol className="mt-3 grid gap-1 border-l border-line text-[14.5px] sm:grid-cols-2 lg:grid-cols-1">
-            {ARTICLES.map(([id, title], i) => (
-              <li key={id}>
-                <a href={`#${id}`} className="-ml-px flex min-h-11 items-center gap-2 border-l border-transparent py-1 pl-4 text-ink-soft transition-colors hover:border-gold hover:text-ink">
-                  <span className="w-5 shrink-0 text-gold-text [font-variant-numeric:lining-nums]">{i + 1}.</span>{title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
+      <div className="lg-grille">
+        <Sommaire items={ARTICLES.map(([id, title], i) => ({ id, titre: title, n: i + 1 }))} />
 
         <div className="max-w-3xl">
           <Article n={1} id="objet">

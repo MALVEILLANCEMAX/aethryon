@@ -15,6 +15,7 @@ import { PlatformMark } from "../ui/brand/PlatformMark.tsx";
 import { IconAlert, IconArrowRight } from "../ui/Icon.tsx";
 import { openSource, preview as fetchPreview, rememberFile, startUpload, type Preview, type ToolsLimits } from "./api.ts";
 import type { Tool } from "./edit.ts";
+import { choixSource as pick } from "./choix.ts";
 import { bytes, duration, PLATFORM_NAME } from "./format.ts";
 import { IconUpload } from "./icons.tsx";
 
@@ -61,12 +62,6 @@ function dropPendingRange(): void {
   try { sessionStorage.removeItem(PENDING_RANGE); } catch { /* rien */ }
 }
 
-/** Qualité demandée au serveur : la meilleure en H.264 jusqu'à 1080p (lisible partout), sinon un réencodage. */
-function pick(p: Preview): { quality: string; transcode: boolean } {
-  const h264 = p.qualities.filter((q) => q.h264 && q.quality && q.quality <= 1080).map((q) => q.quality!);
-  if (h264.length) return { quality: String(Math.max(...h264)), transcode: false };
-  return { quality: "1080", transcode: (p.duration ?? 0) <= 900 };
-}
 
 export const Intake = forwardRef<IntakeHandle, { tool: Tool | null; limits: ToolsLimits | null; remaining: number | null }>(function Intake({ tool, limits, remaining }, ref) {
   const calm = useCalm();
@@ -200,8 +195,9 @@ export const Intake = forwardRef<IntakeHandle, { tool: Tool | null; limits: Tool
             <motion.div key="login" className="intake-card intake-login" initial={calm ? false : { opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: DUR.component, ease: EASE.soft }}>
               <p>Ouvre ce média avec ton compte AETHRYON, gratuit.</p>
               <div className="flex flex-wrap gap-2.5">
-                <Link to={`/connexion?retour=${encodeURIComponent("/outils")}`} className="intake-btn">Se connecter</Link>
-                <Link to="/commencer" className="intake-btn intake-btn-ghost">Créer un compte</Link>
+                {/* « suite » : le paramètre que lisent la connexion et la création de compte (le lien collé reste en mémoire de session). */}
+                <Link to="/connexion?suite=%2Foutils" className="intake-btn" data-intake-connexion="">Se connecter</Link>
+                <Link to="/commencer?suite=%2Foutils" className="intake-btn intake-btn-ghost">Créer un compte</Link>
               </div>
             </motion.div>
           )}

@@ -18,7 +18,8 @@ import type { ActivityItem, PublicConfig } from "../../lib/types.ts";
 import { Button, ButtonA, ButtonLink } from "../../ui/Button.tsx";
 import { Skeleton } from "../../ui/bits.tsx";
 import { OwlMark } from "../../ui/brand/OwlMark.tsx";
-import { IconAlert, IconArrowRight, IconArrowUpRight, IconChat, IconCheck, IconChevron, IconDownload, IconKey, IconPhone, IconPuzzle, IconUser, IconWindow, ShortcutTile } from "../../ui/Icon.tsx";
+import { IconAlert, IconArrowRight, IconArrowUpRight, IconCheck, IconChevron, IconDownload, IconKey, IconUser, ShortcutTile } from "../../ui/Icon.tsx";
+import { TuileProduit } from "../../ui/brand/TuileProduit.tsx";
 import { InstallQr } from "../../ui/InstallQr.tsx";
 import { PLATFORM_NAME, StepMarker } from "./parts.tsx";
 import { EXTENSION_AVAILABLE, EXTENSION_PAGE, EXTENSION_STATUS } from "../../lib/extension.ts";
@@ -26,7 +27,7 @@ import { DISCORD_PUBLIC, DISCORD_STATUS } from "../../lib/discord.ts";
 
 const link = "text-gold-text underline decoration-gold/50 underline-offset-4 transition-colors hover:decoration-gold-text";
 /** Lien autonome (hors phrase) : cible tactile de 44 px. */
-const standalone = cn(link, "inline-flex min-h-11 items-center gap-1.5 text-[15px]");
+const standalone = cn(link, "inline-flex min-h-11 items-center gap-1.5 text-ui");
 /** Bouton qui peut passer à la ligne sous 640 px plutôt que de déborder. */
 const wrapBtn = "h-auto min-h-12 whitespace-normal py-2 text-left leading-tight sm:whitespace-nowrap";
 
@@ -77,9 +78,9 @@ export function Guide(props: Props) {
   if (!guide) {
     if (failed) {
       return (
-        <section aria-labelledby="guide-title" className="rounded-[28px] border border-line bg-pearl/60 p-5 sm:p-7" data-guide="erreur">
-          <h2 id="guide-title" className="font-display text-[26px] font-medium leading-tight">Bien démarrer</h2>
-          <p className="mt-3 flex gap-2.5 text-[15.5px] leading-relaxed text-ink-soft" role="alert">
+        <section aria-labelledby="guide-title" className="rounded-panel border border-line bg-pearl/60 p-5 sm:p-7" data-guide="erreur">
+          <h2 id="guide-title" className="font-display text-titre-m leading-tight">Bien démarrer</h2>
+          <p className="mt-3 flex gap-2.5 text-ui leading-relaxed text-ink-soft" role="alert">
             <IconAlert size={18} className="mt-1 shrink-0 text-bad" />
             Ton avancement n'a pas pu être vérifié : le serveur n'a pas répondu. Tes jetons et ton activité ne sont pas touchés.
           </p>
@@ -92,7 +93,7 @@ export function Guide(props: Props) {
 
   if (guide.ready) {
     return (
-      <section aria-labelledby="guide-title" className="rounded-[28px] border border-line bg-pearl/50 p-4 sm:p-5" data-guide="pret">
+      <section aria-labelledby="guide-title" className="rounded-panel border border-line bg-pearl/50 p-4 sm:p-5" data-guide="pret">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex min-w-0 flex-1 items-start gap-3.5">
             {props.moment ? (
@@ -103,10 +104,10 @@ export function Guide(props: Props) {
               <span aria-hidden className="grid size-11 shrink-0 place-items-center rounded-full bg-gold text-on-accent"><IconCheck size={20} strokeWidth={2.2} /></span>
             )}
             <div className="min-w-0">
-              <h2 id="guide-title" className="font-display text-[22px] font-medium leading-tight">
+              <h2 id="guide-title" className="font-display text-titre-s leading-tight">
                 {props.moment ? "Première conversion terminée !" : "Tout est prêt"}
               </h2>
-              <p className="mt-1 text-[15px] leading-relaxed text-ink-soft" role={props.moment ? "status" : undefined}>
+              <p className="mt-1 text-ui leading-relaxed text-ink-soft" role={props.moment ? "status" : undefined}>
                 {props.moment
                   ? `Tout est prêt. Vérifie sur ton iPhone que ${props.moment.fmt === "mp3" ? "le fichier est bien dans Fichiers" : "la vidéo est bien dans Photos"}.`
                   : "Ton raccourci est relié à ton compte et ta première conversion est terminée."}
@@ -132,19 +133,19 @@ export function Guide(props: Props) {
     setHidden(next);
   };
   return (
-    <section aria-labelledby="guide-title" className="rounded-[28px] border border-line bg-surface p-4 shadow-card min-[400px]:p-5 sm:p-7" data-guide="en-cours">
+    <section aria-labelledby="guide-title" className="rounded-panel border border-line bg-surface p-4 shadow-card min-[400px]:p-5 sm:p-7" data-guide="en-cours">
       <div className="flex items-start justify-between gap-2">
-        <h2 id="guide-title" className="font-display pt-1 text-[24px] font-medium leading-tight min-[400px]:text-[26px]">Bien démarrer</h2>
+        <h2 id="guide-title" className="font-display pt-1 text-titre-s leading-tight min-[400px]:text-titre-m">Bien démarrer</h2>
         {/* Sous 400 px, le texte visible se réduit au verbe ; le nom accessible reste complet (et le contient). */}
         <Button variant="quiet" size="sm" className="-mr-2 h-11 shrink-0 px-3" aria-label={hidden ? "Afficher le guide" : "Masquer le guide"} aria-expanded={!hidden} aria-controls="guide-etapes" onClick={toggleHidden}>
           {hidden ? "Afficher" : "Masquer"}<span className="hidden min-[400px]:inline">{"\u00a0"}le guide</span>
         </Button>
       </div>
-      <p className="mt-1 max-w-xl text-[15px] leading-relaxed text-ink-soft">Chaque étape se coche toute seule, d'après ce que ton compte enregistre.</p>
+      <p className="mt-1 max-w-xl text-ui leading-relaxed text-ink-soft">Chaque étape se coche toute seule, d'après ce que ton compte enregistre.</p>
       <Progress done={guide.doneCount} className="mt-4" />
       <div id="guide-etapes">
         {hidden ? (
-          <p className="mt-4 text-[15px] text-ink-soft" data-guide-masque="">
+          <p className="mt-4 text-ui text-ink-soft" data-guide-masque="">
             Guide masqué. Prochaine étape : <span className="font-medium text-ink">{STEP_TITLE[guide.current!]}</span>.
           </p>
         ) : (
@@ -158,7 +159,7 @@ export function Guide(props: Props) {
 /** Avancement : quatre segments (les étapes vérifiables), le texte dit la même chose. */
 function Progress({ done, className }: { done: number; className?: string }) {
   return (
-    <p className={cn("flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] text-ink-soft", className)} data-progress={done}>
+    <p className={cn("flex flex-wrap items-center gap-x-3 gap-y-1 text-ui text-ink-soft", className)} data-progress={done}>
       <span aria-hidden className="flex gap-1">
         {STEP_ORDER.map((id, i) => <span key={id} className={cn("h-1.5 w-7 rounded-full", i < done ? "bg-gold" : "bg-sand ring-1 ring-inset ring-line-strong/60")} />)}
       </span>
@@ -169,7 +170,7 @@ function Progress({ done, className }: { done: number; className?: string }) {
 
 export function GuideSkeleton() {
   return (
-    <section aria-busy="true" aria-label="Bien démarrer, chargement" className="rounded-[28px] border border-line bg-pearl/50 p-5 sm:p-7" data-guide="chargement">
+    <section aria-busy="true" aria-label="Bien démarrer, chargement" className="rounded-panel border border-line bg-pearl/50 p-5 sm:p-7" data-guide="chargement">
       <Skeleton className="h-8 w-48" />
       <Skeleton className="mt-3 h-4 w-full max-w-md" />
       <div className="mt-8 space-y-6">
@@ -223,19 +224,19 @@ function Steps(props: Props & { guide: GuideData }) {
                 aria-expanded={isOpen}
                 aria-controls={`etape-${id}`}
                 onClick={() => toggle(id)}
-                className="group flex min-h-11 w-full items-center justify-between gap-3 rounded-[12px] text-left"
+                className="group flex min-h-11 w-full items-center justify-between gap-3 rounded-card text-left"
               >
-                <span className={cn("text-[17px] font-semibold leading-snug tracking-[-0.01em] transition-colors group-hover:text-ink", state === "todo" ? "text-ink-soft" : "text-ink")}>
+                <span className={cn("text-corps font-semibold leading-snug tracking-[-0.01em] transition-colors group-hover:text-ink", state === "todo" ? "text-ink-soft" : "text-ink")}>
                   {STEP_TITLE[id]}
                 </span>
                 <span className="flex shrink-0 items-center gap-2">
                   {/* Doublon visuel du repère (image nommée « Étape n : … ») : hors du nom du bouton. */}
-                  <span aria-hidden className={cn("hidden text-[13.5px] sm:inline", state === "done" ? "text-gold-text" : state === "current" ? "font-medium text-ink" : "text-muted")}>{STATE_LABEL[state]}</span>
+                  <span aria-hidden className={cn("hidden text-note sm:inline", state === "done" ? "text-gold-text" : state === "current" ? "font-medium text-ink" : "text-muted")}>{STATE_LABEL[state]}</span>
                   <IconChevron size={16} aria-hidden className={cn("text-muted transition-transform duration-300", isOpen && "rotate-180")} />
                 </span>
               </button>
             </h3>
-            {!isOpen && c.summary && <p className={cn("mt-0.5 text-[14.5px] leading-relaxed", state === "todo" ? "text-muted" : "text-ink-soft")} data-summary="">{c.summary}</p>}
+            {!isOpen && c.summary && <p className={cn("mt-0.5 text-ui leading-relaxed", state === "todo" ? "text-muted" : "text-ink-soft")} data-summary="">{c.summary}</p>}
             <div id={`etape-${id}`}>
               <AnimatePresence initial={false}>
                 {isOpen && (
@@ -247,7 +248,7 @@ function Steps(props: Props & { guide: GuideData }) {
                     transition={{ duration: DUR.component, ease: EASE.soft }}
                     className={cn("overflow-hidden", state === "current" && "-ml-[52px] pl-[52px] sm:ml-0 sm:pl-0")}
                   >
-                    <div className={cn("relative mt-2 text-[15.5px] leading-relaxed text-ink-soft", state === "current" && "-ml-[52px] rounded-[22px] border border-line bg-ivory p-4 shadow-card sm:ml-0 sm:p-5")}>
+                    <div className={cn("relative mt-2 text-ui leading-relaxed text-ink-soft", state === "current" && "-ml-[52px] rounded-panel border border-line bg-ivory p-4 shadow-card sm:ml-0 sm:p-5")}>
                       {c.body}
                     </div>
                   </motion.div>
@@ -268,10 +269,10 @@ function AccountLandmark() {
     <li className="relative pl-[52px] sm:pl-14" data-step="compte" data-state="repere">
       <span aria-hidden className="absolute left-0 top-1 grid size-9 place-items-center rounded-full border border-dashed border-line-strong bg-ivory text-ink-soft"><IconUser size={17} /></span>
       <h3 className="flex min-h-11 items-center justify-between gap-3">
-        <span className="text-[17px] font-semibold leading-snug tracking-[-0.01em]">Gérer ton compte</span>
-        <span className="hidden shrink-0 text-[13.5px] text-muted sm:inline">À tout moment</span>
+        <span className="text-corps font-semibold leading-snug tracking-[-0.01em]">Gérer ton compte</span>
+        <span className="hidden shrink-0 text-note text-muted sm:inline">À tout moment</span>
       </h3>
-      <p className="text-[14.5px] leading-relaxed text-ink-soft">
+      <p className="text-ui leading-relaxed text-ink-soft">
         Ta connexion et ton mot de passe, tes jetons, l'export de tes données et la suppression du compte, quand tu veux.
       </p>
       <ul className="mt-1 flex flex-wrap gap-x-5" aria-label="Gérer ton compte">
@@ -309,16 +310,16 @@ function stepContent(p: Props & { guide: GuideData }, goTo: (id: StepId) => void
       body: (
         <>
           <p>Un seul compte pour tous les accès : le même quota et le même historique, où que tu convertisses.</p>
-          <ul className="mt-4 divide-y divide-line overflow-hidden rounded-[18px] border border-line bg-pearl/40" aria-label="Façons d'utiliser AETHRYON" data-access-choice="">
-            <AccessRow icon={<IconPhone size={19} />} name="Raccourci iPhone" status="Disponible" dot="ready" featured
+          <ul className="mt-4 divide-y divide-line overflow-hidden rounded-card border border-line bg-pearl/40" aria-label="Façons d'utiliser AETHRYON" data-access-choice="">
+            <AccessRow icon={<TuileProduit produit="iphone" size={40} />} name="Raccourci iPhone" status="Disponible" dot="ready" featured
               desc="Depuis la feuille de partage, avec l'app Raccourcis d'Apple." id="ios"
               action={s.raccourci === "done" ? null : <Button variant="primary" size="sm" className="h-11" trailing={<IconArrowRight size={16} />} onClick={() => goTo("raccourci")}>Utiliser l'iPhone</Button>} />
-            <AccessRow icon={<IconWindow size={19} />} name="Espace web" status="Tu es ici" dot="ready" id="web"
+            <AccessRow icon={<TuileProduit produit="web" size={40} />} name="Espace web" status="Tu es ici" dot="ready" id="web"
               desc="Tes jetons, ton quota et ton activité, sur ce site." />
-            <AccessRow icon={<IconPuzzle size={19} />} name="Extension navigateur" status={EXTENSION_STATUS.label} dot={EXTENSION_STATUS.state} id="extension"
+            <AccessRow icon={<TuileProduit produit="extension" size={40} />} name="Extension navigateur" status={EXTENSION_STATUS.label} dot={EXTENSION_STATUS.state} id="extension"
               desc={EXTENSION_AVAILABLE ? "Sur ordinateur, un bouton sous la vidéo, dans Chrome, Edge ou Brave." : "Sur ordinateur, un bouton sous la vidéo. Pas encore installable."}
               action={EXTENSION_AVAILABLE ? <ButtonLink to={EXTENSION_PAGE} variant="secondary" size="sm" className="h-11">Installer</ButtonLink> : null} />
-            <AccessRow icon={<IconChat size={19} />} name="Bot Discord" status={DISCORD_STATUS.label} dot={DISCORD_STATUS.state} id="discord"
+            <AccessRow icon={<TuileProduit produit="discord" size={40} />} name="Bot Discord" status={DISCORD_STATUS.label} dot={DISCORD_STATUS.state} id="discord"
               desc={DISCORD_PUBLIC ? "/convert dans Discord, avec ton compte : sur tes serveurs ou en message privé." : "Une commande dans Discord. Pas encore ouvert."}
               action={DISCORD_PUBLIC ? <ButtonLink to="/dashboard/discord" variant="secondary" size="sm" className="h-11">Ajouter le bot</ButtonLink> : null} />
           </ul>
@@ -335,7 +336,7 @@ function stepContent(p: Props & { guide: GuideData }, goTo: (id: StepId) => void
       body: (
         <>
           <p>Le raccourci {SHORTCUT_NAME} s'ajoute à l'app Raccourcis de ton iPhone. Un jeton personnel le relie à ton compte.</p>
-          {!p.keysActive && <p className="mt-3 text-[14.5px] text-warn">Le service de conversion n'accepte pas encore les jetons personnels : cette étape se cochera après son ouverture.</p>}
+          {!p.keysActive && <p className="mt-3 text-ui text-warn">Le service de conversion n'accepte pas encore les jetons personnels : cette étape se cochera après son ouverture.</p>}
           <ol className="mt-5 space-y-5" aria-label="Installer le raccourci">
             <SubStep n={1} state={g.sub.create} title="Crée ton jeton">
               {g.sub.create === "done" ? (
@@ -378,15 +379,15 @@ function stepContent(p: Props & { guide: GuideData }, goTo: (id: StepId) => void
                     {p.icloudUrl && <Link to="/installer" className={standalone}>Parcours guidé pas à pas</Link>}
                   </div>
                   {/* Ordinateur : on n'installe pas le raccourci ici ; le QR code ouvre le guide sur l'iPhone. */}
-                  <div className="mt-4 hidden items-center gap-4 rounded-[18px] border border-line bg-pearl/60 p-3.5 lg:flex" data-guide-qr="">
+                  <div className="mt-4 hidden items-center gap-4 rounded-card border border-line bg-pearl/60 p-3.5 lg:flex" data-guide-qr="">
                     <InstallQr url={`${window.location.origin}/installer`} className="size-[112px] shrink-0" />
-                    <p className="text-[14px] leading-relaxed text-ink-soft">Sur ordinateur ? Scanne ce code avec l'appareil photo de ton iPhone : il ouvre le guide d'installation sur le téléphone.</p>
+                    <p className="text-ui leading-relaxed text-ink-soft">Sur ordinateur ? Scanne ce code avec l'appareil photo de ton iPhone : il ouvre le guide d'installation sur le téléphone.</p>
                   </div>
                 </>
               )}
             </SubStep>
           </ol>
-          {s.raccourci !== "done" && <p className="mt-5 border-t border-line pt-4 text-[14px] text-muted">Cette étape se coche dès que ton raccourci utilise ton jeton.</p>}
+          {s.raccourci !== "done" && <p className="mt-5 border-t border-line pt-4 text-ui text-muted">Cette étape se coche dès que ton raccourci utilise ton jeton.</p>}
         </>
       ),
     },
@@ -401,18 +402,18 @@ function stepContent(p: Props & { guide: GuideData }, goTo: (id: StepId) => void
             Dans YouTube, TikTok ou X, touche Partager, puis {quoted(SHORTCUT_NAME)}, et choisis {quoted(MENU.mp4)} ou {quoted(MENU.mp3)}.
           </p>
           {suspended.length > 0 && (
-            <p className="mt-3 text-[14.5px] text-warn">En ce moment, {suspended.join(" et ")} {suspended.length > 1 ? "sont suspendus" : "est suspendu"} sur le service.</p>
+            <p className="mt-3 text-ui text-warn">En ce moment, {suspended.join(" et ")} {suspended.length > 1 ? "sont suspendus" : "est suspendu"} sur le service.</p>
           )}
           {s.conversion !== "done" && p.busy && (
-            <p className="mt-3 text-[14.5px] font-medium text-gold-text">Une conversion est en cours sur le serveur.</p>
+            <p className="mt-3 text-ui font-medium text-gold-text">Une conversion est en cours sur le serveur.</p>
           )}
           {s.conversion !== "done" && !p.busy && latest?.state === "error" && (
-            <div className="mt-3 rounded-[16px] border border-bad/20 bg-bad-bg px-4 py-3 text-[14.5px] text-bad">
+            <div className="mt-3 rounded-card border border-bad/20 bg-bad-bg px-4 py-3 text-ui text-bad">
               <p>Ta dernière tentative a échoué{latest.errorMessage ? ` : ${latest.errorMessage}` : "."}</p>
-              {latest.errorCode && <p className="mt-1 text-[13px] wrap-anywhere">Code : <code className="select-all font-mono">{latest.errorCode}</code>. <Link to="/aide" className="underline underline-offset-4">Aide</Link></p>}
+              {latest.errorCode && <p className="mt-1 text-note wrap-anywhere">Code : <code className="select-all font-mono">{latest.errorCode}</code>. <Link to="/aide" className="underline underline-offset-4">Aide</Link></p>}
             </div>
           )}
-          {s.conversion !== "done" && <p className="mt-4 border-t border-line pt-4 text-[14px] text-muted">Cette étape se coche quand une conversion se termine sur le serveur.</p>}
+          {s.conversion !== "done" && <p className="mt-4 border-t border-line pt-4 text-ui text-muted">Cette étape se coche quand une conversion se termine sur le serveur.</p>}
         </>
       ),
     },
@@ -437,14 +438,14 @@ function AccessRow({ id, icon, name, status, dot, desc, action, featured = false
   return (
     <li className={cn("flex flex-col gap-3 p-4 sm:flex-row sm:items-center", featured ? "bg-ivory" : "")} data-access={id}>
       <div className="flex min-w-0 flex-1 items-start gap-3.5">
-        {/* Tuile obsidienne, comme les cartes produit de l'accueil (docs/DESIGN.md §8). */}
+        {/* Tuile du produit (ui/brand/TuileProduit.tsx), la même que sur le site public (« Le Passage », pages). */}
         <span aria-hidden className={cn("access-tile hidden min-[400px]:grid", featured && "is-featured")}>{icon}</span>
         <div className="min-w-0">
           <p className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
-            <span className={cn("text-[15.5px] font-medium", featured ? "text-ink" : "text-ink-soft")}>{name}</span>
+            <span className={cn("text-ui font-medium", featured ? "text-ink" : "text-ink-soft")}>{name}</span>
             <span className={cn("access-status", dot === "ready" ? "is-ok" : dot === "dev" ? "is-dev" : "is-soon")}><span aria-hidden className="access-status-dot" />{status}</span>
           </p>
-          <p className="mt-0.5 text-[14px] leading-relaxed text-muted">{desc}</p>
+          <p className="mt-0.5 text-ui leading-relaxed text-muted">{desc}</p>
         </div>
       </div>
       {action && <div className="shrink-0 [&>*]:w-full sm:[&>*]:w-auto">{action}</div>}
@@ -457,8 +458,8 @@ function SubStep({ n, state, title, children }: { n: number; state: StepState; t
     <li className="grid grid-cols-[28px_minmax(0,1fr)] gap-x-3" data-substep={n} data-state={state}>
       <StepMarker state={state} n={n} small className="mt-0.5" label={`Sous-étape ${n} : ${state === "done" ? "faite" : state === "current" ? "à faire" : "plus tard"}`} />
       <div className="min-w-0">
-        <p className={cn("text-[15.5px] font-semibold", state === "todo" ? "text-ink-soft" : "text-ink")}>{title}</p>
-        <div className="mt-1 text-[15px] leading-relaxed text-ink-soft">{children}</div>
+        <p className={cn("text-ui font-semibold", state === "todo" ? "text-ink-soft" : "text-ink")}>{title}</p>
+        <div className="mt-1 text-ui leading-relaxed text-ink-soft">{children}</div>
       </div>
     </li>
   );

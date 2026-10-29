@@ -1,127 +1,192 @@
-// « Là où tu travailles » (Égide v2) : les façons réelles d'utiliser AETHRYON, posées sur un fil (un nœud plein =
-// disponible, un nœud en cours = bêta). Statuts publics VRAIS (lib/extension.ts, lib/discord.ts : l'extension, le bot
-// Discord et AETHRYON pour Premiere Pro « Disponible » ; Tools en bêta), une action réelle chacune, jamais de lien de
-// store ni d'invitation qui n'existe pas. Lien direct /?solution=… (ancien sélecteur) : la station visée est marquée
-// (data-panel) et l'accueil y défile. Puis le bandeau du compte : les vraies limites du service (/api/config).
-import { useEffect, type ReactNode } from "react";
-import { Link, useSearchParams } from "react-router";
+// Applications d'AETHRYON (« atelier de nuit », 2026-10-28) : un index de noms à gauche (onglets, tuile du produit),
+// la scène à droite (le vrai fragment de l'interface, qui joue sa scène une fois, une phrase, le statut s'il n'est pas
+// « Disponible », l'action). Versions, nouveautés et pastilles ont quitté l'accueil : elles vivent sur les pages
+// d'installation (/extension, /installer, /aide) et dans « Nouveautés ». Données et actions inchangées depuis les portes.
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { Link, useLocation, useSearchParams } from "react-router";
 import { cn } from "../../lib/cn.ts";
-import { useConfig, useMe } from "../../lib/hooks.ts";
+import { useCalm } from "../../lib/hooks.ts";
 import { EXTENSION_AVAILABLE, EXTENSION_STATUS } from "../../lib/extension.ts";
 import { DISCORD_INSTALL, DISCORD_PUBLIC, DISCORD_STATUS } from "../../lib/discord.ts";
-import { useSiteOrigin } from "../../lib/prerender.ts";
-import { DEFAULT_SOLUTION, isSolution, type SolutionId } from "../../lib/solutions.ts";
+import { usePrerender, useSiteOrigin } from "../../lib/prerender.ts";
+import { isSolution, type SolutionId } from "../../lib/solutions.ts";
 import { ANNONCES } from "../../lib/nouveautes.ts";
 import { InstallQr } from "../../ui/InstallQr.tsx";
-import { PremiereMark } from "../../ui/brand/PremiereMark.tsx";
-import { Icone, Noeud, Pastille, type NomIcone } from "../../ui/egide/Egide.tsx";
+import { TuileProduit } from "../../ui/brand/TuileProduit.tsx";
+import { Icone } from "../../ui/egide/Egide.tsx";
+import { useT } from "../../i18n/accueil.ts";
+import { MqDiscord, MqExtension, MqIphone, MqPremiere, MqTools } from "./Maquettes.tsx";
 
 /** Installateur Windows d'AETHRYON pour Premiere Pro, servi par /downloads/premiere/ (empreinte vérifiée au build) : le MÊME
  *  que l'annonce « AETHRYON pour Premiere Pro » des Nouveautés (une seule source, lib/nouveautes.ts, mise à jour à chaque setup). */
 export const PREMIERE_SETUP = ANNONCES.map((a) => a.telechargement?.href).find((h) => h?.startsWith("/downloads/premiere/AETHRYON-Setup-")) ?? "/downloads/premiere/";
 
-function Station({ id, panel, focus, icone, nom, statut, ton, texte, meta, children, attrs }: {
-  id: string; panel?: SolutionId; focus: { id: SolutionId; explicit: boolean }; icone: NomIcone | ReactNode; nom: string;
-  statut: string; ton: "ok" | "cours" | "attente"; texte: string; meta?: ReactNode; children: ReactNode; attrs?: Record<string, string>;
-}) {
-  return (
-    <article className={cn("s-poste", panel && focus.explicit && focus.id === panel && "is-focus")} aria-labelledby={`poste-${id}`} {...attrs}>
-      <Noeud etat={ton === "ok" ? "ok" : ton === "cours" ? "cours" : "attente"} />
-      <h3 id={`poste-${id}`} className="s-poste-nom">
-        {typeof icone === "string" ? <Icone nom={icone as NomIcone} /> : icone}
-        {nom} <Pastille ton={ton === "ok" ? "ok" : "accent"}>{statut}</Pastille>
-      </h3>
-      <p className="s-poste-texte">{texte}</p>
-      {meta}
-      <div className="s-poste-action">{children}</div>
-      {panel && focus.id === panel && <div hidden data-panel={panel} />}
-    </article>
-  );
+type PorteId = "extension" | "premiere" | "iphone" | "discord" | "tools";
+/** Porte ↔ ancien sélecteur ?solution= (extension, ios, discord ; « web », l'usage sans rien installer, ouvre Tools). */
+const SOLUTION_DE: Partial<Record<PorteId, SolutionId>> = { extension: "extension", iphone: "ios", discord: "discord", tools: "web" };
+const PORTE_DE: Record<SolutionId, PorteId> = { extension: "extension", ios: "iphone", discord: "discord", web: "tools" };
+
+interface Porte {
+  id: PorteId;
+  nom: string;
+  court: string;
+  /** « Disponible », ou l'état réel (bêta, bientôt) : écrit à côté du nom quand ce n'est pas « Disponible ». */
+  statut: string;
+  phrase: string;
+  maquette: ReactNode;
+  actions: ReactNode;
+  extra?: ReactNode;
+  attrs: Record<string, string>;
 }
 
-function Puces({ items, mono = false, libelle }: { items: string[]; mono?: boolean; libelle: string }) {
-  return <ul className="s-poste-puces" aria-label={libelle}>{items.map((t) => <li key={t} className={cn(mono && "eg-mono")}>{t}</li>)}</ul>;
+/** La tuile du produit (famille de PremiereMark) : le « logo » de chaque porte. */
+function Lettre({ id, size }: { id: PorteId; size: number }) {
+  return <TuileProduit produit={id} size={size} />;
 }
 
 export function Stations() {
-  const cfg = useConfig();
-  const me = useMe();
-  const connecte = !!me.data && !me.error;
-  const q = cfg.data?.quotas;
+  const calm = useCalm();
+  const t = useT();
+  const P = t.portes;
+  const prerender = usePrerender();
   const origine = useSiteOrigin();
   const [params] = useSearchParams();
+  const { hash } = useLocation();
   const demande = params.get("solution");
-  const focus = { id: isSolution(demande) ? demande : DEFAULT_SOLUTION, explicit: isSolution(demande) };
+  const explicite = isSolution(demande) ? PORTE_DE[demande] : null;
+  const [ouverte, setOuverte] = useState<PorteId>(explicite ?? "extension");
+  const [joue, setJoue] = useState<PorteId | null>(null);
+  const onglets = useRef<(HTMLButtonElement | null)[]>([]);
+  const scene = useRef<HTMLDivElement>(null);
+  const focusSol: SolutionId = explicite ? SOLUTION_DE[explicite] ?? "ios" : "ios";
+
+  const PORTES: Porte[] = [
+    {
+      id: "extension", nom: P.extension.nom, court: P.extension.court,
+      statut: EXTENSION_AVAILABLE ? "Disponible" : EXTENSION_STATUS.label,
+      phrase: P.extension.phrase,
+      maquette: <MqExtension />, attrs: { "data-surface-card": "extension" },
+      actions: <Link to="/extension" className="eg-btn eg-btn--principal">{EXTENSION_AVAILABLE ? P.extension.installer : P.extension.decouvrir}<Icone nom="chevron" taille="s" /></Link>,
+    },
+    {
+      id: "premiere", nom: P.premiere.nom, court: P.premiere.court, statut: "Disponible",
+      phrase: P.premiere.phrase,
+      maquette: <MqPremiere />, attrs: { "data-surface-premiere": "" },
+      extra: <p className="pt-note">{P.premiere.note}</p>,
+      actions: <a href={PREMIERE_SETUP} download className="eg-btn eg-btn--principal" data-premiere-download=""><Icone nom="importer" taille="s" />{P.premiere.action}</a>,
+    },
+    {
+      id: "iphone", nom: P.iphone.nom, court: P.iphone.court, statut: "Disponible",
+      phrase: P.iphone.phrase,
+      maquette: <MqIphone />, attrs: { "data-surface-card": "iphone" },
+      extra: <div className="pt-qr" data-install-qr="" data-device="desktop"><InstallQr url={`${origine}/installer`} className="size-[76px] shrink-0" /><p>{P.iphone.qr}</p></div>,
+      actions: <Link to="/installer" className="eg-btn eg-btn--principal">{P.iphone.action}<Icone nom="chevron" taille="s" /></Link>,
+    },
+    {
+      id: "discord", nom: P.discord.nom, court: P.discord.court, statut: DISCORD_STATUS.label,
+      phrase: P.discord.phrase,
+      maquette: <MqDiscord />, attrs: { "data-surface-card": "discord" },
+      actions: DISCORD_PUBLIC ? (
+        <>
+          <a href={DISCORD_INSTALL.user} target="_blank" rel="noopener noreferrer" className="eg-btn eg-btn--principal" data-install="user">
+            {P.discord.ajouter}<Icone nom="ouvrir" taille="s" /><span className="eg-vh">{P.discord.nouvelOnglet}</span>
+          </a>
+          <a href={DISCORD_INSTALL.guild} target="_blank" rel="noopener noreferrer" className="eg-btn eg-btn--secondaire" data-install="guild">
+            {P.discord.serveur}<span className="eg-vh">{P.discord.nouvelOnglet}</span>
+          </a>
+        </>
+      ) : <Link to="/aide#etat" className="eg-btn eg-btn--secondaire">{P.discord.ou}</Link>,
+    },
+    {
+      id: "tools", nom: P.tools.nom, court: P.tools.court, statut: "Bêta",
+      phrase: P.tools.phrase,
+      maquette: <MqTools />, attrs: { "data-surface-tools": "" },
+      actions: <Link to="/outils" className="eg-btn eg-btn--principal">{P.tools.action}<Icone nom="chevron" taille="s" /></Link>,
+    },
+  ];
+
+  // Ancre #porte-<id> (panneau de l'accueil) : cette porte s'ouvre ; le navigateur fait défiler jusqu'à son onglet.
   useEffect(() => {
-    if (!focus.explicit) return;
+    const m = /^#porte-(extension|premiere|iphone|discord|tools)$/.exec(hash);
+    if (m) setOuverte(m[1] as PorteId);
+  }, [hash]);
+
+  // iPhone ou iPad : la porte du raccourci s'ouvre d'elle-même (après le premier rendu : le HTML pré-rendu reste stable).
+  useEffect(() => {
+    if (explicite) return;
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) setOuverte("iphone");
+  }, [explicite]);
+
+  // Lien direct ?solution= : l'accueil défile jusqu'à la porte ouverte (comme l'ancien sélecteur).
+  useEffect(() => {
+    if (!explicite) return;
     const t = window.setTimeout(() => {
-      const el = document.querySelector(`[data-panel="${focus.id}"]`)?.closest("[data-surface-card], [data-account-strip]");
-      el?.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      scene.current?.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
     }, 450);
     return () => clearTimeout(t);
-  }, [focus.explicit, focus.id]);
+  }, [explicite]);
+
+  // La maquette de la porte ouverte joue sa scène une fois, quand elle est à l'écran.
+  useEffect(() => {
+    const el = scene.current;
+    if (!el || calm) return;
+    const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { setJoue(ouverte); io.disconnect(); } }, { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ouverte, calm]);
+
+  const ouvrir = (id: PorteId) => setOuverte(id);
+  const clavier = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const n = e.key === "ArrowDown" || e.key === "ArrowRight" ? (i + 1) % PORTES.length
+      : e.key === "ArrowUp" || e.key === "ArrowLeft" ? (i - 1 + PORTES.length) % PORTES.length
+      : e.key === "Home" ? 0 : e.key === "End" ? PORTES.length - 1 : -1;
+    if (n < 0) return;
+    e.preventDefault();
+    ouvrir(PORTES[n]!.id);
+    onglets.current[n]?.focus();
+  };
 
   return (
-    <section id="surfaces" aria-labelledby="t-partout" className="s-section s-partout">
-      {/* Anciennes ancres de l'accueil : /#solutions et /#demo arrivent ici ou sur la scène. */}
-      <span id="solutions" aria-hidden="true" />
-      <div className="s-section-tete">
-        <h2 id="t-partout" className="eg-titre s-h2">Là où tu travailles</h2>
-        <p>Un seul compte : le même quota, le même historique, partout.</p>
-      </div>
-      <div className="s-postes">
-        <Station id="extension" panel="extension" focus={focus} icone="navigateur" nom="Extension navigateur"
-          statut={EXTENSION_AVAILABLE ? "Disponible" : EXTENSION_STATUS.label} ton={EXTENSION_AVAILABLE ? "ok" : "attente"}
-          texte="Un bouton sous la vidéo, le passage choisi sur la frise." attrs={{ "data-surface-card": "extension" }}
-          meta={<Puces libelle="Navigateurs pris en charge" items={["Chrome", "Edge", "Brave"]} />}>
-          <Link to="/extension" className="eg-btn eg-btn--secondaire">{EXTENSION_AVAILABLE ? "Installer l'extension" : "Découvrir l'extension"}<Icone nom="chevron" taille="s" /></Link>
-        </Station>
-        <article className="s-poste" aria-labelledby="poste-premiere" data-surface-premiere="">
-          <Noeud etat="ok" />
-          <h3 id="poste-premiere" className="s-poste-nom">
-            <PremiereMark size={22} className="s-poste-mark" />AETHRYON pour Premiere Pro <Pastille ton="ok">Disponible</Pastille>
-          </h3>
-          <p className="s-poste-texte">Colle un lien YouTube, TikTok ou X dans le panneau : le clip arrive dans le chutier de ton choix. Windows 11, Premiere Pro 25.6 ou plus récent.</p>
-          <p className="s-poste-note">Installateur pas encore signé : Windows affiche un avertissement avant de l'ouvrir. Adobe et Premiere Pro sont des marques d'Adobe ; AETHRYON n'est pas affilié à Adobe.</p>
-          <div className="s-poste-action">
-            <a href={PREMIERE_SETUP} download className="eg-btn eg-btn--secondaire" data-premiere-download=""><Icone nom="convertir" taille="s" />Télécharger pour Windows</a>
-          </div>
-        </article>
-        <Station id="iphone" panel="ios" focus={focus} icone="telephone" nom="Raccourci iPhone" statut="Disponible" ton="ok"
-          texte="Depuis la feuille de partage : Partager, AETHRYON, MP4 ou MP3." attrs={{ "data-surface-card": "iphone" }}
-          meta={<div className="s-poste-qr" data-install-qr="" data-device="desktop"><InstallQr url={`${origine}/installer`} className="size-[72px] shrink-0" /><p>Sur ordinateur : scanne-le avec ton iPhone.</p></div>}>
-          <Link to="/installer" className="eg-btn eg-btn--secondaire">Installer le raccourci<Icone nom="chevron" taille="s" /></Link>
-        </Station>
-        <Station id="discord" panel="discord" focus={focus} icone="bulle" nom="Bot Discord" statut={DISCORD_STATUS.label} ton={DISCORD_PUBLIC ? "ok" : "attente"}
-          texte="Le lien dans un salon, le fichier en réponse." attrs={{ "data-surface-card": "discord" }}
-          meta={<Puces mono libelle="Commandes du bot" items={["/convert", "/audio", "/clip", "/gif"]} />}>
-          {DISCORD_PUBLIC ? (
-            <>
-              <a href={DISCORD_INSTALL.user} target="_blank" rel="noopener noreferrer" className="eg-btn eg-btn--secondaire" data-install="user">
-                Ajouter à Discord<Icone nom="ouvrir" taille="s" /><span className="eg-vh"> (discord.com, nouvel onglet)</span>
-              </a>
-              <a href={DISCORD_INSTALL.guild} target="_blank" rel="noopener noreferrer" className="eg-btn eg-btn--discret" data-install="guild">
-                Sur un serveur<span className="eg-vh"> (discord.com, nouvel onglet)</span>
-              </a>
-            </>
-          ) : <Link to="/#feuille-de-route" className="eg-btn eg-btn--discret">Voir où il en est</Link>}
-        </Station>
-        <article className="s-poste" aria-labelledby="poste-tools" data-surface-tools="">
-          <Noeud etat="cours" />
-          <h3 id="poste-tools" className="s-poste-nom"><Icone nom="ciseaux" />AETHRYON Tools <Pastille ton="accent">Bêta</Pastille></h3>
-          <p className="s-poste-texte">Couper, recadrer, extraire le son, faire un GIF ou compresser, dans le navigateur.</p>
-          <div className="s-poste-action"><Link to="/outils" className="eg-btn eg-btn--discret">Ouvrir Tools<Icone nom="chevron" taille="s" /></Link></div>
-        </article>
-      </div>
+    <section id="applications" aria-labelledby="t-partout" className="at-section ap">
+      {/* Anciennes ancres de l'accueil : /#surfaces, /#solutions et /#demo arrivent ici. */}
+      <span id="surfaces" aria-hidden="true" /><span id="solutions" aria-hidden="true" />
+      <h2 id="t-partout" className="at-h2">{t.partout}</h2>
+      <div className="ap-grille">
+        <div className="ap-index" role="tablist" aria-label={t.facons} aria-orientation="vertical">
+          {PORTES.map((p, i) => {
+            const on = p.id === ouverte;
+            return (
+              <button key={p.id} ref={(el) => { onglets.current[i] = el; }} type="button" role="tab" id={`porte-${p.id}`} aria-controls={`panneau-${p.id}`}
+                aria-selected={on} tabIndex={on ? 0 : -1} className="ap-nom" data-porte={p.id} onClick={() => ouvrir(p.id)} onKeyDown={(e) => clavier(e, i)}>
+                <Lettre id={p.id} size={40} />
+                <span>{p.court}</span>
+              </button>
+            );
+          })}
+        </div>
 
-      <div className={cn("s-compte", focus.explicit && focus.id === "web" && "is-focus")} data-account-strip="">
-        {focus.id === "web" && <div hidden data-panel="web" />}
-        <ul className="s-compte-faits" aria-label="Un compte pour tout">
-          <li><b className="tabular">{q?.daily ?? 10}</b> conversions par jour</li>
-          <li><b className="tabular">{q?.maxActive ?? 1}</b> à la fois</li>
-          <li><b>1</b> historique partagé</li>
-        </ul>
-        <Link to={connecte ? "/dashboard" : "/commencer"} className="eg-btn eg-btn--principal">{connecte ? "Ouvrir mon espace" : "Créer mon compte gratuit"}</Link>
+        <div className="ap-scene" ref={scene}>
+          {PORTES.map((p) => {
+            const on = p.id === ouverte;
+            const sol = SOLUTION_DE[p.id];
+            return (
+              // Pré-rendu : les portes fermées n'ont pas l'attribut hidden (la règle [hidden] de Tailwind est !important) ;
+              // data-sans-js les masque avec JavaScript (styles.css) et les montre sans (sans-js.css) : toutes lisibles.
+              <article key={p.id} id={`panneau-${p.id}`} role="tabpanel" aria-labelledby={`porte-${p.id}`} hidden={!on && !prerender} data-sans-js={on ? undefined : ""}
+                className={cn("ap-panneau", explicite === p.id && "is-focus")} data-statut={p.statut} {...p.attrs}>
+                {/* Lien direct ?solution= (et accueil par défaut : le raccourci iPhone) : la surface visée est marquée. */}
+                {sol && sol === focusSol && <div hidden data-panel={sol} />}
+                <div className="ap-maquette" aria-hidden="true" data-ui="" data-joue={joue === p.id ? "" : undefined}>{p.maquette}</div>
+                <div className="ap-info">
+                  <h3 className="ap-titre">{p.nom}{p.statut !== "Disponible" && <span className="ap-statut"> · {t.statuts[p.statut] ?? p.statut}</span>}</h3>
+                  <p className="ap-phrase">{p.phrase}</p>
+                  {p.extra}
+                  <div className="ap-actions">{p.actions}</div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

@@ -25,8 +25,8 @@ const IconApparence = ({ className }: { size?: number; className?: string }) => 
 /** Onglet : à l'étroit (< 640 px), sans pictogramme et avec des marges réduites (cinq onglets : la barre défile au-dessous
  *  de 400 px environ, l'onglet actif est ramené dans la partie visible) ; avant, pour que les onglets tiennent
  *  dès 320 px ; pictogrammes à partir de 640 px ; liste verticale à partir de 1024 px. */
-const TAB = "relative flex min-h-11 flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-control px-2 text-[14px] font-medium transition-colors " +
-  "min-[360px]:px-2.5 min-[360px]:text-[14.5px] sm:px-3 sm:text-[15px] md:px-4 lg:flex-none lg:justify-start";
+const TAB = "relative flex min-h-11 flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-control px-2 text-ui font-medium transition-colors " +
+  "min-[360px]:px-2.5 min-[360px]:text-ui sm:px-3 sm:text-ui md:px-4 lg:flex-none lg:justify-start";
 
 const TABS = [
   { to: "/dashboard", label: "Accueil", icon: IconHome, end: true },
@@ -75,12 +75,12 @@ export default function DashboardLayout() {
       return (
         <div className="container-site pb-24 pt-28 sm:pt-32" data-espace="erreur">
           <h1 className="page-title">Ton espace ne répond pas</h1>
-          <p className="mt-3 max-w-xl text-[16.5px] leading-relaxed text-ink-soft" role="alert">
+          <p className="mt-3 max-w-xl text-corps leading-relaxed text-ink-soft" role="alert">
             Le serveur n'a pas pu charger ton compte. Vérifie ta connexion, puis réessaie. Tes jetons et ton activité ne sont pas touchés.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
             <Button variant="primary" onClick={() => void me.reload()}>Réessayer</Button>
-            <Link to="/aide#etat" className="inline-flex min-h-11 items-center text-[15px] text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text">État du service</Link>
+            <Link to="/aide#etat" className="inline-flex min-h-11 items-center text-ui text-gold-text underline decoration-gold/50 underline-offset-4 hover:decoration-gold-text">État du service</Link>
           </div>
         </div>
       );
@@ -92,13 +92,13 @@ export default function DashboardLayout() {
         <div className="lg:grid lg:grid-cols-[232px_minmax(0,1fr)] lg:gap-12">
           <div className="mb-8 lg:mb-0">
             <div className="hidden items-center gap-3 lg:flex"><Skeleton className="size-11 rounded-full" /><div className="flex-1 space-y-2"><Skeleton className="h-4 w-28" /><Skeleton className="h-3 w-40" /></div></div>
-            <Skeleton className="h-[54px] rounded-full lg:mt-7 lg:h-36 lg:rounded-[22px]" />
+            <Skeleton className="h-[54px] rounded-full lg:mt-7 lg:h-36 lg:rounded-panel" />
           </div>
           <div>
             <Skeleton className="h-11 w-[min(100%,20rem)]" />
             <Skeleton className="mt-4 h-5 w-[min(100%,28rem)]" />
-            <Skeleton className="mt-8 h-72 rounded-[28px]" />
-            <Skeleton className="mt-5 h-60 rounded-[28px]" />
+            <Skeleton className="mt-8 h-72 rounded-panel" />
+            <Skeleton className="mt-5 h-60 rounded-panel" />
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function DashboardLayout() {
   }
   const user = me.data.user;
   const logoutBtn = (cls: string) => (
-    <button type="button" onClick={logout} disabled={leaving} aria-busy={leaving || undefined} className={cn("min-h-11 items-center gap-2.5 rounded-control px-3 text-[15px] text-ink-soft transition-colors hover:bg-hover hover:text-ink disabled:opacity-60", cls)}>
+    <button type="button" onClick={logout} disabled={leaving} aria-busy={leaving || undefined} className={cn("min-h-11 items-center gap-2.5 rounded-control px-3 text-ui text-ink-soft transition-colors hover:bg-hover hover:text-ink disabled:opacity-60", cls)}>
       <IconLogout size={18} />{leaving ? "Déconnexion…" : "Se déconnecter"}
     </button>
   );
@@ -122,8 +122,8 @@ export default function DashboardLayout() {
             <div className="min-w-0">
               {/* Nom du lien = « Ton compte, » + le texte visible (WCAG 2.5.3 : le nom accessible contient le libellé). */}
               <span className="sr-only">Ton compte, </span>
-              <p className="truncate text-[15px] font-medium text-fg">{user.name}</p>
-              <p className="truncate text-[13px] text-fg-2">{user.email}</p>
+              <p className="truncate text-ui font-medium text-fg">{user.name}</p>
+              <p className="truncate text-note text-fg-2">{user.email}</p>
             </div>
             <OwlMark size={22} surface="dark" className="dash-id-owl" />
           </Link>

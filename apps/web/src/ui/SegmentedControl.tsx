@@ -62,7 +62,7 @@ export function SegmentedControl<T extends string>({ options, value, onChange, l
             onClick={() => onChange(o.value)}
             className={cn("relative rounded-[calc(var(--eg-r-control)-2px)] font-semibold transition-colors",
               fill ? "min-w-0 flex-1 px-2" : "shrink-0",
-              size === "md" ? (fill ? "h-11 text-[14px] sm:text-[14.5px]" : "h-11 min-w-[72px] px-3 text-[15px] sm:min-w-[96px] sm:px-4") : fill ? "h-9 text-sm" : "h-9 min-w-[72px] px-3 text-sm",
+              size === "md" ? (fill ? "h-11 text-ui sm:text-ui" : "h-11 min-w-[72px] px-3 text-ui sm:min-w-[96px] sm:px-4") : fill ? "h-9 text-sm" : "h-9 min-w-[72px] px-3 text-sm",
               active ? "text-fg" : "text-fg-2 hover:text-fg")}
           >
             {active && (

@@ -81,7 +81,7 @@ export function CopyButton({ text, label, copied, variant = "icon", target, clas
         </button>
       ) : (
         <button type="button" onClick={copy} aria-label={label} data-copy={state}
-          className={cn("inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[14px] font-medium transition-colors",
+          className={cn("inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-ui font-medium transition-colors",
             done ? "border-ok/30 bg-ok-bg text-ok" : state === "failed" ? "border-warn/30 bg-warn-bg text-warn" : "border-line bg-ivory text-ink hover:border-line-strong hover:bg-white",
             className)}>
           <CopyCheckIcon done={done} size={17} />

@@ -38,7 +38,7 @@ export function InstallQr({ url, className }: { url: string; className?: string 
       role="img"
       aria-label={`QR code vers ${url.replace(/^https?:\/\//, "")}`}
       shapeRendering="crispEdges"
-      className={cn("rounded-[14px] bg-[#fff]", className)}
+      className={cn("rounded-card bg-[#fff]", className)}
       data-qr={url}
     >
       <path d={path} fill="#0F0F10" />

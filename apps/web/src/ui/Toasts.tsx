@@ -104,13 +104,13 @@ function ToastCard({ toast, onDone }: { toast: Toast; onDone: (id: number) => vo
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      className="pointer-events-auto flex w-full max-w-[380px] items-start gap-3 rounded-[18px] border border-line bg-ivory/[0.97] p-3.5 pr-2 shadow-float"
+      className="pointer-events-auto flex w-full max-w-[380px] items-start gap-3 rounded-card border border-line bg-ivory/[0.97] p-3.5 pr-2 shadow-float"
     >
       <span className={cn("mt-0.5 grid size-7 shrink-0 place-items-center rounded-full ring-1", TONE[toast.kind])}>
         <Icon size={16} />
       </span>
       <div className="min-w-0 flex-1 pt-0.5">
-        <p className="text-[15px] font-semibold leading-snug text-ink">
+        <p className="text-ui font-semibold leading-snug text-ink">
           {toast.title}
           {toast.count > 1 && <span className="ml-2 rounded-full bg-sand px-1.5 py-0.5 text-xs font-medium text-ink-soft">×{toast.count}</span>}
         </p>

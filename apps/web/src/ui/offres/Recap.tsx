@@ -50,7 +50,7 @@ export function Recap({ plan, billing, annualOpen, onCancel, onError }: {
   const rights = `${p.limits.daily} conversions par jour (jusqu'à ${p.limits.monthly?.toLocaleString("fr-FR")} sur 30 jours), ${p.limits.exportMinutes}${NB}min d'export Tools par jour, ${p.limits.maxActive} à la fois, sur le web, Tools, l'extension et l'iPhone${NB}; dans Discord, les limites de Gratuit.`;
   return (
     <section ref={ref} tabIndex={-1} className="abo-recap" aria-labelledby="abo-recap-titre" data-recap={plan}>
-      <h2 id="abo-recap-titre" className="font-display text-[26px] font-medium">Récapitulatif{NB}: AETHRYON {p.name}</h2>
+      <h2 id="abo-recap-titre" className="font-display text-titre-m">Récapitulatif{NB}: AETHRYON {p.name}</h2>
       <dl className="abo-recap-list">
         <div><dt>Prix</dt><dd>{price ? <><b>{money(price.montant, price.devise)}</b> {life ? "une seule fois" : "par an"}, {VAT_NOTE === "Prix TTC" ? "TTC" : VAT_NOTE}</> : "Offre indisponible pour le moment"}</dd></div>
         <div><dt>Ce que tu reçois</dt><dd>{rights}</dd></div>
@@ -85,7 +85,7 @@ export function Recap({ plan, billing, annualOpen, onCancel, onError }: {
           <a href="/cgv" target="_blank" rel="noopener" className={link}>conditions générales de vente</a> (version {CGV_VERSION}) et la{" "}
           <a href="/remboursement" target="_blank" rel="noopener" className={link}>politique de remboursement</a>.</span>
       </label>
-      <p className="text-[13.5px] text-muted">
+      <p className="text-note text-muted">
         {PAY_LINE} Ta carte n'est jamais vue par AETHRYON.{" "}
         {LEGAL_PUBLISHED ? <><Link to="/conditions" className={link}>Conditions d'utilisation</Link>{NB}· <Link to="/mentions-legales" className={link}>Mentions légales</Link>{NB}· </> : null}
         <Link to="/confidentialite" className={link}>Confidentialité</Link>.

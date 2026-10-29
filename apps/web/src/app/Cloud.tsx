@@ -34,8 +34,8 @@ function Absente() {
   return (
     <div className="flex flex-col items-center px-6 py-16 text-center" data-cloud-absent="">
       <AethryonMascot still state="curious" size={112} />
-      <h1 className="font-display mt-4 text-[26px] font-medium">Cette page n'existe pas pour ton compte</h1>
-      <p className="mx-auto mt-2 max-w-md text-[15.5px] leading-relaxed text-ink-soft">AETHRYON Cloud est réservé à l'administrateur.</p>
+      <h1 className="font-display mt-4 text-titre-m">Cette page n'existe pas pour ton compte</h1>
+      <p className="mx-auto mt-2 max-w-md text-ui leading-relaxed text-ink-soft">AETHRYON Cloud est réservé à l'administrateur.</p>
       <ButtonLink to="/dashboard" variant="secondary" className="mt-6">Mon espace</ButtonLink>
     </div>
   );
@@ -44,10 +44,10 @@ function Absente() {
 function Jauge({ e }: { e: EtatCloud }) {
   const j = jaugeCloud(e.quota);
   return (
-    <section aria-label="Espace AETHRYON Cloud" className="mt-8 rounded-[22px] border border-line bg-pearl/60 p-5 shadow-card sm:p-6" data-niveau={j.niveau}>
+    <section aria-label="Espace AETHRYON Cloud" className="mt-8 rounded-panel border border-line bg-pearl/60 p-5 shadow-card sm:p-6" data-niveau={j.niveau}>
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-        <p><span className="font-display tabular text-[34px] font-medium leading-none">{j.utilise}</span><span className="ml-2 text-[15px] text-ink-soft">utilisés sur {j.max}</span></p>
-        <p className="tabular text-[15px] text-ink-soft"><span className="font-semibold text-ink">{j.disponible}</span> disponibles{e.quota.reserve > 0 ? ` · ${octets(e.quota.reserve)} réservés par des envois en cours` : ""}</p>
+        <p><span className="font-display tabular text-[34px] leading-none">{j.utilise}</span><span className="ml-2 text-ui text-ink-soft">utilisés sur {j.max}</span></p>
+        <p className="tabular text-ui text-ink-soft"><span className="font-semibold text-ink">{j.disponible}</span> disponibles{e.quota.reserve > 0 ? ` · ${octets(e.quota.reserve)} réservés par des envois en cours` : ""}</p>
       </div>
       <div role="meter" aria-label="Espace utilisé" aria-valuemin={0} aria-valuemax={e.quota.max} aria-valuenow={e.quota.utilise} aria-valuetext={j.aria}
         className="relative mt-4 h-2.5 overflow-hidden rounded-full bg-sand/70">
@@ -55,12 +55,12 @@ function Jauge({ e }: { e: EtatCloud }) {
         <span className="cloud-reserve absolute inset-0 origin-left transition-transform duration-500 ease-[var(--ease-soft)] motion-reduce:transition-none" style={{ transform: `translateX(${j.sauve * 100}%) scaleX(${j.reserve})` }} />
       </div>
       {j.niveau !== "normal" && (
-        <p className="mt-3 flex items-center gap-2 text-[14.5px] text-ink" role="note">
+        <p className="mt-3 flex items-center gap-2 text-ui text-ink" role="note">
           <IconAlert size={16} className={j.niveau === "plein" ? "text-bad" : "text-warn"} />
           {j.niveau === "plein" ? `Cloud plein${NB}: supprime des fichiers pour faire de la place. Rien n'est supprimé avant son expiration.` : `Cloud presque plein${NB}: pense à supprimer les fichiers dont tu n'as plus besoin.`}
         </p>
       )}
-      <p className="mt-3 text-[13.5px] text-muted">Chaque fichier est gardé {e.retentionJours}{NB}jours, puis supprimé définitivement (toutes ses versions). Tes copies locales ne sont jamais touchées.</p>
+      <p className="mt-3 text-note text-muted">Chaque fichier est gardé {e.retentionJours}{NB}jours, puis supprimé définitivement (toutes ses versions). Tes copies locales ne sont jamais touchées.</p>
     </section>
   );
 }
@@ -74,13 +74,13 @@ function Ligne({ o, busy, onApercu, onTelecharger, onLien, onSupprimer }: { o: O
   return (
     <li className="grid grid-cols-1 items-center gap-x-4 gap-y-2 px-5 py-4 sm:grid-cols-[minmax(0,1fr)_minmax(170px,auto)_176px]" data-objet={o.id} data-statut={o.statut} aria-busy={busy || undefined}>
       <div className="min-w-0">
-        <p className="truncate text-[15.5px] font-medium" title={o.nom}>{o.nom}</p>
-        <p className="mt-0.5 text-[13.5px] text-muted">{meta}</p>
-        {o.statut === "echec" && <p className="mt-1.5 flex gap-2 text-[13.5px] text-ink" role="note"><IconAlert size={16} className="mt-0.5 shrink-0 text-bad" />{erreurCloud(o.erreur, `Erreur de synchronisation (${o.erreur ?? "inconnue"}).`)}</p>}
+        <p className="truncate text-ui font-medium" title={o.nom}>{o.nom}</p>
+        <p className="mt-0.5 text-note text-muted">{meta}</p>
+        {o.statut === "echec" && <p className="mt-1.5 flex gap-2 text-note text-ink" role="note"><IconAlert size={16} className="mt-0.5 shrink-0 text-bad" />{erreurCloud(o.erreur, `Erreur de synchronisation (${o.erreur ?? "inconnue"}).`)}</p>}
       </div>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:flex-col sm:items-end sm:text-right">
         <Badge tone={s.tone}>{s.label}</Badge>
-        {exp && <p className={`tabular text-[13.5px] ${exp.proche ? "text-warn" : "text-ink-soft"}`}>{exp.court} <span className="text-muted">· {exp.date}</span></p>}
+        {exp && <p className={`tabular text-note ${exp.proche ? "text-warn" : "text-ink-soft"}`}>{exp.court} <span className="text-muted">· {exp.date}</span></p>}
       </div>
       <div className="-ml-3 flex items-center justify-start sm:ml-0 sm:justify-end" data-actions="">
         {pret && o.apercu && <button type="button" className={btn} aria-label={`Aperçu de «${NB}${o.nom}${NB}»`} title="Aperçu" disabled={busy} onClick={onApercu}><IconPlay size={16} /></button>}
@@ -110,7 +110,7 @@ export default function Cloud() {
   const etat = useResource<EtatCloud>(admin ? "/api/cloud/etat" : null, 30_000);
   const liste = useResource<ListeCloud>(admin ? `/api/cloud/objets?${qs}` : null, 15_000);
 
-  if (!me.data) return <div className="py-8" aria-busy="true"><Skeleton className="h-10 w-48" /><Skeleton className="mt-8 h-32 w-full rounded-[22px]" /></div>;
+  if (!me.data) return <div className="py-8" aria-busy="true"><Skeleton className="h-10 w-48" /><Skeleton className="mt-8 h-32 w-full rounded-panel" /></div>;
   if (!admin) return <Absente />;
   const ferme = etat.error instanceof ApiError && etat.error.status === 404;
   const interdit = etat.error instanceof ApiError && etat.error.status === 403;
@@ -160,12 +160,12 @@ export default function Cloud() {
       </PageHeader>
 
       {ferme ? (
-        <div className="mt-8 rounded-[22px] border border-line bg-pearl/60 p-6 text-[15.5px] leading-relaxed text-ink-soft" data-cloud-ferme="">
+        <div className="mt-8 rounded-panel border border-line bg-pearl/60 p-6 text-ui leading-relaxed text-ink-soft" data-cloud-ferme="">
           AETHRYON Cloud n'est pas activé sur ce serveur pour le moment. Rien n'a été envoyé ni gardé.
         </div>
       ) : etat.data ? <Jauge e={etat.data} /> : etat.error ? (
         <LoadError className="mt-8" onRetry={() => void etat.reload()}>L'état du Cloud n'a pas pu être lu. Rien n'est perdu.</LoadError>
-      ) : <Skeleton className="mt-8 h-36 w-full rounded-[22px]" />}
+      ) : <Skeleton className="mt-8 h-36 w-full rounded-panel" />}
 
       {!ferme && (
         <>
@@ -174,7 +174,7 @@ export default function Cloud() {
               <label className="relative min-w-[220px] flex-1">
                 <span className="sr-only">Rechercher dans le Cloud</span>
                 <input type="search" value={q} maxLength={100} onChange={(e) => setQ(e.target.value)} placeholder="Rechercher dans le Cloud"
-                  className="h-12 w-full rounded-[14px] border border-field bg-surface px-4 text-[16px] text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
+                  className="h-12 w-full rounded-card border border-field bg-surface px-4 text-corps text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
               </label>
               <SegmentedControl label="Type de fichier" value={type} onChange={(v) => setType(v as "" | "video" | "audio")} options={TYPES.map((t) => ({ value: t.value, label: t.label }))} size="sm" />
             </div>
@@ -192,7 +192,7 @@ export default function Cloud() {
             </div>
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-[22px] border border-line bg-pearl/60 shadow-card">
+          <div className="mt-5 overflow-hidden rounded-panel border border-line bg-pearl/60 shadow-card">
             {liste.loading && !liste.data ? (
               <div className="divide-y divide-line" aria-busy="true" aria-label="Chargement du Cloud">
                 {[0, 1, 2].map((i) => <div key={i} className="flex items-center gap-6 px-5 py-5"><Skeleton className="h-4 w-56" /><Skeleton className="ml-auto h-6 w-24 rounded-full" /></div>)}
@@ -202,8 +202,8 @@ export default function Cloud() {
             ) : items.length === 0 ? (
               <div className="flex flex-col items-center px-6 py-12 text-center" data-vide="">
                 {!filtre && <AethryonMascot still state="idle" size={112} />}
-                <h2 className="font-display mt-4 text-[22px] font-medium">{filtre ? "Aucun fichier ne correspond" : "Ton Cloud est vide"}</h2>
-                {!filtre && <p className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed text-ink-soft">Les téléchargements de l'administrateur et les envois depuis AETHRYON Desktop arrivent ici, puis disparaissent d'eux-mêmes après 30{NB}jours.</p>}
+                <h2 className="font-display mt-4 text-titre-s">{filtre ? "Aucun fichier ne correspond" : "Ton Cloud est vide"}</h2>
+                {!filtre && <p className="mx-auto mt-2 max-w-md text-ui leading-relaxed text-ink-soft">Les téléchargements de l'administrateur et les envois depuis AETHRYON Desktop arrivent ici, puis disparaissent d'eux-mêmes après 30{NB}jours.</p>}
                 {filtre && <Button variant="secondary" className="mt-5" onClick={() => { setQ(""); setStatut(""); setType(""); }}>Effacer les filtres</Button>}
               </div>
             ) : (
@@ -212,8 +212,8 @@ export default function Cloud() {
               </ul>
             )}
           </div>
-          {liste.data && liste.data.total > items.length && <p className="mt-3 text-[13.5px] text-muted">{items.length} fichiers affichés sur {liste.data.total}{NB}: précise la recherche.</p>}
-          <p className="mt-3 text-[13.5px] leading-relaxed text-muted">Pour envoyer un fichier de ton ordinateur, utilise AETHRYON Desktop (<Link to="/installer" className="text-gold-text underline decoration-gold/50 underline-offset-4">installer</Link>).</p>
+          {liste.data && liste.data.total > items.length && <p className="mt-3 text-note text-muted">{items.length} fichiers affichés sur {liste.data.total}{NB}: précise la recherche.</p>}
+          <p className="mt-3 text-note leading-relaxed text-muted">Pour envoyer un fichier de ton ordinateur, utilise AETHRYON Desktop (<Link to="/installer" className="text-gold-text underline decoration-gold/50 underline-offset-4">installer</Link>).</p>
         </>
       )}
 
@@ -221,10 +221,10 @@ export default function Cloud() {
         footer={<Button variant="primary" onClick={() => setApercu(null)}>Fermer</Button>}>
         {apercu && (
           <div className="cloud-apercu">
-            {apercu.o.type.startsWith("video/") ? <video controls preload="metadata" src={apercu.url} aria-label={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] w-full rounded-[16px] bg-sunken" />
+            {apercu.o.type.startsWith("video/") ? <video controls preload="metadata" src={apercu.url} aria-label={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] w-full rounded-card bg-sunken" />
               : apercu.o.type.startsWith("audio/") ? <audio controls preload="metadata" src={apercu.url} aria-label={`Aperçu de ${apercu.o.nom}`} className="w-full" />
-              : <img src={apercu.url} alt={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] rounded-[16px]" />}
-            <p className="mt-3 text-[13.5px] text-muted">Lecture depuis le Cloud par un lien signé, valable {dureeLien(apercu.expireLe)}.</p>
+              : <img src={apercu.url} alt={`Aperçu de ${apercu.o.nom}`} className="max-h-[56vh] rounded-card" />}
+            <p className="mt-3 text-note text-muted">Lecture depuis le Cloud par un lien signé, valable {dureeLien(apercu.expireLe)}.</p>
           </div>
         )}
       </Dialog>

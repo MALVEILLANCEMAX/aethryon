@@ -60,13 +60,13 @@ export function Dialog({ open, onClose, title, description, children, footer, di
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={calm ? { opacity: 0, transition: { duration: DUR.calm } } : { opacity: 0, y: 8, scale: 0.98, transition: { duration: DUR.exit, ease: EASE.exit } }}
           transition={calm ? { duration: DUR.calm } : SPRING.soft}
-          className={cn("max-h-[calc(100dvh-32px)] overflow-y-auto rounded-[28px] border border-line bg-ivory p-6 shadow-raised sm:p-8", className)}
+          className={cn("max-h-[calc(100dvh-32px)] overflow-y-auto rounded-panel border border-line bg-ivory p-6 shadow-raised sm:p-8", className)}
         >
           <div className={cn("flex items-start gap-4", centered && "relative justify-center text-center")}>
             <div className="min-w-0 flex-1">
               {hero && <div className={cn("mb-4", centered && "flex justify-center")}>{hero}</div>}
-              <h2 id={titleId} className="font-display text-[26px] font-medium leading-tight tracking-[-0.01em]">{title}</h2>
-              {description && <div className="mt-2 text-[15px] leading-relaxed text-ink-soft">{description}</div>}
+              <h2 id={titleId} className="font-display text-titre-m leading-tight tracking-[-0.01em]">{title}</h2>
+              {description && <div className="mt-2 text-ui leading-relaxed text-ink-soft">{description}</div>}
             </div>
             {dismissible && (
               <button type="button" onClick={onClose} aria-label="Fermer" className={cn("-mr-2 -mt-1 grid size-10 place-items-center rounded-full text-muted transition-colors hover:bg-sand/60 hover:text-ink", centered && "absolute right-0 top-0")}>

@@ -10,9 +10,9 @@ type Variant = "primary" | "secondary" | "light" | "night" | "ghost" | "danger" 
 type Size = "sm" | "md" | "lg";
 
 const sizes: Record<Size, string> = {
-  sm: "min-h-10 px-4 text-[14px] gap-2",
-  md: "min-h-11 px-5 text-[15px] gap-2.5",
-  lg: "min-h-13 px-6 text-[16px] gap-3",
+  sm: "min-h-10 px-4 text-ui gap-2",
+  md: "min-h-11 px-5 text-ui gap-2.5",
+  lg: "min-h-13 px-6 text-corps gap-3",
 };
 
 const variants: Record<Variant, string> = {

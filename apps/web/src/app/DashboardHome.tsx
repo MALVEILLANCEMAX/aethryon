@@ -145,12 +145,12 @@ export default function DashboardHome() {
     <div>
       <h1 className="page-title">Bonjour{firstName ? ` ${firstName}` : ""}.</h1>
       {lead ? (
-        <p className="mt-3 max-w-2xl text-[16.5px] leading-relaxed text-ink-soft" data-lead="">{lead}</p>
+        <p className="mt-3 max-w-2xl text-corps leading-relaxed text-ink-soft" data-lead="">{lead}</p>
       ) : lead === null ? (
         <div className="mt-4" aria-hidden><Skeleton className="h-5 w-[min(100%,26rem)]" /></div>
       ) : null}
       {maintenance && (
-        <p role="note" className="mt-5 flex gap-2.5 rounded-[16px] border border-warn/20 bg-warn-bg p-4 text-[15px] leading-relaxed text-warn" data-maintenance="">
+        <p role="note" className="mt-5 flex gap-2.5 rounded-card border border-warn/20 bg-warn-bg p-4 text-ui leading-relaxed text-warn" data-maintenance="">
           <IconInfo size={18} className="mt-0.5 shrink-0" />
           <span>{maintenance}</span>
         </p>

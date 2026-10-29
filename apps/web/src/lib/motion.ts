@@ -14,13 +14,24 @@ export const EASE = {
  *  reveal : UNE entrée orchestrée par page · calm : fondu de remplacement en mouvement réduit. */
 export const DUR = { micro: 0.18, exit: 0.16, component: 0.34, reveal: 0.62, calm: 0.1 } as const;
 
+/**
+ * Ressorts de « Le Passage » (2026-10-28) : mêmes valeurs que les jetons Égide RESSORTS (en CSS : --eg-e-pastille,
+ * --eg-e-feuille et leurs durées). pastille : petits objets qui changent de forme (pastille de passage, puces,
+ * indicateurs), dépassement d'environ 3 % ; feuille : panneaux, tiroirs et feuilles, qui se posent sans rebond.
+ */
+export const RESSORT = {
+  pastille: { type: "spring", duration: 0.45, bounce: 0.25 } satisfies Transition,
+  feuille: { type: "spring", duration: 0.5, bounce: 0 } satisfies Transition,
+};
+
+/** Anciens noms, alignés sur les deux ressorts (une seule grammaire de mouvement pour tout le site). */
 export const SPRING = {
   /** Panneaux, menus, pastilles qui glissent */
-  soft: { type: "spring", stiffness: 280, damping: 32, mass: 0.9 } satisfies Transition,
+  soft: RESSORT.feuille,
   /** Petits éléments (boutons, puces, icônes qui se transforment) */
-  snappy: { type: "spring", stiffness: 520, damping: 38 } satisfies Transition,
+  snappy: RESSORT.pastille,
   /** Indicateurs partagés (layoutId) : pastille d'un contrôle segmenté, onglet actif */
-  glide: { type: "spring", stiffness: 420, damping: 36 } satisfies Transition,
+  glide: RESSORT.pastille,
 };
 
 /** Entrée au défilement : légère, une seule fois, jamais sur tout à la fois. */

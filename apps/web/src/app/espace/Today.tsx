@@ -83,11 +83,11 @@ export function Today({ quota, live, mascot, replayKey, status }: Props) {
   const st = status.data ? STATE[status.data.state] : null;
   const latest = live.latest;
   return (
-    <section aria-labelledby="today-title" className="overflow-hidden rounded-[28px] border border-line bg-pearl/50 shadow-card" data-today="">
+    <section aria-labelledby="today-title" className="overflow-hidden rounded-panel border border-line bg-pearl/50 shadow-card" data-today="">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 pt-5 sm:px-7 sm:pt-6">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h2 id="today-title" className="font-display text-[26px] font-medium leading-tight">Aujourd’hui</h2>
-          <p className="text-[14px] text-muted">{capitalize(parisToday())}</p>
+          <h2 id="today-title" className="font-display text-titre-m leading-tight">Aujourd’hui</h2>
+          <p className="text-ui text-muted">{capitalize(parisToday())}</p>
         </div>
         {st ? (
           <p className="today-service" data-service={status.data!.state}><StatusDot tone={st.tone} />{st.label}</p>
@@ -95,32 +95,32 @@ export function Today({ quota, live, mascot, replayKey, status }: Props) {
           <p className="today-service" data-service="inconnu"><StatusDot tone="muted" />Service : vérification impossible</p>
         ) : <Skeleton className="h-8 w-44 rounded-full" />}
       </div>
-      {status.data && status.data.state !== "ok" && <p className="px-5 pt-2 text-[14px] leading-relaxed text-ink-soft sm:px-7" data-service-message="">{status.data.message}</p>}
+      {status.data && status.data.state !== "ok" && <p className="px-5 pt-2 text-ui leading-relaxed text-ink-soft sm:px-7" data-service-message="">{status.data.message}</p>}
 
       <div className="mt-2 grid divide-y divide-line lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:divide-x lg:divide-y-0">
         {/* Quota du jour */}
         <div className="px-5 pb-6 pt-4 sm:px-7" data-quota="">
           <div className="flex min-h-6 items-center justify-between gap-3">
-            <p className="text-[14px] font-medium text-ink-soft">Quota du jour</p>
+            <p className="text-ui font-medium text-ink-soft">Quota du jour</p>
             {qState !== "ok" && <Badge tone={QUOTA_BADGE[qState].tone}>{QUOTA_BADGE[qState].label}</Badge>}
           </div>
           <span role="status" className="sr-only">{said}</span>
           {quota.unlimited ? (
             <>
-              <p className="font-display tabular mt-2 text-[44px] leading-none">{quota.used}<span className="font-sans text-[17px] text-muted"> {quota.used > 1 ? "conversions" : "conversion"}</span></p>
-              <p className="mt-4 text-[14.5px] leading-relaxed text-ink-soft">Sans limite quotidienne sur ce compte.</p>
+              <p className="font-display tabular mt-2 text-[44px] leading-none">{quota.used}<span className="font-sans text-corps text-muted"> {quota.used > 1 ? "conversions" : "conversion"}</span></p>
+              <p className="mt-4 text-ui leading-relaxed text-ink-soft">Sans limite quotidienne sur ce compte.</p>
             </>
           ) : (
             <>
               <p className="font-display tabular mt-2 text-[44px] leading-none" data-quota-used={quota.used} data-quota-limit={quota.limit}>
-                <NumberTicker value={quota.used} from="previous" /><span className="font-sans text-[17px] text-muted"> sur {quota.limit}</span>
+                <NumberTicker value={quota.used} from="previous" /><span className="font-sans text-corps text-muted"> sur {quota.limit}</span>
               </p>
               <Pips used={quota.used} total={quota.limit ?? 0} className="mt-4 max-w-[360px]" />
-              <p className={cn("mt-3.5 text-[14.5px] leading-relaxed", quota.exhausted ? "font-medium text-warn" : "text-ink-soft")}>
+              <p className={cn("mt-3.5 text-ui leading-relaxed", quota.exhausted ? "font-medium text-warn" : "text-ink-soft")}>
                 {quota.exhausted ? "Limite du jour atteinte." : `Il t'en reste ${quota.remaining}.`}
                 {" "}Nouveau quota à minuit, heure de Paris{until ? `, ${until}` : ""}.
               </p>
-              {quota.bonus > 0 && <p className="mt-1 text-[13.5px] text-muted">Dont {quota.bonus} {quota.bonus > 1 ? "offertes" : "offerte"} pour aujourd'hui.</p>}
+              {quota.bonus > 0 && <p className="mt-1 text-note text-muted">Dont {quota.bonus} {quota.bonus > 1 ? "offertes" : "offerte"} pour aujourd'hui.</p>}
             </>
           )}
         </div>
@@ -131,29 +131,29 @@ export function Today({ quota, live, mascot, replayKey, status }: Props) {
             <AethryonMascot state={mascot} size={120} replayKey={replayKey} look={1} className="relative w-full" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-[14px] font-medium text-ink-soft">Dernière conversion</p>
+            <p className="text-ui font-medium text-ink-soft">Dernière conversion</p>
             {live.loading && !live.items ? (
               <div aria-hidden><Skeleton className="mt-3 h-6 w-4/5" /><Skeleton className="mt-2.5 h-4 w-1/2" /></div>
             ) : live.error && !live.items ? (
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">Impossible de la lire pour l'instant. Elle reviendra dès que le serveur répond.</p>
+              <p className="mt-2 text-ui leading-relaxed text-ink-soft">Impossible de la lire pour l'instant. Elle reviendra dès que le serveur répond.</p>
             ) : (
               <>
                 <div role="status" aria-live="polite">
-                  <p className="font-display mt-1.5 text-[21px] font-medium leading-snug">{live.label}</p>
-                  {live.detail && <p className="mt-1 text-[14.5px] leading-relaxed text-ink-soft">{live.detail}</p>}
-                  {!latest && <p className="mt-1 text-[14.5px] leading-relaxed text-ink-soft">Elle apparaîtra ici dès que ton raccourci l'enverra.</p>}
+                  <p className="font-display mt-1.5 text-sous leading-snug">{live.label}</p>
+                  {live.detail && <p className="mt-1 text-ui leading-relaxed text-ink-soft">{live.detail}</p>}
+                  {!latest && <p className="mt-1 text-ui leading-relaxed text-ink-soft">Elle apparaîtra ici dès que ton raccourci l'enverra.</p>}
                 </div>
                 {latest && (
                   <div className="mt-2.5 flex flex-wrap items-center gap-2">
                     <Badge tone="neutral">{latest.fmt.toUpperCase()}</Badge>
                     {latest.platform && <Badge tone="neutral">{PLATFORM_NAME[latest.platform] ?? latest.platform}</Badge>}
-                    <span className="text-[13.5px] text-muted">{fmtRelative(latest.finishedAt ?? latest.createdAt)}</span>
-                    {live.busy && <span className="inline-flex items-center gap-2 text-[13.5px] text-gold-text"><StatusDot tone="busy" />Suivi en direct</span>}
+                    <span className="text-note text-muted">{fmtRelative(latest.finishedAt ?? latest.createdAt)}</span>
+                    {live.busy && <span className="inline-flex items-center gap-2 text-note text-gold-text"><StatusDot tone="busy" />Suivi en direct</span>}
                   </div>
                 )}
               </>
             )}
-            <Link to="/dashboard/activite" className={cn(link, "mt-2 inline-flex min-h-11 items-center gap-1.5 text-[14.5px]")}>Toute l'activité<IconArrowRight size={15} /></Link>
+            <Link to="/dashboard/activite" className={cn(link, "mt-2 inline-flex min-h-11 items-center gap-1.5 text-ui")}>Toute l'activité<IconArrowRight size={15} /></Link>
           </div>
         </div>
       </div>
@@ -165,7 +165,7 @@ export function Today({ quota, live, mascot, replayKey, status }: Props) {
 /** Silhouette du relevé pendant le premier chargement (mêmes proportions, aucun texte qui saute). */
 export function TodaySkeleton() {
   return (
-    <div aria-hidden className="overflow-hidden rounded-[28px] border border-line bg-pearl/50" data-today-chargement="">
+    <div aria-hidden className="overflow-hidden rounded-panel border border-line bg-pearl/50" data-today-chargement="">
       <div className="px-5 pt-5 sm:px-7 sm:pt-6"><Skeleton className="h-8 w-40" /></div>
       <div className="mt-2 grid gap-6 px-5 py-6 sm:px-7 lg:grid-cols-2">
         <div><Skeleton className="h-4 w-28" /><Skeleton className="mt-3 h-11 w-32" /><Skeleton className="mt-4 h-2 w-full max-w-[360px]" /><Skeleton className="mt-4 h-4 w-3/4" /></div>

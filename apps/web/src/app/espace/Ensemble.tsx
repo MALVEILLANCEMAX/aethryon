@@ -14,7 +14,8 @@ import { useResource } from "../../lib/store.ts";
 import type { Abonnement, ApiKey, DiscordStatus, Me } from "../../lib/types.ts";
 import { Skeleton, StatusDot } from "../../ui/bits.tsx";
 import { DiscordAvatar } from "../../ui/DiscordAvatar.tsx";
-import { GoogleG, IconBell, IconChat, IconLock, IconPhone, IconPuzzle, IconShield, IconSparkle } from "../../ui/Icon.tsx";
+import { GooglePastille, IconBell, IconChat, IconLock, IconPhone, IconShield, IconSparkle } from "../../ui/Icon.tsx";
+import { TuileProduit } from "../../ui/brand/TuileProduit.tsx";
 import type { QuotaView } from "../../lib/onboarding.ts";
 
 const link = "text-gold-text underline decoration-gold/50 underline-offset-4 transition-colors hover:decoration-gold-text";
@@ -66,10 +67,10 @@ export function Ensemble({ me, quota }: { me: Me; quota: QuotaView }) {
           data={{ "data-jetons-actifs": me.keys.active }}>
           {!active && keys.loading ? <Skeleton className="h-16 w-full" /> : (
             <ul className="ens-rows">
-              <Row icon={<IconPhone size={15} />} name="Raccourci iPhone" tone={shortcuts.length ? "ok" : "muted"}
+              <Row icon={<TuileProduit produit="iphone" size={26} />} name="Raccourci iPhone" tone={shortcuts.length ? "ok" : "muted"}
                 value={shortcuts.length ? "Relié" : "Pas encore relié"}
                 detail={shortcuts.length ? (lastUse(shortcuts) ? `Utilisé ${fmtRelative(lastUse(shortcuts)!)}` : "Pas encore utilisé") : null} />
-              <Row icon={<IconPuzzle size={15} />} name="Extension" tone={extensions.length ? "ok" : "muted"}
+              <Row icon={<TuileProduit produit="extension" size={26} />} name="Extension" tone={extensions.length ? "ok" : "muted"}
                 value={extensions.length ? "Reliée" : EXTENSION_AVAILABLE ? "Pas reliée" : "En développement"}
                 detail={extensions.length ? extensions[0]!.deviceLabel ?? (lastUse(extensions) ? `Utilisée ${fmtRelative(lastUse(extensions)!)}` : null) : null} />
             </ul>
@@ -108,7 +109,7 @@ export function Ensemble({ me, quota }: { me: Me; quota: QuotaView }) {
         <Cell id="securite" icon={<IconShield size={17} />} title="Sécurité" to="/dashboard/compte" action="Connexion et mot de passe">
           {login ? (
             <ul className="ens-rows">
-              <Row icon={<GoogleG size={14} />} name="Google" tone={login.google ? "ok" : "muted"} value={login.google ? "Activé" : "Non utilisé"} />
+              <Row icon={<GooglePastille size={20} />} name="Google" tone={login.google ? "ok" : "muted"} value={login.google ? "Activé" : "Non utilisé"} />
               <Row icon={<IconLock size={15} />} name="Mot de passe" tone={login.password ? "ok" : "muted"} value={login.password ? "Défini" : "Aucun"} />
             </ul>
           ) : null}

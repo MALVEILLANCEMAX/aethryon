@@ -24,9 +24,9 @@ const quand = (iso: string) => new Date(iso).toLocaleString("fr-FR", { day: "num
 
 function Pochette({ url, titre, taille }: { url: string | null | undefined; titre: string; taille: number }) {
   const [ko, setKo] = useState(false);
-  if (url && !ko) return <img src={url} alt="" width={taille} height={taille} onError={() => setKo(true)} className="shrink-0 rounded-[14px] object-cover shadow-card ring-1 ring-line musique-poch" style={{ width: taille, height: taille }} />;
+  if (url && !ko) return <img src={url} alt="" width={taille} height={taille} onError={() => setKo(true)} className="shrink-0 rounded-card object-cover shadow-card ring-1 ring-line musique-poch" style={{ width: taille, height: taille }} />;
   return (
-    <span aria-hidden className="grid shrink-0 place-items-center rounded-[14px] bg-sunken font-display text-fg-2 ring-1 ring-line" style={{ width: taille, height: taille, fontSize: Math.max(14, taille * 0.34) }}>
+    <span aria-hidden className="grid shrink-0 place-items-center rounded-card bg-sunken font-display text-fg-2 ring-1 ring-line" style={{ width: taille, height: taille, fontSize: Math.max(14, taille * 0.34) }}>
       {(titre.trim()[0] ?? "♪").toUpperCase()}
     </span>
   );
@@ -36,10 +36,10 @@ function SuiviImport({ imp, onAnnuler }: { imp: ImportVue; onAnnuler: () => void
   const f = fraction(imp);
   const actif = !TERMINES.has(imp.etat);
   return (
-    <li className="rounded-[18px] border border-line bg-pearl/60 p-4" data-import-etat={imp.etat}>
+    <li className="rounded-card border border-line bg-pearl/60 p-4" data-import-etat={imp.etat}>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="min-w-0 truncate text-[15.5px] font-medium text-ink">{imp.titre ?? "Import"}</p>
-        <p className="tabular text-[14px] text-ink-soft" aria-live="polite">{ETAPES[imp.etat]}{actif && f != null ? ` · ${Math.floor(f * 100)}${NB}%` : ""}</p>
+        <p className="min-w-0 truncate text-ui font-medium text-ink">{imp.titre ?? "Import"}</p>
+        <p className="tabular text-ui text-ink-soft" aria-live="polite">{ETAPES[imp.etat]}{actif && f != null ? ` · ${Math.floor(f * 100)}${NB}%` : ""}</p>
       </div>
       {actif && (
         <div role="progressbar" aria-label={`${imp.titre ?? "Import"} : ${ETAPES[imp.etat]}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={f != null ? Math.floor(f * 100) : undefined}
@@ -48,13 +48,13 @@ function SuiviImport({ imp, onAnnuler }: { imp: ImportVue; onAnnuler: () => void
             : <span className="musique-attente absolute inset-0" />}
         </div>
       )}
-      {imp.etat === "echec" && <p className="mt-2 flex gap-2 text-[14.5px] text-ink"><IconAlert size={16} className="mt-0.5 shrink-0 text-bad" />{imp.erreur?.detail ?? "L'import n'a pas abouti."}</p>}
+      {imp.etat === "echec" && <p className="mt-2 flex gap-2 text-ui text-ink"><IconAlert size={16} className="mt-0.5 shrink-0 text-bad" />{imp.erreur?.detail ?? "L'import n'a pas abouti."}</p>}
       {imp.etat === "termine" && imp.fichier && (
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          <a href={imp.fichier.url} download className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-4 text-[15px] font-medium text-fg transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text">
+          <a href={imp.fichier.url} download className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-4 text-ui font-medium text-fg transition-colors hover:bg-ink/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text">
             <IconDownload size={17} />Télécharger le fichier
           </a>
-          <p className="text-[14px] text-ink-soft">{[imp.licence?.nom, imp.cloud ? `Cloud${NB}: ${imp.cloud.libelle}` : null, imp.disponibleJusquA ? `disponible jusqu'à ${new Date(imp.disponibleJusquA).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}` : null].filter(Boolean).join(" · ")}</p>
+          <p className="text-ui text-ink-soft">{[imp.licence?.nom, imp.cloud ? `Cloud${NB}: ${imp.cloud.libelle}` : null, imp.disponibleJusquA ? `disponible jusqu'à ${new Date(imp.disponibleJusquA).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}` : null].filter(Boolean).join(" · ")}</p>
         </div>
       )}
       {actif && <div className="mt-3"><Button size="sm" variant="ghost" onClick={onAnnuler}>Annuler</Button></div>}
@@ -73,15 +73,15 @@ function FicheVue({ fiche, onImporter }: { fiche: Fiche; onImporter: (corps: Rec
   const corps = (tout.length ? selection : [null]).map((c) => corpsImport(p, c, attest)).filter((x): x is Record<string, unknown> => !!x);
   const pistes = fiche.pistes ?? [];
   return (
-    <article className="musique-fiche mt-8 rounded-[26px] border border-line bg-pearl/60 p-5 shadow-card sm:p-7" aria-label={`Fiche${NB}: ${fiche.titre ?? fiche.url}`}>
+    <article className="musique-fiche mt-8 rounded-panel border border-line bg-pearl/60 p-5 shadow-card sm:p-7" aria-label={`Fiche${NB}: ${fiche.titre ?? fiche.url}`}>
       <div className="flex flex-col gap-6 sm:flex-row">
         <Pochette url={fiche.pochette} titre={fiche.titre ?? p.plateforme} taille={168} />
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2 text-[14px] text-ink-soft"><span>{p.plateforme}</span><Badge tone={p.etat.tone}>{p.etat.libelle}</Badge></div>
-          <h2 className="font-display mt-2 text-[28px] font-medium leading-tight text-ink">{fiche.titre ?? "Titre non communiqué"}</h2>
-          <p className="mt-1 text-[16.5px] text-ink">{fiche.artistes.join(", ") || (p.catalogue ? "Artiste non communiqué par le service" : "Auteur non communiqué")}</p>
-          <p className="mt-1 text-[14.5px] text-muted">{[fiche.album, fiche.dureeS ? duree(fiche.dureeS) : null, pistes.length ? `${fiche.pistesTotal ?? pistes.length}${NB}titres` : null, fiche.date?.slice(0, 4)].filter(Boolean).join(" · ") || NB}</p>
-          <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-ink-soft">{p.etat.texte}</p>
+          <div className="flex flex-wrap items-center gap-2 text-ui text-ink-soft"><span>{p.plateforme}</span><Badge tone={p.etat.tone}>{p.etat.libelle}</Badge></div>
+          <h2 className="font-display mt-2 text-titre-m leading-tight text-ink">{fiche.titre ?? "Titre non communiqué"}</h2>
+          <p className="mt-1 text-corps text-ink">{fiche.artistes.join(", ") || (p.catalogue ? "Artiste non communiqué par le service" : "Auteur non communiqué")}</p>
+          <p className="mt-1 text-ui text-muted">{[fiche.album, fiche.dureeS ? duree(fiche.dureeS) : null, pistes.length ? `${fiche.pistesTotal ?? pistes.length}${NB}titres` : null, fiche.date?.slice(0, 4)].filter(Boolean).join(" · ") || NB}</p>
+          <p className="mt-2 max-w-xl text-ui leading-relaxed text-ink-soft">{p.etat.texte}</p>
           <div className="mt-4 flex flex-wrap gap-2.5">
             {p.importer && (
               <Button variant="primary" loading={envoi} disabled={!corps.length || envoi} icon={<IconDownload size={17} />}
@@ -90,10 +90,10 @@ function FicheVue({ fiche, onImporter }: { fiche: Fiche; onImporter: (corps: Rec
               </Button>
             )}
             {p.lecteurOfficiel && <Button variant="secondary" icon={<IconPlay size={16} />} aria-expanded={officiel} onClick={() => setOfficiel((v) => !v)}>{officiel ? "Masquer le lecteur officiel" : "Lecteur officiel"}</Button>}
-            {p.ouvrir && <a href={p.ouvrir.url} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-2 rounded-full border border-line-strong px-4 text-[15px] font-medium text-ink transition-colors hover:bg-sand/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text">{p.ouvrir.libelle}<IconArrowUpRight size={16} /></a>}
+            {p.ouvrir && <a href={p.ouvrir.url} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center gap-2 rounded-full border border-line-strong px-4 text-ui font-medium text-ink transition-colors hover:bg-sand/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text">{p.ouvrir.libelle}<IconArrowUpRight size={16} /></a>}
           </div>
           {p.importer?.attestationRequise && (
-            <label className="mt-4 flex max-w-xl gap-3 rounded-[14px] bg-warn-bg p-3 text-[14.5px] leading-relaxed text-ink">
+            <label className="mt-4 flex max-w-xl gap-3 rounded-card bg-warn-bg p-3 text-ui leading-relaxed text-ink">
               <input type="checkbox" checked={attest} onChange={(e) => setAttest(e.target.checked)} className="mt-1 size-4 accent-[var(--color-gold-text)]" />
               <span>{p.importer.attestation ?? "Je déclare avoir le droit de télécharger ce fichier."}</span>
             </label>
@@ -101,22 +101,22 @@ function FicheVue({ fiche, onImporter }: { fiche: Fiche; onImporter: (corps: Rec
         </div>
       </div>
       {p.apercu && (
-        <div className="mt-6 flex flex-wrap items-center gap-3 rounded-[18px] bg-sand/40 p-4">
-          <span className="text-[13px] font-semibold uppercase tracking-[0.08em] text-gold-text">Aperçu de 30{NB}s</span>
+        <div className="mt-6 flex flex-wrap items-center gap-3 rounded-card bg-sand/40 p-4">
+          <span className="text-note font-semibold uppercase tracking-[0.08em] text-gold-text">Aperçu de 30{NB}s</span>
           <audio controls preload="none" src={p.apercu.url} className="h-10 min-w-0 flex-1" aria-label={`Aperçu de 30${NB}s de «${NB}${fiche.titre ?? ""}${NB}»`} />
-          <a href={p.apercu.lien.url} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-full border border-line-strong px-4 text-[14.5px] font-medium text-ink hover:bg-sand/50">{p.apercu.lien.libelle}<IconArrowUpRight size={15} /></a>
-          {p.apercu.mention && <p className="basis-full text-[13.5px] text-muted">{p.apercu.mention}</p>}
+          <a href={p.apercu.lien.url} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-full border border-line-strong px-4 text-ui font-medium text-ink hover:bg-sand/50">{p.apercu.lien.libelle}<IconArrowUpRight size={15} /></a>
+          {p.apercu.mention && <p className="basis-full text-note text-muted">{p.apercu.mention}</p>}
         </div>
       )}
       {p.ecouter && <div className="mt-6"><audio controls preload="none" src={p.ecouter.url} className="w-full" aria-label={`Écouter «${NB}${fiche.titre ?? ""}${NB}»`} /></div>}
       {officiel && p.lecteurOfficiel && (
         <div className="mt-6">
-          <iframe title={`Lecteur officiel ${p.plateforme}`} src={p.lecteurOfficiel.url} height={p.lecteurOfficiel.hauteur} loading="lazy" className="block w-full rounded-[18px] border-0 bg-sunken" allow="encrypted-media" referrerPolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" />
-          {p.lecteurOfficiel.note && <p className="mt-2 text-[13.5px] text-muted">{p.lecteurOfficiel.note}</p>}
+          <iframe title={`Lecteur officiel ${p.plateforme}`} src={p.lecteurOfficiel.url} height={p.lecteurOfficiel.hauteur} loading="lazy" className="block w-full rounded-card border-0 bg-sunken" allow="encrypted-media" referrerPolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" />
+          {p.lecteurOfficiel.note && <p className="mt-2 text-note text-muted">{p.lecteurOfficiel.note}</p>}
         </div>
       )}
       {(fiche.licence || fiche.attribution || fiche.restrictions?.length || fiche.manque?.length || fiche.avertissements?.length) ? (
-        <div role="note" className="mt-6 space-y-1.5 rounded-[18px] border border-line p-4 text-[14.5px] leading-relaxed text-ink-soft">
+        <div role="note" className="mt-6 space-y-1.5 rounded-card border border-line p-4 text-ui leading-relaxed text-ink-soft">
           {fiche.licence && <p><b className="font-semibold text-ink">Licence{NB}:</b> {fiche.licence.nom}{fiche.licence.url ? <> — <a href={fiche.licence.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">texte de la licence</a></> : null}</p>}
           {fiche.attribution && <p><b className="font-semibold text-ink">Attribution{NB}:</b> {fiche.attribution}</p>}
           {[...(fiche.restrictions ?? []), ...(fiche.manque ?? []), ...(fiche.avertissements ?? [])].map((r, i) => <p key={i} className="flex gap-2"><IconInfo size={16} className="mt-1 shrink-0" />{r}</p>)}
@@ -124,17 +124,17 @@ function FicheVue({ fiche, onImporter }: { fiche: Fiche; onImporter: (corps: Rec
       ) : null}
       {pistes.length > 0 && (
         <div className="mt-6">
-          <p className="text-[14px] font-semibold text-ink-soft">{tout.length ? "Choisis les fichiers à importer" : "Titres"}</p>
+          <p className="text-ui font-semibold text-ink-soft">{tout.length ? "Choisis les fichiers à importer" : "Titres"}</p>
           <ol className="mt-2 divide-y divide-line">
             {pistes.map((x, i) => {
               const c = tout[i];
               return (
-                <li key={i} className="flex min-h-12 items-center gap-3 py-2 text-[15px]">
+                <li key={i} className="flex min-h-12 items-center gap-3 py-2 text-ui">
                   {c ? <input type="checkbox" className="size-4 accent-[var(--color-gold-text)]" checked={choix.has(c.cle)} aria-label={`Importer «${NB}${x.titre}${NB}»`}
                     onChange={() => setChoix((s) => { const n = new Set(s); if (n.has(c.cle)) n.delete(c.cle); else n.add(c.cle); return n; })} />
-                    : <span className="tabular w-6 text-right text-[14px] text-muted">{x.numero ?? i + 1}</span>}
-                  <span className="min-w-0 flex-1"><span className="block truncate text-ink">{x.titre}</span><span className="block truncate text-[13.5px] text-muted">{x.artistes.join(", ")}</span></span>
-                  <span className="tabular text-[14px] text-muted">{duree(x.dureeS)}</span>
+                    : <span className="tabular w-6 text-right text-ui text-muted">{x.numero ?? i + 1}</span>}
+                  <span className="min-w-0 flex-1"><span className="block truncate text-ink">{x.titre}</span><span className="block truncate text-note text-muted">{x.artistes.join(", ")}</span></span>
+                  <span className="tabular text-ui text-muted">{duree(x.dureeS)}</span>
                 </li>
               );
             })}
@@ -212,9 +212,9 @@ export default function Musique() {
     <div data-musique="">
       <PageHeader title="Musique" lead={`Colle un lien Spotify, Apple${NB}Music, SoundCloud, Deezer, Internet Archive, un flux de podcast ou un fichier audio${NB}: AETHRYON dit clairement ce qui est permis.`} />
       {ferme ? (
-        <div className="mt-8 flex flex-col items-center rounded-[22px] border border-line bg-pearl/60 px-6 py-10 text-center" data-musique-ferme="">
+        <div className="mt-8 flex flex-col items-center rounded-panel border border-line bg-pearl/60 px-6 py-10 text-center" data-musique-ferme="">
           <AethryonMascot still state="curious" size={96} />
-          <p className="mt-4 max-w-md text-[15.5px] leading-relaxed text-ink-soft">AETHRYON Music n'est pas encore ouvert sur ce serveur. Rien n'a été envoyé.</p>
+          <p className="mt-4 max-w-md text-ui leading-relaxed text-ink-soft">AETHRYON Music n'est pas encore ouvert sur ce serveur. Rien n'a été envoyé.</p>
         </div>
       ) : (
         <>
@@ -223,35 +223,35 @@ export default function Musique() {
               <span className="sr-only">Lien d'un morceau, d'un album, d'une playlist ou d'un fichier audio</span>
               <IconLink size={18} className="pointer-events-none absolute left-4 text-muted" />
               <input type="url" inputMode="url" spellCheck={false} autoComplete="off" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…"
-                className="h-13 w-full rounded-[16px] border border-field bg-surface pl-11 pr-36 text-[16px] text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
-              {det && <span className={`absolute right-3 rounded-full px-3 py-1 text-[13px] font-semibold ${det.refuse ? "bg-bad-bg text-bad" : "bg-gold/15 text-gold-text"}`}>{det.nom}</span>}
+                className="h-13 w-full rounded-card border border-field bg-surface pl-11 pr-36 text-corps text-ink placeholder:text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-text" />
+              {det && <span className={`absolute right-3 rounded-full px-3 py-1 text-note font-semibold ${det.refuse ? "bg-bad-bg text-bad" : "bg-gold/15 text-gold-text"}`}>{det.nom}</span>}
             </label>
             <Button type="submit" variant="primary" className="h-13" loading={analyse} disabled={!url.trim() || analyse}>Analyser</Button>
           </form>
           {analyse && <div role="progressbar" aria-label="Analyse du lien en cours" className="musique-comete mt-3 h-0.5 overflow-hidden rounded-full bg-sand/70" />}
-          {erreur && <p role="alert" className="mt-4 flex gap-2.5 text-[15.5px] text-ink"><IconAlert size={18} className="mt-0.5 shrink-0 text-bad" />{erreur}</p>}
+          {erreur && <p role="alert" className="mt-4 flex gap-2.5 text-ui text-ink"><IconAlert size={18} className="mt-0.5 shrink-0 text-bad" />{erreur}</p>}
           {imports.length > 0 && <ul className="mt-8 space-y-3" aria-label="Imports">{imports.map((i) => <SuiviImport key={i.id} imp={i} onAnnuler={() => void annuler(i.id)} />)}</ul>}
           {fiche && <FicheVue key={fiche.url} fiche={fiche} onImporter={importer} />}
           <section className="mt-12" aria-labelledby="musique-hist">
-            <h2 id="musique-hist" className="font-display text-[22px] font-medium">Historique</h2>
-            <p className="mt-1 text-[14.5px] text-muted">Liens analysés et imports lancés depuis le site ou AETHRYON Desktop (200 au plus).</p>
+            <h2 id="musique-hist" className="font-display text-titre-s">Historique</h2>
+            <p className="mt-1 text-ui text-muted">Liens analysés et imports lancés depuis le site ou AETHRYON Desktop (200 au plus).</p>
             {hist.data ? (
               hist.data.entrees.length ? (
-                <ul className="mt-4 divide-y divide-line rounded-[20px] border border-line bg-pearl/50">
+                <ul className="mt-4 divide-y divide-line rounded-panel border border-line bg-pearl/50">
                   {hist.data.entrees.map((h, i) => (
                     <li key={`${h.creeLe}${i}`} className="flex items-center gap-3 px-4 py-3">
                       <Pochette url={h.pochette} titre={h.titre ?? h.url} taille={40} />
                       <div className="min-w-0 flex-1">
-                        <button type="button" className="block max-w-full truncate text-left text-[15px] text-ink hover:underline" onClick={() => { setUrl(h.url); setFiche(null); }}>{h.titre ?? h.url}</button>
-                        <p className="truncate text-[13.5px] text-muted">{[h.action === "import" ? `Import · ${ETAPES[h.etat as ImportVue["etat"]] ?? h.etat}` : "Lien analysé", h.origine === "desktop" ? "depuis AETHRYON Desktop" : null, quand(h.majLe)].filter(Boolean).join(" · ")}</p>
+                        <button type="button" className="block max-w-full truncate text-left text-ui text-ink hover:underline" onClick={() => { setUrl(h.url); setFiche(null); }}>{h.titre ?? h.url}</button>
+                        <p className="truncate text-note text-muted">{[h.action === "import" ? `Import · ${ETAPES[h.etat as ImportVue["etat"]] ?? h.etat}` : "Lien analysé", h.origine === "desktop" ? "depuis AETHRYON Desktop" : null, quand(h.majLe)].filter(Boolean).join(" · ")}</p>
                       </div>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="mt-4 flex items-center gap-4 rounded-[20px] border border-line bg-pearl/50 p-5 text-[15px] text-ink-soft"><IconMusic size={20} className="text-gold-text" />Rien pour l'instant.</div>
+                <div className="mt-4 flex items-center gap-4 rounded-panel border border-line bg-pearl/50 p-5 text-ui text-ink-soft"><IconMusic size={20} className="text-gold-text" />Rien pour l'instant.</div>
               )
-            ) : hist.error ? <LoadError className="mt-4" onRetry={() => void hist.reload()}>L'historique n'a pas pu être lu.</LoadError> : <Skeleton className="mt-4 h-24 w-full rounded-[20px]" />}
+            ) : hist.error ? <LoadError className="mt-4" onRetry={() => void hist.reload()}>L'historique n'a pas pu être lu.</LoadError> : <Skeleton className="mt-4 h-24 w-full rounded-panel" />}
           </section>
         </>
       )}

@@ -57,7 +57,7 @@ export function Legal({ k, className }: { k: LegalKey; className?: string }) {
   if (f.value) return <span className={className}>{f.value}</span>;
   return (
     <mark data-legal-missing={k} title={f.hint}
-      className={cn("rounded-[6px] bg-sunken px-1.5 py-0.5 font-medium text-warn ring-1 ring-inset ring-warn", className)}>
+      className={cn("rounded-media bg-sunken px-1.5 py-0.5 font-medium text-warn ring-1 ring-inset ring-warn", className)}>
       À compléter : {f.label.toLowerCase()}
     </mark>
   );

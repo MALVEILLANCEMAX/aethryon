@@ -1,20 +1,24 @@
 // Composants Égide pour React (site, espace, Control Center) : les MÊMES classes .eg-* que le socle (design/css,
 // feuille egide.css), écrites en JSX pour le pré-rendu (aucun attribut style : la taille d'une médaille est une
-// classe, jamais une variable en ligne). Icônes : le jeu maison du socle (design/src/icones.ts), aucune marque.
+// classe, jamais une variable en ligne). Icônes du site : Phosphor (licence MIT, ui/ph/ph.ts), graisse épaisse,
+// aucune marque ; les noms restent ceux du jeu Égide (le socle garde son jeu maison pour l'extension et le Desktop).
 // La chouette : le fichier maître seul, dans un <img>, jamais redessiné ni recoloré (DESIGN_SYSTEM.md § 9).
 import { useLayoutEffect, useRef, type ReactNode } from "react";
-import { ICONES, type NomIcone } from "../../egide/src/icones.ts";
+import { PH, PH_PLEIN, type NomPh, type NomPlein } from "../ph/ph.ts";
 import { cn } from "../../lib/cn.ts";
 import { CHOUETTE } from "../../lib/apparence.ts";
 
-export type { NomIcone };
+export type NomIcone = NomPh;
 
-/** Icône maison (grille 24, trait 1,6). Décorative par défaut ; avec `titre`, une image nommée. */
-export function Icone({ nom, taille, titre, className }: { nom: NomIcone; taille?: "s" | "l"; titre?: string; className?: string }) {
+/** Icône Phosphor (grille 256) : trait épais par défaut ; `duo` ajoute le fond teinté, `plein` la forme pleine quand
+ *  elle existe. Décorative par défaut ; avec `titre`, une image nommée. */
+export function Icone({ nom, taille, titre, className, duo, plein }: { nom: NomIcone; taille?: "s" | "l"; titre?: string; className?: string; duo?: boolean; plein?: boolean }) {
+  const p = PH[nom];
+  const forme = plein && nom in PH_PLEIN ? PH_PLEIN[nom as NomPlein] : null;
   return (
-    <svg className={cn("eg-i", taille === "s" && "eg-i--s", taille === "l" && "eg-i--l", className)} viewBox="0 0 24 24"
+    <svg className={cn("eg-i ph", taille === "s" && "eg-i--s", taille === "l" && "eg-i--l", duo && "ph-duo", className)} viewBox="0 0 256 256"
       aria-hidden={titre ? undefined : true} role={titre ? "img" : undefined} aria-label={titre} focusable="false">
-      {ICONES[nom].map(([Tag, a], i) => <Tag key={i} {...a} />)}
+      {forme ? <path d={forme} /> : <>{duo && <path className="ph-fond" d={p.f} />}<path d={p.t} /></>}
     </svg>
   );
 }
@@ -36,9 +40,9 @@ export function Medaille({ taille = 56, className, sceau = false, frappe = false
 }
 
 /** Veille (attente > 400 ms) : la médaille immobile, un fil tourne autour ; immobile en mouvement réduit. */
-export function Veille({ libelle = "Chargement" }: { libelle?: string }) {
+export function Veille({ libelle = "Chargement", fini }: { libelle?: string; fini?: boolean }) {
   return (
-    <span className="eg-veille" role="img" aria-label={libelle}>
+    <span className={cn("eg-veille", fini && "eg-veille--fini")} role="img" aria-label={libelle}>
       <svg className="eg-veille-anneau" viewBox="0 0 56 56" aria-hidden="true" focusable="false"><circle cx="28" cy="28" r="26.5" /></svg>
       <Medaille taille={44} />
     </span>
@@ -82,6 +86,12 @@ export function Pastille({ ton = "neutre", icone, point = false, children, class
       {children}
     </span>
   );
+}
+
+/** Étiquette en chasse fixe (« Le Passage ») : un format, un poids, une durée, une version ; « accent » = la valeur
+ *  choisie (l'or ne marque que ce qui est sélectionné ou en mouvement). */
+export function Etiquette({ ton, children, className }: { ton?: "accent"; children: ReactNode; className?: string }) {
+  return <span className={cn("eg-etiquette", className)} data-ton={ton}>{children}</span>;
 }
 
 /** Logotype : la chouette + AETHRYON en capitales espacées (Marcellus). */

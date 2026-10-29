@@ -30,9 +30,9 @@ export function Alert({ tone = "info", title, children, live = false, landmark, 
   const role = live ? (tone === "bad" ? "alert" : "status") : undefined;
   return (
     <Tag aria-label={landmark} role={role} data-alert={tone}
-      className={cn("flex gap-3.5 rounded-[20px] border p-4 sm:gap-4 sm:p-5", t.box, className)}>
+      className={cn("flex gap-3.5 rounded-panel border p-4 sm:gap-4 sm:p-5", t.box, className)}>
       <t.Icon size={21} className={cn("mt-0.5 shrink-0", t.icon)} />
-      <div className="min-w-0 space-y-1.5 text-[15px] leading-relaxed text-ink-soft">
+      <div className="min-w-0 space-y-1.5 text-ui leading-relaxed text-ink-soft">
         {title && <p className="font-semibold text-ink">{title}</p>}
         {children}
       </div>

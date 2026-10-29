@@ -180,7 +180,7 @@ function ConsentFallback() {
   return (
     <div aria-busy="true" className="grid min-h-dvh place-items-center bg-ivory px-4">
       <span className="sr-only" role="status">Chargement…</span>
-      <div className="h-[420px] w-full max-w-[540px] animate-pulse rounded-[30px] bg-sand/50 motion-reduce:animate-none" />
+      <div className="h-[420px] w-full max-w-[540px] animate-pulse rounded-panel bg-sand/50 motion-reduce:animate-none" />
     </div>
   );
 }

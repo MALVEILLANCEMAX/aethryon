@@ -75,6 +75,18 @@
   --text-title--letter-spacing: -0.01em;
   --text-lead: clamp(1.06rem, 1.02rem + 0.24vw, 1.2rem);
   --text-lead--line-height: 1.55;
+  /* Échelle « Le Passage » (2026-10-28) : les tailles du site viennent des jetons Égide --eg-fs-* (et suivent donc le
+     réglage « Taille du texte » des thèmes). petit 12, note 13, ui 15, corps 17, sous 20, titre-s 22, titre-m 30 ; les
+     titres fluides restent text-display, text-title, text-lead. Hauteur de ligne : celle de l'élément (inchangée). */
+  --text-petit: var(--eg-fs-xs);
+  --text-note: var(--eg-fs-s);
+  --text-ui: var(--eg-fs-m);
+  --text-corps: var(--eg-fs-l);
+  --text-sous: var(--eg-fs-xl);
+  --text-titre-s: var(--eg-fs-d-s);
+  --text-titre-m: var(--eg-fs-d-m);
+  --radius-media: var(--eg-r-media);
+  --radius-pill: var(--eg-r-pill);
 
   /* Courbes et durées Égide (MOTION_GUIDELINES.md § 2) */
   --ease-soft: var(--eg-e-out);
@@ -82,6 +94,9 @@
   --ease-exit: var(--eg-e-out);
   --default-transition-duration: var(--eg-d-court);
   --default-transition-timing-function: var(--eg-e-out);
+  /* Ressorts « Le Passage » en CSS (linear() échantillonné, jetons Égide) : ease-pastille, ease-feuille. */
+  --ease-pastille: var(--eg-e-pastille);
+  --ease-feuille: var(--eg-e-feuille);
 
   --shadow-card: var(--eg-shadow-1);
   --shadow-raised: var(--eg-shadow-pop);
@@ -99,7 +114,7 @@
   }
   body {
     min-width: 320px;
-    font-size: 16px;
+    font-size: var(--eg-fs-l);
     line-height: 1.55;
     font-feature-settings: "ss01";
   }
@@ -169,3 +184,9 @@
 .pulse-finite:nth-child(3) { animation-delay: 180ms; }
 .pulse-finite:nth-child(4) { animation-delay: 270ms; }
 @media (prefers-reduced-motion: reduce) { .pulse-finite { animation: none; } }
+
+/* Icônes Phosphor (ui/ph, licence MIT) : formes pleines, aucun trait ; le fond du duotone prend l'accent du thème.
+   Les icônes maison du socle qui restent (composants DOM d'Égide) passent à un trait de 2 sur la grille 24. */
+svg.ph { fill: currentColor; stroke: none; }
+svg.ph .ph-fond { fill: var(--eg-c-accent, currentColor); opacity: .3; }
+.eg-i:not(.ph) { stroke-width: 2; }

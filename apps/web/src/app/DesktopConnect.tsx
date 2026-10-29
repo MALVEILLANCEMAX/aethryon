@@ -79,12 +79,12 @@ function CodeEntry({ error, initial }: { error: string | null; initial: string }
   };
   const message = local ?? error;
   return (
-    <Frame label="Code de liaison d'AETHRYON Desktop">
+    <Frame label="Code de liaison d'AETHRYON Desktop" produit="desktop">
       <div className="flex items-center gap-4 sm:gap-5">
         <AethryonMascot still state="curious" size={92} className="-my-2 shrink-0" />
         <div className="min-w-0">
-          <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-gold-text">AETHRYON Desktop</p>
-          <h1 className="font-display mt-1.5 text-[26px] font-medium leading-[1.15] tracking-[-0.01em] sm:text-[30px]">Saisis le code affiché dans AETHRYON Desktop</h1>
+          <p className="text-note font-semibold uppercase tracking-[0.16em] text-gold-text">AETHRYON Desktop</p>
+          <h1 className="font-display mt-1.5 text-titre-m leading-[1.15] tracking-[-0.01em] sm:text-titre-m">Saisis le code affiché dans AETHRYON Desktop</h1>
         </div>
       </div>
       <form onSubmit={submit} className="mt-6" noValidate>
@@ -105,7 +105,7 @@ function CodeEntry({ error, initial }: { error: string | null; initial: string }
           className="[&_input]:font-semibold [&_input]:tracking-[0.14em] [&_input]:uppercase"
         />
         {message && (
-          <p id="code-erreur" role="alert" className="mt-3 flex gap-2.5 text-[14.5px] leading-relaxed text-bad">
+          <p id="code-erreur" role="alert" className="mt-3 flex gap-2.5 text-ui leading-relaxed text-bad">
             <IconAlert size={18} aria-hidden className="mt-0.5 shrink-0" />{message}
           </p>
         )}
@@ -120,11 +120,11 @@ function CodeEntry({ error, initial }: { error: string | null; initial: string }
 
 function Message({ title, body, owl, alert, children }: { title: string; body: string; owl: MascotState; alert?: boolean; children?: React.ReactNode }) {
   return (
-    <Frame label={title}>
+    <Frame label={title} produit="desktop">
       <div className="flex flex-col items-center text-center" role={alert ? "alert" : "status"}>
         <AethryonMascot still={owl !== "success"} state={owl} size={112} />
-        <h1 className="font-display mt-4 text-[28px] font-medium leading-tight">{title}</h1>
-        <p className="mt-3 text-[15.5px] leading-relaxed text-ink-soft">{body}</p>
+        <h1 className="font-display mt-4 text-titre-m leading-tight">{title}</h1>
+        <p className="mt-3 text-ui leading-relaxed text-ink-soft">{body}</p>
       </div>
       <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">{children}</div>
     </Frame>
@@ -246,24 +246,24 @@ export default function DesktopConnect() {
   };
 
   return (
-    <Frame label="Liaison d'AETHRYON Desktop">
+    <Frame label="Liaison d'AETHRYON Desktop" produit="desktop">
       <div className="flex items-center gap-4 sm:gap-5">
         <AethryonMascot state={owl} size={92} className="-my-2 shrink-0" />
         <div className="min-w-0">
-          <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-gold-text">AETHRYON Desktop</p>
-          <h1 className="font-display mt-1.5 text-[26px] font-medium leading-[1.15] tracking-[-0.01em] sm:text-[30px]">
+          <p className="text-note font-semibold uppercase tracking-[0.16em] text-gold-text">AETHRYON Desktop</p>
+          <h1 className="font-display mt-1.5 text-titre-m leading-[1.15] tracking-[-0.01em] sm:text-titre-m">
             Relier AETHRYON Desktop à ton compte{NB}?
           </h1>
         </div>
       </div>
 
-      <div className="mt-6 rounded-[18px] border border-gold/50 bg-ivory px-4 py-4 text-center">
-        <p className="text-[13.5px] text-ink-soft">Code affiché dans AETHRYON Desktop</p>
-        <p className="tabular mt-1 text-[30px] font-semibold tracking-[0.18em] text-ink sm:text-[34px]" data-desktop-code="">{d.codeUtilisateur}</p>
-        <p className="mt-1 text-[13.5px] text-ink-soft">Vérifie qu'il est identique, lettre pour lettre.</p>
+      <div className="mt-6 rounded-card border border-gold/50 bg-ivory px-4 py-4 text-center">
+        <p className="text-note text-ink-soft">Code affiché dans AETHRYON Desktop</p>
+        <p className="tabular mt-1 text-titre-m font-semibold tracking-[0.18em] text-ink sm:text-[34px]" data-desktop-code="">{d.codeUtilisateur}</p>
+        <p className="mt-1 text-note text-ink-soft">Vérifie qu'il est identique, lettre pour lettre.</p>
       </div>
 
-      <dl className="mt-4 divide-y divide-line rounded-[18px] border border-line bg-ivory text-[15px]">
+      <dl className="mt-4 divide-y divide-line rounded-card border border-line bg-ivory text-ui">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 px-4 py-3">
           <dt className="text-ink-soft">Ordinateur</dt>
           <dd className="min-w-0 break-words font-medium">{device}</dd>
@@ -279,20 +279,20 @@ export default function DesktopConnect() {
           <dd className="min-w-0 break-all font-medium">{user.email}</dd>
         </div>
       </dl>
-      <p className="mt-2 text-[13px] leading-relaxed text-muted">Nom de l'ordinateur et version donnés par AETHRYON Desktop, à titre indicatif.</p>
+      <p className="mt-2 text-note leading-relaxed text-muted">Nom de l'ordinateur et version donnés par AETHRYON Desktop, à titre indicatif.</p>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6">
         <section aria-labelledby="peut">
-          <h2 id="peut" className="text-[14.5px] font-semibold">AETHRYON Desktop pourra</h2>
-          <ul className="mt-2.5 space-y-2.5 text-[14.5px] leading-snug text-ink-soft">
+          <h2 id="peut" className="text-ui font-semibold">AETHRYON Desktop pourra</h2>
+          <ul className="mt-2.5 space-y-2.5 text-ui leading-snug text-ink-soft">
             <li className="flex gap-2.5"><IconCheck size={18} aria-hidden className="mt-px shrink-0 text-ok" />Afficher ton adresse e-mail et ton nom</li>
             <li className="flex gap-2.5"><IconCheck size={18} aria-hidden className="mt-px shrink-0 text-ok" />Savoir si ton compte est administrateur</li>
             <li className="flex gap-2.5"><IconCheck size={18} aria-hidden className="mt-px shrink-0 text-ok" />Utiliser AETHRYON Cloud, seulement pour l'administrateur</li>
           </ul>
         </section>
         <section aria-labelledby="peut-pas">
-          <h2 id="peut-pas" className="text-[14.5px] font-semibold">Il n'aura aucun accès</h2>
-          <ul className="mt-2.5 space-y-2.5 text-[14.5px] leading-snug text-ink-soft">
+          <h2 id="peut-pas" className="text-ui font-semibold">Il n'aura aucun accès</h2>
+          <ul className="mt-2.5 space-y-2.5 text-ui leading-snug text-ink-soft">
             <li className="flex gap-2.5"><IconClose size={18} aria-hidden className="mt-px shrink-0 text-bad" />À ton mot de passe ni à tes cookies</li>
             <li className="flex gap-2.5"><IconClose size={18} aria-hidden className="mt-px shrink-0 text-bad" />À tes conversions ni à ton quota</li>
             <li className="flex gap-2.5"><IconClose size={18} aria-hidden className="mt-px shrink-0 text-bad" />Aux réglages de ton compte ni à tes jetons</li>
@@ -300,13 +300,13 @@ export default function DesktopConnect() {
         </section>
       </div>
 
-      <p className="mt-6 flex gap-2.5 border-t border-line pt-5 text-[14px] leading-relaxed text-ink-soft">
+      <p className="mt-6 flex gap-2.5 border-t border-line pt-5 text-ui leading-relaxed text-ink-soft">
         <IconLock size={18} aria-hidden className="mt-0.5 shrink-0 text-gold-text" />
         <span>La liaison expire après 30{NB}jours. Tu peux la révoquer à tout moment dans «{NB}Mes jetons{NB}», depuis ton espace personnel, ou par «{NB}Se déconnecter{NB}» dans AETHRYON Desktop. La clé reste chiffrée sur ton ordinateur (Windows la protège pour ta session).</span>
       </p>
 
       {phase.kind === "error" && (
-        <div role="alert" className="mt-5 flex gap-2.5 rounded-[16px] border border-bad/20 bg-bad-bg p-3.5 text-[14.5px] leading-relaxed text-bad">
+        <div role="alert" className="mt-5 flex gap-2.5 rounded-card border border-bad/20 bg-bad-bg p-3.5 text-ui leading-relaxed text-bad">
           <IconAlert size={18} aria-hidden className="mt-0.5 shrink-0" />
           <div>
             <p>{phase.message}</p>
@@ -320,7 +320,7 @@ export default function DesktopConnect() {
       )}
 
       {/* RFC 8628 §5.4 : un lien reçu d'un tiers (message, e-mail) peut viser à relier SON ordinateur à ton compte. */}
-      <p className="mt-6 flex gap-2.5 text-[14px] leading-relaxed text-ink-soft" data-consent-rappel="">
+      <p className="mt-6 flex gap-2.5 text-ui leading-relaxed text-ink-soft" data-consent-rappel="">
         <IconWindow size={18} aria-hidden className="mt-0.5 shrink-0 text-gold-text" />
         <span>Autorise seulement si tu viens de cliquer sur «{NB}Relier ce Desktop{NB}» dans AETHRYON Desktop, sur ton ordinateur, et si le code est le même. Sinon, refuse.</span>
       </p>
@@ -332,7 +332,7 @@ export default function DesktopConnect() {
           Autoriser
         </Button>
       </div>
-      <p role="status" aria-live="polite" className="mt-4 min-h-[21px] text-center text-[14px] text-ink-soft sm:text-right">
+      <p role="status" aria-live="polite" className="mt-4 min-h-[21px] text-center text-ui text-ink-soft sm:text-right">
         {phase.kind === "busy" ? (phase.action === "allow" ? "Autorisation en cours…" : "Refus en cours…") : null}
       </p>
     </Frame>

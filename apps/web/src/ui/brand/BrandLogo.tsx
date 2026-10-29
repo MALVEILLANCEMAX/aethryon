@@ -3,7 +3,7 @@
 import { cn } from "../../lib/cn.ts";
 import { Chouette } from "../egide/Egide.tsx";
 
-const SIZES = { sm: { mark: 26, fs: "text-[13px]" }, md: { mark: 30, fs: "text-[14px]" }, lg: { mark: 40, fs: "text-[17px]" } } as const;
+const SIZES = { sm: { mark: 26, fs: "text-note" }, md: { mark: 30, fs: "text-ui" }, lg: { mark: 40, fs: "text-corps" } } as const;
 
 interface Props {
   size?: keyof typeof SIZES;
